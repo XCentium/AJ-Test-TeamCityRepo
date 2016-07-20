@@ -1,0 +1,68 @@
+﻿@using Insite.Common
+@using Insite.WebFramework.Mvc.Extensions
+@model ContactUsForm
+
+<div class="widget-contactform">
+    <div class="cf-form @Model.CssClass">
+        @using (Html.BeginForm("Submit", "ContactUs", new { EmailTo = string.Join(",", Model.EmailTo.ToArray()) }, FormMethod.Post, new { id = "contactUsForm" + Model.ContentKey }))
+        {
+            <div class="required-msg"><span class="redTxt">*</span> @T("Required")</div>
+            <div class="cf-form-firstname">
+                <label for="lirstName@(Model.ContentKey)">@T("First Name")</label>
+                <input type="text" name="FirstName" id="lirstName@(Model.ContentKey)" />
+            </div>
+            <div class="cf-form-lastname">
+                <label for="lastName@(Model.ContentKey)">@T("Last Name")</label>
+                <input type="text" name="LastName" id="lastName@(Model.ContentKey)" />
+            </div>
+            <div class="cf-form-email">
+                <label for="emailAddress@(Model.ContentKey)">@T("Email Address") <span class="redTxt">*</span></label>
+                <input type="text" name="EmailAddress" id="emailAddress@(Model.ContentKey)" data-val-required="@Model.EmailIsRequiredErrorMessage" data-val="true"
+                       data-val-regex-pattern="@Html.Raw(RegularExpressionLibrary.EmailAddress)"
+                       data-val-regex="@Model.EmailIsInvalidErrorMessage" />
+                <span data-valmsg-replace="true" data-valmsg-for="EmailAddress"></span>
+            </div>
+            <div class="cf-form-topic">
+                <label for="topic@(Model.ContentKey)">@T("Topic") <span class="redTxt">*</span></label>
+                <select id="topic@(Model.ContentKey)" name="Topic" data-val-required="@Model.TopicIsRequiredErrorMessage" data-val="true">
+                    <option value="">@T("Select Topic")</option>
+                    @foreach (var topic in Model.Topics)
+                    {
+                        <option>@topic</option>
+                    }
+                </select>
+                <span data-valmsg-replace="true" data-valmsg-for="Topic"></span>
+            </div>
+            <div class="cf-form-msg">
+                <label>@T("Message") <span class="redTxt">*</span></label>
+                <textarea id="contactUsFormMessage" name="Message" rows="5" cols="48" data-val-required="@Model.MessageIsRequiredErrorMessage" data-val="true"></textarea>
+                <span data-valmsg-replace="true" data-valmsg-for="Message"></span>
+            </div>
+            <div class="btns">
+                <button id="contactUsFormSendButton" type="submit" class="btn primary btn-send">@T("Send")</button>
+            </div>
+            <div class="successMessage" style="display: none;">
+                @Html.Raw(Model.SuccessMessage)
+            </div>
+        }
+    </div>
+</div>
+
+@Html.Script(
+    @<script>
+        jQuery(function ($) {
+            $("#contactUsForm@(Model.ContentKey)").submit(function (e) {
+                e.preventDefault();
+                var $form = $(this);
+                if (!$form.valid()) {
+                    return;
+                }
+                $form.ajaxPost(function (result) {
+                    if (result.Success) {
+                        $form.find(".btns").hide();
+                        $form.find(".successMessage").show();
+                    }
+                });
+            });
+        });
+    </script>)

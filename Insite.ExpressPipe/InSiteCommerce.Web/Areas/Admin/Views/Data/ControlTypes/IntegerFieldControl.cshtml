@@ -1,0 +1,38 @@
+﻿@using Insite.Admin.DataTypeValidators
+@using Insite.Admin.Models
+@model Insite.Admin.Models.ControlTypeViewModel<Insite.Admin.ControlTypes.IntegerFieldControl>
+
+@if (Model.PropertyDefinition.CanEdit)
+{
+    var validator = Model.DataTypeValidator as IntegerValidator;
+    if (validator == null)
+    {
+        throw new ArgumentException("IntegerFieldControl used for a non-integer property.");
+    }
+    var maxValue = validator.MaxValue;
+    var minValue = validator.MinValue;
+    var required = Model.PropertyDefinition.IsRequired;
+
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<input type="number" string-to-integer
+                               id="@Model.Id"
+                               name="@Model.Id"
+                               ng-model="@Model.EditPageModelBinding"
+                               pattern="-?\d*"
+                               step="1"
+                               class="@Model.ControlType.DisplayWidth.ToString().ToLower()"
+                               @(required ? "required" : "")
+                               @(maxValue != null ? "max=" + maxValue : "")
+                               @(minValue != null ? "min=" + minValue : "") />
+    })
+}
+else
+{
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<div class="readonly" ng-bind="@Model.EditPageModelBinding"></div>
+    })
+}

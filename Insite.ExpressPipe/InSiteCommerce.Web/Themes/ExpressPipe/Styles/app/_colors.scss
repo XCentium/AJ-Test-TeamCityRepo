@@ -1,0 +1,38 @@
+﻿.dark {
+    color: $darker-gray;
+}
+
+.light {
+    color: $gray;
+}
+
+.alert {
+    color: #D90E00;
+}
+
+.warning {
+    color: #ff6a00;
+}
+
+.status.requested, .status.submitted, .status.order.pending { color: #ff6a00; }
+.status.active, .status.invoiced { color: #417505; }
+.status.expired, .status.open { color: #D90E00; }
+
+.info-icon {
+    color: $gray;
+}
+
+/* final color */
+a[data-availability="In Stock"],
+a[data-availability="In Stock at Other Locations"] {
+    color: #417505;
+}
+
+a[data-availability="Available for Order"],
+span.available {
+    color: $link-color;
+}
+
+a[data-availability="Out of Stock"] {
+    @extend .alert;
+}

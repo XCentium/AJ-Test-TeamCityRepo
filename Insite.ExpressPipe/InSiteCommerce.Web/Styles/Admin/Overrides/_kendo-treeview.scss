@@ -1,0 +1,14 @@
+﻿.k-treeview{
+     .k-state-focused, .k-state-selected, span.k-state-hover, span.k-state-hover:hover {
+         background-color: $brand;
+         background-image:none;
+     }    
+
+     .k-item {
+         color: $type;
+     }
+      
+     .k-in span span {
+         cursor: pointer;
+     }
+}

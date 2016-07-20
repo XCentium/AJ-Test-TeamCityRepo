@@ -1,0 +1,267 @@
+﻿@using Insite.Admin.Models
+@using Insite.Admin.Providers
+@using Insite.Common.Dependencies
+@using Insite.Core.ApplicationDictionary
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Serialization
+@model Insite.Admin.Models.CategoriesViewModel
+
+@if (Model.IncludeDirective)
+{
+    @helper Directive()
+    {
+        <isa-category-tree class="grid-block"
+                           form-name="@Model.Form.Name"
+                           mode="@Model.Mode"
+                           pluralized-parent-entity-name="@Model.PluralizedParentEntityName"
+                           @if (!Model.WebsiteIdBinding.IsBlank())
+                           {
+                               <text>website-id="@Model.WebsiteIdBinding"</text>
+                           }
+                       
+                           @if (Model.Mode == CategoryTreeMode.AssignedCategories)
+                           {
+                               <text>
+                                   parent-assignment-id="entityDetailsCtrl.model.id"
+                               </text>
+                           }
+                           else if (Model.Mode == CategoryTreeMode.AssignCategories)
+                           {
+                               <text>
+                                    parent-assignment-id="entityListCtrl.parentAssignmentId"
+                               </text>    
+                           }
+                           else if (Model.Mode == CategoryTreeMode.SingleSelect)
+                           {
+                               <text>
+                                    disallowed-node-id="vm.disallowedCategoryId"
+                               </text>    
+                           }
+                           else if (Model.Mode == CategoryTreeMode.MultiAssignCategories)
+                           {
+                               <text>
+                                   parent-assignment-ids="entityListCtrl.selectedIds"
+                               </text>
+                           }
+                           allow-website-select="@Model.AllowWebsiteSelect"
+                           ditch-grid-blocks="@((Model.Mode == CategoryTreeMode.WebsiteCategories).ToString().ToLower())"
+                           track-state="@Model.TrackState.ToString().ToLower()"
+                           properties-to-select="@Model.PropertiesToSelect"></isa-category-tree>
+    }
+
+    if (Model.Mode == CategoryTreeMode.SingleSelect)
+    {
+        <div class="modal--large grid-modal" zf-modal overlay-close="false" id="selectCategoryTree">
+            @Directive()
+        </div>
+    }
+    else if (Model.Mode == CategoryTreeMode.AssignCategories)
+    {
+        <div class="modal--large grid-modal" zf-modal overlay-close="false" id="assignCategoriesTree">
+            @Directive()
+        </div>
+    }
+    else
+    {
+        @Directive();
+    }
+}
+
+@if (Model.IncludeTemplate)
+{
+    <script type="text/ng-template" id="category-tree">
+        <div class="grid-block vertical">
+            @if (!Model.InstructionalText.IsBlank())
+            {
+                <div class="title-bar">
+                    <div class="instructions">
+                        <span>@Model.InstructionalText</span>
+                    </div>
+                </div>
+            }
+            <div class="title-bar">
+                <h1 class="title left">
+                    <span class="title__label">
+                        <span ng-if="entityListCtrl.matchingCount > 0 && entityListCtrl.matchingCount !== entityListCtrl.itemCount">
+                            {{entityListCtrl.matchingCount}} of
+                        </span>
+
+                        {{entityListCtrl.itemCount | number:0}}
+                        <span ng-show="entityListCtrl.itemCount !== 1">@Model.EntityDefinition.PluralizedLabel</span>
+                        <span ng-show="entityListCtrl.itemCount === 1">@Model.EntityDefinition.Label</span>
+                    </span>
+                </h1>
+                @if (Model.Mode == CategoryTreeMode.Default || Model.Mode == CategoryTreeMode.WebsiteCategories)
+                {
+                    @Html.Partial("EntitiesButtons")
+                }
+                else if (Model.Mode == CategoryTreeMode.SingleSelect)
+                {
+                    <span class="right">
+                        <button ng-click="entityListCtrl.close()" class="button secondary">Cancel</button>
+                    </span>
+                }
+                else if (Model.Mode == CategoryTreeMode.AssignedCategories)
+                {
+                    <span class="right">
+                        <span ng-if="entityListCtrl.areNoneSelected()">
+                            <a class="button" disabled>Unassign</a>
+                            <a class="button" ng-click="entityListCtrl.assignCategories()">Assign @Model.EntityDefinition.PluralizedLabel</a>
+                        </span>
+                        <span ng-if="!entityListCtrl.areNoneSelected()">
+                            <a class="button" ng-click="entityListCtrl.unassignSelected()">Unassign</a>
+                            <a class="button" disabled>Assign @Model.EntityDefinition.PluralizedLabel</a>
+                        </span>
+                    </span>
+                }
+                else if (Model.Mode == CategoryTreeMode.AssignCategories || Model.Mode == CategoryTreeMode.MultiAssignCategories)
+                {
+                    <span class="right">
+                        <a class="button secondary" ng-click="entityListCtrl.close()">Done</a>
+                        <span ng-if="entityListCtrl.areNoneSelected()">
+                            <a class="button" disabled>Assign</a>
+                        </span>
+                        <span ng-if="!entityListCtrl.areNoneSelected()">
+                            <a class="button" ng-click="entityListCtrl.assignSelected()">Assign</a>
+                        </span>
+                    </span>
+                }
+            </div>
+            <div class="list-action-bar">
+                <div class="sub-content">
+                    <span ng-if="entityListCtrl.allowWebsiteSelect">
+                        <isa-website-dropdown on-change="entityListCtrl.websiteChanged(websiteId)" allow-empty-selection="false" initial-website-id="entityListCtrl.websiteId"></isa-website-dropdown>
+                    </span>
+
+                    <button class="button tertiary" ng-if="entityListCtrl.itemCount <= 500" ng-click="entityListCtrl.expandAll()">Expand</button>
+                    <button class="button tertiary" ng-if="entityListCtrl.itemCount > 500" disabled title="Too many matching results to expand entire tree">Expand</button>
+                    <button class="button tertiary" ng-click="entityListCtrl.collapseAll()">Collapse</button>
+                </div>
+                <div class="main-content">
+                    <div class="filtering-actions">
+                        @{
+                            var quickFilters = JsonConvert.SerializeObject(Model.QuickFilters, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+                        }
+                        <isa-quick-filter on-change="entityListCtrl.reloadList()" filters-loaded="true" available-quick-filters="@quickFilters" filters-collection="entityListCtrl.filtersCollection"></isa-quick-filter>
+                    </div>
+                    @if (Model.AllowEditColumns)
+                    {
+                        <div class="paging-actions">
+                            <a class="button button-icon right paging-actions__edit-columns" ng-click="entityListCtrl.editColumns()"><i class="icon icon-columns"></i></a>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="grid-block table-block">
+                <isa-table>
+                    <isa-table-header>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center column-select">
+                                        @if (Model.Mode != CategoryTreeMode.SingleSelect)
+                                        {
+                                            <input type="checkbox" ng-checked="!entityListCtrl.areNoneSelected()"
+                                                   ng-click="entityListCtrl.areNoneSelected() ? entityListCtrl.selectAll() : entityListCtrl.unselectAll()" />
+                                        }
+                                    </th>
+                                    @if (Model.Mode != CategoryTreeMode.AssignCategories && Model.Mode != CategoryTreeMode.AssignedCategories)
+                                    {
+                                        <th class="text-center column-edit">
+                                            <div class="column-header">@(Model.EntityDefinition.CanEdit ? "Edit" : "View")</div>
+                                        </th>
+                                    }
+                                    <th class="text-left">@Model.EntityDefinition.Properties.First(o => o.Name.EqualsIgnoreCase("ShortDescription")).Label</th>
+                                    @foreach (var column in Model.Columns.Where(o => !o.Name.EqualsIgnoreCase("ShortDescription")))
+                                    {
+                                        <th class="text-left">@column.Label</th>
+                                    }
+                                </tr>
+                            </thead>
+                        </table>
+                    </isa-table-header>
+                    <isa-table-content>
+                        <table class="table">
+                            <tbody>
+                                <tr ng-repeat="entity in entityListCtrl.categories" ng-show="entity.isVisible" ng-class="{ 'is-disabled': entity.doesNotMatchSearch || entity.disallowed && entity.id !== entityListCtrl.disallowedNodeId, 'is-selected': entity.id === entityListCtrl.disallowedNodeId || entityListCtrl.highlightedIds.indexOf(entity.id) >= 0 }" }">
+                                    <td class="text-center column-select">
+                                        @if (Model.Mode != CategoryTreeMode.SingleSelect)
+                                        {
+                                            <input type="checkbox" ng-checked="entityListCtrl.isSelected(entity.id)"
+                                                   ng-if="!entity.doesNotMatchSearch && entityListCtrl.highlightedIds.indexOf(entity.id) === -1" ng-click="entityListCtrl.updateSelected($event, entity.id)" />
+                                        }
+                                        else
+                                        {
+                                            <a ng-if="!entity.disallowed" class="button button-icon" ng-click="entityListCtrl.selectSingleCategory(entity.id)"><i class="icon icon-check-circle"></i></a>
+                                        }
+                                    </td>
+                                    @if (Model.Mode != CategoryTreeMode.AssignCategories && Model.Mode != CategoryTreeMode.AssignedCategories)
+                                    {
+                                        <td class="text-center column-edit">
+                                            <a class="button button-icon" ng-click="entityListCtrl.editSingleRecord($event, entity.id)"
+                                               ng-href="/admin/data/@(Model.Form.Name)/{{::entity.id}}">
+                                                <i class="icon @(Model.EntityDefinition.CanEdit ? "icon-edit" : "icon-visibility")"></i>
+                                            </a>
+                                        </td>
+                                    }
+                                    <td class="text-left">
+                                        @{
+                                            var shortDescriptionColumn = Model.EntityDefinition.Properties.First(o => o.Name.EqualsIgnoreCase("ShortDescription"));
+                                            var controlTypeViewModelProvider = DependencyLocator.Current.GetInstance<IControlTypeViewModelProvider>();
+                                        }
+                                        @ColumnControlType(shortDescriptionColumn, controlTypeViewModelProvider, true)
+                                    </td>
+                                    @foreach (var column in Model.Columns.Where(o => !o.Name.EqualsIgnoreCase("ShortDescription")))
+                                    {
+                                        <td class="text-left">
+                                            @ColumnControlType(column, controlTypeViewModelProvider)
+                                        </td>
+                                    }
+                                </tr>
+                                <tr class="text-center" ng-show="entityListCtrl.categories && entityListCtrl.categories.length === 0">
+                                    <td>No records to display</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </isa-table-content>
+                </isa-table>
+            </div>
+        </div>
+        @if (Model.Mode == CategoryTreeMode.Default)
+        {
+            @Html.Partial("DeleteConfirmation", Model.EntityDefinition)
+            @Html.Partial("EditColumns")
+            @Html.Partial("MultiAssignments")
+        }
+        @if (Model.Mode == CategoryTreeMode.AssignedCategories)
+        {
+            @Html.Action("AssignCategories", "Data")
+        }
+    </script>
+
+    if (Model.Mode == CategoryTreeMode.Default)
+    {
+        foreach (var entity in Model.Assignments)
+        {
+            @Html.Action("AddMultipleAssignmentsTemplate", "Data", new { area = "Admin", entityName = Model.EntityDefinition.Name, assignmentName = entity.Name })
+        }
+    }
+
+    @helper ColumnControlType(PropertyDefinitionDto propertyDefinitionDto, IControlTypeViewModelProvider controlTypeViewModelProvider, bool includeExpander = false)
+            {
+        <div class="column-content">
+            @if (includeExpander)
+            {
+                <span ng-style="{ 'width': (25 * entity.level) + 'px', 'display': 'inline-block' }"></span>
+                <span style="width: 25px; display: inline-block;">
+                    <a ng-click="entityListCtrl.expand(entity)" ng-if="entity.hasChildren && !entity.isExpanded && !entity.disallowed"><i class="icon icon-chevron-right"></i></a>
+                    <a ng-click="entityListCtrl.collapse(entity)" ng-if="entity.hasChildren && entity.isExpanded"><i class="icon icon-expand-more"></i></a>
+                </span>
+            }
+            @if (propertyDefinitionDto.ControlType != null)
+            {
+                @Html.Partial("/Areas/admin/Views/Data/ControlTypes/" + propertyDefinitionDto.ControlType.ViewName + "_Display.cshtml", controlTypeViewModelProvider.GetControlTypeViewModel(propertyDefinitionDto))
+            }
+        </div>
+    }
+}

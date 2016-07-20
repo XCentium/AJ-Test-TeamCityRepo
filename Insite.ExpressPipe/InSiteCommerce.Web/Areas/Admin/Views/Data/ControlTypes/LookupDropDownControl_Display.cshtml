@@ -1,0 +1,7 @@
+﻿@model Insite.Admin.Models.ControlTypeViewModel<Insite.Admin.ControlTypes.LookupDropDownControl>
+
+@{
+    var pluralizedEntityName = Model.ControlType.GetPluralizedEntityName(Model.PropertyDefinition);
+}
+
+<isa-lookup-display pluralized-entity-name="@pluralizedEntityName" entity-id="{{@(Model.ListPageModelBinding)}}"></isa-lookup-display>

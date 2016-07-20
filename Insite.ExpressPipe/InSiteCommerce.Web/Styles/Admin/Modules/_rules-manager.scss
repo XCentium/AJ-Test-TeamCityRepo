@@ -1,0 +1,74 @@
+﻿.rule-manager {
+    max-width: 900px;
+}
+
+.rule-manager__header {
+    margin-bottom: 20px;
+    padding: 0 10px;
+}
+
+
+
+.rule-manager__group {
+    margin-bottom: 10px;
+    padding: 12px 22px;
+    border: solid 1px $border-gray;
+    background-color: $background-gray
+}
+
+.rule-manager__group--header {
+    margin-bottom: 10px;
+}
+.rule-manager__group--header-condition {
+    width: inherit;
+    margin: 0 5px;
+}
+.rule-manager__group--header-delete {
+    margin-left: auto;
+}
+.rule-manager__add-group {
+    margin-bottom: 10px;
+    border: solid 1px $border-gray;
+    background-color: $background-gray;
+
+    a {
+        padding: 10px 20px;
+
+        i {
+            margin-right: 10px;
+        }
+    }
+}
+
+
+
+.rule-manager__rule {
+    background-color: $white;
+    margin-bottom: 10px;
+    padding: 20px 20px 0 20px;
+    border: solid 1px $border-gray;
+}
+.rule-manager__rule--readyonly {
+    margin-top: 7px;
+}
+.rule-manager__add-rule {
+    background-color: $white;
+    margin-bottom: 10px;
+    border: solid 1px $border-gray;
+
+    a {
+        padding: 10px 20px;
+
+        i {
+            margin-right: 10px;
+        }
+    }
+}
+.rule-manager__select {
+    width: inherit;
+}
+
+
+
+.rule-manager-error { color: $error; }
+.rule-manager-error__detail { display: block; }

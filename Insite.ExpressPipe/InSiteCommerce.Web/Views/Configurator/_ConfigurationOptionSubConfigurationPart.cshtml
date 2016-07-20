@@ -1,0 +1,15 @@
+﻿@model Insite.Configurator.Models.ConfigurationOptionViewModel
+<div id="@(Model.Name)Wrapper" class="configurator-option-wrapper">
+    @{
+        var attributes = new Dictionary<string, object>
+            {
+                {"class", "configurator-option-input, configurator-option-sub-configuration-part"}, 
+                {"title", Model.ToolTip}, 
+                {"data-field-label", Model.LabelValue}, 
+                {"data-field-required", Model.IsRequired ? "1" : "0"},
+                {"data-bind", "event:{ change: onChange }, value: " + Model.Name}
+            };           
+    }    
+    @Html.Hidden(@Model.Name, Model.Value, attributes)
+</div>
+<br />

@@ -1,0 +1,91 @@
+﻿
+<ul>
+    <li class="item-block item-header checkout-item">
+        <div class="row">
+            <div class="xsmall-1 columns col-price hide-for-small-down">
+                @T("Order Qty")
+            </div>
+            <div class="xsmall-1 columns col-price hide-for-medium-up">
+                @T("Qty")
+            </div>
+            <div class="medium-2 columns col-num hide-for-small-down">
+                @T("MFR#")
+            </div>
+            <div class="xsmall-5 medium-4 columns col-description">
+                @T("Description")
+            </div>
+            <div class="medium-2 columns col-price hide-for-small-down">
+                @T("Net Price")
+            </div>
+            <div class="xsmall-2 columns col-price hide-for-medium-up">
+                @T("Price")
+            </div>
+            <div class="medium-1 columns col-uom hide-for-small-down">
+                @T("UOM")
+            </div>
+            <div class="xsmall-3 medium-2 columns col-total">
+                @T("Extended Price")
+            </div>
+        </div>
+    </li>
+    <li class="item-block checkout-item" ng-repeat="cartLine in cart.cartLines | filter: quoteRequiredFilter" ng-if="isCatalog == (cartLine.properties['productType'] == 'catalog')">
+        <div class="row">
+            <div class="xsmall-1 columns col-qty">
+                <div class="item-qty" ng-if="!editable">
+                    <span ng-bind="cartLine.qtyOrdered"></span>
+                </div>
+            </div>
+            <div class="medium-2 columns col-num hide-for-small-down" ng-if="cartLine.properties['productType'] != 'special order'">
+                <span ng-if="!cartLine.properties['genericPartNumber']" ng-bind="cartLine.manufacturerItem"></span>
+                <span ng-if="cartLine.properties['genericPartNumber']" ng-bind="cartLine.properties['genericPartNumber']"></span>
+            </div>
+            <div class="xsmall-5 small-6 medium-4 columns col-description">
+                <div class="item-brand" ng-if="cartLine.properties['sop'] == 'special order'">
+                    <span>@T("Custom Special Order")</span>
+                </div>
+                <div class="item-brand" ng-if="cartLine.properties['sop'] != 'special order'">
+                    <span ng-bind="cartLine.properties['manufacturerName']"></span>
+                </div>
+
+                <div class="item-name" ng-if="cartLine.properties['sop'] == 'special order'">
+                    <span ng-bind="cartLine.properties['sopDescription']"></span>
+                </div>
+                <div class="item-name" ng-if="cartLine.properties['sop'] != 'special order'">
+                    <span ng-bind="cartLine.shortDescription"></span>
+                </div>
+
+                <div class="item-num hide-for-medium-up" ng-if="!cartLine.manufacturerItem">
+                    <span class="item-num-mfr">@T("MFR#")</span>
+                    <span class="dark" ng-bind="cartLine.manufacturerItem"></span>
+                </div>
+
+                <div class="item-notes" ng-if="cart.showLineNotes && cartLine.notes.length > 0">
+                    <strong>@T("Notes"):</strong>
+                    <span ng-bind="cartLine.notes"></span>
+                </div>
+            </div>
+            <div class="xsmall-2 medium-2 columns col-price">
+                <div ng-if="cartLine.properties['productType'] == 'catalog'" class="price">
+                    <isc-product-price product="cartLine"></isc-product-price>
+                    <span class="hide-for-medium-up">
+                        <isc-unit-of-measure-display product="cartLine"> </isc-unit-of-measure-display>
+                    </span>
+                    <div class="quantity-pricing">
+                        <isc-quantity-break-pricing product-id="cartLine.productId" break-prices="cartLine.breakPrices"></isc-quantity-break-pricing>
+                    </div>
+                </div>
+            </div>
+            <div class="medium-1 columns col-uom hide-for-small-down hide-for-print" ng-if="cartLine.properties['productType'] == 'catalog'">
+                <isc-unit-of-measure-display product="cartLine"></isc-unit-of-measure-display>
+            </div>
+            <div class="xsmall-2 columns col-qty hide-for-medium-up text-center hide-for-small-down hide-for-print">
+                <div class="item-qty" ng-if="!editable">
+                    <span ng-bind="cartLine.qtyOrdered"></span>
+                </div>
+            </div>
+            <div class="xsmall-3 medium-2 columns col-total" ng-if="cartLine.properties['productType'] == 'catalog'">
+                <div class="item-subtotal"><span ng-if="!cartLine.quoteRequired" ng-bind="cartLine.pricing.extendedActualPriceDisplay"></span></div>
+            </div>
+        </div>
+    </li>
+</ul>

@@ -1,0 +1,109 @@
+﻿.footer-links {
+    padding: $padding-quadruple 0;
+    border-top: 1px solid darken($lightest-gray, 10%);
+    background-color: $lightest-gray;
+
+    .widget-linklist {
+        display: inline-block;
+        margin: 0 $margin-double $margin-double $margin-double;
+        vertical-align: top;
+
+        h5 {
+            margin-bottom: $margin-single;
+            border-bottom: 1px solid $brand-primary;
+        }
+
+        ul {
+            margin: 0;
+            list-style: none;
+
+            li {
+                a {
+                    color: $gray;
+                }
+            }
+        }
+    }
+}
+
+.footer-communication {
+    padding: $padding-double 0;
+    font-size: 0.9em;
+    background-color: $light-gray;
+    color: #fff;
+
+    a {
+        color: #fff;
+    }
+
+    p {
+        margin: 0 0 $margin-single 0;
+    }
+
+    .social-links {
+        font-size: 1.5em;
+    }
+
+    .phone {
+        font-size: 1.5em;
+    }
+
+    .widget-emailsubscription {
+        label {
+            margin: 0 0 $margin-single 0;
+            color: #fff;
+        }
+
+        .email-subscription-form {
+            input[type="text"] {
+                width: auto;
+                display: inline-block;
+                vertical-align: top;
+                border: none;
+                margin-right: -3px;
+            }
+
+            button {
+                vertical-align: top;
+            }
+        }
+    }
+}
+
+.footer-terms {
+    padding: $padding-double 0;
+    text-align: center;
+    background-color: $darker-gray;
+    color: $lightest-gray;
+
+    p {
+        margin: $margin-single 0;
+        font-size: 0.8em;
+    }
+
+    ul {
+        font-size: 0.9em;
+        color: $light-gray;
+        
+        li {
+            margin-right: -3px;
+            margin-left: $margin-single;
+             
+            &:before {
+                content: '|';
+                margin-right: $margin-single;
+            }
+            &:first-child {
+                margin-left: 0;
+            }
+            &:first-child:before {
+                content: '';
+                margin-right: 0;
+            }
+        }
+    }
+
+    a {
+        color: $light-gray;
+    }
+}

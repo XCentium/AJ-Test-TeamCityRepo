@@ -1,0 +1,169 @@
+﻿.is-sidebar {
+  background-color: $brand-dark;
+  color: $type-light;
+  display: block;
+  font-family: 'Proxima Nova';
+  position: fixed;
+  min-height: calc(100% - $topbar-height);
+  top: $topbar-height;
+  left: 0;
+  bottom: 0;
+  overflow-y: auto;
+  width: 280px;
+
+  transition: .25s;
+
+  .sidebar-inner { 
+      transition: .25s;  
+      min-width: 260px;
+      width: 100%;
+  }
+
+  a {
+    color: $type-light;
+    font-size: 14px;
+    letter-spacing: .015em;
+    transition: .25s;
+    word-wrap: break-word;
+
+    &:hover {
+      color: white;
+    }
+
+    &.is-selected {
+      color: white;
+      font-weight: 600;
+    }
+    &.is-selected:before {
+      content: "\25CF";
+      color: $brand;
+      position: absolute;
+      top: -1px;
+      left: -25px;
+      font-size: 18px;
+      line-height: inherit;
+    }
+  }
+
+  .sidebar-nav {
+  }
+
+  .sidebar-item {
+    padding: .8em 1em;
+
+    .item-wrapper {
+      display: flex;
+      justify-content: space-between;
+      cursor: pointer;
+
+      &:hover {
+        color: white !important;
+      }
+
+      &.is-selected {
+        color: white;
+
+        .item-icon {
+          color: $brand;
+        }
+      }
+
+      .item-icon {
+        display: inline-block;
+        margin: 0 7px;
+        text-align: center;
+        vertical-align: top;
+        width: 20px;
+      }
+
+      > div {
+        max-width: 90%;
+      }
+
+      i {
+        align-self: center;
+        font-size: 20px;
+      }
+
+      span {
+        display: inline-block;
+        max-width: 80%;
+        font-weight: 600;
+        letter-spacing: 0.075em;
+        text-transform: uppercase;
+        vertical-align: bottom;
+        word-wrap: break-word;
+      }
+    }
+
+    .item-content {
+      padding-left: 34px;
+      padding-top: 5px;
+      display: none;
+
+      .item-link {
+        margin: 10px 0;
+        position: relative;
+
+        > a {
+          text-transform: none;
+
+          &.has-children {
+            border-bottom: 1px solid #555555;
+            display: inline-block;
+            font-style: italic;
+            font-size: 12px;
+            padding-bottom: 5px;
+            padding-top: 5px;
+            text-transform: uppercase;
+            width: 90%;
+            cursor: default !important;
+
+            &:hover {
+              color: $type-light;
+            }
+          }
+        }
+
+        > ul {
+          list-style: none;
+          margin-bottom: 0;
+        }
+      }
+
+      .item-sublink {
+        line-height: 14px;
+        margin: 10px 0;
+        position: relative;
+      }
+    }
+  }
+
+  //TODO: Move this to a "state" global file?
+  .is-hidden {
+    display: none !important;
+  }
+}
+
+//TODO: Move state to a different file?
+
+.is-active {
+  &.sidebar-item {
+    background: $type;
+  }
+}
+
+.is-collapsed {
+    .is-sidebar {
+        width: 62px;
+        overflow: hidden;
+    }
+
+    .sidebar-inner { width: 280px; }
+
+    .sidebar-item {
+        background-color: transparent;
+
+        .item-wrapper span, .item-content { display: none !important; }
+    }
+}

@@ -1,0 +1,31 @@
+﻿<div class="search-container">
+    <form>
+        <div class="search-category hide">
+            <label for="searchCategory-{{$id}}">@T("Category")</label>
+
+            <select id="searchCategory-{{$id}}" name="categoryId" ng-model="vm.category" ng-options="category as category.shortDescription for category in vm.categories track by category.id">
+                <option value="">@T("All Products")</option>
+            </select>
+        </div>
+        <div class="search-input">
+
+            <input ng-model="vm.criteria" type="text" class="isc-searchAutoComplete"
+                   ng-init="vm.autocompleteOptions.placeholder = '@T("Enter keyword or item #")'; vm.translations = [{key: 'category',text: '@T("Categories")'},{key: 'content',text: '@T("Content")'},{key: 'product',text: '@T("Products")'}, {key: 'manufacturerItemNumber',text: '@T("MFG #")'},  {key: 'partNumber',text: '@T("Part #")'},  {key: 'customerPartNumber',text: '@T("My Part #")'}]"
+                   kendo-auto-complete
+                   k-options="vm.autocompleteOptions"
+                   isc-enter="vm.onEnter()"
+                   name="criteria"
+                   onfocus="$(this).data('kendoAutoComplete').search()">
+            <i class="fa fa-lg fa-search fastClick" ng-click="vm.search()"></i>
+            @*<input ng-model="vm.criteria" type="text" class="isc-searchAutoComplete"
+                placeholder="@T(" enter keyword or item #")"
+                isc-enter="vm.search()"
+                isc-product-search-autocomplete
+                onsuggestionclick="vm.onSuggestionClick"
+                transformresult="vm.transformResult"
+                categoryselectorid="searchCategory-{{$id}}"
+                name="criteria" data-autocompleteurl="@Url.RouteUrl("productsv1autocomplete", new { httproute=true })">*@
+            @* While using the onfocus event might not follow our standards, its the only way I could hooking into the focus event successfully. *@
+        </div>
+    </form>
+</div>

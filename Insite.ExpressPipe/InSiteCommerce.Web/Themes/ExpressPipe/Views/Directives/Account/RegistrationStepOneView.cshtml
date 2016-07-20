@@ -1,0 +1,31 @@
+﻿<div>
+
+    <div class="register register-step-1">
+        <div class="alert-box alert" ng-if="vm.errors.length > 0">
+            <div ng-repeat="error in vm.errors">
+                <span ng-bind="error"></span>
+            </div>
+        </div>
+        <h4>Does your company/organization have an account with Express Pipe?</h4>
+        <ul class="radios no-bullet">
+            <li>
+                <label for="exp_account_yes"><input type="radio" id="exp_account_yes" ng-model="vm.hasAccount" ng-value="true" name="exp_account" /> <strong>Yes</strong>. My company or organization already has an account with Express Pipe.</label>
+                @* Should be hidden initially until user selects 'Yes. My company or organization already has an account with Express Pipe' *@
+                <div class="account-number" ng-if="vm.hasAccount">
+                    <input type="text" ng-model="vm.accountInfo.accountNumber" placeholder="@T("Main Express Pipe Account Number")" />
+                    @* Clicking will hide account number field, select 'No' and continue to Registration Step 2 *@
+                    <a href="" ng-click="vm.nextStep('/registrationstep2', true)" class=" small">I don't know my account number</a>
+                </div>
+            </li>
+            <li><label for="exp_account_no"><input type="radio" id="exp_account_no" name="exp_account" ng-model="vm.hasAccount" ng-value="false" ng-checked="true" /> <strong>No</strong>. My company or organization does not have an account with Express Pipe.</label></li>
+        </ul>
+
+        <div class="buttons">
+            <a ng-if="vm.isValid" class="button" href="" ng-click="vm.nextStep('/registrationstep2')">@T("Continue")</a>
+        </div>
+
+        <hr />
+
+    </div>
+
+</div>

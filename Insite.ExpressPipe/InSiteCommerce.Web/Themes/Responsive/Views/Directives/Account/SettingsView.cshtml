@@ -1,0 +1,79 @@
+﻿@using Insite.Core.Providers
+
+<div class="row">
+    <div class="medium-6 large-6 columns change-pw">
+        <h3>@T("Change Password")</h3>
+        <form novalidate id="changePasswordForm" name="changePasswordForm" ng-submit="vm.changePassword()">
+            <div class="row pw-ex">
+                <div class="medium-5 large-5 columns">
+                    <label for="existingPassword">@T("Existing Password")</label>
+                </div>
+                <div class="medium-7 large-7 columns">
+                    <input type="password" id="existingPassword" name="existingPassword" ng-model="vm.password" required />
+                    <span class="field-validation-error" ng-show="changePasswordForm.$submitted && changePasswordForm.existingPassword.$error.required">@(string.Format(MessageProvider.Current.Field_Required, T("Password")))</span>                    
+                </div>
+            </div>
+            <div class="row pw-new">
+                <div class="medium-5 large-5 columns">
+                    <label for="newPassword">@T("New Password")</label>
+                </div>
+                <div class="medium-7 large-7 columns">
+                    <input type="password" id="newPassword" name="newPassword" ng-model="vm.newPassword" required minlength="{{vm.settings.passwordMinimumLength}}" />
+                    <span class="field-validation-error" ng-show="changePasswordForm.$submitted && changePasswordForm.newPassword.$error.required">@(string.Format(MessageProvider.Current.Field_Required, T("Password")))</span>
+                    <span class="field-validation-error" ng-show="changePasswordForm.$submitted && changePasswordForm.newPassword.$error.minlength">{{'@MessageProvider.Current.ChangePasswordInfo_Password_Too_Short'.replace('{0}', vm.settings.passwordMinimumLength)}}</span>
+                </div>
+            </div>
+            <div class="row pw-retype">
+                <div class="medium-5 large-5 columns">
+                    <label for="confirmPassword">@T("Re-Enter New Password")</label>
+                </div>
+                <div class="medium-7 large-7 columns">
+                    <input type="password" id="confirmPassword" name="confirmPassword" ng-model="vm.confirmPassword" required isc-compare-to="vm.newPassword" />
+                    <span class="field-validation-error" ng-show="changePasswordForm.$submitted && changePasswordForm.newPassword.$error.required">@(string.Format(MessageProvider.Current.Field_Required, T("Password")))</span>
+                    <span class="field-validation-error" ng-show="changePasswordForm.$submitted && changePasswordForm.confirmPassword.$error.compareTo">@MessageProvider.Current.CreateNewAccountInfo_PasswordCombination_DoesNotMatch</span>
+                    <div class="pw-note">@MessageProvider.Current.ChangePasswordInfo_Password_Not_Meet_Requirements</div>
+                </div>
+            </div>
+            <p class="error">
+                <span id="changePasswordError" class="field-validation-error" ng-if="vm.changePasswordError" ng-bind="vm.changePasswordError"></span>
+            </p>
+            <div class="btns"><button id="saveChangePassword" type="submit" class="btn primary btn-save">@T("Save")</button></div>
+        </form>
+    </div>
+    <div class="medium-6 large-6 columns manage-subs" ng-show="vm.settings.allowSubscribeToNewsLetter">
+        <h3>@T("Manage Subscriptions")</h3>
+        <form id="manageSubscriptionsForm" name="manageSubscriptionsForm" ng-submit="vm.changeSubscription()" novalidate>
+            <div class="row sub-email">
+                <div class="medium-5 large-5 columns">
+                    <label for="emailAddress">@T("Email Address")</label>
+                </div>
+                <div class="medium-7 large-7 columns">
+                    <input type="email" id="emailAddress" name="emailAddress" ng-model="vm.account.email" required isc-valid-email>
+                    <span class="field-validation-error" ng-show="manageSubscriptionsForm.$submitted && manageSubscriptionsForm.emailAddress.$error.required">@(string.Format(MessageProvider.Current.Field_Required, T("Email Address")))</span>
+                    <span class="field-validation-error" ng-show="manageSubscriptionsForm.$submitted && manageSubscriptionsForm.emailAddress.$error.email">@(string.Format(MessageProvider.Current.Field_Invalid, T("Email Address")))</span>
+                </div>
+            </div>
+            <div class="row pw-unsub">
+                <div class="small-5 columns">
+                    <label for="isUnubscribed">@T("Unsubscribe")</label>
+                </div>
+                <div class="small-7 columns">
+                    <input type="radio" id="isUnubscribed" name="isSubscribed" ng-value="false" ng-model="vm.account.isSubscribed">
+                </div>
+            </div>
+            <div class="row pw-sub">
+                <div class="small-5 columns">
+                    <label for="isSubscribed">@T("Subscribe")</label>
+                </div>
+                <div class="small-7 columns">
+                    <input type="radio" id="isSubscribed" name="isSubscribed" ng-value="true" ng-model="vm.account.isSubscribed">
+                </div>
+            </div>
+            <p class="error">
+                <span id="changeSubscriptionError" class="field-validation-error" ng-if="vm.changeSubscriptionError" ng-bind="vm.changeSubscriptionError"></span>
+            </p>
+            <div class="btns"><button id="saveManageSubscriptions" type="submit" class="btn primary btn-save">@T("Save")</button></div>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,10 @@
+﻿@model Insite.Admin.Models.ControlTypeViewModel<Insite.Admin.ControlTypes.IntegerFieldControl>
+
+@if (Model.ControlType.PositiveNegativeColors)
+{
+    <span ng-class="{ 'input-number-positive' : @Model.ListPageModelBinding > 0, 'input-number-negative' : @Model.ListPageModelBinding < 0 }">{{@Model.ListPageModelBinding | number}}</span>
+}
+else
+{
+    <text>{{::@Model.ListPageModelBinding | number }}</text>
+}

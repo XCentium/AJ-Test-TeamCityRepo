@@ -1,0 +1,39 @@
+﻿@model Insite.ContentAdmin.Models.ContentItems.DeleteViewModel
+
+@{
+    Layout = "/Areas/ContentAdmin/Views/Shared/_ModalLayout.cshtml";
+}
+
+@section Header { Delete @Model.Title }
+
+@if (Model.IsTemplate && Model.TemplateHasPages)
+{
+    <p>This template has already been used by a page and may not be deleted.</p>
+    <div class="buttonArea">
+        <button class="cms-close cms-button" type="button">Close</button>
+    </div>
+}
+else if (Model.FuturePublishDate.HasValue)
+{
+    <p>This page is set up to publish on @Model.FuturePublishDate.Value.LocalDateTime.ToShortDateString() at @Model.FuturePublishDate.Value.LocalDateTime.ToShortTimeString(). That future publish date must be cleared before the page may be modified.</p>
+    <div class="buttonArea">
+        <button class="cms-close cms-button" type="button">Close</button>
+    </div>
+}
+else
+{
+    using (Html.BeginForm(new { Model.ContentKey }))
+    {
+        <p>
+            Are you sure you wish to delete this?
+            @if (Model.IsPage)
+            { <b>This action will take affect immediately.</b> }
+        </p>
+        if (Model.HasChildContent) { <p>This page has child pages, the child pages will also be deleted. </p> }
+        if (Model.IsLinkedInChildWebsite) { <p>This page is linked to in child sites, the linked content in those child sites will also be deleted. </p> }
+        <div class="buttonArea">
+            <button class="cms-close cms-button" type="button">Cancel</button>
+            <button class="cms-button cms-actionButton" type="submit">Confirm</button>
+        </div>
+    }
+}

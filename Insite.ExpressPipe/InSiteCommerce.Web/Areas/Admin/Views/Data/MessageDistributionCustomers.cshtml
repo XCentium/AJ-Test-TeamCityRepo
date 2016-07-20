@@ -1,0 +1,24 @@
+﻿@using Insite.Admin.Extensions
+@model Insite.Admin.FormBuilder.Elements.HtmlFormElement
+
+<div class="vertical grid-block form-content">
+    <div>
+        @Html.FormControl(@<label>Customers</label>,
+            @<text>
+                <select ng-model="entityDetailsCtrl.model.customerFilter">
+                    <option value="all">All Customers</option>
+                    <option value="selected">Selected Customers</option>
+                    <option value="types">Selected Customer Types</option>
+                </select>
+             </text>)
+    </div>
+    <div ng-if="entityDetailsCtrl.model.customerFilter === 'types'">
+        @Html.FormControl(@<label>Customer Types</label>,
+            @<text>
+                <input type="text" ng-model="entityDetailsCtrl.model.customerTypes"/>
+             </text>)
+    </div>
+    <div ng-if="entityDetailsCtrl.model.customerFilter === 'selected'">
+        @Html.Action("AssignedCustomers", "Data", new { area = "Admin" })
+    </div>
+</div>

@@ -1,0 +1,112 @@
+﻿@using Insite.Core.ApplicationDictionary.AdminActions
+@using Insite.Data.Entities
+@model Insite.Admin.Models.EntityViewModel
+
+<div class="title-bar" id="EntityHeadingTitleBar">
+    <h1 class="title left">
+        <a class="form-title__back-to-parent button-icon button" ng-show="entityDetailsCtrl.parentUrl" ng-href="/admin{{entityDetailsCtrl.parentUrl}}"><span class="icon icon-chevron-left"></span></a>
+
+        <span class="title__label">
+            <span ng-if="entityDetailsCtrl.isNew">New @Model.EntityDefinition.Label</span>
+            <span ng-if="!entityDetailsCtrl.isNew">{{::entityDetailsCtrl.displayName}}</span>
+        </span>
+
+        <a href="javascript:void(0)" class="button button-icon" ng-if="!entityDetailsCtrl.isNew" zf-open="entityInfoModal">
+            <i class="icon icon-info-wire"></i>
+        </a>
+    </h1>
+    <span class="right">
+        @if (Model.Form.AllowDelete && Model.EntityDefinition.CanDelete)
+        {
+            <a class="button button-icon" href="" title="Delete" ng-click="entityDetailsCtrl.showDeleteConfirmation();" ng-show="!entityDetailsCtrl.isNew">
+                <i class="icon icon-delete" title="Delete"></i>
+            </a>
+        }
+        @{ var adminActions = Model.Actions.Where(o => o.PermissionType == AdminActionPermissionType.Allowed && (o.ViewType == AdminActionViewType.DetailView || o.ViewType == AdminActionViewType.DetailAndListView)).ToList(); }
+        @if (adminActions.Any() && Model.EntityDefinition.CanEdit)
+        {
+            <a href="javascript:void(0)" class="button button-icon" isa-popup-toggle="moreOptionsPopup" ng-if="!entityDetailsCtrl.isNew">
+                <i class="icon icon-more-vertical"></i>
+            </a>
+            <isa-popup id="moreOptionsPopup" target-offset="12px -1px">
+                <ul class="menu-action-list">
+                    @foreach (var adminAction in adminActions)
+                    {
+                        <li>
+                            @{
+                                var angularFunction = adminAction.AngularDirective.IsBlank() ? "callAction" : "callCustomAction";
+                                angularFunction = "entityDetailsCtrl." + angularFunction + "('" + adminAction.Name + "')";
+                            }
+
+                            <a isa-popup-toggle="moreOptionsPopup" class="menu-action-list__action" href="#" ng-click="@angularFunction">@adminAction.Label</a>
+
+                            @if (!adminAction.ToolTip.IsEmpty())
+                            {
+                                <i class="icon icon-help" title="@adminAction.ToolTip"></i>
+                            }
+                        </li>
+                    }
+                </ul>
+            </isa-popup>
+        }
+
+        <span ng-if="::entityDetailsCtrl.isMultiEditMode" class="multiedit-pager">
+            <a class="button button-icon" ng-show="entityDetailsCtrl.multiEditIndex > 1" ng-click="entityDetailsCtrl.previousEntity()">
+                <i class="icon icon-left-arrow-solid-1" title="Previous Record"></i>
+            </a>
+            <input type="text" ng-model="entityDetailsCtrl.multiEditIndex" ng-change="entityDetailsCtrl.navigateToEntity()" ng-model-options="{ debounce: 500 }" />
+            <span>&nbsp;of&nbsp;</span>
+            <span>{{::entityDetailsCtrl.multiEditIds.length}}</span>
+            <a class="button button-icon" ng-show="entityDetailsCtrl.multiEditIndex < entityDetailsCtrl.multiEditIds.length" ng-click="entityDetailsCtrl.nextEntity()">
+                <i class="icon icon-right-arrow-solid-1" title="Next Record"></i>
+            </a>
+        </span>
+
+        <a href="javascript:void(0);" class="button tertiary" ng-click="entityDetailsCtrl.cancel();" ng-if="!entityDetailsCtrl.isMultiEditMode"><i class="icon icon-chevron-left button__icon button__icon--large"></i> Back</a>
+        <a href="javascript:void(0);" class="button tertiary" ng-click="entityDetailsCtrl.clear();" ng-if="entityDetailsCtrl.isMultiEditMode && entityDetailsCtrl.isModelDirty">Clear</a>
+        <a href="javascript:void(0);" class="button secondary" ng-click="entityDetailsCtrl.cancel();" ng-if="entityDetailsCtrl.isMultiEditMode">Done</a>
+        @if (Model.EntityDefinition.CanEdit && !Model.Form.ReadOnly)
+        {
+            <a href="javascript:void(0);" id="tst-save-entity" class="button" ng-click="entityDetailsCtrl.save();" ng-disabled="!entityDetailsCtrl.isModelDirty" ng-show="!entityDetailsCtrl.isMultiEditMode">Save</a>
+            <a href="javascript:void(0);" class="button" ng-click="entityDetailsCtrl.saveAndNext();" ng-disabled="!entityDetailsCtrl.isModelDirty" ng-show="entityDetailsCtrl.isMultiEditMode">Save and Next</a>
+            <a href="javascript:void(0);" class="button" ng-click="entityDetailsCtrl.saveAndAddAnother();" ng-disabled="!entityDetailsCtrl.isModelDirty" ng-show="entityDetailsCtrl.isNew">Save & Add New</a>
+        }
+    </span>
+</div>
+
+@if (!Model.DetailsCustomBarContent.IsBlank())
+{
+    <div class="title-bar title-bar--custom">
+        @Html.Raw(Model.DetailsCustomBarContent)
+    </div>
+}
+
+@Html.Partial("EntityInfoModal")
+
+<div>
+    @foreach (var angularDirective in adminActions.Where(o => !o.AngularDirective.IsBlank()).Select(o => o.AngularDirective).Distinct())
+    {
+        @:<@angularDirective></@angularDirective>
+    }
+</div>
+
+@Html.Partial("DeleteConfirmation", Model.EntityDefinition)
+
+@helper UnsavedChangesModal(string id, string saveMethod, string discardMethod)
+{
+    <div class="modal--medium" zf-modal id="@id">
+        <div class="modal-header">
+            <h4 class="modal-title text-center">You have unsaved changes.</h4>
+        </div>
+        <div class="modal-footer">
+            <button zf-close class="button tertiary float-left">Cancel</button>
+            <button ng-click="entityDetailsCtrl.@saveMethod" class="button">Save Changes</button>
+            <button ng-click="entityDetailsCtrl.@discardMethod" class="button secondary">Discard Changes</button>
+        </div>
+    </div>
+}
+
+@UnsavedChangesModal("cancelConfirmation", "save(entityDetailsCtrl.returnToList)", "returnToList()")
+@UnsavedChangesModal("navigateAwayConfirmation", "save(entityDetailsCtrl.continueNavigation)", "continueNavigation()")
+@UnsavedChangesModal("switchTabsConfirmation", "saveAndChangeTab()", "discard()")
+

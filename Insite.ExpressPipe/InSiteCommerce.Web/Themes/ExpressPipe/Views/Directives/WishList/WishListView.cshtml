@@ -1,0 +1,143 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+
+﻿<div>
+    <div class="vm-list" ng-show="vm.wishListCount > 0">
+
+        <div class="row">
+            <div class="medium-6 columns">
+                <h1>@T("My Lists")</h1>
+            </div>
+            <div class="medium-6 columns medium-text-right hide-for-small-down">
+                <div ng-hide="!vm.selectedWishList.canAddAllToCart || vm.selectedWishList.wishListLineCollection.length === 0">
+                    <button ng-if="vm.pageLoaded" id="{{'wishListDownloadButton'}}" class="button secondary" ng-click="vm.download()">@T("Export List")</button>
+                    <button id="wishListViewAddAllToCartUpperButton" class="button primary" ng-click="vm.addAllToCart()" ng-disabled="!vm.allQtysIsValid()"> @T("Add All To Cart")</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="medium-3 columns">
+                <h2 class="show-for-print" ng-bind="vm.selectedWishList.name"></h2>
+                <div class="select-list hide-for-print" ng-show="vm.wishListSettings.allowMultipleWishLists">
+                    <select id="wishListViewWishlistSelector" ng-model="vm.selectedWishList" ng-change="vm.getSelectedWishListDetails()"
+                            ng-options="wishList.name for wishList in vm.wishListCollection track by wishList.id"
+                            ng-disabled="!vm.selectedWishList.wishListLineCollection"></select>
+
+                    @*<a id="wishListViewDeleteWishListButton" class="button tertiary" ng-show="vm.wishListSettings.allowEditingOfWishLists" href="javascript:void(0);" ng-click="vm.deleteWishList()">@T("Delete")</a>*@
+                    <a id="wishListViewDeleteWishListButton" class="button tertiary" href="javascript:void(0);" ng-click="vm.deleteConfirmationPopup()" ng-class="{'disabled' : !vm.selectedWishList.wishListLineCollection}">@T("Delete")</a>
+                </div>
+            </div>
+
+            <div class="medium-9 columns">
+
+                <div class="cm" ng-include="'wishList_topContent'"></div>
+
+                <div ng-show="vm.selectedWishList !== null">
+
+                    <h2 ng-show="vm.selectedWishList.wishListLineCollection.length === 0">@Html.Message("WishLists_NoItemsInList", "There are currently no items in the selected WishList.")</h2>
+
+                    <div class="loading" ng-hide="vm.selectedWishList.wishListLineCollection">
+                        <i class="fa fa-2x fa-spinner fa-spin"></i>
+                    </div>
+
+                    <div class="product-list wishlist" ng-show="vm.selectedWishList.wishListLineCollection.length > 0">
+
+                        <isc-pager pagination="vm.selectedWishList.pagination" storage-key="vm.paginationStorageKey" update-data="vm.getSelectedWishListDetails()"></isc-pager>
+
+                        <ul class="item-list cart-items">
+                            <li class="item-block checkout-item isc-productContainer row" ng-repeat="wishListLine in vm.selectedWishList.wishListLineCollection track by wishListLine.id">
+
+                                <a id="{{'wishListViewRemoveProductButton_' + $index }}" class="remove" ng-click="vm.deleteLine(wishListLine)" ng-show="vm.wishListSettings.allowEditingOfWishLists"><i class="fa fa-lg fa-remove"></i></a>
+                                <div class="item-thumb">
+                                    <isc-product-thumb product="wishListLine"></isc-product-thumb>
+                                </div>
+                                <div class="item-details">
+                                    <div class="item-inf-wrapper">
+                                        <div class="item-description">
+                                            <div class="item-brand">{{wishListLine.properties["manufacturerName"]}}</div>
+                                            <isc-product-name product="wishListLine"></isc-product-name>
+                                            <div class="item-env-icons">
+                                                <i ng-if="wishListLine.properties['leadFree'] == 'Yes'" class="epicon epicon-lead-free"></i>
+                                                <i ng-if="wishListLine.properties['mercuryFree'] == 'Yes'" class="epicon epicon-mercury-free"></i>
+                                                <i ng-if="wishListLine.properties['waterSenseSaver'] == 'Yes'" class="epicon epicon-water-saver"></i>
+                                                <i ng-if="wishListLine.properties['hazardousMaterial'] == 'Yes'" class="epicon epicon-hazardous-material"></i>
+                                                <i ng-if="wishListLine.properties['energyStarRated'] == 'Yes'" class="epicon epicon-energy-saver"></i>
+                                            </div>
+                                            <isc-sorted-attribute-value-list attribute-types="vm.getAttributes(wishListLine.id.toString())" maximum-number="5" class="attribute-list"></isc-sorted-attribute-value-list>
+                                            <a class="item-view-more hide-for-small-down" ng-href="{{wishListLine.productUri}}">@T("View More")</a>
+                                        </div>
+                                    </div>
+                                    <div class="item-cta">
+                                        <div class="item-price">
+                                            <div ng-show="wishListLine.canShowPrice">
+                                                <isc-product-price product="wishListLine"></isc-product-price>
+                                                <span class="um selected-uom" ng-if="wishListLine.unitOfMeasureDisplay && wishListLine.pricing.actualPriceDisplay !== undefined && wishListLine.pricing.actualPriceDisplay != '' && wishListLine.pricing.actualPriceDisplay != '$0.00' && wishListLine.pricing.actualPriceDisplay">{{wishListLine.unitOfMeasureDisplay}}</span>
+                                                <div class="quantity-pricing" ng-if="!wishListLine.quoteRequired">
+                                                    <isc-quantity-break-pricing product-id="wishListLine.id" break-prices="wishListLine.pricing.actualBreakPrices"></isc-quantity-break-pricing>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <span data-tooltip aria-haspopup="true" class="has-tip" ng-hide="wishListLine.pricing.actualPriceDisplay != '$0.00'" title="Add to cart and request a quote to get pricing">@T("Request Quote for Price")</span>
+                                        <div ng-show="vm.productSettings.showInventoryAvailability" class="item-availability hide-for-medium-up">
+                                            <morsco-cart-availability-message availability="wishListLine.availability" warehouses="vm.warehouses" itemline="wishListLine"></morsco-cart-availability-message>
+                                        </div>
+                                        <div class="add-to-cart">
+                                            <div class="item-qty" ng-if="wishListLine.canEnterQuantity">
+                                                <label class="hide-for-small-down">@T("Qty"):</label>
+                                                <input id="{{'wishListViewQuantityInput_' + $index }}" type="number" min="wishListLine.properties.minimumSellQty" name="qty"
+                                                       ng-change="vm.updateQty(wishListLine)"
+                                                       ng-model-options="{ updateOn: 'blur' }"
+                                                       isc-enter="vm.quantityKeyPress(wishListLine)"
+                                                       step="{{wishListLine.properties.minimumSellQty}}" class="qty numerictextbox" ng-model="wishListLine.qtyOrdered" />
+
+                                                @*<input id="{{'wishListViewQuantityInput_' + $index }}" type="number" min="1" class="numerictextbox qty" ng-model="wishListLine.qtyOrdered"
+                                                       isc-enter="vm.quantityKeyPress(wishListLine)" ng-blur="vm.quantityKeyPress(wishListLine)" />*@
+                                            </div>
+                                            <div class="item-buttons">
+                                                <button id="{{'wishListViewAddToCartButton_' + $index }}" class="btn primary btn-add-cart" ng-click="vm.addLineToCart(wishListLine)" ng-disabled="!wishListLine.qtyOrdered || wishListLine.qtyOrdered == 0">@T("Add to Cart")</button>
+                                            </div>
+                                        </div>
+                                        <div ng-show="vm.productSettings.showInventoryAvailability" class="item-availability hide-for-small-down hide-for-print">
+                                            <morsco-cart-availability-message availability="wishListLine.availability" warehouses="vm.warehouses" itemline="wishListLine"></morsco-cart-availability-message>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </li>
+                        </ul>
+
+                        <isc-pager bottom="true" pagination="vm.selectedWishList.pagination" storage-key="vm.paginationStorageKey" update-data="vm.getSelectedWishListDetails()"></isc-pager>
+
+                    </div>
+
+                </div>
+
+                <div class="text-right" ng-show="(vm.selectedWishList.canAddAllToCart || vm.selectedWishList.canAddToCart) && vm.selectedWishList.wishListLineCollection.length !== 0">
+                    <button id="wishListViewAddAllToCartBottomButton" class="button primary" ng-click="vm.addAllToCart()" ng-disabled="!vm.allQtysIsValid()" ng-bind="vm.selectedWishList.canAddAllToCart ? '@T("Add All To Cart")' : '@T("Add All Available to Cart")'"></button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="search-no-results" ng-if="vm.wishListCount === 0">
+        <h3>@Html.Message("WishLists_NoWishlistsFound", "No Wish List found.")</h3>
+    </div>
+	
+	@* Delete Confirmation Modal *@
+	<div class="reveal-modal medium" id="deleteListConfirmation" data-reveal data-options="close_on_background_click:false;close_on_esc:false;">
+		<div>Are you sure you want to delete this list?</div>
+		<div class="buttons">
+			<a id="wishListViewConfirmDeleteWishListButton" ng-show="vm.wishListSettings.allowEditingOfWishLists" class="button tertiary" href="javascript:void(0);" ng-click="vm.deleteWishList()">@T("YES")</a>
+			<button class="button secondary close-reveal-modal" area-label="Close" type="button">CANCEL</button>
+		</div>
+	</div>
+
+    <isc-morsco-availability-popup> </isc-morsco-availability-popup>
+    <isc-morsco-availability-shipping-tax-content></isc-morsco-availability-shipping-tax-content>
+
+</div>

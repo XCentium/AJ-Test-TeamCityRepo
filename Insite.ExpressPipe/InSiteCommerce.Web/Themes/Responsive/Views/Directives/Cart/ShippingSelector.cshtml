@@ -1,0 +1,31 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+<div>
+    <h3>@T("Shipping Method")</h3>
+
+    <div>
+        <div class="select-carrier" ng-show="cart.carriers.length > 0">
+            <label for="carrier">@T("Select Carrier")</label>
+            <select name="carrier" id="carrier"
+                    ng-model="cart.carrier" ng-change="changeCarrier()"
+                    ng-options="carrier.description for carrier in cart.carriers"></select>
+        </div>
+        <div class="select-method" ng-show="cart.carriers.length > 0">
+            <label for="shippingMethod">@T("Select Method")</label>
+            <select id="shippingMethod" name="shippingMethod"
+                    data-rule-required="true" data-msg-required='@T("Shipping Method is required.")'
+                    ng-model="cart.shipVia"
+                    ng-options="shipVia.description for shipVia in cart.carrier.shipVias"
+                    ng-change="shippingMethodChange()">
+                <option value="">@T("Select Method")</option>
+            </select>
+            <span class="field-validation-valid" data-valmsg-for="shippingMethod" data-valmsg-replace="true"></span>
+        </div>
+        <p ng-hide="!cart || cart.carriers.length > 0">
+            <span class="field-validation-error">@Html.Message("ReviewAndPay_NoCarriersFound", "Unable to retrieve shipping carriers.")</span>
+        </p>
+        <div class="order-notes">
+            <label>@T("Add Order Notes") <em>(@T("optional"))</em>:</label>
+            <textarea ng-model="cart.notes" cols="45" id="Notes" name="Notes" rows="5"></textarea>
+        </div>
+    </div>
+</div>

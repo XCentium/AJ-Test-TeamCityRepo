@@ -1,0 +1,23 @@
+﻿@*
+    usage example:
+    <isc-breadcrumb breadcrumbs="category.breadCrumbs" search-query="query"></isc-breadcrumb>
+
+    breadcrumbs is a list of objects of type BreadCrumbModel
+*@
+<div class="small-12 columns hide-for-small-down">
+    <ul class="breadcrumbs" ng-class="{bsearch: searchQuery}">
+        <li ng-repeat="crumb in breadcrumbs" ng-class="{'hide-for-small': (breadcrumbs.length - $index) != 2, 'current': $last}" ng-hide="crumb.text == 'Default'">
+            <a id="{{'breadCrumbLink_' + $index}}" ng-if="crumb.url" href="{{crumb.url}}">{{crumb.text}}</a>
+            <span><isc-no-element ng-show="!crumb.url">{{crumb.text}}</isc-no-element></span>
+        </li>
+        <li ng-if="searchQuery">
+            <span><a id="breadCrumbHomePage" href="@(Url.ContentPage<HomePage>())">@T("Home")</a></span>
+        </li>
+        <li ng-if="searchQuery">
+            <span>@T("Search")</span>
+        </li>
+        <li ng-if="searchQuery" class="hide-for-small current">
+            <span><em>{{searchQuery}}</em></span>
+        </li>
+    </ul>
+</div>

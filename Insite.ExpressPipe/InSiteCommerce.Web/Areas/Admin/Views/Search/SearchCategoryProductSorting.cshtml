@@ -1,0 +1,34 @@
+﻿@{
+    Layout = null;
+}
+
+<div id="searchCategoryProductSorting" class="grid-block">
+    <div>
+        <h3>View By Category</h3>
+        <isa-website-dropdown on-change="entityListCtrl.websiteChanged(websiteId)"></isa-website-dropdown>
+        <div ng-if="entityListCtrl.websiteId">
+            <a class="button tertiary" ng-click="entityListCtrl.expandAll()">Expand All</a>
+            <a class="button tertiary" ng-click="entityListCtrl.collapseAll()">Collapse All</a>
+            <div id="categoryTree"
+                 kendo-tree-view="entityListCtrl.treeView"
+                 k-data-source="entityListCtrl.treeData">
+                <span k-template>
+                    <span ng-click='entityListCtrl.clickCategory(dataItem)'>{{dataItem.text}}</span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="modal--small grid-modal" zf-modal zf-closable="modal" overlay-close="false" id="sortordermodel">
+        <div class="modal-header">
+            <h4 class="modal-title">Edit Sort Order For {{entityListCtrl.editProduct.erpNumber}}</h4>
+            <a zf-close="" class="close-button"><i class="icon icon-close"></i></a>
+        </div>
+        <div class="modal-content">            
+            <input class="small-input" type="number" ng-model="entityListCtrl.sortOrderEdit" pattern="-?\d*" required/>
+        </div>
+        <div class="modal-footer">
+            <button zf-close class="button tertiary float-left">Cancel</button>
+            <button ng-click="entityListCtrl.save()" class="button">Save</button>
+        </div>
+    </div>   
+</div>

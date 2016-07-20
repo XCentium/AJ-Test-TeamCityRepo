@@ -1,0 +1,23 @@
+﻿<div class="summary-totals">
+    <div class="row collapse sub-total">
+        <div class="xsmall-6 columns sub-label">@T("Subtotal")<span>({{cart.properties['catalogOrderCount']}})</span>
+        </div>
+        <div id="cartOrderSubTotalDisplay" class="xsmall-6 columns sub-amount" ng-bind="cart.orderSubTotalWithOutProductDiscountsDisplay"></div>
+    </div>
+    <div class="row collapse" ng-if="(cart.showTaxAndShipping || !isCartPage) && cart.totalTaxDisplay.length > 0">
+        <div class="xsmall-6 columns sub-label">@T("Tax")</div>
+        <div id="cartTotalTaxDisplay" class="xsmall-6 columns sub-amount" ng-bind="cart.totalTaxDisplay"></div>
+    </div>
+    <div class="row collapse" ng-if="(cart.showTaxAndShipping || !isCartPage) && cart.shippingAndHandlingDisplay.length > 0">
+        <div class="xsmall-6 columns sub-label">@T("Shipping & Handling")</div>
+        <div id="cartShippingAndHandlingDisplay" class="xsmall-6 columns sub-amount" ng-bind="cart.shippingAndHandlingDisplay"></div>
+    </div>
+    <div class="row collapse promo-applied" ng-repeat="promotion in promotions">
+        <div class="xsmall-6 columns sub-label">@T("Promotion"): <em><span ng-bind="promotion.name"></span></em></div>
+        <div id="cartPromotionAmountDisplay" class="xsmall-6 columns sub-amount" ng-bind="promotion.amountDisplay"></div>
+    </div>
+    <div class="row collapse order-total" ng-if="(cart.showTaxAndShipping || !isCartPage)">
+        <div class="xsmall-6 columns sub-label">@T("Total")</div>
+        <div id="cartOrderGrandTotalDisplay" class="xsmall-6 columns sub-amount" ng-bind='cart.orderGrandTotalDisplay'></div>
+    </div>                   
+</div>

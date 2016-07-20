@@ -1,0 +1,25 @@
+﻿@using Insite.Admin.FormBuilder.Elements
+@model CategoryRelatedProductsFormElement
+
+@if (Model.IsEditMode)
+{
+    foreach (var label in Model.GetLabels())
+    {
+        <div>@label</div>
+    }
+}
+else
+{
+    foreach (var systemListValue in Model.GetSystemListValues())
+    {
+        @Html.Action("Relationships", "Data", new
+           {
+               systemListValueId = systemListValue.Id,
+               collectionName = "parentRelatedCategories",
+               pluralizedEntityName = "products",
+               parentIdColumn = "categoryId",
+               relatedEntityIdColumn = "productId",
+               manyToManyPluralizedEntityName = "categoryRelatedProducts"
+           })
+    }
+}

@@ -1,0 +1,20 @@
+﻿@using Insite.Admin.Extensions
+
+<div>
+    <div ng-hide="vm.isDisplay">
+        @Html.FormControl(@<label>To Property</label>, @<div class="medium">
+            <input kendo-combo-box
+                   ng-model="vm.selectedEntityId"
+                   k-data-source="vm.lookups"
+                   ng-disabled="vm.disabled === 'disabled'"
+                   k-placeholder="'Select Value'"
+                   k-data-text-field="'name'"
+                   k-data-value-field="'id'"
+                   k-auto-bind="true"
+                   k-filter="'contains'" />
+        </div>)
+    </div>
+    <div ng-show="vm.isDisplay">
+        <span ng-bind="vm.getLabelForSelectedEntityId()"></span>
+    </div>
+</div>

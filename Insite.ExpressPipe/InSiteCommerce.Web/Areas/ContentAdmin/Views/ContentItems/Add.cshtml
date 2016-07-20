@@ -1,0 +1,73 @@
+﻿@model Insite.ContentAdmin.Models.ContentItems.AddViewModel
+
+@{
+    Layout = "/Areas/ContentAdmin/Views/Shared/_SlidePanelLayout.cshtml";
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+}
+
+@section Header { Add @(Model.IsTemplate ? "Template" : Model.IsPage ? "Page" : "Widget") }
+
+@*TODO CMS 3.7.1 we are duplicated this a lot now, can we use a partial?*@
+@if (Model.FuturePublishDate.HasValue)
+{
+    <p>
+        This page is set up to publish on @Model.FuturePublishDate.Value.LocalDateTime.ToShortDateString() at @Model.FuturePublishDate.Value.LocalDateTime.ToShortTimeString().
+        That future publish date must be cleared before any items may be added.
+    </p>
+    <div class="buttonArea">
+        <button class="cms-close cms-button" type="button">Cancel</button>
+    </div>
+}
+else
+{
+    using (Html.BeginForm(new { Model.ParentContentKey, Model.Zone, Model.IsPage, Model.IsTemplate }))
+    {
+        <fieldset>
+            <div class="validationWrap">
+                @Html.LabelFor(m => m.Class, "Item Type")
+                @if (Model.AllContentItemClasses != null)
+                {
+                    <a href="#" class="cms-showAllClasses">Show All</a>
+                }                
+                @Html.ValidationMessageFor(m => m.Class)
+                @Html.DropDownList("Class", Model.ContentItemClasses, "Select Type", new { @class = "cms-classSelect" })
+                @if (Model.AllContentItemClasses != null)
+                {
+                    <div class="cms-classSelectAllContainer">
+                        @Html.DropDownList("Class-all", Model.AllContentItemClasses, "Select Type", new { @class = "cms-classSelectAll" })
+                    </div>
+                }
+            </div>
+            <div class="validationWrap">
+                @Html.LabelFor(m => m.Template, "Template")
+                @Html.ValidationMessageFor(m => m.Template)
+                @Html.Partial("ContentItemTemplateDropdown", Model.ContentItemTemplates)
+            </div>
+            <div class="buttonArea">
+                <button class="cms-button cms-close" type="button">Cancel</button>
+                <button class="cms-button cms-actionButton" type="submit">Next</button>
+            </div>
+        </fieldset>
+    }
+    <script>
+        $(function () {
+            $(".cms-classSelect, .cms-classSelectAll").on("change.fs", function () {
+                var $templateSelect = $(".cms-templateSelect");
+                $.get($templateSelect.attr("data-refreshUrl") + "?className=" + $(this).val(), function (htmlResult) {
+                    $templateSelect.html($(htmlResult).html());
+                    $templateSelect.trigger("update");
+                });
+            });
+            $(".cms-showAllClasses").click(function (e) {
+                $(this).hide();
+                e.preventDefault();
+                $(".cms-classSelect").parent().remove();
+                $(".cms-classSelectAllContainer").show()
+                    .find(".cms-classSelectAll")
+                        .attr("name", "Class")
+                        .trigger("change.fs");
+            });
+        })
+    </script>
+}

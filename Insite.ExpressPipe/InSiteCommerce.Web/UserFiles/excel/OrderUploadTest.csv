@@ -1,0 +1,4 @@
+Part #,Description,QTY,"Please, don't forget to check ""First row is colum heading"" checkbox,  if you leave first line as is."
+16957,,47,Value is assumed to be zero when QTY field is blank
+98158,,,Description and MFR name are optional
+,test description,1,

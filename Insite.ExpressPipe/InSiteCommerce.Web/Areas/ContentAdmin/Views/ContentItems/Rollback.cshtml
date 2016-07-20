@@ -1,0 +1,75 @@
+﻿@model Insite.ContentAdmin.Models.ContentItems.RollbackViewModel
+
+@{
+    Layout = "/Areas/ContentAdmin/Views/Shared/_ModalLayout.cshtml";
+}
+
+@section ClassName { cms-rollbackModal clearfix }
+@section Header { Restore @Model.Page.DisplayName() }
+
+@if (Model.FuturePublishDate != null)
+{
+    <p>
+        This page is set up to publish on @Model.FuturePublishDate.Value.LocalDateTime.ToShortDateString() at @Model.FuturePublishDate.Value.LocalDateTime.ToShortTimeString().
+        That future publish date must be cleared before the page may be modified.
+    </p>
+    <div class="buttonArea">
+        <button class="cms-close cms-button" type="button">Cancel</button>
+    </div>
+}
+else
+{
+    using (Html.BeginForm(new {Model.Page.ContentKey}))
+    {
+        <div class="publish-tbl">
+            <table class="info-tbl">
+                <thead>
+                    <tr>
+                        <th class="col-1">Publish Date</th>
+                        <th class="col-2"></th>
+                        <th class="col-3"></th>
+                        <th class="col-4"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var publishedDateTime in Model.PublishedDates)
+                    {
+                        <tr>
+                            <td class="col-1"><strong>@publishedDateTime.ToString("MMM d yyyy")</strong> <em>@publishedDateTime.LocalDateTime.ToShortTimeString()</em></td>
+                            <td class="col-2">
+                                <ul>
+                                    @foreach (var contextModel in Model.VariantsForPublishedDates[publishedDateTime])
+                                    {
+                                        <li>@contextModel.LanguageDescription / @contextModel.PersonaName / @contextModel.DeviceType</li>
+                                    }
+                                </ul>
+                            </td>
+                            <td class="col-3"><a class="btn-preview" href="@Url.Action("Preview", "ContentItems", new {Model.Page.ContentKey, publishedDateTime})" target="_blank">Preview</a></td>
+                            <td class="col-4"><input type="radio" value="@publishedDateTime" name="RollbackDate" /></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div>
+            @Html.ValidationSummary()
+        </div>
+        <div class="buttonArea">
+            <button class="cms-close cms-button">Cancel</button>
+            @if (ContentContextProvider.IsUserContentApprover)
+            {
+                <button type="submit" class="cms-button cms-actionButton btn-rollback-publish" name="Action:@RollbackViewModel.RollbackAndPublishAction">Restore & Publish</button>
+            }
+            <button type="submit" class="cms-button cms-actionButton btn-rollback" name="Action:@RollbackViewModel.RollbackAction">Restore</button>
+        </div>
+    }
+}
+
+<script>
+    $(".publish-tbl tbody tr").click(function() {
+        $(this).find("input[type=radio]").prop("checked", true);
+    });
+    $(".publish-tbl tbody tr a").click(function(e) {
+        e.stopPropagation();
+    });
+</script>

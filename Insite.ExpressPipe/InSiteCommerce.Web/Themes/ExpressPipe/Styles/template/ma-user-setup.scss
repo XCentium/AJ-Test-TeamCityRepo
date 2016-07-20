@@ -1,0 +1,173 @@
+body.ma-user-setup { }
+
+.ma-user-setup .usersetup-form .required-msg  {
+	margin:1em 0;
+	}
+
+.ma-user-setup .usersetup-form div[class^="usersetup-form"]  {
+	width:100%;
+	float:left;
+	clear:left;
+	margin-bottom:0.25em;
+	}
+
+	.ma-user-setup .usersetup-form div.usersetup-form-assign {
+		margin-bottom:1.5rem;
+	}
+
+.ma-user-setup .usersetup-form textarea {
+	height:150px; }
+
+.ma-user-setup .usersetup-form .usersetup-form-details input {
+	width:auto;
+	display:inline-block;
+	float:none;
+	margin-left:0.5em; }
+
+div[class*="tip-"] ul {
+	list-style-type:none;
+	display:block;
+}
+
+div[class*="tip-"] strong {
+	display:block;
+}
+
+.tip-role {
+	font-size:.875em;
+	}
+
+@media all and (min-width: 768px) {
+
+.tip-role > div {
+	display:inline-block;
+	vertical-align:top;
+	padding-right:2%;
+	}
+
+.tip-role > div h3 {
+	margin:.5em 0;
+	}
+}
+
+.usersetup-form-password div.message {
+	font-size:0.875em;
+	line-height:1.5em;
+	margin:0 0 1em 0;
+	}
+
+
+@media all and (max-width: 767px) {
+	.ma-user-setup .usersetup-form-status input {
+		display:inline-block;
+		}
+
+	.ma-user-setup .usersetup-form-status label {
+		display:inline-block;
+		width:auto;
+		}
+
+	.ma-user-setup .usersetup-form-assign .btn {
+		margin:1em 0;
+		width:100%;
+		}
+
+	.ma-user-setup .usersetup-form-userrole label,
+	.ma-user-setup .usersetup-form-approver label  {
+		display:inline-block;
+		margin-right:1em; }
+
+	.ma-user-setup .btns .btn {
+		margin-bottom:1em;
+		width:100%;
+		}
+
+	}
+
+@media all and (min-width: 768px) {
+.ma-user-setup .usersetup-form {
+	width:60%;
+	}
+
+.ma-user-setup .usersetup-form label {
+	width:40%;
+	float:left;
+	}
+
+.ma-user-setup .usersetup-form input,
+.ma-user-setup .usersetup-form #username {
+	width:55%;
+	float:right;
+	margin-right:0;
+	}
+
+.usersetup-form-password div.message {
+	width:55%;
+	float:right;
+	}
+
+.ma-user-setup .usersetup-form .usersetup-form-status input {
+	width:auto;
+	float:none;
+	margin-left:5%;
+	}
+
+.usersetup-form-assign {
+	margin-top:.5em; }
+
+.ma-user-setup .btns .btn {
+	margin-left:1em;
+	}
+
+.ma-user-setup .usersetup-form .usersetup-form-userrole label,
+.ma-user-setup .usersetup-form .usersetup-form-approver label {
+	width:auto;
+	margin-right:1em;
+	}
+
+}
+
+.ma-user-setup .usersetup-form #username {
+	font-weight:700;
+	margin-bottom:1rem;
+	}
+
+.ma-user-setup .usersetup-form a.btn-tip {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 21px;
+    text-align: center;
+    border-radius: 100px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    font-weight: 600;
+
+	}
+
+	/*.ma-user-setup .usersetup-form a.btn-tip:before {
+		content: "?";
+		font-family:inherit;
+		speak: none;
+		font-style: normal;
+		font-weight: 700;
+		font-variant: normal;
+		text-transform: none;
+		/* Better Font Rendering =========== * /
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		display: inline;
+		width: auto;
+		height: auto;
+		line-height: 0.5em;
+		vertical-align: baseline;
+		background-image: none;
+		background-position: 0 0;
+		background-repeat: repeat;
+		text-indent:0;
+		position:absolute;
+		width:100%;
+		top:5px;
+		left:0;
+		//color:inherit;
+		}*/

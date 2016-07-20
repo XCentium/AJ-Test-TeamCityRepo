@@ -1,0 +1,170 @@
+.configurator-page {
+  border: none;
+  width: 100%;
+  padding: 10px;
+  border: solid 1px #CCC;
+}
+
+.configurator-page legend {
+  font-size: 18px;
+  margin: 0;
+  padding: 10px 0;
+  color: #b0232a;
+  font-weight: bold;
+}
+
+.configurator-page .prev, .configurator-page .next {
+  text-decoration: none;
+}
+
+.configurator-page .prev:hover, .configurator-page .next:hover {
+  text-decoration: none;
+}
+
+.configurator-page .prev {
+  float: left;
+}
+
+.configurator-page .next {
+  float: right;
+}
+
+.configurator-page-wrapper {
+  padding: 5px 5px 5px 5px;
+  position: relative;
+}
+
+.configurator-page-wrapperinput[type="text"], .configurator-page-wrapper select {
+  width: 300px;
+}
+
+.configurator-option-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+  z-index: 1;
+}
+
+.configurator-option-input {
+  vertical-align: middle;
+  z-index: 2;
+}
+
+.configurator-option-label {
+  display: inline;
+  text-align: right;
+  z-index: 0;
+}
+
+.configurator-option-checkbox-wrapper {
+  display: inline;
+  padding: 0;
+  margin: 0;
+}
+
+.configurator-option-sub-configuration-part {
+  border-color: #924949;
+  border-style: groove;
+  border-width: 2px;
+  height: 100px;
+  width: 100%;
+}
+
+.configurator-option-rectangle {
+  border: 1px solid black;
+  z-index: -2;
+}
+
+/* Summary */
+.configurator-summary-column {
+  float: left;
+  width: 48%;
+  margin-right: 2%;
+}
+
+.configurator-summary-column h2 {
+  margin-top: 0;
+  font-weight: bold;
+  color: #666666;
+}
+
+.configurator-summary-table-wrapper {
+  border: 3px solid #d7d8da;
+  padding: 5px;
+  overflow: hidden;
+}
+
+.configurator-summary-table {
+  width: 100%;
+  font-size: 14px;
+}
+
+.configurator-summary-table tr {
+  border-bottom: 2px solid #fff;
+}
+
+.configurator-summary-table th, .configurator-summary-table td {
+  padding: 4px;
+}
+
+.summary-table th {
+  font-weight: bold;
+  background: #dcdfe4;
+  width: 45%;
+}
+
+.summary-table td {
+  background: #edeff1;
+}
+
+/*Validation Styles */
+.configurator-page .input-validation-error {
+  border: 1px solid #ff0000 !important;
+}
+
+.configurator-page div.message {
+  background: transparent url(msg_arrow.gif) no-repeat scroll left center;
+  padding-left: 7px;
+}
+
+.configurator-page div.error {
+  background-color: #F3E6E6;
+  border-color: #924949;
+  border-style: solid solid solid none;
+  border-width: 2px;
+  padding: 5px;
+}
+
+.configurator-page label.error {
+  background-position: left center;
+  border: solid 1px red;
+  background-repeat: no-repeat;
+  border-radius: 4px 4px 4px 4px;
+  color: #000;
+  margin-left: 2px;
+  padding: 2px 2px 2px 18px;
+}
+
+.configurator-page .validity-summary-container {
+  display: none;
+  border: solid 1px red;
+  padding: 5px 5px 5px 5px;
+  color: red;
+}
+
+.configurator-page .validity-summary-output ul {
+  font-weight: bold;
+}
+
+.configurator-page .validity-erroneous {
+  border: solid 2px #f56600 !important;
+}
+
+.configurator-buttons, .configurator-summary-buttons {
+  margin-top: 20px;
+}
+
+.configurator-summary-description {
+  margin-bottom: 20px;
+}
+
+/*# sourceMappingURL=configurator.css.map */

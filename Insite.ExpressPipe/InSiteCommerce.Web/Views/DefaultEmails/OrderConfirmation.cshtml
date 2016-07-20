@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Order Confirmation</title>
+    <style>
+        /* Reset all elements to help ensure cross-browser consistency */
+        body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td { margin: 0; padding: 0; }
+        table { border-collapse: collapse; border-spacing: 0; }
+        fieldset, img { border: 0; }
+        address, caption, cite, code, dfn, em, strong, th, var { font-style: normal; font-weight: normal; }
+        ol, ul { list-style: none; }
+        caption, th { text-align: left; }
+        h1, h2, h3, h4, h5, h6 { font-size: 100%; font-weight: normal; }
+        q:before, q:after { content: ''; }
+        abbr, acronym { border: 0; }
+        body { font: 12px Arial, Helvetica, sans-serif; }
+        a:link, a:visited, a:active { color: #666; text-decoration: none; }
+        a:hover, a:focus { color: #000; }
+        h1 { font-size: 18px; padding: 12px 0; }
+        h2 { font-size: 14px; padding: 8px 0; font-weight: bold; }
+        h4 { font-weight: bold; padding: 8px 0; }
+
+        .email-wrapper { width: 95%; margin: 20px auto 0 auto; }
+        .order-info { margin-top: 20px; }
+            .order-info table td { padding: 2px 4px; }
+
+        .bill-ship { float: left; width: 25%; }
+        .ship { margin-left: 20px; }
+        .ship-via { font-weight: bold; }
+        .items { margin-top: 20px; }
+        .subtotal { *display: inline; float: right; clear: right; width: 30%; margin-top: 10px; }
+            .subtotal table { width: 100%; }
+                .subtotal table td { padding: 2px 4px; white-space: nowrap; }
+
+        .rp-totals-lft { width: 120px; text-align: left; }
+        .address-tbl th { vertical-align: middle; }
+        .order-subtotal { font-size: 12px; font-weight: bold; }
+        .order-total { font-size: 16px; font-weight: bold; }
+        .billing-info { margin-top: 15px; border-top: 5px solid #e5e5e5; padding-top: 10px; }
+
+        .info-tbl { width: 80%; }
+            .info-tbl td { padding: 6px 2px; white-space: nowrap; }
+            .info-tbl th { padding: 3px 2px; white-space: nowrap; }
+            .info-tbl th { font-weight: bold; border-bottom: 1px solid #000; }
+            .info-tbl .item { width: 15%; text-align: left; }
+            .info-tbl .description { width: 45%; text-align: left; }
+            .info-tbl .qty { text-align: left; width: 10%; }
+            .info-tbl .cost { width: 15%; text-align: right; }
+            .info-tbl .extended { width: 15%; text-align: right; }
+
+        .order-notes { clear: both; margin-top: 20px; padding-bottom: 20px; width: 45%; }
+    </style>
+</head>
+<body>
+    <div class="email-wrapper">
+        <div class="order-info">
+            <table border="0" cellspacing="0">
+                <tr>
+                    <td class="order-conf-label"><h4>Order Confirmation</h4></td>
+                    <td class="order-conf-number">@Model.OrderNumber</td>
+                </tr>
+                @if (!string.IsNullOrEmpty(Model.CustomerPO))
+                {
+                    <tr>
+                        <td class="po-label"><h4>PO Number</h4></td>
+                        <td class="po-number">@Model.CustomerPO</td>
+                    </tr>
+                }
+                <tr>
+                    <td class="order-date-label"><h4>Order Date</h4></td>
+                    <td class="order-date">@Model.OrderDate</td>
+                </tr>
+            </table>
+        </div>
+        <div class="body-copy">
+            <div class="items">
+                <h4>Order Items</h4>
+                <table border="0" cellpadding="0" cellspacing="5" width="500" id="orderSummary" class="info-tbl">
+                    <tr>
+                        <th class="left"><b>Name</b></th>
+                        <th class="left"><b>Description</b></th>
+                        <th class="center"><b>Qty</b></th>
+                        <th class="right"><b>Unit Cost</b></th>
+                        <th class="right"><b>Extended Cost</b></th>
+                    </tr>
+                    @foreach (var orderLine in Model.OrderLines)
+                    {
+                        <tr>
+                            <td class="left">@orderLine.ProductName<br /></td>
+                            <td class="left">@orderLine.Description</td>
+                            <td class="center">@orderLine.QtyOrdered.ToString("N0")</td>
+                            <td class="right">@orderLine.ActualPriceDisplay</td>
+                            <td class="right">@orderLine.ExtendedActualPriceDisplay</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div class="billing-info">
+                <div class="bill-ship bill">
+                    <table cellspacing="0">
+                        <tr>
+                            <th><h4>Billing Information</h4></th>
+                        </tr>
+                        <tr>
+                            <td>@Model.BTDisplayName</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @if (!string.IsNullOrEmpty(Model.BTAddress1.Trim())) { @Model.BTAddress1 <br/> }
+                                @if (!string.IsNullOrEmpty(Model.BTAddress2.Trim())) { @Model.BTAddress2 <br/> }
+                                @if (!string.IsNullOrEmpty(Model.BTAddress3.Trim())) { @Model.BTAddress3 <br/> }
+                                @Model.BTCity, @Model.BTState @Model.BTPostalCode
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="bill-ship ship">
+                    <table cellspacing="0">
+                        <tr>
+                            <th><h4>Shipping Information</h4></th>
+                        </tr>
+                        <tr>
+                            <td>@Model.STDisplayName</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @if (!string.IsNullOrEmpty(Model.STAddress1.Trim())) { @Model.STAddress1 <br/> }
+                                @if (!string.IsNullOrEmpty(Model.STAddress2.Trim())) { @Model.STAddress2 <br/> }
+                                @if (!string.IsNullOrEmpty(Model.STAddress3.Trim())) { @Model.STAddress3 <br/> }
+                                @Model.STCity, @Model.STState @Model.STPostalCode
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="ship-via">Order Shipping Via: @Model.ShipMethod</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="subtotal">
+                    <table border="0" cellpadding="0" cellspacing="5" style="margin-left:12px">
+                        <tr>
+                            <td colspan="3">&nbsp;</td>
+                        </tr>
+                        @helper SummaryRow(string label, string value, string color)
+                        {
+                            <tr>
+                                <td style="color: grey; font-weight: bold; white-space: nowrap;">@label&nbsp;</td>
+                                <td width="50%">&nbsp;</td>
+				                <td style="color: @color; font-weight: bold; white-space: nowrap; text-align: right;">@value</td>
+				            </tr>
+                        }
+                        @SummaryRow("Order Sub Total", Model.OrderSubTotalDisplay, "grey")
+                        @if (Model.PromotionProductDiscountTotal > 0)
+                        {
+                            @SummaryRow("Product Discounts Applied", Model.PromotionProductDiscountTotalDisplay, "#A5222B")
+                        }
+                        @if (Model.PromotionOrderDiscountTotal > 0)
+                        {
+                            @SummaryRow("Order Discounts Applied", Model.PromotionProductDiscountTotalDisplay, "#A5222B")
+                        }
+                        @SummaryRow("Shipping Amount", Model.FullShippingChargeDisplay, "grey")
+                        @if (Model.Handling > 0)
+                        {
+                            @SummaryRow("Handling Amount", Model.HandlingDisplay, "grey")
+                        }
+                        @if (Model.PromotionShippingDiscountTotal > 0)
+                        {
+                            @SummaryRow("Shipping Discounts Applied", Model.PromotionShippingDiscountTotalDisplay, "#A5222B")
+                        }
+                        @SummaryRow("Sales Tax", Model.TotalTaxDisplay, "grey")
+                        @if (Model.CreditCardWillBeCharged)
+                        {
+                            <tr>
+                                <td class="black label" colspan="2">
+                                          <span style="font-size: 9px; height: 14px; white-space: nowrap;">THIS AMOUNT WILL BE CHARGED TO YOUR CREDIT CARD</span>
+                                      </td>
+                                <td>&nbsp;</td>
+                            </tr>
+                        }
+                		@SummaryRow("Order Total", Model.OrderGrandTotalDisplay, "grey")
+			            @if (Model.GiftCardTotal > 0)
+			            {
+                            @SummaryRow("Less Gift Certificates", Model.GiftCardTotalDisplay, "#A5222B")
+			            }
+                        @SummaryRow("Total Due", Model.OrderTotalDueDisplay, "grey")
+                    </table>
+                </div>
+                <div class="order-notes">
+                    <p>
+                        @if (!string.IsNullOrEmpty(Model.Notes))
+                        {
+                            <h4>Order Notes</h4>
+                            <div style="white-space: pre-line">
+                                @Model.Notes
+                            </div>
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

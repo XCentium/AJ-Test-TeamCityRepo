@@ -1,0 +1,10 @@
+﻿@using Insite.Admin.DataTypeValidators
+@model Insite.Admin.Models.ControlTypeViewModel<Insite.Admin.ControlTypes.DropDownControl>
+
+@{
+    var source = Model.ControlType.TimeZoneList
+        ? string.Join("||", TimeZoneInfo.GetSystemTimeZones().Select(o => new { timeZone = o.DisplayName + "|" + o.Id }).Select(o => o.timeZone).ToArray())
+        : string.Join("||", (Model.DataTypeValidator as StringValidator).MultiValueList.Split(',').Select(o => o.Trim()).Where(o => !o.IsBlank()).ToArray());
+}
+
+<isa-standard-display list-options="@source" entity-id="{{@(Model.ListPageModelBinding)}}"></isa-standard-display>

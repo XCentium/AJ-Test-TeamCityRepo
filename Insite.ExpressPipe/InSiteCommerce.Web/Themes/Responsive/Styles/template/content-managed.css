@@ -1,0 +1,24 @@
+@media all and (min-width: 1000px) {
+  .main-row > div.right.columns {
+    width: 72%;
+  }
+}
+@media all and (min-width: 768px) {
+  .cm1-wrap {
+    float: right;
+    width: 62% !important;
+  }
+}
+@media all and (min-width: 888px) {
+  .cm1-wrap {
+    float: right;
+    width: 71% !important;
+  }
+}
+@media all and (min-width: 768px) {
+  .content-managed-1 [data-section-content] {
+    display: block !important;
+  }
+}
+
+/*# sourceMappingURL=content-managed.css.map */

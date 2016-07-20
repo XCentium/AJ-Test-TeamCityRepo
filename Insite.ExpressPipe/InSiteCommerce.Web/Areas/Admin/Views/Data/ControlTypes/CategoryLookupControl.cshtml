@@ -1,0 +1,23 @@
+﻿@using Insite.Admin.Models
+@model Insite.Admin.Models.ControlTypeViewModel<Insite.Admin.ControlTypes.CategoryLookupControl>
+
+@if (Model.PropertyDefinition.CanEdit)
+{
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<text>
+                           <isa-category-lookup entity-id="@(Model.EditPageModelBinding)"
+                                                website-id="entityDetailsCtrl.model.websiteId"
+                                                disallowed-category-id="entityDetailsCtrl.model.id"></isa-category-lookup>
+                        </text>
+    })
+}
+else
+{
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<div class="readonly"><isa-lookup-display pluralized-entity-name="categories" entity-id="{{@(Model.EditPageModelBinding)}}"></isa-lookup-display></div>
+    })
+}

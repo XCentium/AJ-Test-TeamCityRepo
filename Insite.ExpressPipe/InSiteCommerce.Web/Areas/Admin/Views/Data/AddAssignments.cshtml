@@ -1,0 +1,38 @@
+﻿@using Insite.Admin.Models
+@model Insite.Admin.Models.AssignmentsViewModel
+
+<div class="modal--large grid-modal" zf-modal overlay-close="false" id="addAssignments-@(Model.CollectionName)-modal">
+    <isa-add-assignments@(Model.CustomDirectivePostfix)
+                         pluralized-parent-entity-name="@Model.PluralizedParentEntityName" 
+                         parent-entity-id="{{::entityListCtrl.parentEntityId}}"
+                         collection-name="@Model.CollectionName"
+                         pluralized-entity-name="@Model.EntityDefinition.PluralizedName"
+                         parent-model="entityListCtrl.parentModel" 
+                         filter="@Model.Filter"
+                         page-size="@Model.PageSize"
+                         properties-to-select="@Model.PropertiesToSelect" 
+                         related-collection-name="@Model.RelatedCollectionName"
+                         default-sort="@Model.Form.DefaultSortProperty" 
+                         default-sort-ascending="@Model.Form.DefaultSortIsAscending"></isa-add-assignments@(Model.CustomDirectivePostfix)>
+</div>
+
+<script type="text/ng-template" id="addAssignments-@Model.CollectionName">
+    <div ng-if="entityListCtrl.displayList">
+        @Html.Partial("EntityList", new EntityListModel
+           {
+               OverriddenInstructionalText = Model.AssignmentDefinition.InstructionalText,
+               EntitiesViewModel = Model,
+               Buttons =@<text>
+                    <span class="right">
+                        <a class="button secondary" ng-click="entityListCtrl.close()">Done</a>
+                        <span ng-if="entityListCtrl.areNoneSelected()">
+                            <a class="button" disabled>Assign</a>
+                        </span>
+                        <span ng-if="!entityListCtrl.areNoneSelected()">
+                            <a class="button" ng-click="entityListCtrl.assignSelected()">Assign</a>
+                        </span>
+                    </span>
+            </text>
+           })
+    </div>
+</script>

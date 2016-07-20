@@ -1,0 +1,68 @@
+﻿@using Insite.Admin.DataTypeValidators
+@model Insite.Admin.Models.FormControlContainerModel
+
+<div class="grid-block form-control">
+    <div class="medium-3 grid-block">
+        @if (Model.LabelContent != null)
+        {
+            @Model.LabelContent(null)
+        }
+        else if (Model.ControlTypeViewModel != null)
+        {
+            <label for="@Model.ControlTypeViewModel.Id">@Model.ControlTypeViewModel.Label @Html.Partial("RequiredLabel", Model.ControlTypeViewModel)</label>
+        }
+    </div>
+    <div class="medium-9 grid-block vertical @(!string.IsNullOrEmpty(Model.ControlTypeViewModel?.Label) || Model.LabelContent != null ? "form-control__control-padding" : string.Empty)">
+        <div>
+            <div class="grid-block noscroll form-control-content">
+                @Model.FieldContent(null)
+
+                @* TODO ETC-461 I don't think we want to show this icon when the field is readonly. Maybe we wil want to show a disabled version of the icon, but I think for now we should remove it*@
+                @if (Model.ControlTypeViewModel != null)
+                {
+                    if (Model.ControlTypeViewModel.PropertyDefinition.IsTranslatable && Model.ControlTypeViewModel.ShowEditTranslation && Model.ControlTypeViewModel.PropertyDefinition.CanEdit)
+                    {
+                        <a href="javascript:void(0)" class="button button-icon" ng-click="@(Model.ControlTypeViewModel.AngularControllerName).editTranslation(@Model.ControlTypeViewModel.EditPageModelBinding, '@Model.ControlTypeViewModel.Name', '@Model.ControlTypeViewModel.Label')">
+                            <i class="icon icon-translate" title="translate"></i>
+                        </a>
+                    }
+                    if (!Model.ControlTypeViewModel.PropertyDefinition.ToolTip.IsEmpty())
+                    {
+                        <a href="javascript:void(0)"
+                           class="button button-icon"
+                           isa-tool-tip
+                           content="@Model.ControlTypeViewModel.PropertyDefinition.ToolTip"
+                           position="top center"
+                           offset="0 -2px">
+                            <i class="icon icon-help"></i>
+                        </a>
+                    }
+                }
+            </div>
+        </div>
+
+        @if (Model.ControlTypeViewModel != null)
+        {
+            <div class="error-messages"
+                 ng-messages="@(Model.ControlTypeViewModel.AngularControllerName).form.@(Model.ControlTypeViewModel.Id).$error"
+                 ng-show="@(Model.ControlTypeViewModel.AngularControllerName).form.@(Model.ControlTypeViewModel.Id).$touched">
+                @{ var label = !Model.ControlTypeViewModel.Label.IsBlank() ? Model.ControlTypeViewModel.Label : "Field"; }
+                <span ng-message="required"><i class="icon icon-warning"></i> @(label) must have a value!</span>
+                <span ng-message="min"><i class="icon icon-warning"></i> @(label) is too low!</span>
+                <span ng-message="minlength"><i class="icon icon-warning"></i> @(label) is not long enough!</span>
+                <span ng-message="max"><i class="icon icon-warning"></i> @(label) is too high!</span>
+                <span ng-message="maxlength"><i class="icon icon-warning"></i> @(label) is too long!</span>
+                <span ng-message="pattern"><i class="icon icon-warning"></i> @(label) is not valid! @(Model.ControlTypeViewModel.DataTypeValidator != null ? Model.ControlTypeViewModel.DataTypeValidator.GetPatternErrorMessage() : "")</span>
+                <span ng-message="number"><i class="icon icon-warning"></i> @(label) is not valid!</span>
+                <span ng-message="imagePathValidator"><i class="icon icon-warning"></i> Image cannot be located, please verify image path.</span>
+                @{ var entityLabel = Model.ControlTypeViewModel.PropertyDefinition != null ? Model.ControlTypeViewModel.PropertyDefinition.EntityDefinition.Label : ""; }
+                <span ng-message="duplicateRecordField"><i class="icon icon-warning"></i> @(entityLabel) record with this value already exists.</span>
+            </div>
+        }
+
+        @if (Model.ControlTypeViewModel != null && !Model.ControlTypeViewModel.PropertyDefinition.HintText.IsBlank())
+        {
+            <div class="help-block" style="margin-bottom: 0; margin-top: 5px;">@Model.ControlTypeViewModel.PropertyDefinition.HintText</div>
+        }
+    </div>
+</div>

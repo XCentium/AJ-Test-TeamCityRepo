@@ -1,0 +1,13 @@
+﻿@using Insite.Admin.FormBuilder.Models.FormBuilder
+@model Insite.Admin.FormBuilder.Elements.TabFormElement
+
+<div isa-finger-tab-content class="vertical grid-block finger-tab-content">
+    <div ng-show="entityDetailsCtrl.instructionalText" class="title-bar">
+        <div class="instructions">
+            <span>{{entityDetailsCtrl.instructionalText}}</span>
+        </div>
+    </div>
+    <div class="vertical grid-block @Model.CssClasses form-content" ng-if="isTabActive === undefined || isTabActive">
+        @Html.Partial("Zone", ZoneViewModel.Create(Model, "Content"))
+    </div>
+</div>

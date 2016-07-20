@@ -1,0 +1,17 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Rfq.Content.RfqConfirmationView
+
+<isc-quote-confirmation-view></isc-quote-confirmation-view>
+
+<script type="text/ng-template" id="quoteConfirmation_topContent">
+        @Html.Zone(Model, "TopContent")
+</script>
+<script type="text/ng-template" id="/Directives/Cart/CartLines">
+    @Html.ThemedPartial("/Views/Directives/Cart/CartLines.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Cart/CartLineNote">
+    @Html.ThemedPartial("/Views/Directives/Cart/CartLineNote.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Rfq/QuoteConfirmationView">
+    @Html.ThemedPartial("/Views/Directives/Rfq/QuoteConfirmationView.cshtml")
+</script>

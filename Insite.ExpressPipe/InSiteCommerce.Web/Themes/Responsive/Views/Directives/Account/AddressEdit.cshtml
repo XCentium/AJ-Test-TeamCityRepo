@@ -1,0 +1,102 @@
+﻿@using Insite.Core.Providers
+<div>
+    <div class="address-first-name">
+        <isc-address-field field-label="@T("First Name")"
+                           field-name="{{prefix}}firstname"
+                           field-value="address.firstName"
+                           validation="address.validation.firstName"
+                           is-read-only="isReadOnly">
+        </isc-address-field>
+    </div>
+    <div class="address-last-name">
+        <isc-address-field field-label="@T("Last Name")"
+                           field-name="{{prefix}}lastname"
+                           field-value="address.lastName"
+                           validation="address.validation.lastName"
+                           is-read-only="isReadOnly">
+        </isc-address-field>
+    </div>
+    <div class="address-company-co">
+        <isc-address-field field-label="@T("Company or C/O")"
+                           field-name="{{prefix}}companyName"
+                           field-value="address.companyName"
+                           validation="address.validation.companyName"
+                           is-read-only="isReadOnly">
+        </isc-address-field>
+    </div>
+    <div class="address-add-1">
+        <isc-address-field field-label="@T("Address 1")"
+                           field-name="{{prefix}}address1"
+                           field-value="address.address1"
+                           validation="address.validation.address1"
+                           is-read-only="isReadOnly">
+        </isc-address-field>
+    </div>
+    <div class="address-add-2">
+        <isc-address-field field-label="@T("Address 2")"
+                           field-name="{{prefix}}address2"
+                           field-value="address.address2"
+                           validation="address.validation.address2"
+                           is-read-only="isReadOnly">
+        </isc-address-field>
+    </div>
+    <div class="address-country">
+        @T("Country")
+        <span class="redTxt" ng-show="address.validation.country.isRequired">*</span>
+        <select id="{{prefix}}country" name="{{prefix}}country"
+                ng-disabled="address.validation.country.isDisabled || isReadOnly"
+                ng-model="address.country"
+                ng-options="country.name for country in countries"
+                data-rule-required="{{address.validation.country.isRequired}}"
+                data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("Country"))">
+            <option value="">@T("Select Country")</option>
+        </select>
+    </div>
+    <div class="address-state-prov">
+        @T("State/Province")
+        <span class="redTxt" ng-show="address.validation.state.isRequired">*</span>
+        <select id="{{prefix}}state" name="{{prefix}}state"
+                ng-disabled="address.validation.state.isDisabled || isReadOnly"
+                ng-model="address.state"
+                ng-options="state.name for state in address.country.states"
+                data-rule-required="{{address.validation.state.isRequired && address.country && address.country.states.length > 0}}"
+                data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("State"))">
+            <option value="">@T("Select State")</option>
+        </select>
+    </div>
+    <div class="address-city">
+        <isc-address-field field-label="@T("City")"
+                           field-name="{{prefix}}city"
+                           field-value="address.city"
+                           validation="address.validation.city"
+                           is-read-only="isReadOnly">
+        </isc-address-field>
+    </div>
+    <div class="address-zip-postal">
+        <isc-address-field field-label="@T("Postal Code")"
+                           field-name="{{prefix}}postalcode"
+                           field-value="address.postalCode"
+                           validation="address.validation.postalCode"
+                           is-read-only="isReadOnly">
+        </isc-address-field>
+    </div>
+    <div class="address-phone">
+        <isc-address-field field-label="@T("Phone Number")"
+                           field-name="{{prefix}}phone"
+                           field-value="address.phone"
+                           validation="address.validation.phone"
+                           is-read-only="isReadOnly"
+                           is-phone="true">
+        </isc-address-field>
+    </div>
+    <div class="address-email" ng-if="showEmail === 'true'">
+        <isc-address-field field-label="@T("Email Address")"
+                           field-name="{{prefix}}email"
+                           field-value="address.email"
+                           validation="address.validation.email"
+                           is-read-only="isReadOnly"
+                           is-email="true">
+        </isc-address-field>
+        <div class="addy-note">@T("Order information will be sent here.")</div>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+﻿@using System
+@using Insite.WebFramework.Mvc.Extensions
+@model Insite.ContentAdmin.Models.ContentItems.EditViewModel
+@{
+    Layout = "/Areas/ContentAdmin/Views/Shared/_SlidePanelLayout.cshtml";
+}
+
+@section ClassName { cms-editVariant }
+@section Header { Edit @Model.ContentItemModel.DisplayName() }
+
+@*TODO CMS 3.7.1 we are duplicated this a lot now, can we use a partial?*@
+@if (Model.FuturePublishDate.HasValue)
+{
+    <p>This page is set up to publish on @Model.FuturePublishDate.Value.LocalDateTime.ToShortDateString() at @Model.FuturePublishDate.Value.LocalDateTime.ToShortTimeString(). 
+    That future publish date must be cleared before the page may be modified.</p>
+    <div class="buttonArea">
+        <button class="cms-close cms-button" type="button">Cancel</button>
+    </div>
+}
+else
+{
+    using (Html.BeginForm(new { Model.ContentItemModel.ContentKey }))
+    {
+        <fieldset>
+            @if (Model.ContentItemModel.IsPage)
+            {
+                <div class="cms-generalField">
+                    <label for="Name">Name</label>
+                    <span data-valmsg-replace="true" data-valmsg-for="Name"></span>
+                    <input id="Name" type="text" name="Name" value="@Model.ContentItemModel.Name" data-val="true" data-val-required="Value is required" @(Model.ContentItemModel.Name.IsBlank() ? "" : "disabled='disabled'") />
+                </div>
+            }
+
+            @Html.Partial("ContentVariantFields", Model.ContentItemModel)
+
+             <div class="validationWrap">
+                 <label for="Template">Template <a class="cms-unlockTemplate" href="#">unlock</a></label>
+                 @Html.ValidationMessage("Template")
+                 @Html.DropDownList("Template", Model.ContentItemTemplates, "Select Template", new { @class = "cms-templateSelect", disabled = "disabled" })
+             </div>
+             @Html.ValidationSummary()
+             <div class="buttonArea">
+                 <button class="cms-button cms-close">Cancel</button>
+                 <button name="PublishNow" value="False" class="cms-button cms-actionButton" type="submit">Save</button>
+             </div>
+         </fieldset>
+     }
+    <script>
+        $(".cms-unlockTemplate").click(function (e) {
+            e.preventDefault();
+            $(this).hide();
+            $(".cms-templateSelect").trigger("enable.fs");
+        })
+    </script>
+    @Html.RenderDeferredScripts()
+}

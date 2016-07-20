@@ -1,0 +1,78 @@
+﻿@using Insite.Rfq.Content
+<div ng-cloak>
+    <h1 id="rfqQuoteActionHeader" ng-bind="!vm.isSalesRep ? '@T("Request a Quote")' : '@T("Create a Quote")'"></h1>
+    <div id="quote-content">
+        <div class="row" ng-show="vm.cart.cartLines !== null && vm.cart.cartLines.length > 0">
+            <form novalidate id="submitQuoteForm">
+
+                
+                <div class="panel">
+                    <div class="row">
+                        <div class="medium-1 columns">
+                            <label>@T("PO Number")</label>
+                        </div>
+                        <div class="medium-5 columns end">
+                            <input type="text" id="requestQuotePoNum" ng-model="vm.poNumber" maxlength="50" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="medium-1 columns">
+                            <label>@T("Notes")</label>
+                        </div>
+                        <div class="medium-6 columns end">
+                            <textarea id="requestQuoteViewNotesTextArea" rows="5" cols="45" ng-model="vm.notes"></textarea>
+                        </div>
+                    </div>
+                </div>
+                
+
+				<div class="row">
+
+					<div class="medium-9 large-9 column">
+						
+                        <div class="row">
+                            <div class="small-12 column medium-text-right">
+                                <ul class="inline-list hide-for-print">
+                                    <li><a href="javascript: window.print();"><i class="fa fa-print"></i> Print</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+						<div class="cart-grid">
+							<morsco-quote-cart-lines cart="vm.cart" include-quote-required="true" warehouses="vm.warehouses" editable="false" id="cart-grid" class="item-list cart-items"></morsco-quote-cart-lines>
+						</div>
+						
+					</div>
+
+					<div class="medium-3 column">
+						
+							<div class="summary">
+								
+								<header class="summary-header">
+									@T("Quote Summary")
+								</header>
+
+								<div class="summary-content">
+                                    <div class="summary-primary-cta">
+                                        <button id="requestQuoteViewSubmitQuoteButton" ng-disabled="vm.disableSubmit"
+                                                type="button" class="button expand"
+                                                ng-click="vm.submitQuote('@(Url.ContentPage<RfqQuoteDetailsPage>())')">
+                                            Confirm Quote Request
+                                        </button>
+                                    </div>
+								</div>
+								
+							</div>
+						
+					</div>
+                </div>
+                <isc-morsco-availability-popup> </isc-morsco-availability-popup>
+            </form>
+        </div>
+    
+    </div>
+
+    <isc-morsco-availability-popup> </isc-morsco-availability-popup>
+
+    <isc-morsco-availability-shipping-tax-content></isc-morsco-availability-shipping-tax-content>
+</div>

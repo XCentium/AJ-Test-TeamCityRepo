@@ -1,0 +1,91 @@
+﻿@using System
+@using Insite.WebFramework.Mvc.Extensions
+@model EditContentFieldModel<ListContentFieldAttribute>
+
+<div class="cms-listEditor list-@Model.FieldName">
+    <label for="@Model.FieldName">
+        @Model.DisplayName
+        @if (Model.ContentFieldAttribute.IsRequired)
+        {
+            <span class="required">(required)</span>
+        }
+        @Html.Partial("ContentItemFields/_ContextDisplay", Model.ContentItemFieldModel)
+    </label>
+    <ul>
+        @helper Row(string value, int x)
+        {
+            <li>
+                <input id="@Model.FieldName" type="text" name="@(Model.FieldName)[@x]" value="@value"
+                    @if (Model.ContentFieldAttribute.IsRequired || !Model.ContentFieldAttribute.RegExValidation.IsBlank()) { <text> data-val="true" </text> }
+                    @if (Model.ContentFieldAttribute.IsRequired) { <text> data-val-required="Value is required" </text> }
+                    @if (!Model.ContentFieldAttribute.RegExValidation.IsBlank()) { <text> data-val-regex="@Model.ContentFieldAttribute.InvalidRegExMessage" data-val-regex-pattern="@Html.Raw(Model.ContentFieldAttribute.RegExValidation)" </text>  } 
+                    />
+                <button class="cms-button cms-moveUp" type="button">Move Up</button>
+                <button class="cms-button cms-moveDown" type="button">Move Down</button>
+                <button class="cms-button cms-remove" type="button">Remove</button>
+                <span data-valmsg-replace="true" data-valmsg-for="@(Model.FieldName)[@x]"></span>
+            </li>
+        }
+
+        @{
+            var values = Model.GetValue<IList<string>>();
+        }
+        @for (var x = 0; x < values.Count(); x++)
+        {
+            @Row(values[x], x)
+        }
+        @if (!values.Any())
+        {
+            @Row("", 0)
+        }
+        <li class="cms-buttonRow"><button class="cms-button cms-btn-secondary cms-add" type="button">Add</button></li>
+    </ul>
+    
+</div>
+
+@Html.Script(@<script>
+                  (function($) {
+                      var $list = $(".list-@Model.FieldName");
+                      var fixRows = function() {
+                          var $rows = $list.find("li:not(.cms-buttonRow)");
+                          $rows.find("button").css("visibility", "visible");
+                          $rows.filter(":first").find(".cms-moveUp").css("visibility", "hidden");
+                          $rows.filter(":last").find(".cms-moveDown").css("visibility", "hidden");
+                          if ($rows.length <= 1) {
+                              $rows.find(".cms-remove").css("visibility", "hidden");
+                          }
+                          $rows.each(function(index) {
+                              var $row = $(this);
+                              $row.find("input[type=text]").attr("name", "@(Model.FieldName)[" + index + "]");
+                              $row.find("span").attr("data-valmsg-for", "@(Model.FieldName)[" + index + "]");
+                          });
+
+                          insite.contentAdmin.setupFormValidation($list.closest("form"));
+                      };
+                      fixRows();
+                      $list.on("click", ".cms-moveUp", function(e) {
+                          e.preventDefault();
+                          var $row = $(this).parents("li:first");
+                          $row.insertBefore($row.prev());
+                          fixRows();
+                      });
+                      $list.on("click", ".cms-moveDown", function (e) {
+                          e.preventDefault();
+                          var $row = $(this).parents("li:first");
+                          $row.insertAfter($row.next());
+                          fixRows();
+                      });
+                      $list.on("click", ".cms-remove", function(e) {
+                          e.preventDefault();
+                          $(this).parents("li:first").remove();
+                          fixRows();
+                      });
+                      $list.on("click", ".cms-add", function (e) {
+                          e.preventDefault();
+                          var $clone = $list.find("ul li:first").clone();
+                          $clone.find("input[type=text]").val("");
+                          $list.find("ul li.cms-buttonRow").before($clone);
+                          fixRows();
+                      });
+                  })(jQuery);
+              </script>)

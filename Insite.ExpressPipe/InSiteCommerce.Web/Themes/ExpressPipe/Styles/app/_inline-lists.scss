@@ -1,0 +1,46 @@
+﻿ul.inline-list,
+ul.list-horizontal {
+    margin-left: 0;
+    list-style: none;
+
+    > li {
+        display: inline-block;
+        float: none;
+        margin-right: rem-calc(20);
+        margin-left: 0;
+        vertical-align: top;
+
+        &:last-child {
+            margin-right: 0;
+        }
+
+        input {
+            display: inline-block;
+        }
+    }
+}
+
+ul.documents {
+    @extend .inline-list;
+    margin-top: $margin-single;
+
+    font-size: 1.5rem;
+
+    li {
+        text-align: center;
+    }
+}
+
+dl.inline-data-list {
+    dt,
+    dd {
+        display: inline-block;
+        width: 49%;
+        margin-bottom: 0;
+        vertical-align: top;
+    }
+}
+
+.status-filter {
+    margin-bottom: 0;
+}

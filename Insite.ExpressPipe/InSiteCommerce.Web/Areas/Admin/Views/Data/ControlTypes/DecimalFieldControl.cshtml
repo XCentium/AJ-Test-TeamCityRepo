@@ -1,0 +1,39 @@
+﻿@using Insite.Admin.DataTypeValidators
+@using Insite.Admin.Models
+@model Insite.Admin.Models.ControlTypeViewModel<Insite.Admin.ControlTypes.DecimalFieldControl>
+@{
+    var validator = Model.DataTypeValidator as DecimalValidator;
+    if (validator == null)
+    {
+        throw new ArgumentException("DecimalFieldControl used for a non-decimal property.");
+    }
+}
+@if (Model.PropertyDefinition.CanEdit)
+{
+    var maxValue = validator != null ? validator.MaxValue : null;
+    var minValue = validator != null ? validator.MinValue : null;
+    var required = Model.PropertyDefinition.IsRequired;
+    var integralPart = validator.Precision >= 0 ? validator.DecimalPlaces >= 0 ? validator.Precision - validator.DecimalPlaces : validator.Precision : 28; //28 max decimal length
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<input type="number" string-to-decimal
+                               id="@Model.Id"
+                               name="@Model.Id"
+                               ng-model="@Model.EditPageModelBinding"
+                               pattern="-?\d@("{0," + integralPart + "}")([\.|,]\d@(validator.DecimalPlaces >= 0 ? "{0," + validator.DecimalPlaces + "}" : "*"))?"
+                               step="any"
+                               class="@Model.ControlType.DisplayWidth.ToString().ToLower() decimal-field-control"
+                               @(required ? "required" : "")
+                               @(maxValue != null ? "max=" + maxValue : "")
+                               @(minValue != null ? "min=" + minValue : "") />
+    })
+}
+else
+{
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<div class="readonly">{{::@Model.EditPageModelBinding | number @(validator.DecimalPlaces >= 0 ? string.Format(": {0}", validator.DecimalPlaces) : "")}}</div>
+    })
+}

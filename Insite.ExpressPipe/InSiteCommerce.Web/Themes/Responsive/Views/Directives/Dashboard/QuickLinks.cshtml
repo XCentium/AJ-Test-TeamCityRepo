@@ -1,0 +1,8 @@
+﻿<ul class="quick-links">
+    <li class="ql-head">
+        <h3>@T("Quick Links")</h3>
+    </li>
+    <li ng-repeat="quickLink in vm.quickLinks | orderBy:'quickLinkOrder'">
+        <a id="quickLinksLink_{{$index}}" href="{{quickLink.url}}">{{quickLink.quickLinkText}}</a>
+    </li>
+</ul>

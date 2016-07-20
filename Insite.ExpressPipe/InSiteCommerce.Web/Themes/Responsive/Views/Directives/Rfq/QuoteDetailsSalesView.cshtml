@@ -1,0 +1,130 @@
+﻿@using Insite.Core.Providers
+@using Insite.Rfq.Content
+
+<div>
+    <isc-quote-detail-header quote="vm.quote"></isc-quote-detail-header>
+
+    <div class="row quoted-items">
+        <div class="medium-12 large-12 columns">
+            <div class="btns btns-top">
+                <span ng-show="vm.quote.isEditable">
+                    <a id="quoteDetailsSalesViewQuoteAllButton" href="javascript:;" class="btn secondary btn-quote-all" data-reveal-id="orderCalculator" role="button"><i class="icon-calculator"></i>@T("Quote All")</a>
+                    <div id="orderCalculator" class="reveal-modal popup-quote-all" data-reveal data-reveal-init>
+                        <div class="modal-wrap">
+                            <p id="quoteOrderHeaderText" class="messaging">@MessageProvider.Current.Rfq_QuoteOrderHeader</p>
+                            <form novalidate id="rfqApplyOrderQuoteForm">
+                                <div class="row calc-disc">
+                                    <div class="small-7 columns col-1">
+                                        <select id="quoteDetailsSalesViewCalculationMethodSelector" ng-model="vm.calculationMethod" ng-change="vm.changeCalculationMethod()" ng-options="method.displayName for method in vm.quote.calculationMethods track by method.name"></select>
+                                    </div>
+                                    <div class="small-5 columns col-2">
+                                        <input id="quoteDetailsSalesViewPercentInput"
+                                               type="text" class="numerictextbox isc-percent" autofocus="autofocus"
+                                               ng-model="vm.percent"
+                                               name="percent"
+                                               data-rule-required="true"
+                                               data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("Percent"))"
+                                               data-rule-max="{{vm.maximumDiscount > 0 ? (vm.maximumDiscount * 1) : 'false'}}"
+                                               data-msg-max="@MessageProvider.Current.Rfq_InvalidPrice"
+                                               data-rule-min="{{vm.calculationMethod.minimumMargin}}"
+                                               data-msg-min="@MessageProvider.Current.Rfq_InvalidPrice" />
+                                        <span>%</span>
+                                    </div>
+                                    <!--span class=" field-validation-valid" data-valmsg-for="percent" data-valmsg-replace="true"></span-->
+                                </div>
+                                <div class="btns">
+                                    <button id="quoteDetailsSalesViewApplyQuoteButton" ng-click="vm.applyQuote()" class="btn primary btn-apply-quote isc-applyToOrder" type="button">@T("Apply Quote")</button>
+                                    <button id="quoteDetailsSalesViewCancelButton" ng-click="vm.closeModal('#orderCalculator')" class="btn secondary btn-cancel isc-cancelOrderQuote" type="button">@T("Cancel")</button>
+                                </div>
+                                
+                                <div id="rfqApplyOrderQuoteFormError" class="validation-summary-errors" style="display: none">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </span>
+            </div>
+            <table class="info-tbl">
+                <thead>
+                    <tr>
+                        <th class="col-item">@T("Item")</th>
+                        <th class="col-qtyreq">@T("QTY Req.")</th>
+                        <th class="col-um">@T("U/M")</th>
+                        <th class="col-qty">@T("QTY")</th>
+                        <th class="col-price">@T("Price")</th>
+                        <th ng-show="vm.quote.isEditable" class="col-quote"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-orderlineid="quoteLine.id" ng-repeat="quoteLine in vm.quote.quoteLineCollection">
+                        <td class="col-item">
+                            <div class="item-name">
+                                <a id="quoteDetailsSalesViewProductUriLink_{{quoteLine.id}}" ng-href="{{quoteLine.productUri}}">
+                                    <span id="{{'quoteLineNameDescription_' + $index}}" ng-bind="quoteLine.shortDescription"></span>
+                                    <span ng-if="!quoteLine.isFixedConfiguration" ng-repeat="sectionOption in quoteLine.sectionOptions">
+                                        <br /> <span id="{{'quoteLineNameSectionOptionNames_' + $index}}" ng-bind="sectionOption.sectionName + ':' + sectionOption.optionName"></span>
+                                    </span>
+                                </a>
+                            </div>
+                            <isc-product-name product="quoteLine" no-link="true"></isc-product-name>
+                            <div ng-show="quoteLine.notes" class="item-notes">
+                                <strong>@T("Customer Note"):</strong> <span id="{{'quoteLineCustomerNotes_' + $index}}" ng-bind="quoteLine.notes"></span>
+                            </div>
+                        </td>
+                        <td class="col-qtyreq"><strong class="show-for-small">@T("QTY Requested"):</strong><span id="{{'quoteLineQtyRequested_' + $index}}" ng-bind="quoteLine.qtyOrdered"></span></td>
+                        <td class="col-um"><strong class="show-for-small">@T("U/M"):</strong><span id="{{'quoteLineUM_' + $index}}" ng-bind="quoteLine.unitOfMeasure"></span></td>
+
+                        <!--Break Quantities-->
+                        <td class="col-qty">
+                            <span ng-show="!vm.quote.isJobQuote && quoteLine.pricing" ng-repeat="breakPrice in quoteLine.pricing.actualBreakPrices">
+                                <strong ng-if="$first" class="show-for-small">@T("QTY")</strong>
+                                <isc-no-element id="{{'quoteLine_' + $parent.$index + '_pricingBreakQty_' + $index}}" ng-bind="breakPrice.breakQty"></isc-no-element>
+                                <isc-no-element ng-if="!$last" ng-bind="' - ' + (quoteLine.pricing.actualBreakPrices[($index+1)].breakQty-1)"></isc-no-element>
+                                <isc-no-element ng-if="$last">
+                                    <isc-no-element ng-if="quoteLine.maxQty > 0" ng-bind="' - ' + quoteLine.maxQty"></isc-no-element>
+                                    <isc-no-element ng-if="!quoteLine.maxQty || quoteLine.maxQty === 0" ng-bind="'+'"></isc-no-element>
+                                </isc-no-element>
+                            </span>
+                            <span ng-show="!vm.quote.isJobQuote && quoteLine.pricing && (!quoteLine.pricing.actualBreakPrices || quoteLine.pricing.actualBreakPrices.length === 0)">
+                                <strong class="show-for-small">@T("QTY")</strong>
+                                <isc-no-element ng-bind="'1 +'"></isc-no-element>
+                            </span>
+                            <strong ng-show="vm.quote.isJobQuote">
+                                <span class="show-for-small">@T("QTY")</span>
+                                <span ng-bind="quoteLine.qtyOrdered.toString()"></span>
+                            </strong>
+                        </td>
+                        <!--Break Prices-->
+                        <td class="col-price">
+                            <span ng-show="!vm.quote.isJobQuote && quoteLine.pricing" ng-repeat="breakPrice in quoteLine.pricing.actualBreakPrices">
+                                <strong ng-if="$first" class="show-for-small">@T("Price")</strong>
+                                <isc-no-element id="{{'quoteLine_' + $parent.$index + '_breakPriceDisplay_' + $index}}" ng-bind="breakPrice.breakPriceDisplay"></isc-no-element>
+                            </span>
+                            <span ng-show="vm.quote.isJobQuote && quoteLine.pricingRfq">
+                                <strong class="show-for-small">@T("Price")</strong>
+                                <isc-no-element ng-bind="vm.getPriceForJobQuote(quoteLine.pricingRfq.priceBreaks, quoteLine.qtyOrdered)"></isc-no-element>
+                            </span>
+                            <span ng-show="quoteLine.pricing && (!quoteLine.pricing.actualBreakPrices || quoteLine.pricing.actualBreakPrices.length === 0)">
+                                <strong class="show-for-small">@T("Price")</strong>
+                                <isc-no-element id="{{'quoteLineActualPriceDisplay_' + $index}}" ng-bind="quoteLine.pricing.actualPriceDisplay"></isc-no-element>
+                            </span>
+                        </td>
+                        <td ng-show="vm.quote.isEditable" class="col-quote">
+                            <a id="quoteDetailsSalesViewQuoteButton_{{quoteLine.id}}" href="javascript:;" class="btn secondary btn-quote isc-btnLineCalculator" ng-click="vm.openOrderLineCalculatorPopup(quoteLine)" role="button">
+                                <i class="icon-calculator"></i>@T("Quote")
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="btns btns-bottom">
+                <button id="quoteDetailsSalesViewSubmitQuoteButton" ng-show="vm.quote.isEditable" ng-click="vm.submitQuote('@(Url.ContentPage<RfqMyQuotesPage>())')" class="btn primary btn-submit-quote" type="button">{{vm.quote.isJobQuote? '@T("Submit Job Quote")' : '@T("Submit Sales Quote")'}}</button>
+                <a id="quoteDetailsSalesViewPrintButton" href="javascript: window.print();" class="hide-for-small btn tertiary btn-print isc-btnPrint">@T("Print")</a>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <isc-quote-line-calculator-popup quote="vm.quote"></isc-quote-line-calculator-popup>
+    </div>
+</div>

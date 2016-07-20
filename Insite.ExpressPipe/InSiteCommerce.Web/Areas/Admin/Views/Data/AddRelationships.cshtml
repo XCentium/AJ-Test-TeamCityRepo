@@ -1,0 +1,38 @@
+﻿
+@using Insite.Admin.Models
+@model RelationshipsViewModel
+
+<div class="modal--large grid-modal" zf-modal overlay-close="false" id="addRelationships-@Model.CollectionName-@Model.RelationshipType-modal">
+    <isa-add-relationships collection-name="@Model.CollectionName"
+                           default-sort="@Model.Form.DefaultSortProperty"
+                           default-sort-ascending="@Model.Form.DefaultSortIsAscending"
+                           many-to-many-pluralized-entity-name="@Model.ManyToManyPluralizedEntityName"
+                           system-list-value-id="@Model.SystemListValueId"
+                           page-size="@Model.PageSize" 
+                           parent-entity-id="{{::entityListCtrl.parentEntityId}}"
+                           parent-id-column="@Model.ParentIdColumn" 
+                           pluralized-entity-name="@Model.EntityDefinition.PluralizedName"
+                           properties-to-select="@Model.PropertiesToSelect"
+                           related-entity-id-column="@Model.RelatedEntityIdColumn"
+                           relationship-type="@Model.RelationshipType"
+                           class="grid-block"></isa-add-relationships>
+</div>
+    <script type="text/ng-template" id="add-relationships-@Model.CollectionName-@Model.RelationshipType">
+        <div ng-cloak ng-if="entityListCtrl.displayList" class="grid-block">
+            @Html.Partial("EntityList", new EntityListModel
+   {
+       EntitiesViewModel = Model,
+       Buttons =@<text>
+            <span class="right">
+                <a class="button secondary" ng-click="entityListCtrl.close()">Done</a>
+                <span ng-if="entityListCtrl.areNoneSelected()">
+                    <a class="button" disabled>Assign</a>
+                </span>
+                <span ng-if="!entityListCtrl.areNoneSelected()">
+                    <a class="button" ng-click="entityListCtrl.assignSelected()">Assign</a>
+                </span>
+            </span>
+    </text>
+   })
+        </div>
+    </script>

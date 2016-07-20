@@ -1,0 +1,11 @@
+﻿@using Insite.Admin.Models
+@model AssignmentsViewModel
+
+<isa-add-multiple-assignments pluralized-parent-entity-name="@Model.PluralizedParentEntityName" 
+                              parent-entity-ids="entityListCtrl.selectedIds"
+                              collection-name="@Model.CollectionName" 
+                              pluralized-entity-name="@Model.EntityDefinition.PluralizedName"
+                              page-size="@Model.PageSize"
+                              properties-to-select="@Model.PropertiesToSelect" 
+                              default-sort="@Model.Form.DefaultSortProperty" 
+                              default-sort-ascending="@Model.Form.DefaultSortIsAscending" ></isa-add-multiple-assignments>

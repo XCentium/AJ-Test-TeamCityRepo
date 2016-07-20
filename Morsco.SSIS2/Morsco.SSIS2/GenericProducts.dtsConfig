@@ -1,0 +1,6 @@
+<?xml version="1.0"?><DTSConfiguration><DTSConfigurationHeading>
+<DTSConfigurationFileInfo GeneratedBy="XcentiumLaptop\matthew.glover" GeneratedFromPackageName="LoadGenericProductsFiles" GeneratedFromPackageID="{BD0512DD-7190-484F-90ED-5FB2AB59F6B9}" GeneratedDate="3/21/2016 2:22:45 AM"/>
+</DTSConfigurationHeading>
+<Configuration ConfiguredType="Property" Path="\Package.Variables[User::ParamArchiveFolder].Properties[Value]" ValueType="String"><ConfiguredValue>\\mscwvesqld01\SSISPackages\Development\GenericProducts\Archive\</ConfiguredValue></Configuration>
+<Configuration ConfiguredType="Property" Path="\Package.Variables[User::ParamInputFolder].Properties[Value]" ValueType="String"><ConfiguredValue>\\mscwvesqld01\SSISPackages\Development\GenericProducts\</ConfiguredValue></Configuration>
+</DTSConfiguration>

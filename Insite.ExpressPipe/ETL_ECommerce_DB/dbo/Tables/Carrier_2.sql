@@ -1,0 +1,27 @@
+﻿CREATE TABLE [dbo].[Carrier] (
+    [Id]                  UNIQUEIDENTIFIER NOT NULL,
+    [Name]                NVARCHAR (100)   NOT NULL,
+    [Description]         NVARCHAR (255)   NOT NULL,
+    [ImagePath]           NVARCHAR (1024)  NOT NULL,
+    [UserName]            NVARCHAR (100)   NOT NULL,
+    [Password]            NVARCHAR (100)   NOT NULL,
+    [AccountNumber]       NVARCHAR (100)   NOT NULL,
+    [AccessKey]           NVARCHAR (255)   NOT NULL,
+    [Enable]              BIT              NOT NULL,
+    [IsLive]              BIT              NOT NULL,
+    [LiveUrl]             NVARCHAR (1024)  NOT NULL,
+    [TestUrl]             NVARCHAR (1024)  NOT NULL,
+    [ShippingCalculation] NVARCHAR (50)    NOT NULL,
+    [IsPrimaryCarrier]    BIT              NOT NULL,
+    [RatingService]       NVARCHAR (500)   NOT NULL,
+    [ContactName]         NVARCHAR (100)   NOT NULL,
+    [ContactPhone]        NVARCHAR (50)    NOT NULL,
+    [ContactEmail]        NVARCHAR (100)   NOT NULL,
+    [BackUpCarrierId]     UNIQUEIDENTIFIER NULL,
+    [CurrencyId]          UNIQUEIDENTIFIER NULL,
+    [CreatedOn]           DATETIME2 (7)    NOT NULL,
+    [CreatedBy]           NVARCHAR (100)   NOT NULL,
+    [ModifiedOn]          DATETIME2 (7)    NOT NULL,
+    [ModifiedBy]          NVARCHAR (100)   NOT NULL
+);
+

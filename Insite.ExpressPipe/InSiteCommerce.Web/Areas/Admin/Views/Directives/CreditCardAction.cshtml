@@ -1,0 +1,31 @@
+﻿<div zf-modal="submitTransactionModal" id="submitTransactionModal" class="collapse modal--large modal-changePassword">
+    <div>
+        <form name="vm.submitTransactionForm" novalidate>
+            <div class="grid-block vertical">
+                <div class="modal-header">
+                    <h4 class="modal-title">Submit new {{vm.transactionType}} transaction</h4>
+                    <a zf-close="" class="close-button right"><i class="icon icon-close"></i></a>
+                </div>
+                <div class="modal-content grid-block form-content">
+                    <div class="grid-block vertical alternate-form">
+                        <div class="grid-block">
+                            <div class="medium-4 grid-content">
+                                <label><b>Amount</b></label>
+                            </div>
+                            <div class="medium-8 grid-content">
+                                <span class="formitem" ng-class="{'fi-invalid': vm.submitTransactionForm.$valid === false, 'fi-valid': vm.submitTransactionForm.$valid}">
+                                    <input type="number" placeholder="" name="amount" ng-model="vm.amountModal" required>
+                                    <span class="formitem-error">You must fill this field!</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="button float-right" value="Submit" ng-click="vm.submitNewTransaction()" ng-disabled="!vm.submitTransactionForm.$valid" />
+                    <a zf-close class="button secondary float-right">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+﻿@using Insite.Core.Providers
+@*
+    usage example: 
+    <isc-requires-quote ng-init="id=wishListLine.id;idKey='tv'">
+    </isc-requires-quote>
+*@
+
+<span>@T("Requires Quote")</span>
+<div class="quote-tip">
+    <a href="#" data-dropdown="{{'qtip-cart-' + id + '-' + idKey}}" class="t-dropdown">?</a>
+    <div id="{{'qtip-cart-' + id + '-' + idKey}}" class="f-dropdown content" data-dropdown-content>
+        <div class="tt-wrap">@MessageProvider.Current.Rfq_TooltipMessage</div>        
+    </div>
+</div>

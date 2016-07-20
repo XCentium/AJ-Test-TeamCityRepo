@@ -1,0 +1,62 @@
+﻿@using Insite.Account.Content.UserAdministration
+
+<div ng-cloak>
+    <div class="cm" ng-include="'userListView_topContent'"></div>
+    <button id="userListViewCreateNewUserButton" onclick="location.href='@(Url.ContentPage<UserSetupPage>())'" class="btn primary btn-create">@(T("Create New User"))</button>
+
+    <section class="accordion search-users">
+        <div>
+            <input type="checkbox" id="accord-1" class="accord-check" />
+            <label for="accord-1" class="accord-head">@(T("Search Users"))</label>
+            <article class="accord-content">
+                <div class="row">
+                    <div class="medium-4 large-4 columns">
+                        <div class="search-order-num">
+                            <input type="text" name="search-users" id="search-criteria" ng-model="vm.searchText" isc-enter="vm.search(vm.sort, true)" placeholder="@(T("Enter Username"))" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="medium-4 large-4 columns btns">
+                        <a href="" class="btn primary btn-search" id="btn-search" ng-click="vm.search(vm.sort, true)">@(T("Search"))</a>
+                        <a href="" class="btn secondary btn-clear" id="btn-clear" ng-click="vm.clearSearch()">@(T("Clear"))</a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <div id="userAdminContent">
+        <div ng-if="vm.pagination.totalItemCount > 0">
+
+            <h3 class="results-count"><span class="result-num" ng-cloak>{{vm.pagination.totalItemCount}}</span> <span class="result-lbl">@(T("Users").ToLower())</span></h3>
+
+            <isc-pager pagination="vm.pagination" storage-key="vm.paginationStorageKey" update-data="vm.search(vm.sort)"></isc-pager>
+
+            <table class="info-tbl user-admin-tbl">
+                <tbody>
+                    <tr>
+                        <th class="col-username"><a id="userListViewSortByUsernameLink" href="" ng-click="vm.sortBy('UserName')" ng-class="vm.getSortClass('UserName')" class="sort">@(T("Username"))</a></th>
+                        <th class="col-name"><a id="userListViewSortByLastNameLink" href="" ng-click="vm.sortBy('LastName')" ng-class="vm.getSortClass('LastName')" class="sort">@(T("Name"))</a></th>
+                        <th class="col-active">@(T("Status"))</th>
+                        <th class="col-role"><a id="userListViewSortByRoleLink" href="" ng-click="vm.sortBy('Role')" ng-class="vm.getSortClass('Role')" class="sort">@(T("Role"))</a></th>
+                        <th class="col-loc">@(T("Default Location"))</th>
+                    </tr>
+
+                    <tr ng-repeat="user in vm.users">
+                        <td class="col-username"><a id="userListViewUserNameLink_{{ $index}}" href="@(Url.ContentPage<UserSetupPage>())?userId={{user.id}}" class="sort sort-ascending" ng-cloak>{{user.userName}}</a></td>
+                        <td class="col-name" ng-cloak>{{user.lastName}}<span><span ng-if="user.lastName && user.firstName">, </span></span>{{user.firstName}}</td>
+                        <td class="col-active" ng-bind="user.isApproved ? '@(T("Active"))' : '@(T("Inactive"))'"></td>
+                        <td class="col-role" ng-cloak>{{user.role}}</td>
+                        <td class="col-loc" ng-cloak>{{user.defaultLocation}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <isc-pager pagination="vm.pagination" storage-key="vm.paginationStorageKey" bottom="true" update-data="vm.search(vm.sort)"></isc-pager>
+        </div>
+        <div class="search-no-results" ng-if="vm.pagination.totalItemCount === 0">
+            <div class="cm" ng-include="'userListView_noUsersFound'"></div>
+        </div>
+    </div>
+</div>

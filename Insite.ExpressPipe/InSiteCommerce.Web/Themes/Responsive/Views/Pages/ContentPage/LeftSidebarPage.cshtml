@@ -1,0 +1,20 @@
+﻿@model ContentPage
+
+<div class="row main-row">
+    <div class="medium-12 large-12 columns">
+        <div class="row">
+            <div class="columns left-nav-2">
+                <div class="ln2-wrap">
+                    <div class="nav-head">
+                        @Html.Zone(Model, "LeftSide")
+                    </div>
+                </div>
+            </div>
+            <div class="right small-12 columns cm1-wrap cl1-wrapper">
+                <div class="cm">
+                    @Html.Zone(Model, "Content")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

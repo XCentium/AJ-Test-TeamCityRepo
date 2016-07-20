@@ -1,0 +1,63 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+<div id="orderUploadView" class="large-12 columns" ng-cloak>
+    <div class="message-highlight cancelled" ng-show="vm.uploadCancelled">
+        <h3>@Html.Message("OrderUpload_CancellationSuccessful", "Cancellation Successful")</h3>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="row">
+
+        <div class="medium-6 large-6 columns order-upload-instructions">
+            <div class="instructions">
+                <h3 class="no-margin-top">@T("Instructions")</h3>
+                <ol>
+                    <li>
+                        @Html.Message("OrderUpload_Instructions_Line1_Part1", "Create a spreadsheet (or start with our ")<a id="orderUploadTemplateLink" ng-href="/Excel/OrderUploadTemplate.xlsx">@T("Order Upload Template")</a>@Html.Message("OrderUpload_Instructions_Line1_Part2", " with the following:")
+                        <ul>
+                            <li>@Html.Message("OrderUpload_Instructions_Line2", "First column - add item #s or customer part #s.")</li>
+                            <li>@Html.Message("OrderUpload_Instructions_Line3", "Second column - add quantities (optional).")</li>
+                            <li>@Html.Message("OrderUpload_Instructions_Line4", "Third column - add unit of measure (optional).")</li>
+                        </ul>
+                    </li>
+                    <li>@Html.Message("OrderUpload_Instructions_Line5", "Column headings can be added in the first row (optional).")</li>
+                    <li>@Html.Message("OrderUpload_Instructions_Line6", "Save the file in XLS, XLSX or CSV format.")</li>
+                    <li>@Html.Message("OrderUpload_Instructions_Line7", "Select the file to upload and click Upload Order.")</li>
+                    <li><b><em>@Html.Message("OrderUpload_Instructions_Line8", "There is a file maximum of 500 rows.")</em></b></li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="medium-6 large-6 columns order-upload-input">
+            <div class="instructions">
+                @Html.Message("OrderUpload_Instructions_UploadExcel", "Upload an Excel (.xls or .xlsx) or CSV (Comma-Separated Values) file to quickly add items to your cart.")
+            </div>
+            <div class="oui-box">
+                <div class="oui-browse">
+                    <button id="buttonFileUpload" class="primary btn dark-blue">@T("Browse")</button>
+                    <input id="hiddenFileUpload" style="display: none" type="file" onchange="angular.element(this).data('_scope').vm.setFile(this)">
+                    <span id="fileNameTitle" class="file-title" ng-bind="!vm.fileName ? '@T("No file selected.")' : vm.fileName"></span>
+                </div>
+                <div class="first-row-option">
+                    <input id="firstRowCheckbox" type="checkbox" ng-model="vm.firstRowHeading" /><label for="firstRowCheckbox">@T("First row is column headings")</label>
+                </div>
+                <div class="oui-message showing" ng-show="vm.badFile || vm.uploadLimitExceeded">
+                    <div class="upload-error" ng-show="vm.badFile">
+                        @Html.Message("OrderUpload_UploadError", "The file could not be uploaded, please review the instructions and file for any issue.")
+                    </div>
+                    <div class="upload-error" ng-show="vm.uploadLimitExceeded">
+                        @Html.Message("OrderUpload_RowsLimitExceeded", "The uploaded file exceeds the limit.")
+                    </div>
+                </div>
+                <div class="oui-orders">
+                    <button id="orderUploadButton" class="primary btn" ng-click="vm.uploadFile()" ng-disabled="!vm.file || vm.badFile">@T("Upload Order")</button>
+                </div>
+            </div>
+        </div>
+        <isc-order-uploading-popup></isc-order-uploading-popup>
+        <isc-order-upload-success-popup items-count="{{vm.uploadedItemsCount}}"></isc-order-upload-success-popup>
+        <isc-order-uploading-issues-popup></isc-order-uploading-issues-popup>
+    </div>
+</div>
+
+
+

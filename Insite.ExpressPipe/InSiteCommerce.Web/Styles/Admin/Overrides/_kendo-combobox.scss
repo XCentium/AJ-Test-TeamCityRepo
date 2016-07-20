@@ -1,0 +1,59 @@
+﻿
+.k-combobox {
+    width: 100%;
+
+    .k-state-default {
+        .k-input { 
+            &:focus {
+                border: 0;
+            }
+            &:hover {
+                border: 0;
+            }
+        }
+    }
+
+    .k-state-hover {
+        >*>.k-i-arrow-s {
+            background-position: 0 -32px;
+        }
+    }
+
+    .k-select {
+        border: 0;
+    }
+
+    .k-dropdown-wrap {
+        &.k-state-focused {
+            background-image: none;
+            background-color: $white;
+        }
+        &.k-state-hover {
+            background-image: none;
+            background-color: $white;
+            color: #787878;
+        }
+    }
+}
+
+.k-popup.k-list-container {
+    padding: 0;
+
+    .k-state-focused {
+        border: 0;
+        box-shadow: none;
+        padding: 1px 5px 1px 5px;
+    }
+
+    .k-state-hover {
+        border: 0;
+        padding: 1px 5px 1px 5px;
+    }
+}
+
+// ISC-1901 - This fixes the Combobox .k-animation-container not having height
+//            when you filter the results using the keyboard such that there
+//            is no longer a scroll bar for the resulting list.
+.k-animation-container > .k-popup.k-list-container {
+    position: static !important;
+}

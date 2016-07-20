@@ -1,0 +1,30 @@
+body.ma-settings { }
+
+.ma-settings .btns {
+	width:100%;
+	clear:both;
+	}
+			
+	.ma-settings .btns a.btn  {
+		margin:1em 0;
+		float:right;
+		}
+
+@media all and (min-width: 768px) { 
+	
+.ma-settings .btns {
+	width:100%;
+	clear:both;
+	}
+	
+}
+		
+@media all and (max-width: 767px) { 
+	
+	.ma-settings .btns .btn {
+		width:100%;
+		margin-bottom:1em;
+		}	
+		
+	}
+

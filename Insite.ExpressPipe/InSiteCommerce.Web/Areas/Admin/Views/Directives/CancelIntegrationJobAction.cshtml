@@ -1,0 +1,12 @@
+﻿<div class="modal--small modal-overlay" zf-modal zf-closable="modal" id="cancelIntegrationJob">
+    <div class="grid-block vertical">
+        <div class="modal-header">
+            <h4 class="modal-title">Are you sure you want to cancel this job?</h4>
+            <a zf-close="" class="close-button right"><i class="icon icon-close"></i></a>
+        </div>
+        <div class="modal-footer">
+            <button zf-close class="button tertiary">No</button>
+            <button ng-hide="vm.resultMessage" ng-click="vm.saveIntegrationJob()" class="button secondary">Yes</button>
+        </div>
+    </div>
+</div>

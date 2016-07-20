@@ -1,0 +1,60 @@
+body.ma-assign-edit-shipto { }
+
+.tbl-assign-shipto .col-shipto > div {
+	display:inline-block;
+	margin-right:1em; }
+	
+	.tbl-assign-shipto .col-shipto .ship-num {
+		min-width:60px; }	
+
+	.tbl-assign-shipto .col-shipto select {
+		max-width:200px;
+		margin-bottom:0;
+		}
+
+
+@media all and (max-width: 767px) { 
+		
+	.ma-assign-edit-shipto div.table-wrapper .pinned {
+		width:25%; }
+		
+	.ma-assign-edit-shipto div.table-wrapper div.scrollable {
+		margin-left:25%; }
+	
+		.tbl-assign-shipto .col-default input {
+			margin-left:1em; }
+	
+		.tbl-assign-shipto .col-shipto {
+			min-width:200px; }
+		
+			.tbl-assign-shipto .col-shipto .cost-code {
+				display:block;
+				margin-top:1em;
+				margin-bottom:0.5em;
+				width:100%; }
+			
+	}
+
+@media all and (max-width: 767px) { 		
+	.ma-assign-edit-shipto .btns .btn {
+		width:100%;
+		margin-bottom:1em; }
+	}	
+							
+@media all and (min-width: 768px) { 
+
+	.ma-assign-edit-shipto .results-count {
+		display:inline-block;
+		}
+		
+	.ma-assign-edit-shipto .btns {
+		display:inline-block;
+		float:right;
+		margin-bottom:1em;
+		}
+		
+	.ma-assign-edit-shipto .btns .btn {
+		float:right;
+		margin-left:1em; }
+
+	}

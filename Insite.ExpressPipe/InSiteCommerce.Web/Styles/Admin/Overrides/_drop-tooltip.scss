@@ -1,0 +1,26 @@
+﻿.tooltip.drop {
+    .drop-content {
+        background-color: $tooltip-background;
+        border-radius: 0;
+        box-shadow: none;
+        font-family: $header-font-family;
+        font-size: 1rem;
+        letter-spacing: .025em;
+        padding: .5rem .75rem;
+
+        &:before { border-width: 7px !important; }
+    }
+}
+
+.drop-element-attached-bottom.drop-element-attached-center .drop-content:before { border-top-color: $tooltip-background !important }
+.drop-element-attached-top.drop-element-attached-center .drop-content:before { border-bottom-color: $tooltip-background !important }
+.drop-element-attached-right.drop-element-attached-middle .drop-content:before { border-left-color: $tooltip-background !important }
+.drop-element-attached-left.drop-element-attached-middle .drop-content:before { border-right-color: $tooltip-background !important }
+.drop-element-attached-top.drop-element-attached-left.drop-target-attached-bottom .drop-content:before { border-bottom-color: $tooltip-background !important }
+.drop-element-attached-top.drop-element-attached-right.drop-target-attached-bottom .drop-content:before { border-bottom-color: $tooltip-background !important }
+.drop-element-attached-bottom.drop-element-attached-left.drop-target-attached-top .drop-content:before { border-top-color: $tooltip-background !important }
+.drop-element-attached-bottom.drop-element-attached-right.drop-target-attached-top .drop-content:before { border-top-color: $tooltip-background !important }
+.drop-element-attached-top.drop-element-attached-right.drop-target-attached-left .drop-content:before { border-left-color: $tooltip-background !important }
+.drop-element-attached-top.drop-element-attached-left.drop-target-attached-right .drop-content:before { border-right-color: $tooltip-background !important }
+.drop-element-attached-bottom.drop-element-attached-right.drop-target-attached-left .drop-content:before { border-left-color: $tooltip-background !important }
+.drop-element-attached-bottom.drop-element-attached-left.drop-target-attached-right .drop-content:before { border-right-color: $tooltip-background !important }

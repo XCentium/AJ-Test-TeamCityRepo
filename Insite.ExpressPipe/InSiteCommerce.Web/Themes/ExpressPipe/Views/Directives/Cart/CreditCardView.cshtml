@@ -1,0 +1,112 @@
+﻿<div ng-cloak @*ng-show="vm.cart"*@>
+    <div class="row">
+        <div class="medium-3 columns">
+            <label>Select a Credit Card</label>
+        </div>
+        <div class="medium-9 columns end">
+            <div class="alert-box warning" ng-if="vm.cardList.creditCards.length == 0">
+                You currently do not have any saved credit cards <a href="#" data-reveal-id="addNewCreditCard" ng-click="vm.addNewCard()"><i class="fa fa-plus"></i> Add New Credit Card</a>
+            </div>
+
+            <div class="alert-box alert" ng-if="vm.error">
+                @* Use for error messages *@
+                Error message goes in here
+            </div>
+
+            <ul class="credit-card-list" ng-repeat="card in vm.cardList.creditCards" ng-if="vm.cardList.creditCards.length > 0">
+                <li class="row collapse">
+                    <div class="xsmall-4 columns">
+						<input type="radio" name="credit-card" data-card-id="{{card.elementAcctID}}" ng-checked="card == vm.selectedCard" ng-click="vm.selectCard(card.elementAcctID)" />
+                        <span class="cc-type"><i class="cc-icon {{card.cardType | lowercase}}"></i></span>
+                        <span class="cc-number" >{{card.cardNumber}}</span>
+                    </div>
+                    <div class="xsmall-4 columns">
+                        <span class="cc-name" ng-bind="card.cardHolder"></span>
+                    </div>
+                    <div class="xsmall-4 columns text-right">
+                        <span class="cc-exp">Exp <span ng-bind="card.expireDate"></span></span>
+                        <a ng-click="vm.deleteConfirmationPopup(card.elementAcctID)" href="javascript:;"><i class="fa fa-remove"></i></a>
+                    </div>
+                </li>
+            </ul>
+
+            <div ng-if="vm.cardList.creditCards.length > 0" class="hide-for-print">
+                <hr />
+
+                <div class="text-right">
+                    <a href="#" data-reveal-id="addNewCreditCard" ng-click="vm.addNewCard()"><i class="fa fa-plus"></i> Add New Credit Card</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="reveal-modal small" id="addNewCreditCard" data-reveal>
+        <h2>Add New Credit Card</h2>
+        <form>
+            <div class="alert-box alert" ng-if="vm.errorMessage" ng-bind="vm.errorMessage">
+                @* Use for error messages *@
+                Error message goes in here
+            </div>
+            <div class="row collapse">
+                <div class="small-5 columns">
+	                <label>Name on Credit Card<sup class="errorIndicator">*</sup></label>
+                </div>
+                <div class="small-7 columns">
+					<input type="text" ng-model="vm.newCreditCard.cardHolderName" />
+                </div>
+            </div>
+            <div class="row collapse">
+                <div class="small-5 columns">
+	                <label>Billing Address<sup class="errorIndicator">*</sup></label>
+                </div>
+                <div class="small-7 columns">
+					<input type="text" ng-model="vm.newCreditCard.address"  />
+                </div>
+            </div>
+            <div class="row collapse">
+                <div class="small-5 columns">
+	                <label>City<sup class="errorIndicator">*</sup></label>
+                </div>
+                <div class="small-7 columns">
+					<input type="text" ng-model="vm.newCreditCard.city" />
+                </div>
+            </div>
+            <div class="row collapse">
+                <div class="small-5 columns">
+	                <label>State<sup class="errorIndicator">*</sup></label>
+                </div>
+                <div class="small-7 columns">
+					<select ng-model="vm.newCreditCard.state"
+							ng-options="state.abbreviation as state.name for state in vm.country.states"></select>
+                </div>
+            </div>
+            <div class="row collapse">
+                <div class="small-5 columns">
+	                <label>Zip Code<sup class="errorIndicator">*</sup></label>
+                </div>
+                <div class="small-7 columns">
+					<input type="text" ng-model="vm.newCreditCard.zip"  />
+                </div>
+            </div>
+        </form>
+        <div class="buttons">
+            <button class="button secondary close-reveal-modal" area-label="Close" type="button">CANCEL</button>
+            <button class="button primary" type="button" ng-click="vm.submitNewCreditCard()">CONTINUE</button>
+        </div>
+    </div><!--/#addNewCreditCard-->
+
+    <div class="reveal-modal medium" id="addNewCreditCardElement" data-reveal data-options="close_on_background_click:false;close_on_esc:false;">
+        <iframe id="frame" width="100%" height="450" ng-bind="vm.redirectUrl" ng-src="{{vm.redirectUrl | trustAsResourceUrl}}" style="border:none;"></iframe>
+        <a class="close-reveal-modal" area-label="Close">×</a>
+    </div><!--/#addNewCreditCardElement-->
+    
+    @* Delete Confirmation Modal *@
+    <div class="reveal-modal medium" id="deleteCreditCardConfirmation" data-reveal data-options="close_on_background_click:false;close_on_esc:false;">
+        <div>Are you sure you want to remove this credit card?</div><span ng-model="vm.cardToDelete"></span>
+        <div class="buttons">
+            <a id="quoteConfirmDeleteQuoteButton" class="button tertiary" href="javascript:void(0);" ng-click="vm.deleteCard()">@T("Confirm")</a>
+            <button class="button secondary close-reveal-modal" area-label="Close" type="button">Cancel</button>
+        </div>
+    </div>
+
+</div>`

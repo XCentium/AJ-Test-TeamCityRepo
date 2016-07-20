@@ -1,0 +1,14 @@
+﻿@model Zone
+
+@if (CurrentPageContentKey != -1)
+{
+    if (CurrentPage is TemplatePage)
+    {
+        <div class="cms-zone-placeholder">Template Zone: @Model.ZoneName</div>
+    }
+    else
+    {
+        @Html.Zone(CurrentPage, Model.ZoneName)
+    }
+}
+

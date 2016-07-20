@@ -1,0 +1,194 @@
+﻿@using Insite.Core.Providers
+@using Insite.Rfq.Content
+
+<div class="large-12 columns">
+                        
+    <div class="checkout-head">
+
+        <ul class="checkout-crumbs hide-for-print hide-for-medium-down">
+            <li><a href="/cart"><i class="fa fa-shopping-cart"></i></a></li>
+            <li><span class="number">1</span> @T(" Delivery Information")</li>
+            <li><span class="number">2</span> @T("Payment and Review Order")</li>
+            <li class="current"><span class="number">3</span> @T("Confirm Order")</li>
+        </ul>
+
+        <div class="row">
+            <div class="medium-10 columns">
+                <h1>Thank you for your Order #<span id="confirmationCartOrderNumber" ng-bind="vm.cart.orderNumber"></span>. An email confirmation will be sent shortly.</h1>
+            </div>
+            <div class="medium-2 columns text-right">
+                <a id="orderConfirmationViewContinuePrintButton" href="javascript: window.print();" class="print hide-for-print"><i class="fa fa-print"></i> @T("Print")</a>
+            </div>
+        </div>
+
+    </div>
+    
+    <div class="row">
+
+        <div class="xlarge-9 columns">
+
+            <section class="checkout-section">
+                
+                <div class="quote-items-note messaging" ng-if="vm.showRfqMessage">
+                    <p>@MessageProvider.Current.Rfq_Requires_Quote_InCartMessage</p>
+                    <a id="orderConfirmationViewRequestQuoteButton" href="@(Url.ContentPage<RfqRequestQuotePage>())" class="button">@T("Yes, Request a Quote")</a>
+                    <a id="orderConfirmationViewContinueShoppingButton" href="@(Url.ContentPage<HomePage>())" class="button">@T("No, Continue Shopping")</a>
+                </div>
+
+                <div class="cm" ng-include="'orderConfirmation_topContent'"></div>
+
+                <div class="panel">
+
+                    <div class="row">
+
+                        <div class="medium-5 columns order-info-col">
+
+                            <div class="oc-head">
+                                <h5>@T("Order Information")</h5>
+                            </div>
+
+                            <div class="row">
+                                <div class="xsmall-6 columns"><strong>@T("Job Name")</strong></div>
+                                <div class="xsmall-6 columns"><span class="inf-value" ng-bind="vm.cart.billTo.customerName"></span></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="xsmall-6 columns"><strong>@T("PO #")</strong></div>
+                                <div class="xsmall-6 columns"><span id="confirmationCartPONumber" ng-bind="vm.cart.poNumber"></span></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="xsmall-6 columns"><strong>@T("Ship Via")</strong></div>
+                                <div class="xsmall-6 columns">
+                                    <span ng-bind="vm.cart.carrier.description"></span>
+                                    @*<span ng-bind="vm.cart.shipVia.description"></span>*@
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="xsmall-6 columns"><strong>Payment Method</strong></div>
+                                <div class="xsmall-6 columns"><span ng-bind="vm.cart.properties['paymentMethodName']"></span></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="xsmall-6 columns"><strong>Terms</strong></div>
+								<div class="xsmall-6 columns" ng-if="vm.cart.properties['paymentMethodName'] != 'Pay By Credit Card' || vm.cart.properties['paymentMethodName'] != 'Pay When I Pick Up'" ng-bind="vm.cart.paymentMethod['name']"></div>
+                            </div>
+
+                            <div class="row" ng-if="vm.cart.properties['shipmentRequestedDate'] != '' && vm.cart.properties['shipmentRequestedDate'] != null">
+                                <div class="xsmall-6 columns" ng-if="vm.cart.properties['deliveryMethod'] == 'Delivery'"><strong>Requested Delivery Date</strong></div>
+								<div class="xsmall-6 columns" ng-if="vm.cart.properties['deliveryMethod'] == 'Pickup'"><strong>Requested Pickup Date</strong></div>
+                                <div class="xsmall-6 columns">
+									<span ng-bind="vm.formatDate(vm.cart.properties['shipmentRequestedDate']) | date: 'MM/dd/yyyy'"></span>
+								</div>
+                            </div>
+
+							<div class="row" ng-if="vm.cart.properties['shipmentRequestedDate'] != '' && vm.cart.properties['shipmentRequestedDate'] != null">
+								<div class="xsmall-6 columns" ng-if="vm.cart.properties['selectedDeliveryTime']"><strong>Requested Delivery Time</strong></div>
+								<div class="xsmall-6 columns" ng-if="vm.cart.properties['selectedPickupTime']"><strong>Requested Pickup Time</strong></div>
+								<div class="xsmall-6 columns">
+									<span ng-if="vm.cart.properties['selectedDeliveryTime']">{{vm.cart.properties['selectedDeliveryTime']}}</span>
+									<span ng-if="vm.cart.properties['selectedPickupTime']">{{vm.cart.properties['selectedPickupTime']}}</span>
+								</div>
+							</div>
+
+                            <div class="row" ng-if="vm.cart.properties['specialHandlingInstructions']">
+                                <div class="xsmall-6 columns">
+                                    <strong>
+                                        @T("Special Shipping or Handling Instructions"):
+                                    </strong>
+                                </div>
+                                <div class="xsmall-6 columns" id="confirmationCartNotes" ng-bind="vm.cart.properties['specialHandlingInstructions']"></div>
+                            </div>
+
+                        </div>
+
+                        <div class="medium-7 columns order-info-col">
+
+                            <div class="row">
+                                <div class="medium-6 columns">
+                                    <div class="oc-head">
+                                        <h5>@T("Billing Information")</h5>
+                                    </div>
+                                    <isc-address-display prefix="bt" address="vm.cart.billTo" show-email="true"></isc-address-display>
+                                </div>
+                                <div class="medium-6 columns">
+                                    <div ng-if="vm.cart.properties['shipmethod'] != '@System.Configuration.ConfigurationManager.AppSettings["WillCallCarrierId"].ToLower()'">
+                                        <div class="oc-head">
+                                            <h5>@T("Ship To")</h5>
+                                        </div>
+                                        <isc-address-display prefix="st" address="vm.cart.shipTo" show-email="false"></isc-address-display>
+                                    </div>
+
+                                    <div ng-if="vm.cart.properties['shipmethod'] == '@System.Configuration.ConfigurationManager.AppSettings["WillCallCarrierId"].ToLower()'">
+                                        <div class="oc-head">
+                                            <h5>@T("Pickup Location")</h5>
+                                        </div>
+
+                                        <address>
+                                            {{vm.cart.properties["willCallPickUpLocation-Name"]}}<br />
+                                            {{vm.cart.properties["willCallPickUpLocation-Address1"]}}<br />
+                                            <div ng-if="vm.cart.properties['willcallpickuplocation-address2'] != NULL">{{vm.cart.properties["willCallPickUpLocation-Address2"]}}<br /></div>
+                                            {{vm.cart.properties["willCallPickUpLocation-City"]}}, {{vm.cart.properties["willCallPickUpLocation-State"]}} {{vm.cart.properties["willCallPickUpLocation-Zip"]}}<br />
+                                            {{vm.cart.properties["willCallPickUpLocation-Tel"]}}
+                                        </address>
+
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <section class="checkout-section">
+                <header class="checkout-section-header">
+                    <h2>@T("Order Details")</h2>
+                </header>
+                <div class="cart-grid confirm">
+                    <isc-confirmation-cart-lines cart="vm.cart" is-catalog="true" class="item-list cart-items"></isc-confirmation-cart-lines>
+                </div>
+                <div class="confirm hide-for-print" ng-if="vm.cart.cartLines.length > 0">
+                    <isc-confirmation-bottom-sub-total-display cart="vm.cart" is-catalog="true"></isc-confirmation-bottom-sub-total-display>
+                </div>
+            </section>
+
+            <hr class="dotted" />
+
+            <section class="checkout-section">
+                <div class="non-catalog" ng-if="vm.cart.properties['nonCatalogProductCount'] > 0">
+                    <header class="checkout-section-header">
+                        <h2>@T("Items To Be Quoted")</h2>
+                    </header>
+                    <div class="cart-grid confirm">
+                        <isc-confirmation-cart-lines cart="vm.cart" is-catalog="false" class="item-list cart-items"></isc-confirmation-cart-lines>
+                    </div>
+                    <div class="confirm hide-for-print" ng-if="vm.cart.cartLines.length > 0">
+                        <isc-confirmation-bottom-sub-total-display cart="vm.cart" is-catalog="false"></isc-confirmation-bottom-sub-total-display>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <div class="medium-6 xlarge-3 end columns summary-column">
+
+            <div class="summary">
+                <header class="summary-header">
+                    @T("Order Summary")
+                </header>
+                <div class="summary-content">
+                    <isc-cart-total-display cart="vm.cart" promotions="vm.promotions"></isc-cart-total-display>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

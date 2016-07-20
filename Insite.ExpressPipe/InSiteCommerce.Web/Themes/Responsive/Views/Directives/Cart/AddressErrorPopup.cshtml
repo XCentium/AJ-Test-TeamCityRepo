@@ -1,0 +1,15 @@
+﻿@using Insite.Account.Content
+@using Insite.WebFramework.Mvc.Extensions
+
+<div id="cartAddressErrorPopup" class="reveal-modal address-error-popup" data-reveal data-reveal-init>
+    <div class="modal-wrap">
+        <p class="messaging">
+            <span ng-if="vm.isAddressEditAllowed">@Html.Message("Cart_InvalidAddress_Update", "Unable to calculate charges due to invalid address. Update your information")</span>
+            <span ng-if="!vm.isAddressEditAllowed">@Html.Message("Cart_InvalidAddress_ContactSupport", "Unable to calculate charges due to invalid address, please contact support")</span>
+        </p>
+        <div class="btns">
+            <a id="addressErrorPopupContinueButton" ng-if="vm.isAddressEditAllowed" ng-href="@(Url.ContentPage<MyAccountAddressPage>())" class="btn primary btn-continue">@T("Continue")</a>
+        </div>
+        <a id="errorPopupCloseButton" class="close-reveal-modal">&#215;</a>
+    </div>
+</div>

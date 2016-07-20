@@ -1,0 +1,406 @@
+﻿@mixin border-radius($radius: 2px) {
+	-webkit-border-radius: $radius; -moz-border-radius: $radius; border-radius: $radius;
+}
+
+@mixin border-radius-full($topright: 0, $bottomright: 0, $bottomleft: 0, $topleft: 0) {
+	-webkit-border-top-right-radius: $topright; -webkit-border-bottom-right-radius: $bottomright; -webkit-border-bottom-left-radius: $bottomleft; -webkit-border-top-left-radius: $topleft; 
+    -moz-border-radius-topright: $topright; -moz-border-radius-bottomright: $bottomright; -moz-border-radius-bottomleft: $bottomleft; -moz-border-radius-topleft: $topleft; 
+    border-top-right-radius: $topright; border-bottom-right-radius: $bottomright; border-bottom-left-radius: $bottomleft; border-top-left-radius: $topleft;
+}
+
+@mixin box-shadow($arguments) {
+	-webkit-box-shadow: $arguments; -moz-box-shadow: $arguments; box-shadow: $arguments;
+}
+
+@mixin drop-shadow($x-axis: 0, $y-axis: 1px, $blur: 2px, $alpha: 0.1) {
+	-webkit-box-shadow: $x-axis $y-axis $blur rgba(0, 0, 0, $alpha); -moz-box-shadow: $x-axis $y-axis $blur rgba(0, 0, 0, $alpha); box-shadow: $x-axis $y-axis $blur rgba(0, 0, 0, $alpha);
+}
+
+@mixin heightCalc($calc) {
+    height: -webkit-calc(#{$calc}); height: -o-calc(#{$calc}); height: -moz-calc(#{$calc}); height: calc(#{$calc});
+}
+
+@mixin transition($arguments) {
+  -webkit-transition: $arguments; -moz-transition: $arguments; transition: $arguments;
+}
+
+
+@font-face {
+    font-family: 'Fira Sans';
+    src: url('fonts/FiraSans/firasans-italic-webfont.eot');
+    src: url('fonts/FiraSans/firasans-italic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/FiraSans/firasans-italic-webfont.woff') format('woff'),
+         url('fonts/FiraSans/firasans-italic-webfont.ttf') format('truetype'),
+         url('fonts/FiraSans/firasans-italic-webfont.svg#fira_sansitalic') format('svg');
+    font-weight: 400;
+    font-style: italic; }
+
+@font-face {
+    font-family: 'Fira Sans';
+    src: url('fonts/FiraSans/firasans-regular-webfont.eot');
+    src: url('fonts/FiraSans/firasans-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/FiraSans/firasans-regular-webfont.woff') format('woff'),
+         url('fonts/FiraSans/firasans-regular-webfont.ttf') format('truetype'),
+         url('fonts/FiraSans/firasans-regular-webfont.svg#fira_sansregular') format('svg');
+    font-weight: 400;
+    font-style: normal;}
+
+@font-face {
+    font-family: 'Fira Sans';
+    src: url('fonts/FiraSans/firasans-medium-webfont.eot');
+    src: url('fonts/FiraSans/firasans-medium-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/FiraSans/firasans-medium-webfont.woff') format('woff'),
+         url('fonts/FiraSans/firasans-medium-webfont.ttf') format('truetype'),
+         url('fonts/FiraSans/firasans-medium-webfont.svg#fira_sansmedium') format('svg');
+    font-weight: 500;
+    font-style: normal;}
+
+@font-face {
+    font-family: 'Fira Sans';
+    src: url('fonts/FiraSans/firasans-mediumitalic-webfont.eot');
+    src: url('fonts/FiraSans/firasans-mediumitalic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/FiraSans/firasans-mediumitalic-webfont.woff') format('woff'),
+         url('fonts/FiraSans/firasans-mediumitalic-webfont.ttf') format('truetype'),
+         url('fonts/FiraSans/firasans-mediumitalic-webfont.svg#fira_sansmedium_italic') format('svg');
+    font-weight: 500;
+    font-style: italic;}
+
+@font-face {
+    font-family: 'Fira Sans';
+    src: url('fonts/FiraSans/firasans-semibolditalic-webfont.eot');
+    src: url('fonts/FiraSans/firasans-semibolditalic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/FiraSans/firasans-semibolditalic-webfont.woff') format('woff'),
+         url('fonts/FiraSans/firasans-semibolditalic-webfont.ttf') format('truetype'),
+         url('fonts/FiraSans/firasans-semibolditalic-webfont.svg#fira_sanssemibold_italic') format('svg');
+    font-weight: 600;
+    font-style: italic;}
+
+@font-face {
+    font-family: 'Fira Sans';
+    src: url('fonts/FiraSans/firasans-semibold-webfont.eot');
+    src: url('fonts/FiraSans/firasans-semibold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/FiraSans/firasans-semibold-webfont.woff') format('woff'),
+         url('fonts/FiraSans/firasans-semibold-webfont.ttf') format('truetype'),
+         url('fonts/FiraSans/firasans-semibold-webfont.svg#fira_sanssemibold') format('svg');
+    font-weight: 600;
+    font-style: normal;}
+
+@font-face {
+    font-family: 'Fira Sans';
+    src: url('fonts/FiraSans/firasans-bolditalic-webfont.eot');
+    src: url('fonts/FiraSans/firasans-bolditalic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/FiraSans/firasans-bolditalic-webfont.woff') format('woff'),
+         url('fonts/FiraSans/firasans-bolditalic-webfont.ttf') format('truetype'),
+         url('fonts/FiraSans/firasans-bolditalic-webfont.svg#fira_sansbold_italic') format('svg');
+    font-weight: 700;
+    font-style: italic;}
+
+@font-face {
+    font-family: 'Fira Sans';
+    src: url('fonts/FiraSans/firasans-bold-webfont.eot');
+    src: url('fonts/FiraSans/firasans-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/FiraSans/firasans-bold-webfont.woff') format('woff'),
+         url('fonts/FiraSans/firasans-bold-webfont.ttf') format('truetype'),
+         url('fonts/FiraSans/firasans-bold-webfont.svg#fira_sansbold') format('svg');
+    font-weight: 700;
+    font-style: normal;}
+
+@font-face {
+	font-family: 'GoodOatmealCMS';
+	src:url('fonts/GoodOatmealCMS/GoodOatmealCMS.woff?-9olf9p') format('woff'),
+		url('fonts/GoodOatmealCMS/GoodOatmealCMS.ttf?-9olf9p') format('truetype'),
+		url('fonts/GoodOatmealCMS/GoodOatmealCMS.svg?-9olf9p#GoodOatmealCMS') format('svg');
+	font-weight: normal;
+	font-style: normal;}
+
+/*
+	HTML5 Reset :: style.css
+	----------------------------------------------------------
+	We have learned much from/been inspired by/taken code where offered from:
+	
+	Eric Meyer					:: http://meyerweb.com
+	HTML5 Doctor				:: http://html5doctor.com
+	and the HTML5 Boilerplate	:: http://html5boilerplate.com
+	
+-------------------------------------------------------------------------------*/
+
+/* Let's default this puppy out
+-------------------------------------------------------------------------------*/
+
+html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, menu, nav, section, time, mark, audio, video, details, summary {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}									
+
+/* consider resetting the default cursor: https://gist.github.com/murtaugh/5247154 */
+
+article, aside, figure, footer, header, nav, section, details, summary {display: block;}
+
+/* Responsive images and other embedded objects
+   Note: keeping IMG here will cause problems if you're using foreground images as sprites.
+   If this default setting for images is causing issues, you might want to replace it with a .responsive class instead. */
+img,
+object,
+embed {max-width: 100%;}
+
+/* force a vertical scrollbar to prevent a jumpy page */
+html {overflow-y: scroll;}
+
+/* we use a lot of ULs that aren't bulleted. 
+	don't forget to restore the bullets within content. */
+ul {list-style: none;}
+
+blockquote, q {quotes: none;}
+
+blockquote:before, 
+blockquote:after, 
+q:before, 
+q:after {content: ''; content: none;}
+
+a {margin: 0; padding: 0; font-size: 100%; vertical-align: baseline; background: transparent;}
+
+del {text-decoration: line-through;}
+
+abbr[title], dfn[title] {border-bottom: 1px dotted #000; cursor: help;}
+
+/* tables still need cellspacing="0" in the markup */
+table {border-collapse: collapse; border-spacing: 0;}
+th {font-weight: bold; vertical-align: bottom;}
+td {font-weight: normal; vertical-align: top;}
+
+hr {display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0;}
+
+input, select {vertical-align: middle;}
+
+pre {
+    white-space: pre; /* CSS2 */
+    white-space: pre-wrap; /* CSS 2.1 */
+    white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
+    word-wrap: break-word; /* IE */
+}
+
+input[type="radio"] {vertical-align: text-bottom;}
+input[type="checkbox"] {vertical-align: bottom;}
+.ie7 input[type="checkbox"] {vertical-align: baseline;}
+.ie6 input {vertical-align: text-bottom;}
+
+select, input, textarea {font: 99% sans-serif;}
+
+table {font-size: inherit; font: 100%;}
+
+small {font-size: 85%;}
+
+strong {font-weight: bold;}
+
+td, td img {vertical-align: top;} 
+
+/* Make sure sup and sub don't screw with your line-heights
+	gist.github.com/413930 */
+sub, sup {font-size: 75%; line-height: 0; position: relative;}
+sup {top: -0.5em;}
+sub {bottom: -0.25em;}
+
+/* standardize any monospaced elements */
+pre, code, kbd, samp {font-family: monospace, sans-serif;}
+
+/* hand cursor on clickable elements */
+.clickable,
+label, 
+input[type=button], 
+input[type=submit], 
+input[type=file], 
+button {cursor: pointer;}
+
+/* Webkit browsers add a 2px margin outside the chrome of form elements */
+button, input, select, textarea {margin: 0;}
+
+/* make buttons play nice in IE */
+button,
+input[type=button] {width: auto; overflow: visible;}
+ 
+/* let's clear some floats */
+.clearfix:before, .clearfix:after { content: "\0020"; display: block; height: 0; overflow: hidden; }  
+.clearfix:after { clear: both; }  
+.clearfix { zoom: 1; }  
+
+
+* { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+body,html { min-height: 100%; }
+body { font-family: "Fira Sans", "Helvetica Neue", Helvetica, Arial, Sans-serif; font-size: 14px; background-color: #85BFE2; }
+
+.ng-invalid, input:invalid { background-color: pink; } 
+
+#container { max-width: 1000px; margin: 0px auto; padding-bottom: 200px; }
+
+#pageOverlay, .simplemodal-overlay { position: absolute; z-index: 1001; zoom: 1; top: 0; left: 0; background-color: #888888; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=20)" !important; filter: alpha(opacity=60) !important; opacity: 0.6; }
+
+.spinner { text-align: center; position: fixed; top: 50%; left: 50%; z-index: 999999; cursor: default; } 
+.no-cssanimations .spinner { background: url(../Images/loading.gif) no-repeat center center #fff; width: 100px; height: 50px; border-radius: 5px; } 
+.no-cssanimations .spinner > div { display:none; }
+.spinner > div { width: 18px; height: 18px; background-color: #fff; border-radius: 100%; display: inline-block; -webkit-animation: bouncedelay 1.4s infinite ease-in-out; animation: bouncedelay 1.4s infinite ease-in-out; -webkit-animation-fill-mode: both; animation-fill-mode: both; @include box-shadow(0 0 3px 0 rgba(0,0,0,.3)); }
+.spinner .bounce1 { -webkit-animation-delay: -0.32s; animation-delay: -0.32s; }
+.spinner .bounce2 { -webkit-animation-delay: -0.16s; animation-delay: -0.16s; margin: 0 .5em; }
+
+@-webkit-keyframes bouncedelay { 
+  0%, 80%, 100% { -webkit-transform: scale(0.0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes bouncedelay {
+  0%, 80%, 100% { transform: scale(0.0); -webkit-transform: scale(0.0); }
+  40% { transform: scale(1.0); -webkit-transform: scale(1.0); }
+}
+
+@keyframes loading {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+@-moz-keyframes loading {
+	0% { -moz-transform: rotate(0deg); }
+	100% { -moz-transform: rotate(360deg); }
+}
+
+@-webkit-keyframes loading {
+	0% { -webkit-transform: rotate(0deg); }
+	100% { -webkit-transform: rotate(360deg); }
+}
+
+$actionColor: #0072bc;
+$actionColorHover: #0686d9;
+$secondardyColor: #6c7a89;
+$secondaryColorHover: #768796;
+
+a { color: $actionColor; text-decoration: none; } 
+a:hover { text-decoration: underline; }
+
+h1 { margin-bottom: 20px; font-size: 15px; font-weight: 400; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px dashed #ccc; }
+.fb-formBuilder h1 { margin-bottom: 40px; }
+ 
+.icon { font-family: 'GoodOatmealCMS'; text-transform: none; line-height: 1; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; background: none;  }
+
+.moveHandle { position: relative; cursor: move; font-size: 0px; text-decoration: none; padding: 2px; }
+.moveHandle:before { @extend .icon; font-size: 14px; content: "\f047";  }
+
+.loading-container { position: relative; width: 20px; display: none; }
+.loading { position: absolute; display: inline-block; text-align: center; cursor: wait; content: "" !important; background-color: rgba(0,0,0,0); opacity: .8; margin: 5% auto;
+    animation: loading 1.0s infinite linear; -moz-animation: loading 1.0s infinite linear; -webkit-animation: loading 1.0s infinite linear;
+    width: 18px; height: 18px; top: -16px; border: 2px solid #fff; border-radius: 18px; border-color: #66c3ff; border-top: 2px solid rgba(0,0,0,0); border-left: 2px solid rgba(0,0,0,0);
+}
+
+.ui-sortable-placeholder { background-color: #555; margin: 5px; border: 1px solid #0072bc; height: 50px; opacity:0.5; }
+
+.fb-messageBanner { background-color: pink; width: 100%; }
+.fb-messageBanner__content { width: 1000px; margin: 0 auto; padding: 10px; 
+    a { margin-left: 10px; }
+    a:first-child { margin-left: 50px; }
+}
+
+.fb-edit { font-size: 0px; text-decoration: none; }
+.fb-edit { font-size: 0px; text-decoration: none; padding: 2px; }
+.fb-edit:before { @extend .icon; content: "\f040"; font-size: 14px; }
+.fb-delete { font-size: 0px; text-decoration: none; padding: 4px 2px 0; }
+.fb-delete:before { @extend .icon; content: "\e600"; font-size: 16px; }
+
+.fb-forms { margin-top: 30px; }
+
+table { width: 100%;
+    td, th { padding: 2px 4px; }
+    thead th { text-align: left; font-weight: normal; background-color: #ccc; border-bottom: 1px solid #666; }
+    tbody {
+        tr { border-bottom: 1px solid #bbb; }
+        tr:nth-child(odd) { background-color: #eee; }
+    }
+}
+
+.fb-button { @include border-radius(2px); background-color: $secondardyColor; color: #fff; font-size: 12px; line-height: 1em; padding: 8px 14px; border: 0; font-weight: 600; display: inline-block; @include transition(all 140ms ease-out); }
+.fb-button:hover { background-color: $secondaryColorHover; }
+.fb-actionButton { @extend .fb-button; background-color: $actionColor; color: #fff; }
+.fb-actionButton:hover { background-color: $actionColorHover; }
+.fb-smallButton { @extend .fb-button; font-size: 12px; padding: 6px 10px; }
+
+.fb-buttonArea { margin: 10px 0; text-align: right; width: 100%; }
+
+.fb-formElement { border: 1px solid #ccc; position: relative; margin: 30px 5px 5px; padding: 10px; background-color: white; }
+.fb-formElement__info { position: absolute; right: -1px; top: -23px; border: 1px solid #ccc; border-bottom: 1px solid white; padding: 0 6px; background-color: white; }
+
+.fb-zone { border: 1px dashed #888; position: relative; margin-top: 20px; padding: 5px; background-color: #ddd; } 
+.fb-zone__content { min-height: 20px; } 
+.fb-zone__info { position: absolute; left: -1px; top: -23px; border: 1px dashed #888; border-bottom: 1px solid #ddd; padding: 0 6px; background-color: #ddd; padding-right: 30px }
+.fb-zone--collapsed .fb-zone__content { display: none;  }
+.fb-zone__toggle { margin-left: 10px; padding: 0 2px; cursor: pointer; position: absolute; right: 2px; top: -14px; font-size: 32px; }
+.fb-zone__toggle:hover { text-decoration: none; }
+
+.fb-sidePanel { display: none; width: 600px; margin-left: 20px; z-index: 2000; position: fixed; right: 0; top: 0; background-color: white; height: 100%;
+    label { margin-bottom: 2px; display: inline-block; }
+    textarea, input[type=text], select { display: block; width: 100%; margin-bottom: 2em; }
+}
+.fb-sidePanel__header { border-bottom: 1px solid #c1c1c1; color: #a7a7a7; font-size: 14px; line-height: 1.5em; margin-bottom: 1em; padding-bottom: .5em; }
+.fb-sidePanel__content { margin: 20px; }
+
+.fb-modal { font-size: 14px; line-height: 1.5em; min-width: 450px; background-color: white; @include border-radius(3px); min-width: 200px; min-height: 100px; @include box-shadow(0px 1px 3px 0px rgba(0, 0, 0, 0.1)); padding: 20px; }
+.fb-modal__header { margin-bottom: 1em; font-weight: bold; font-size: 16px; }
+
+.fb-formBuilder { width: 1000px; 
+    .fb-breadCrumb { margin-bottom: 30px; }
+}
+
+.fb-formElement__info .loading-container.saving { display: inline-block; }
+.fb-formElement__info .moveHandle.saving { display: none; }
+
+.fb-container { max-width: 1000px; background-color: white; }
+.fb-container__content { padding: 10px; }
+
+.fb-editForm { 
+    form { width: 500px; }
+    h2 { margin-top: 15px; margin-bottom: 4px; color: #333; }
+    fieldset { border: 1px solid #ccc; padding: 10px; margin-bottom: 16px;
+        legend { color: #666; }
+    }
+}
+
+.fb-editForm__fieldContainer { margin-bottom: 16px;
+    label { display: block; color: #666;  }
+    input[type=text], select, textarea { width: 100%; border:1px solid #d6d6d6; color: #464646; }
+    input[type=checkbox] { vertical-align: middle; position: relative; bottom: 1px; }
+    input[type=text] { background-color: #fff; @include border-radius(2px); padding: 3px 6px; }
+    input[type=text]:focus { border: 1px solid #7fb8dd; }
+}
+
+.fb-editForm__fieldContainer--checkbox {
+    label { display: inline-block; }
+    input { margin-bottom: 3px; }
+}
+
+.fb-breadCrumb { font-size: 14px; margin-bottom: 15px; background-color: #eee; padding: 6px 10px; border-bottom: 1px solid #ccc;
+    b { font-weight: 500; } 
+}
+
+/*.icon { font-family: 'GoodOatmealCMS'; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }*/
+
+.fb-editGridColumnsArea { background-color: white; border: 1px solid #888; padding: 20px; 
+    .fb-buttonArea { margin-top: 20px; }
+}
+.fb-editGridColumnsArea__columns { width: 350px; float: left; border: 1px solid #ccc; padding: 10px; margin: 0 10px;
+    ul { max-height: 500px; overflow-y: auto;  }
+    h2 { font-weight: normal; border-bottom: 1px dashed #ccc; margin-bottom: 10px; }
+    button { font-size: 11px; padding: 5px 10px; margin-right: 5px; float: right; }
+    .selectedColumns {
+        .add { display: none; }
+    }
+    .allColumns  {
+        .remove, .moveHandle { display: none; }
+    }
+    li { padding: 2px 0; }
+    li input { margin-right: 2px; }
+    li .moveHandle { float: left; font-size: 0px; text-decoration: none; }
+    li .moveHandle:before { content: "\f047"; font-size: 18px; @extend .icon; cursor: move; color: $secondardyColor; }
+}
+
+.fb-propertyDefinitions thead th { cursor: pointer; }
+.fb-sortUp:before { content: "∧"; }
+.fb-sortDown:before { content: "∨"; } 

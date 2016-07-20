@@ -1,0 +1,53 @@
+﻿@model Insite.Admin.Models.EntityViewModel
+
+<div class="modal-overlay modal--medium" zf-modal zf-closable="modal" id="editTranslations">
+    <div ng-controller="EditTranslationsController as editTransCtrl" ng-cloak>
+        <div class="modal-header">
+            <h4 class="modal-title">Translations: {{editTransCtrl.propertyLabel}}</h4>
+            <a class="close-button" ng-click="editTransCtrl.close()"><i class="icon icon-close"></i></a>
+        </div>
+        <div class="modal-content edit-translations-modal-content">
+            <div class="edit-translations-table-header-top">
+                <p>Base Value: {{editTransCtrl.translationMessage}}</p>
+            </div>
+            <div>
+                <section class="table-header edit-translations-table-header flex-none">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>Language</td>
+                                <td>Translation</td>
+                            </tr>
+                        </thead>
+                    </table>
+                </section>
+                <section class="table-content edit-translations-table-content">
+                    <table class="table">
+                        <tbody>
+                            <tr ng-repeat="lang in editTransCtrl.languages">
+                                <td>{{lang.description}} ({{lang.languageCode}})</td>
+                                <td><input type="text" ng-model="lang.translatedValue"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="button secondary" ng-click="editTransCtrl.close()">Cancel</button>
+            <button class="button" ng-click="editTransCtrl.save()">Save</button>
+        </div>
+        <div class="modal--medium" zf-modal="" id="translationsUnsavedModal">
+            <div class="modal-header">
+                <h4 class="modal-title">Please, save/clear Edit Translations changes</h4>
+                <a zf-close="" class="close-button"><i class="icon icon-close"></i></a>
+            </div>
+            <div class="modal-footer">
+                <button zf-close class="button tertiary">Cancel</button>
+                <button ng-click="editTransCtrl.save()" class="button">Save</button>
+                <button ng-click="editTransCtrl.cancel()" class="button secondary">Discard</button>
+            </div>
+        </div>
+    </div>
+</div>
+

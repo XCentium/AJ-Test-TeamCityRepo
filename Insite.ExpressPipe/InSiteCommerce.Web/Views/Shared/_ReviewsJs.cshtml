@@ -1,0 +1,38 @@
+﻿@using System.Collections.ObjectModel
+@using Insite.Catalog.Services.Dtos
+@using Insite.Common.Dependencies
+@using Newtonsoft.Json
+@using System.Linq
+@using Insite.Core.Plugins.Application
+@using Insite.WebFramework.Mvc.Extensions
+
+@{
+    if (!string.IsNullOrEmpty(Model.ThirdPartyReviews) && Model.ThirdPartyReviews == "BazaarVoice")
+    {
+        @Html.RequireScript(DependencyLocator.Current.GetInstance<IApplicationSettingProvider>().GetOrCreateByName<string>("BazaarVoiceJavascriptUrl"))
+        if (Model.GetType().ToString().Equals("InSite.Mvc.Models.ViewModels.ProductCatalogViewModel"))
+        {
+            if (ViewData["PageName"].ToString().EqualsIgnoreCase("ProductDetail"))
+            {
+                var product = ((ReadOnlyCollection<ProductDto>)Model.ProductDtos).First();      
+                <text>
+                    <script>
+                        jQuery(function () {
+                            insite.productdetail.setupBazaarVoice("@product.ERPNumber");
+                        });
+                    </script>
+                </text>
+            }
+            else
+            {
+                <text>
+                    <script>
+                        jQuery(function () {
+                            insite.productlist.setupBazaarVoice(@Html.Raw(JsonConvert.SerializeObject(Model.ProductDtos)));
+                        });
+                    </script>                  
+                </text>
+            }
+        }
+    }
+}

@@ -1,0 +1,7 @@
+﻿<div id="orderUploadingPopup" class="reveal-modal address-error-popup" data-reveal data-options="close_on_background_click: false;" data-reveal-init>
+    <div class="modal-wrap ou-modal">
+        <i class="fa fa-spinner fa-spin fa-pulse"></i>
+        <h3>{{(!vm.uploadCancelled) ? '@T("Uploading Order")' : '@T("Cancelling Order")'}}</h3>
+        <button class="btn tertiary slim no-margin-bottom" ng-click="vm.cancelUpload()" ng-show="vm.allowCancel" ng-enable="!vm.uploadCancelled">@T("Cancel Upload")</button>
+    </div>
+</div>

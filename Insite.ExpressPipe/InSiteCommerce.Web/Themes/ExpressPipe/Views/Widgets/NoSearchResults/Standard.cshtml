@@ -1,0 +1,16 @@
+﻿@using Insite.Data.Entities;
+
+@model Morsco.Customizations.Lib.Widgets.NoSearchResults
+
+<h3>@T("Browse All Categories")</h3>
+<ul class="cat-list">
+@{
+	foreach (Category category in Model.Categories)
+	{
+		if (category.Name != "Default")
+		{
+			<li><a href="/catalog/@category.UrlSegment">@category.Name</a></li>
+		}
+	}
+}
+</ul>

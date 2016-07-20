@@ -1,0 +1,48 @@
+﻿@using Insite.Admin.ControlTypes
+@using Insite.Admin.Models
+@model Insite.Admin.Models.ControlTypeViewModel<DynamicDropDownControl>
+
+@if (Model.PropertyDefinition.CanEdit)
+{
+    var valueType = Model.PropertyDefinition.PropertyType == typeof(Guid) || Model.PropertyDefinition.PropertyType == typeof(Guid?) ? "guid" : "string";
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<isa-dropdown angular-controller="DynamicDropdownController"
+                                      class="@Model.ControlType.DisplayWidth.ToString().ToLower()"
+                                      label="@Model.Label"
+                                      id="@Model.Id"
+                                      ng-model="@Model.EditPageModelBinding"
+                                      selected-entity-id="@(Model.EditPageModelBinding)"
+                                      sort-list="@Model.ControlType.SortList.ToString().ToLower()"
+                                      @if (Model.PropertyDefinition.IsRequired)
+                                      {
+                                          <text>required="true"</text>
+                                      }
+                                      model="entityDetailsCtrl.model"
+                                      route="@Model.ControlType.Route"
+                                      filter="@Model.ControlType.Filter"
+                                      key="@Model.ControlType.Key"
+                                      display="@Model.ControlType.Display"
+                                      static-value-list="@Model.ControlType.StaticValueList"
+                                      allow-manual-entry="@Model.ControlType.AllowManualEntry.ToString().ToLower()"
+                                      value-type="@valueType"></isa-dropdown>
+    })
+}
+else
+{
+    var route = Model.ControlType.Route;
+    var key = Model.ControlType.Key;
+    var filter = Model.ControlType.Filter;
+    var display = Model.ControlType.Display;
+
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<div class="readonly"><isa-dynamic-display route="@route"
+                                             key="@key"
+                                             filter="@filter"
+                                             display="@display"
+                                             key-value="{{@(Model.EditPageModelBinding)}}"></isa-dynamic-display></div>
+    })
+}

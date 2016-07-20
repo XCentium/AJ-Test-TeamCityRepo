@@ -1,0 +1,18 @@
+﻿@using Insite.Admin.Models
+@model Insite.Admin.Models.EntitiesViewModel
+
+@foreach (var entity in Model.Assignments)
+{
+    <div class="modal--large grid-modal" zf-modal zf-closable="modal" id="addMultipleAssignments-@(entity.Name)-modal">
+        <div ng-if="entityListCtrl.multipleAssignmentName === '@(entity.Name)'">
+            @if (entity.Name.EqualsIgnoreCase("categories"))
+            {
+                @Html.Action("CategoryTree", "Data", new { CategoryTreeMode = CategoryTreeMode.MultiAssignCategories, IncludeTemplate = false })
+            }
+            else
+            {
+                @Html.Action("AddMultipleAssignments", "Data", new { area = "Admin", entityName = Model.EntityDefinition.Name, assignmentName = entity.Name })
+            }
+        </div>
+    </div>
+}

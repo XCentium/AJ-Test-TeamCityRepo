@@ -1,0 +1,91 @@
+﻿@using Insite.Admin.Extensions
+<div zf-modal="submitNewTransactionModal" id="submitNewTransactionModal" class="collapse modal--small modal-new-transaction">
+    <div>
+        <form name="vm.form" novalidate>
+            <div class="grid-block vertical">
+                <div class="modal-header">
+                    <h4 class="modal-title">Submit new transaction</h4>
+                    <a zf-close="" class="close-button right"><i class="icon icon-close"></i></a>
+                </div>
+                <div class="modal-content grid-block form-content">
+                    <div class="grid-block vertical alternate-form">
+                        <div class="grid-block form-control">
+                            @Html.FormControl(@<label>Transaction Type</label>,
+                                @<div class="large">
+                                    <select ng-model="vm.model.transactionType">
+                                        <option value="Authorization">Authorization</option>
+                                        <option value="Sale">Sale</option>
+                                    </select>
+                                </div>)
+                        </div>
+                        <div class="grid-block form-control">
+                            @Html.FormControl(@<label>Order Number</label>,
+                                @<div class="large">
+                                    <input type="text" name="orderNumber" ng-model="vm.model.orderNumber" required />
+                                    <div class="error-messages">
+                                        <span ng-if="vm.showError('orderNumber')"><i class="icon icon-warning"></i>Order Number is required.</span>
+                                        <span ng-if="vm.hasCustomError('orderNumber')"><i class="icon icon-warning"></i>{{vm.customError('orderNumber')}}</span>
+                                    </div>
+                                </div>)
+                        </div>
+                        <div class="grid-block form-control">
+                            @Html.FormControl(@<label>Card Holder's Name</label>,
+                                @<div class="large">
+                                    <input type="text" name="cardHolderName" ng-model="vm.model.cardHolderName" required />
+                                    <div class="error-messages">
+                                        <span ng-if="vm.showError('cardHolderName')"><i class="icon icon-warning"></i>Card Holder's Name is required.</span>
+                                    </div>
+                                </div>)
+                        </div>
+                        <div class="grid-block form-control">
+                            @Html.FormControl(@<label>Credit Card Number</label>,
+                                @<div class="large">
+                                    <input type="text" name="creditCardNumber" ng-model="vm.model.creditCardNumber" required />
+                                    <div class="error-messages">
+                                        <span ng-if="vm.showError('creditCardNumber')"><i class="icon icon-warning"></i>Credit Card Number is required.</span>
+                                    </div>
+                                </div>)
+                        </div>
+                        <div class="grid-block form-control">
+                            @Html.FormControl(@<label>Expiration Date</label>,
+                                @<div class="large">
+                                    <isa-date-picker name="expirationDate"
+                                                     model="vm.model.expirationDate"
+                                                     control-min="@(DateTime.MinValue.ToString("o"))"
+                                                     control-max="@(DateTime.MaxValue.ToString("o"))"
+                                                     date-format="yyyy-MM-dd" required></isa-date-picker>
+                                    <div class="error-messages">
+                                        <span ng-if="vm.showError('expirationDate')"><i class="icon icon-warning"></i>Expiration Date is required.</span>
+                                    </div>
+                                </div>)
+                        </div>
+                        <div class="grid-block form-control">
+                            @Html.FormControl(@<label>Card Security Code</label>,
+                                @<div class="large">
+                                    <input type="text" name="cardSecurityCode" ng-model="vm.model.cardSecurityCode" required />
+                                    <div class="error-messages">
+                                        <span ng-if="vm.showError('cardSecurityCode')"><i class="icon icon-warning"></i>Card Security Code is required.</span>
+                                    </div>
+                                </div>)
+                        </div>
+                        <div class="grid-block form-control">
+                            @Html.FormControl(@<label>Transaction Amount</label>,
+                                @<div class="large">
+                                    <input type="number" name="transactionAmount" ng-model="vm.model.transactionAmount" required />
+                                    <div class="error-messages">
+                                        <span ng-if="vm.showError('transactionAmount')"><i class="icon icon-warning"></i>Transaction Amount is required.</span>
+                                        <span ng-if="vm.submitError"><i class="icon icon-warning"></i>{{vm.submitError}}</span>
+                                    </div>
+                                </div>)
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="button float-right" value="Submit Transaction" ng-click="vm.submitNewTransaction()" ng-disabled="!vm.form.$valid" />
+                    <a zf-close class="button secondary float-right">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

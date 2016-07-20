@@ -1,0 +1,25 @@
+﻿@using Insite.Core.Providers
+
+<div ng-cloak ng-show="vm.cart">
+    @helper returnLink()
+    {
+        <div class="hide return-link">
+            <a ng-show="vm.cart.displayContinueShoppingLink" ng-click="vm.continueShopping($event)" href="@(Url.ContentPage<HomePage>())">@T("Continue Shopping")</a>
+        </div>
+    }
+
+    @returnLink()
+    <section class="ship-method">
+        <div ng-if="vm.cart.cartLines.length > 0">
+            <isc-cart-shipping-selector cart="vm.cart" shipping-method-change="vm.updateShipVia()"></isc-cart-shipping-selector>
+        </div>
+    </section>
+        <isc-cart-summary></isc-cart-summary>
+        @returnLink()
+
+        @Html.Action("GenericPopupPartial", "Shared", new { containerName = "popup-addtocart-noinventory", BodyHtml = MessageProvider.Current.Cart_NotEnoughInventory, Title = @T("Add To Cart") })
+
+        <isc-morsco-availability-popup> </isc-morsco-availability-popup>
+
+        <isc-morsco-availability-shipping-tax-content></isc-morsco-availability-shipping-tax-content>
+</div>

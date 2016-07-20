@@ -1,0 +1,50 @@
+﻿
+//Topbar
+$topbar-height: 50px;
+
+
+//Color
+$brand: #77BC1F !default;
+$brand-light: #9BDC6C !default;
+$brand-dark: #262626 !default;
+
+$border-gray: #D3D3D3 !default;
+
+$gray: #555555 !default;
+
+$type: #363636 !default;
+$type-light: #BBBBBB !default;
+$type-help: #888888 !default;
+$type-disabled: #888888 !default;
+
+$success: $brand !default;
+$error: #DA3232 !default;
+$warning: #E9700C !default;
+
+$background-gray: #F1F1F1 !default;
+$background-green: #E6f4DB !default;
+$background-orange: #FCF4ED !default;
+$background-red: #FEE8E8 !default;
+
+$button-primary: $brand;
+$button-secondary: $gray;
+$button-tertiary: $button-secondary;
+
+$tooltip-background: #888888;
+
+$white: #FFFFFF !default;
+
+
+//Font
+$body-font-family: "Proxima Nova", Arial, sans-serif !default;
+$header-font-family: "Proxima Nova Condensed", Arial, sans-serif !default;
+
+$base-font-size: 14px !default;
+$base-line-height: 18px !default;
+$base-letter-spacing: .015em !default;
+$header-letter-spacing: .025em !default;
+
+
+//Selector Helpers
+$text-input-selectors: 'input[type="text"], input[type="password"], input[type="date"], input[type="datetime"], input[type="datetime-local"], input[type="month"], input[type="week"], input[type="email"], input[type="number"], input[type="search"], input[type="tel"], input[type="time"], input[type="url"], input[type="color"], textarea';
+$headers: "h1,h2,h3,h4,h5,h6";

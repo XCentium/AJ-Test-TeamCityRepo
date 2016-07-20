@@ -1,0 +1,190 @@
+﻿.f-cat {
+    margin-top: -1px;
+}
+
+.accordion {
+    
+    .accordion-navigation {
+        .accord-check {
+            display: none;
+        }
+        .accord-head {
+            position: relative;
+            display: block;
+            margin: 0;
+            padding: $padding-single 25px $padding-single $padding-single;
+            border: 1px solid darken($lightest-blue,5%);
+            background-color: $lightest-blue;
+            font-weight: 600;
+
+            &:after {
+                @extend .fa;
+                content: "\f107";
+                position: absolute;
+                right: 10px;
+                top: 0.5em;
+                font-size: 1.5em;
+                font-weight: 500;
+            }
+        }
+        .accord-content {
+            border-left: 1px solid darken($lightest-blue,5%);
+            border-right: 1px solid darken($lightest-blue,5%);
+            max-height: 0;
+            overflow: hidden;
+
+            -webkit-transition: max-height 0.3s;
+            -o-transition: max-height 0.3s;
+            transition: max-height 0.3s;
+
+            ul {
+                margin: 0;
+                padding: $padding-single/2 0;
+                list-style: none;
+                
+                li {
+                    a {
+                        display: block;
+                        padding: $padding-single/2 $padding-single;
+                        color: $darkest-gray;
+
+                        &:hover {
+                            text-decoration: none;
+                            color: $link-color;
+                        }
+                    }
+                        .f-name {
+                            font-size: 1em;
+                            font-weight: 300;
+                        }
+                        .f-count {
+                            font-size: 0.8em;
+                        }
+
+                    &:nth-child(n+7) {
+                        max-height: 0;
+                        overflow: hidden;
+                        -webkit-transition: max-height 0.3s;
+                        -o-transition: max-height 0.3s;
+                        transition: max-height 0.3s;
+                    }
+                }
+            }
+
+            &.expanded {
+                ul {
+
+                    li {
+                        &:nth-child(n+7){
+                            max-height: 5em;
+                        }
+                    }
+                }
+            }
+
+            .accord-more {
+                a {
+                    display: block;
+                    padding: $padding-single/2 $padding-single;
+                    font-size: rem-calc(12);
+                }
+            }
+        }
+
+        &.expanded {
+            .accord-head {
+                &:after {
+                    content: "\f106";
+                }
+            }
+            .accord-content {
+                border-bottom: 1px solid $lighter-gray;
+                max-height: 300em;
+            }
+        }
+    }
+}
+
+.facets-filtered {
+    margin-bottom: $margin-single;
+    padding: $padding-single;
+    border: 1px solid darken($lightest-blue,5%);
+    background-color: $lightest-blue;
+
+    h4 {
+
+    }
+
+    ul {
+        margin: 0 0 $margin-double 0;
+        list-style: none;
+
+        li {
+            a {
+                color: $darkest-gray;
+            }
+        }
+    }
+}
+
+.facets-attributes {
+    ul {
+        li {
+            a {
+                &:before {
+                    @extend .fa;
+
+                    content: "\f096";
+                    color: $gray;
+                }
+            }
+
+            &.f-selected {
+                .f-name,
+                .f-count {
+                    font-weight: 500;
+                }
+            }
+
+            &.f-selected,
+            &:hover {
+                a {
+                    &:before {
+                        content: '\f14a';
+                    }
+                }
+            }
+        } 
+    }
+}
+
+.n-filter {
+    margin-bottom: $margin-double;
+}
+
+@media (max-width: $medium-breakpoint){
+
+    .n-filter-close {
+        margin-bottom: $margin-single;
+    }
+
+    .n-filter {
+        position: fixed;
+        z-index: 9999;
+        right: -100%;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        padding: $padding-single;
+        overflow-y: scroll;
+        background-color: #fff;
+
+        -webkit-transition: right 0.3s;
+        -o-transition: right 0.3s;
+        transition: right 0.3s;
+
+        &.expanded {
+            right: 0;
+        }
+    }
+}

@@ -1,0 +1,12 @@
+﻿@model Insite.Admin.FormBuilder.Elements.PredefinedTextFieldFormElement
+
+@if (Model.IsEditMode)
+{
+    <div>
+        @Model.PropertyDefinitionName - <a href="@Url.Action("EditProperty", "Dictionary", new { entityName = Model.Form.EntityDefinitionName, propertyName = Model.PropertyDefinitionName })">PredefinedTextField</a>
+    </div>
+}
+else
+{
+    @Html.Partial("~/Areas/admin/Views/Data/PropertyFormField.cshtml", Model.GetControlTypeViewModel())
+}

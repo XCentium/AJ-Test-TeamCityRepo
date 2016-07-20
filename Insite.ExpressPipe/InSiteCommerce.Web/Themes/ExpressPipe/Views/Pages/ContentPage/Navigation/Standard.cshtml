@@ -1,0 +1,30 @@
+﻿@model ContentPage
+@helper Nav(ContentPage navigationItem)
+{
+    var subItems = Content.GetChildPages<ContentPage>(navigationItem.ContentKey).Where(o => !o.ExcludeFromNavigation).OrderBy(x => x.SortOrder).ToList();
+    var hasSubItems = subItems.Any();
+
+    if (!hasSubItems)
+    {
+        <li class="no-dropdown">
+            <a href="@GenerateUrl(navigationItem)">@navigationItem.Title</a>
+        </li>
+    }
+    else
+    {
+        <li class="has-dropdown">
+
+            <a href="@GenerateUrl(navigationItem)">@navigationItem.Title</a>
+
+
+            <ul id="sub-@navigationItem.ContentKey" class="dropdown">
+                <li class="sub-heading"><label>@navigationItem.Title</label></li>
+                @foreach (var subItem in subItems)
+                {
+                    @Nav(subItem)
+                }
+            </ul>
+        </li>
+    }
+}
+@Nav(Model)

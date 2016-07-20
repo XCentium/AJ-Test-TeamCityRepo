@@ -1,0 +1,56 @@
+﻿<section class=" budget-periods-setup">
+    <h3>@T("Budget Periods Setup")</h3>
+    <form>
+        <div class="row budget-year">
+            <div class="small-12 columns ">
+                <div class="row budget-year budget-year-top-filter">
+                    <div class="small-12 columns budget-year-lbl budget-year-lbl-1">
+                        <label for="budget-year">@T("Budget Year"):</label>
+                    </div>
+                    <div class="small-12 columns budget-year-ops budget-year-ops-1">
+                        <select id="budgetYearSelect" ng-model="vm.calendar.fiscalYear" ng-change="vm.getBudgetCalendar()" ng-options="year for year in vm.budgetYears"></select>
+                    </div>
+                    <div class="small-12 columns budget-year-lbl budget-year-lbl-2">
+                        <label for="budget-year">@T("Budget Year End"):</label>
+                    </div>
+                    <div class="small-12 columns budget-year-ops budget-year-ops-2">
+                        <input class="datepicker txt" type="text" id="FiscalYearEndDate" value="{{vm.calendar.fiscalYearEndDate | date:'shortDate'}}" ng-class="{'input-validation-error': vm.errorPeriods.indexOf(period)>-1}" />
+                    </div>
+                </div>
+                <div class="row budget-year">
+                    <div class="small-12 columns budget-year-action">
+                        <button id="budgetPeriodSetupSumbitBtn" class="btn secondary btn-assign-calendar-months" ng-click="vm.assignCalendarMonths()" ng-disabled="vm.calendar && vm.calendar.fiscalYearEndDate" type="button">@T("Assign Calendar Months")</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="small-4 columns right tbl-shoulder-msg">
+                <em>* @T("No decimals")</em>
+            </div>
+        </div>
+        <table class="responsive info-tbl budget-period-tbl">
+            <thead>
+                <tr>
+                    <th class="col-period">@T("Period")</th>
+                    <th class="col-startdate">@T("Start Date")</th>
+                    <th class="col-enddate">@T("End Date")</th>
+                    <th class="col-remdate"></th>
+                </tr>
+            </thead>
+            <tbody id="BudgetPeriodCalendar">
+                <tr ng-repeat="period in vm.calendar.budgetPeriods">
+                    <td class="col-period" ng-bind="$index+1"></td>
+                    <td class="col-startdate"><input ng-attr-id="{{'budgetPeriodCalendarStartDate' + ($index + 1) }}" value="{{vm.calendar.budgetPeriods[$index] | date:'shortDate'}}" data-mindate="{{vm.getCalendarPeriodFromDate($index)| date:'M/d/yyyy'}}" data-maxdate="{{vm.getCalendarPeriodToDate($index)| date:'M/d/yyyy'}}" type="text" class="datepicker txt startdate" ng-class="{'input-validation-error': vm.errorPeriods.indexOf(period)>-1}" /></td>
+                    <td class="col-enddate"><input ng-attr-id ="{{'budgetPeriodCalendarEndDate' + ($index + 1) }}" value="{{vm.budgetEndPeriods[$index]| date:'shortDate'}}" type="text" class="txt enddate" disabled='disabled' /></td>
+                    <td class="col-remdate"><a ng-attr-id="{{'budgetPeriodCalendarRemoveBtn' + ($index + 1) }}" href="javascript: void(0);" ng-click="vm.removePeriod($index)" ng-hide="!period" class="btn tertiary btn-remove isc-deleteBreak"><i class="icon-x-1"></i></a></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class=" medium-12 large-12 columns">
+                <button id="budgetPeriodCalendarSaveBtn" type="submit" ng-click="vm.updateBudgetCalendar()" class="btn secondary btn-save">@T("Save")</button>
+            </div>
+        </div>
+    </form>
+</section>

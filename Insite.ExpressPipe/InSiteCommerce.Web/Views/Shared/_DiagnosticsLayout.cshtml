@@ -1,0 +1,32 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Diagnostics</title>
+    @Html.RequireCss(Url.ThemedContent("/Styles/diagnostics.css"))
+    @Html.RequireCss("/Scripts/Libraries/jquery-ui/1.9.2/jquery-ui.custom.css")
+</head>
+<body>
+    <div class="container">
+        <div class="header"></div>
+        <div class="content">
+            @RenderBody()
+        </div>
+        <div class="footer"></div>
+    </div>
+    @Html.RequireScript("/Scripts/Libraries/jquery/1.10.2/jquery.min.js")
+    @Html.RequireScript(Url.ThemedContent("Scripts/App/insite.jquery.extensions.js"))
+    <script type="text/javascript">
+        var insite = insite || {};
+    </script>
+
+    @Html.RequireScript(Url.ThemedContent("/Scripts/App/insite.core.js"))
+    @Html.RequireScript(Url.ThemedContent("/Scripts/App/insite.diagnostics.js"))
+    @Html.RequireScript("/Scripts/Libraries/jquery-ui/1.9.2/jquery-ui.custom.min.js")
+    @Html.RequireScript("/Scripts/Libraries/jquery-ui/jquery-ui-i18n.min.js")
+    @Html.RequireScript("/Scripts/Libraries/jquery.placeholder/0.7.0/jquery.placeholder.js")
+    @Html.RequireScript("/Scripts/Libraries/jquery.autocomplete/1.2.9/jquery.autocomplete.min.js")
+    @Html.RenderDeferredScripts()
+</body>
+</html>

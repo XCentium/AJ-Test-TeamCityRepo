@@ -1,0 +1,16 @@
+﻿@using Insite.Admin.Extensions
+<div>
+    <div ng-if="vm.isDisplay">{{vm.shouldMasked ? '**********' : model[vm.name]}}</div>
+    <div ng-if="!vm.isDisplay">
+        @Html.FormControl(@<label for="{{vm.key}}" ng-bind="vm.label"></label>,
+                        @<text>
+                            <div style="width: 100%;">
+                                <input ng-if="!vm.disabled" type="{{vm.shouldMasked ? 'password' : 'text'}}" ng-model="model[vm.name]" />
+                                <span ng-if="vm.disabled" ng-bind="model[vm.name]"></span>
+                            </div>
+                            <div class="error-messages" ng-show="vm.form[vm.key].$touched" ng-messages="vm.form[vm.key].$error">
+                                <span ng-message="required"><i class="icon icon-warning"></i>{{vm.label}} must have a value!</span>
+                            </div>
+                        </text>)
+    </div>
+</div>

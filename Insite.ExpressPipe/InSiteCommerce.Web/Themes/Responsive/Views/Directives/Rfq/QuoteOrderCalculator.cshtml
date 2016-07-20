@@ -1,0 +1,31 @@
+﻿@using Insite.Core.Providers
+
+<div>
+    <div id="orderCalculator" class="reveal-modal popup-quote-all" data-reveal data-reveal-init>
+        <div class="modal-wrap">
+            <p class="messaging">@MessageProvider.Current.Rfq_QuoteOrderHeader</p>
+            <form novalidate id="rfqApplyOrderQuoteForm">
+                <div class="row calc-disc">
+                    <div class="small-7 columns col-1">
+                        <select id="quoteOrderCalculatorCalculationMethodSelector" ng-model="vm.calculationMethod" ng-change="vm.changeCalculationMethod()" ng-options="method.displayName for method in vm.quote.calculationMethods track by method.name"></select>
+                    </div>
+                    <div class="small-5 columns col-2">
+                        <input id="quoteOrderCalculatorPercentInput"
+                               type="text" class="numerictextbox isc-percent" autofocus="autofocus"
+                               ng-model="vm.percent"
+                               name="percent"
+                               data-rule-required="true"
+                               data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("Percent"))" />
+                        <span>%</span>
+                    </div>
+                </div>
+
+                <div class="btns">
+                    <button id="quoteOrderCalculatorApplyQuoteButton" ng-click="vm.applyQuote()" class="btn primary btn-apply-quote isc-applyToOrder" type="button">@T("Apply Quote")</button>
+                    <button id="quoteOrderCalculatorCancelQuoteButton" ng-click="vm.closeModal('#orderCalculator')" class="btn secondary btn-cancel isc-cancelOrderQuote" type="button">@T("Cancel")</button>
+                </div>
+                <span class=" field-validation-valid" data-valmsg-for="percent" data-valmsg-replace="false"></span>
+            </form>
+        </div>
+    </div>
+</div>

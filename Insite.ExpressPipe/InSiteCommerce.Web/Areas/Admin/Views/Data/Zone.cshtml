@@ -1,0 +1,6 @@
+﻿@model Insite.Admin.FormBuilder.Models.FormBuilder.ZoneViewModel
+
+@foreach (var formElement in Model.Elements.OrderBy(o => o.SortOrder))
+{
+    @Html.Partial("FormElements/" + formElement.GetType().Name, formElement)
+}

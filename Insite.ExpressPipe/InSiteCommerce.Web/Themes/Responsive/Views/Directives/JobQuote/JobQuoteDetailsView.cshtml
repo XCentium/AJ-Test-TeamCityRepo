@@ -1,0 +1,64 @@
+﻿@using Insite.Catalog.Services.Dtos
+
+<div>
+    <div class="row">
+        <div class="large-5 columns col-details">
+            <h2>@T("Job Number"): <span ng-bind="vm.job.orderNumber"></span></h2>
+            <h2>@T("Name"): <span ng-bind="vm.job.jobName"></span></h2>
+            <h2>@T("Expiration Date"): <span ng-bind="vm.job.expirationDate | date:'shortDate'"></span></h2>
+        </div>
+    </div>
+    <form id="jobQuoteDetails" novalidate>
+        <table class="responsive info-tbl job-items">
+            <tbody>
+                <tr>
+                    <th class="col-desc">@T("Description")</th>
+                    <th class="col-qty-job">@T("Job Qty")</th>
+                    <th class="col-qty-sold">@T("Purchased Qty")</th>
+                    <th class="col-qty-remaining">@T("Qty Remaining")</th>
+                    <th ng-if="vm.job.isEditable" class="col-qty-order">@T("Order Qty")</th>
+                </tr>
+                <tr ng-repeat="product in vm.job.jobQuoteLineCollection">
+                    <td class="col-desc">
+                        <div class="item-name">
+                            <a id="productUri_{{$index}}" href="{{product.productUri}}" ng-bind="product.shortDescription"></a>
+                        </div>
+                        <div class="item-num">
+                            <span class="item-num-sku" ng-bind="product.erpNumber"></span>
+                            <span ng-if="product.manufacturerItem" class="item-num-mfg">@T("MFG #"): {{product.manufacturerItem}}</span>
+                        </div>
+                        <div class="availability">
+                            <span ng-if="product.availability.messageType != '@((int)AvailabilityMessageType.NoMessage)'"
+                                  ng-class="{'instock': product.availability.messageType == '@((int)AvailabilityMessageType.Available)', 'lowstock': product.availability.messageType == '@((int)AvailabilityMessageType.LowStock)', 'outstock': product.availability.messageType == '@((int)AvailabilityMessageType.OutOfStock)'}"
+                                  class="instock"
+                                  ng-bind="product.availability.message"></span>
+                        </div>
+                        <div ng-if="product.pricing" class="pricing">
+                            <span class="item-price" ng-bind="product.pricing.actualPriceDisplay"></span>
+                            <span class="um displayUnitOfMeasure isc-uomDisplay" ng-bind="product.unitOfMeasureDisplay"></span>
+                        </div>
+                    </td>
+                    <td class="col-qty-job" ng-bind="product.qtyOrdered"></td>
+                    <td class="col-qty-sold" ng-bind="product.qtySold"></td>
+                    <td class="col-qty-remaining" ng-bind="vm.quantityRemaining(product)"></td>
+                    <td ng-if="vm.job.isEditable" class="col-qty-order">
+                        <input type="text"
+                               id="qtyOrder_{{$index}}"
+                               class="numerictextbox"
+                               name="qtyOrder_{{$index}}"
+                               ng-model="product.qtyRequested"
+                               ng-disabled="vm.quantityRemaining(product) <= 0"
+                               data-rule-max="{{vm.quantityRemaining(product)}}"
+                               data-msg-max="@T("Order quantity exceeds quantity remaining")" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div ng-if="vm.job.isEditable" class="sub-amount">
+            <span>@T("Sub-Total"):</span>
+            <span id="jobSubTotal" ng-bind="vm.job.orderTotalDisplay"></span>
+        </div>
+        @*<span id="qtyRequiredMessage" style="display: none;" class="error">@T("Please enter a quantity")</span>*@
+        <button ng-if="vm.job.isEditable" class="btn primary" ng-disabled="!vm.job.orderTotal > 0" ng-click="vm.generateOrder()" type="submit" id="generateOrderBtn">@T("Generate Order")</button>
+    </form>
+</div>

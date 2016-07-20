@@ -1,0 +1,18 @@
+﻿@using Insite.Admin.FormBuilder.Models.FormBuilder
+@using HtmlHelperExtensions = Insite.WebFramework.Mvc.Extensions.HtmlHelperExtensions
+@model Insite.Admin.Models.EntityViewModel
+
+<div class="grid-block vertical" ng-controller="@Model.AngularController as entityDetailsCtrl"
+     pluralized-entity-name="@Model.EntityDefinition.PluralizedName" entity-id="@Model.Id"
+     potential-properties-for-parent-entity-id="@(Model.EntityDefinition.PotentialPropertiesForParentEntityId)"
+     form-name="@Model.Form.Name" entity-name="@Model.EntityDefinition.Name"
+     pluralized-names-for-parents="@Model.PluralizedNamesForParents"
+     id="tst-@(Model.Form.Name)-edit-page">
+
+    <div ng-if="entityDetailsCtrl.isReady" class="grid-block vertical">
+        @Html.Partial("EntityHeading", Model)
+        @Html.Partial("Zone", ZoneViewModel.Create(Model.Form, "Root"))
+    </div>
+</div>
+@Html.Partial("EditTranslations")
+@Html.Partial("EditColumns")

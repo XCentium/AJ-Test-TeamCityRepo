@@ -1,0 +1,19 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.WishLists.Content.WishListPage
+
+@section BodyClass { ma-wishlist }
+@section Styles
+{
+    @Html.RequireCss(Url.ThemedContent("/Styles/template/ma-wishlist.css"))
+    @Html.RequireCss("/Scripts/libraries/zurb-responsive-tables/0.0.0/responsive-tables.css")
+}
+
+@Html.RequireScript("/Scripts/libraries/zurb-responsive-tables/0.0.0/responsive-tables.js")
+
+<div class="row main-row">
+    <div class="large-12 columns">
+        @Html.Zone(Model, "Content")
+    </div>
+</div>
+
+

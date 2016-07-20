@@ -1,0 +1,24 @@
+﻿@*
+    usage example:
+    <isc-product-name product="productDto"  no-link="true">
+    </isc-product-name>
+*@
+<div class="item-num-container"">
+    <div ng-if="product.properties['genericPartNumber']">
+        <div ng-if="!noLink" class="item-name">
+            <a ng-href="{{product.productUri}}" ng-bind="product.shortDescription"></a>
+        </div>
+        <div class="item-num">
+            <span class="item-num-mfg">@T("Item#") <span class="dark" ng-bind="product.properties['genericPartNumber']"></span></span>
+        </div>
+    </div>
+
+    <div ng-if="!product.properties['genericPartNumber']">
+        <div ng-if="!noLink" class="item-name">
+            <a ng-href="{{product.productUri}}" ng-bind="product.shortDescription"></a>
+        </div>
+        <div class="item-num">
+            <span class="item-num-mfg" ng-if="product.manufacturerItem">@T("MFR#") <span class="dark" ng-bind="product.manufacturerItem"></span></span>
+        </div>
+    </div>
+</div>

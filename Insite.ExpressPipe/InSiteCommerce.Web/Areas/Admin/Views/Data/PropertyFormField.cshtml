@@ -1,0 +1,10 @@
+﻿@using Insite.Admin.ControlTypes
+@model Insite.Admin.Models.ControlTypeViewModel
+
+@if (Model.ControlType != null && !Model.PropertyDefinition.IsHidden)
+{
+    <div id="@(Model.PropertyDefinition.EntityDefinition.Name)_@(Model.PropertyDefinition.Name)" class="@(Model.ControlType.GetType() == typeof(ChildCollectionGridControl) || Model.ControlType.GetType() == typeof(DocumentCollectionGridControl) ? "grid-block" : "") flex-none"
+        @Html.Raw(Model.HtmlTagAttributes.Aggregate("", (current, attribute) => current + " " + attribute.Key + "=\"" + attribute.Value + "\""))>
+        @Html.Partial("/Areas/admin/Views/Data/ControlTypes/" + Model.ControlType.ViewName + ".cshtml")
+    </div>
+}

@@ -1,0 +1,16 @@
+﻿@model string
+
+@{
+    Layout = "/Areas/ContentAdmin/Views/Shared/_BaseLayout.cshtml";
+}
+<div class="cacheDisplay">
+    @Html.Raw(Model)
+</div>
+
+<style>
+    body, html { overflow: auto; }
+     .cacheDisplay { background-color: white; padding: 20px; font-size: 14px; }
+    .cacheDisplay label { font-style: italic; display: block; margin-bottom: 2px; }
+    .cacheDisplay div { margin-bottom: 25px; }
+</style>
+

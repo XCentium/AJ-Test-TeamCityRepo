@@ -1,0 +1,107 @@
+﻿@using Insite.Account.Content
+@using Insite.Cart.Content
+@using Insite.Core.Providers
+@using Insite.Rfq.Content
+@using Insite.Requisition.Content
+
+
+@helper CheckoutButtons()
+{
+    <a ng-if="vm.cart.canCheckOut" class="button"
+       ng-href="{{vm.cart.canBypassCheckoutAddress ? '@(Url.ContentPage<ReviewAndPayPage>())' + vm.cart.cartIdParam : '@(Url.ContentPage<CheckoutAddressPage>())' + vm.cart.cartIdParam}}">@T("Checkout")</a>
+    <a ng-if="!vm.cart.canCheckOut" class="button" href="javascript:void(0)">@T("Checkout")</a>
+    <a ng-if="vm.cart.canRequestQuote" href="@(Url.ContentPage<RfqRequestQuotePage>())" class="button secondary" ng-bind="vm.cart.isSalesperson ? '@T("Create a Quote")' : '@T("Request a Quote")'" ng-disabled="vm.cart.isAwaitingApproval"></a>
+    <a ng-if="vm.cart.properties['displayCancelPunchoutLink']" href="/punchout/punchoutsubmitporequisition.isch?operation=cancel" class="button secondary">@T("Cancel PunchOut")</a>
+    <a ng-if="vm.cart.canSaveOrder" href="javascript: void(0);" class="button secondary" ng-click="vm.saveCart('@(Url.ContentPage<SavedOrderDetailPage>())', '@(Url.ContentPage<SignInPage>())')">@T("Save Order")</a>
+    <a ng-if="vm.cart.canRequisition" href="#" class="Button secondary" ng-click="vm.submitRequisition('@(Url.ContentPage<RequisitionConfirmationPage>())')">@T("Submit Requisition")</a>
+}
+
+<div class="cart">
+    <header class="row">
+        <div class="medium-6 xlarge-3 columns">
+            <h2>@T("Shopping Cart")</h2>
+        </div>
+        <div class="medium-6 end columns medium-text-right">
+            <ul class="inline-list page-utility-nav">
+                <li><a href="javascript: void(0);" class="" ng-click="vm.addToList()"><i class="fa fa-star"></i> @T("Add Cart To List")</a></li>
+                <li><a ng-if="vm.cart.canSaveOrder" href="javascript: void(0);" class="" ng-click="vm.saveCart('@(Url.ContentPage<SavedOrderDetailPage>())', '@(Url.ContentPage<SignInPage>())')"><i class="fa fa-cart-plus"></i> @T("Save Cart")</a></li>
+                <li><a href="javascript: window.print();"><i class="fa fa-print"></i> @T("Print")</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="row">
+        <div class="xlarge-9 columns">
+            <morsco-shipping-bar ng-if="vm.cart.cartLines.length > 0" default-warehouses="vm.defaultWarehouses" cart="vm.cart"></morsco-shipping-bar>
+
+            <div ng-if="vm.cart.cartLines.length == 0" class="cart-empty">
+                <h3>@MessageProvider.Current.Cart_NoOrderLines</h3>
+            </div>
+
+            <div class="cart-group">
+                <div ng-if="vm.cart.cartLines.length > 0">
+                    <div ng-if="vm.cart.isAwaitingApproval" class="app-for">
+                        <h3>@T("Approving Order For"): <em ng-bind="vm.cart.initiatedByUserName"></em></h3>
+                    </div>
+                    <div ng-if="vm.cart.quoteRequiredCount > 0" class="quote-items-note messaging">
+                        @MessageProvider.Current.Rfq_QuoteRequiredMsg
+                    </div>
+
+                    <div class="cart-grid">
+					    <morsco-cart-lines cart="vm.cart" warehouses="vm.warehouses" editable="true"
+									    include-quote-required="true"
+									    include-inventory="vm.showInventoryAvailability"
+									    inventory-check="true"
+									    is-cart-page="true"
+									    is-catalog="true"
+									    class="item-list cart-items">
+					    </morsco-cart-lines>
+                    </div>
+                </div>
+
+                @*<div class="btns hide-for-small">
+                        <a href="@(Url.ContentPage<HomePage>())" ng-click="vm.continueShopping($event)" class="btn secondary btn-continue-shopping">@T("Continue Shopping")</a>
+                    </div>*@
+
+                <div ng-if="vm.cart.cartLines.length > 0">
+                    <isc-cart-bottom-sub-total-display cart="vm.cart" is-cart-page="true"></isc-cart-bottom-sub-total-display>
+                </div>
+            </div><!-- /.cart-group -->
+
+            <hr class="dotted" />
+
+            <div class="cart-group">
+                <div ng-if="vm.cart.properties['nonCatalogProductCount'] > 0">
+                    <header class="row">
+                        <div class="medium-5 columns">
+                            <h2>@T("Items to be Quoted")</h2>
+                        </div>
+                    </header>
+
+                    <div class="cart-grid">
+                        <morsco-cart-lines cart="vm.cart" warehouses="vm.warehouses" editable="true"
+                                           include-quote-required="true"
+                                           include-inventory="vm.showInventoryAvailability"
+                                           inventory-check="true"
+                                           is-cart-page="true"
+                                           is-catalog="false"
+                                           class="item-list cart-items">
+                        </morsco-cart-lines>
+                    </div>
+                </div>
+                <div ng-if="vm.cart.properties['nonCatalogProductCount'] > 0">
+                    <isc-cart-bottom-sub-total-display cart="vm.cart" is-cart-page="true" is-non-catalog="true"></isc-cart-bottom-sub-total-display>
+                </div>
+            </div><!-- /.cart-group -->
+		</div>
+
+        <div class="medium-6 xlarge-3 end columns">
+            @*<isc-cart-total-display cart="vm.cart" promotions="vm.promotions" is-cart-page="true"></isc-cart-total-display>
+
+                <div class="btns hide-for-print">
+                    @CheckoutButtons()
+                </div>*@
+            <isc-cart-right-column-sidebar cart="vm.cart" is-cart-page="true"></isc-cart-right-column-sidebar>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,227 @@
+body.quick-order-2 {
+    h1 {
+        float: left;
+    }
+    .page-top-link {
+        float: right;
+        margin-top: -45px;
+        font-weight: bold;
+    }
+}
+
+
+@media all and (max-width: 767px) {
+    body.quick-order-2 {
+        h1 {
+            float: none;
+        }
+        .page-top-link {
+            float: none;
+            margin-bottom: 15px;
+            margin-top: -5px;
+            display: block;
+        }
+    }
+}
+
+
+
+#errorMessage {
+    display: inline-block;
+    width: 100%;
+    float: left;
+    max-width: 350px;
+    padding: 0.25em 1em;
+    font-size: 0.9em;
+    line-height: 1.5em;
+    font-weight: 600;
+    margin-top: -1px;
+    margin-bottom: 1rem;
+    font-style: italic;
+    background: #F04124 none repeat scroll 0% 0%;
+    color: #FFF;
+}
+
+@media all and (min-width: 768px) {
+    .quick-order-2 .qo-search {
+        float:left;
+        width:70%;
+    }
+}
+
+.quick-order-2 .qo-search .qo-search-input {
+    .qo-searchbox{
+        display: block;
+        width: 100%;
+    }
+}
+
+@media all and (min-width: 768px) {
+    .quick-order-2 .qo-tbl {
+        float:left;
+        width:70%;
+    }
+}
+
+.quick-order-2 .qo-tbl .qo-items {
+    padding-right:1em;
+}
+
+.quick-order-2 .qo-item {
+    border-top:1px solid #E0E0E0;
+    padding:0.5em 0 0 0;
+    margin:0.5em 0;
+    width:100%;
+    float:left;
+}
+
+.quick-order-2 .qo-item div.remove {
+    display:inline-block;
+    float:right;
+}
+
+.quick-order-2 .qo-item div.price {
+    display:inline-block;
+    vertical-align:middle;
+    float:left;
+}
+
+.quick-order-2 .qo-item div.price div.quantity-pricing {
+    display:inline-block;
+}
+
+.quick-order-2 .qo-item div.qo-opt {
+    display:inline-block;
+    vertical-align:middle;
+    float:right;
+    text-align:right;
+    width:100%;
+    clear:both;
+    padding-right:1em;
+    height:2.5em;
+    line-height:2.5em;
+}
+
+@media all and (max-width: 767px) {
+    .quick-order-2 .qo-item div.qo-opt {
+        height:auto;
+        line-height:auto;
+    }
+}
+
+.quick-order-2 .qo-item div.qo-opt .um-pack label {
+    display:inline-block;
+    vertical-align:middle;
+    font-size:0.875em;
+    margin-right:0.25em;
+}
+
+.quick-order-2 .qo-item div.qo-opt .um-pack select {
+    display:inline-block;
+    vertical-align:middle;
+    margin:0;
+    width:auto;
+    max-width:100px;
+}
+
+.quick-order-2 .qo-item div.qo-opt .qo-qty {
+    margin-left:1em;
+}
+
+.quick-order-2 .qo-item label {
+    display:inline-block;
+    vertical-align:middle;
+}
+
+.quick-order-2 .qo-item input {
+    display:inline-block;
+    vertical-align:middle;
+    width:60px;
+    margin-bottom:0;
+}
+
+.quick-order-2 .qo-item .qo-subtotal {
+    min-width:90px;
+}
+
+@media all and (min-width: 768px) {
+    .quick-order-2 .qo-item .qo-subtotal {
+        min-width:110px;
+    }
+}
+
+.quick-order-2 .qo-item div.um-pack {
+    display:inline-block;
+    vertical-align:middle;
+}
+
+.quick-order-2 .qo-item div.um-pack .um {
+    display:inline-block;
+    vertical-align:middle;
+}
+
+.quick-order-2 .qo-item div.um-pack .um-sep {
+    display:none;
+}
+
+.quick-order-2 .qo-item div.um-pack .pack-size {
+    display:inline-block;
+    vertical-align:middle;
+}
+
+.quick-order-2 .qo-item .qo-opt > div {
+    display:inline-block;
+    vertical-align:middle;
+}
+
+.quick-order-2 .qo-item .qo-opt > div {
+    display:inline-block;
+    vertical-align:middle;
+}
+
+.quick-order-2 .qo-total {
+    float:left;
+    width:100%;
+    text-align:right;
+    padding:1em 0;
+    margin:1em 0;
+    border-top:1px solid #bbb;
+    font-weight:bold;
+    font-size:1.2em;
+}
+
+.quick-order-2 .btns  {
+    width:100%;
+    text-align:right;
+    margin-bottom:1em;
+}
+@media all and (max-width: 767px) {
+    .quick-order-2 .btns .btn {
+        width:100%;
+        margin-top:1em;
+        margin-bottom:.5em;
+    }
+}
+
+@media all and (min-width: 768px) {
+    .quick-order-2 .btns  {
+        float:right;
+        width:25%;
+        text-align:right;
+    }
+}
+
+
+.qo-item .item-num,
+.qo-item .item-name {
+    padding-right:3.5em !important; }
+
+/* Remove btn */
+
+.quick-order-2 .qo-item div.remove {
+    display:inline-block;
+    float:right;
+    margin-right:0;
+}
+
+

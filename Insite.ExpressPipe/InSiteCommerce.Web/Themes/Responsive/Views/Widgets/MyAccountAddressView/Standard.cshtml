@@ -1,0 +1,14 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+<isc-my-account-address></isc-my-account-address>
+
+@Html.Action("GenericPopupPartial", "Shared", new { containerName = "saveSuccess", BodyHtml = T("Address Saved"), Title = T("Address Saved") })
+
+<script type="text/ng-template" id="/Directives/Account/AddressEdit">
+    @Html.ThemedPartial("/Views/Directives/Account/AddressEdit.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Account/AddressField">
+    @Html.ThemedPartial("/Views/Directives/Account/AddressField.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Account/MyAccountAddressView">
+    @Html.ThemedPartial("/Views/Directives/Account/MyAccountAddressView.cshtml")
+</script>

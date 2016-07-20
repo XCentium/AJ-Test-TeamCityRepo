@@ -1,0 +1,20 @@
+﻿@using Insite.Core
+@using Insite.Core.Context
+@using Insite.WebFramework.Mvc.Extensions
+
+@if (SiteContext.Current.UserProfile.Salespersons.Count > 0)
+{
+    <isc-my-quote-sales></isc-my-quote-sales>
+
+    <script type="text/ng-template" id="/Directives/Rfq/MyQuoteSalesView">
+        @Html.ThemedPartial("/Views/Directives/Rfq/MyQuoteSalesView.cshtml")
+    </script>
+}
+else
+{
+    <isc-my-quote-user-view></isc-my-quote-user-view>
+
+    <script type="text/ng-template" id="/Directives/Rfq/MyQuoteUserView">
+        @Html.ThemedPartial("/Views/Directives/Rfq/MyQuoteUserView.cshtml")
+    </script>
+}

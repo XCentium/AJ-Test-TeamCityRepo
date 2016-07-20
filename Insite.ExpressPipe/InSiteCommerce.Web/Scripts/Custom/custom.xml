@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- add files paths here to include them after base scripts but before automatically included custom scripts in global.min.js -->
+<files>
+    <!-- <file>/Custom/MyFolder/example.js</file>-->
+</files>

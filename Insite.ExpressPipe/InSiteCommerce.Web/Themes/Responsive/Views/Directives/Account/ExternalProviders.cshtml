@@ -1,0 +1,18 @@
+﻿<div>
+    <div ng-if="vm.externalProviders.length > 0">
+        <hr/>
+        <h4>@T("Use another service to log in.")</h4>
+
+        <div id="socialLoginList">
+            <p>
+                <a class="btn primary external-provider" ng-repeat="provider in vm.externalProviders" id="{{provider.name}}" ng-href="{{provider.url}}" title="{{provider.caption}}">{{provider.caption}}</a>
+            </p>
+        </div>
+    </div>
+
+    @{ var externalError = this.Request.QueryString["externalError"];}
+    @if (!string.IsNullOrWhiteSpace(externalError))
+    {
+        <div class="messaging--error">@externalError</div>
+    }
+</div>

@@ -1,0 +1,12 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Cart.Content.CheckoutAddressPage
+
+@section BodyClass { checkout-addresses }
+@section Styles
+{
+    @Html.RequireCss(Url.ThemedContent("/Styles/template/checkout-addresses.css"))
+}
+
+<div class="row main-row">
+    @Html.Zone(Model, "Content")
+</div>

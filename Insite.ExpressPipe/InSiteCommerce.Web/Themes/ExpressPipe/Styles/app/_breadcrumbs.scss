@@ -1,0 +1,20 @@
+﻿.breadcrumbs {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+
+    > * {
+        text-transform: inherit;
+
+        a,
+        span,
+        em {
+            display: inline-block;
+        }
+
+        &:before {
+            @extend .fa;
+            content: "\f105";
+        }
+    }
+}

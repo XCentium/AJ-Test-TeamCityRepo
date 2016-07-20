@@ -1,0 +1,63 @@
+﻿@model Insite.Configurator.Models.ConfigurationPageViewModel
+<script type="text/javascript">
+    var configurationPage@(Model.ConfigurationPageKey) = function() {
+        function scriptPromptWhen() {
+            @if (!Model.ScriptPromptWhen.IsBlank())
+            {
+                @Html.Raw(Model.ScriptPromptWhen)
+            }
+            else
+            {
+                @:return true;
+            }
+        }
+        function scriptOnEntry() {
+            @if (!Model.ScriptOnEntry.IsBlank())
+            {
+                @Html.Raw(Model.ScriptOnEntry)
+            }
+            else
+            {
+                @:return true;
+            }
+        }
+        function scriptPassFail() {
+            @if (!Model.ScriptPassFail.IsBlank())
+            {
+                @Html.Raw(Model.ScriptPassFail)
+            }
+            else
+            {
+                @:return true;
+            }
+        }
+        function scriptOnLeave() {
+            @if (!Model.ScriptOnLeave.IsBlank())
+            {
+                @Html.Raw(Model.ScriptOnLeave)
+            }
+            else
+            {
+                @:return true;
+            }
+        }
+        return {
+            scriptPromptWhen: scriptPromptWhen,
+            scriptOnEntry: scriptOnEntry,
+            scriptPassFail: scriptPassFail,
+            scriptOnLeave: scriptOnLeave
+        };
+    }();
+
+    //this wipes any existing page entry events from previous pages, the configuration option prompt whens get bound to this event
+    $(document).unbind("pageEntry");
+
+    @Html.Raw(Model.ConfigurationOptionsJavaScriptOutput)   
+
+    configurator.pagePromptWhen = configurationPage@(Model.ConfigurationPageKey).scriptPromptWhen;
+    configurator.pageOnEntry = configurationPage@(Model.ConfigurationPageKey).scriptOnEntry;
+    configurator.pagePassFail = configurationPage@(Model.ConfigurationPageKey).scriptPassFail;
+    configurator.pageOnLeave = configurationPage@(Model.ConfigurationPageKey).scriptOnLeave;
+    configurator.pageSkipIfNoInputs = @(Model.SkipIfNoInputs ? "true" : "false");
+    configurator.pageSkipScriptsNoInputs = @(Model.SkipScriptsIfNoInputs ? "true" : "false");
+</script>

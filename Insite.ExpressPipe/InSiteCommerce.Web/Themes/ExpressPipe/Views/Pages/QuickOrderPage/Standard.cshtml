@@ -1,0 +1,15 @@
+﻿@using Insite.Core.Providers
+@using Insite.WebFramework.Mvc.Extensions
+
+@model Insite.QuickOrder.Content.QuickOrderPage
+@section BodyClass { quick-order-2 }
+@section Styles{
+    @Html.RequireCss(Url.ThemedContent("/Styles/template/quick-order-2.css"))
+}
+
+@Html.RequireScript("/Scripts/libraries/zurb-responsive-tables/0.0.0/responsive-tables.js")
+
+<div class="main-row">
+    @Html.Zone(Model, "Content")
+</div>
+@Html.Action("GenericPopupPartial", "Shared", new { containerName = "popup-addtocart-noinventory", BodyHtml = MessageProvider.Current.Cart_NotEnoughInventory, Title = @T("Add To Cart") })

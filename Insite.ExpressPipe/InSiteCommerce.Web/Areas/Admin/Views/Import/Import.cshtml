@@ -1,0 +1,162 @@
+﻿@model Insite.Core.ApplicationDictionary.EntityDefinitionDto
+
+<isa-import pluralized-entity-name="@Model.PluralizedName" pluralized-entity-label="@Model.PluralizedLabel" class="vertical grid-block"></isa-import>
+
+<style>
+
+.inputfile + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    background-color: black;
+    display: inline-block;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: red;
+}
+.inputfile:focus + label {
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+}
+</style>
+<script type="text/ng-template" id="import">
+        <div class="title-bar">
+            <h1 class="title left">Import @Model.PluralizedLabel</h1>
+        </div>
+
+        <div class="grid-block ng-scope form-content">
+            <form name="importForm" novalidate class="vertical grid-block import">
+                <div class="import__section import__section--dark">
+                    <p class="text-center">
+                        The Imports page is shared across multiple entities, such as Customers, Products, Warehouses, Orders, etc. 
+                        and provides numerous options for importing data from an Excel formatted file. Because of the various options, 
+                        it is recommended to refer to the corresponding documentation in the Help Center.
+                    </p>
+                </div>
+
+                <div class="import__section">
+                    <h2>Select File</h2>
+                    <div class="formitem float-left">
+                        <input class="inputfile" type="file" name="importFile" id="importFile">
+                        <div class="error-messages">
+                            <span ng-if="!vm.isSelectedFileValid"><i class="icon icon-warning"></i>Please select a valid XLS or XLSX file</span>
+                        </div>
+                    </div>
+                    @if (new[] { "categories", "customers", "products", "userProfiles" }.Contains(Model.PluralizedName))
+                    {
+                        <a class="button float-right secondary" href="/ImportExport/SampleImports/SampleImport_@(Model.PluralizedName).xlsx" target="_blank">Download Template</a>
+                    }
+                </div>
+
+                <div class="import__section">
+
+                    <h2>Import Options</h2>
+
+                    <div class="grid-block form-control">
+                        <div class="medium-4">
+                            <label>Validate file before importing</label>
+                        </div>
+                        <div class="medium-6">
+                            <div class="flip-switch">
+                                <input type="checkbox" id="checkbox1" ng-model="vm.validateBefore" />
+                                <label for="checkbox1">
+                                    <div class="switch-inner">
+                                        <span class="switch-on"><i class="icon icon-check-circle"></i> YES</span>
+                                        <span class="switch-off">NO <i class="icon icon-check-circle"></i></span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="medium-2">
+                            @* Can add tooltip icons here *@
+                        </div>
+                    </div>
+                    <div class="grid-block form-control">
+                        <div class="medium-4">
+                            <label>Ignore blank cells</label>
+                        </div>
+                        <div class="medium-6">
+                            <div class="flip-switch">
+                                <input type="checkbox" id="checkbox2" ng-model="vm.ignoreBlankCells" />
+                                <label for="checkbox2">
+                                    <div class="switch-inner">
+                                        <span class="switch-on"><i class="icon icon-check-circle"></i> YES</span>
+                                        <span class="switch-off">NO <i class="icon icon-check-circle"></i></span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="medium-2">
+                            @* Can add tooltip icons here *@
+                        </div>
+                    </div>
+                    <div class="grid-block form-control">
+                        <div class="medium-4">
+                            <label>Update existing records</label>
+                        </div>
+                        <div class="medium-6">
+                            <div class="flip-switch">
+                                <input type="checkbox" id="checkbox3" ng-model="vm.updateExistingRecords" />
+                                <label for="checkbox3">
+                                    <div class="switch-inner">
+                                        <span class="switch-on"><i class="icon icon-check-circle"></i> YES</span>
+                                        <span class="switch-off">NO <i class="icon icon-check-circle"></i></span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="medium-2">
+                            @* Can add tooltip icons here *@
+                        </div>
+                    </div>
+                    <div ng-if="vm.updateExistingRecords" class="grid-block form-control">
+                        <div class="medium-4">
+                            <label>Ignore modified date</label>
+                        </div>
+                        <div class="medium-6">
+                            <div class="flip-switch">
+                                <input type="checkbox" id="checkbox4" ng-model="vm.ignoreModifiedDate" />
+                                <label for="checkbox4">
+                                    <div class="switch-inner">
+                                        <span class="switch-on"><i class="icon icon-check-circle"></i> YES</span>
+                                        <span class="switch-off">NO <i class="icon icon-check-circle"></i></span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="medium-2">
+                            @* Can add tooltip icons here *@
+                        </div>
+                    </div>
+                </div>
+
+                <span class="right">
+                    <input type="submit" class="button float-right" value="Import" ng-click="vm.import()" ng-disabled="!vm.isImportButtonEnabled" />
+                    <a class="button float-right tertiary" href="javascript:void(0);" ng-click="vm.cancel()">Cancel</a>
+                </span>
+            </form>
+        </div>
+    
+    <div zf-modal="uploadModal" overlay-close="false" id="uploadModal" class="collapse modal--small">
+        <div class="modal-content">
+            <div ng-show="!vm.showUploadError">
+                <div class="loader float-left"></div>
+                <div class="uploading__text">Uploading File</div>      
+            </div>
+            <div class="error-message" ng-show="vm.showUploadError">
+                <b>Error Uploading File</b>
+                <p class="errormsg">
+                    {{vm.preValidationErrorMessage}}
+                </p>   
+                <ul>
+                    <li ng-repeat="field in vm.fieldsInError">{{field}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a zf-close="uploadModal" class="button" ng-click="vm.cancelUpload()">Cancel</a>
+        </div>
+    </div>
+</script>

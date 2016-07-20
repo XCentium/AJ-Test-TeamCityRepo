@@ -1,0 +1,22 @@
+﻿<script type="text/ng-template" id="simpleModalDialog">
+        <div class="grid-block vertical">
+            <div class="modal-header">
+                <h4 class="modal-title" ng-bind="modalDialogTitle"></h4>
+                <a zf-close class="close-button"><i class="icon icon-close"></i></a>
+            </div>
+            <div class="modal-content grid-block form-content">
+                <div class="grid-block  medium-up-1">
+                    <div class="grid-block">
+                        <div class="grid-content">
+                            <div ng-bind-html="modalDialogHtml" class="modal-content" ng-if="modalDialogHtml"></div>
+                            <label ng-bind="modalDialogText" ng-if="modalDialogText"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="button float-right" ng-click="modalSubmitAction()" ng-if="submitButtonName" ng-bind="submitButtonName"></a>
+                <a zf-close class="button float-right secondary" ng-if="cancelButtonName" ng-bind="cancelButtonName"></a>                
+            </div>
+        </div>
+</script>

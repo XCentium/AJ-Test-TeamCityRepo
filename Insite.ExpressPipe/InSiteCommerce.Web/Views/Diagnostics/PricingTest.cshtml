@@ -1,0 +1,64 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Catalog.Models.PricingTestViewModel
+
+@{
+    Layout = Url.ThemedLayout("_DiagnosticsLayout");
+}
+
+<div class="contentArea">
+    <div class="form-fields">
+        @using (Html.BeginForm("PricingResultsGrid", "Diagnostics", FormMethod.Post, new { id="pricingTestForm"}))
+        {
+            <h2>Product Pricing</h2>
+            
+            <div class="form-label">
+                <label>Product:</label>
+            </div>
+            <input name="PricingTestParameters.ProductName" id="pricingTestsProductSearch" type="text" value="@(Model.PricingTestParameters.ProductName.IsBlank() ? "Enter item name or #" : @Model.PricingTestParameters.ProductName)" onfocus="if(this.value==this.defaultValue){this.value='';}" class="qo-search" data-autocompleteurl="@Url.RouteUrl("ProductsV1Autocomplete", new { httpRoute = true })"/>
+            <input name="PricingTestParameters.ProductId" id="ProductId" value="@(Model.PricingTestParameters.ProductId.IsBlank() ? "" : @Model.PricingTestParameters.ProductId)" type="hidden" />
+
+            @Html.CheckBoxFor(c => c.PricingTestParameters.PriceAllProducts)
+            <span>Price All Products</span>
+            <br />
+            
+            <div class="form-label">
+                <label>Customer:</label>
+            </div>
+            <input name="CustomerName" id="pricingTestsCustomerSearch" value="@(Model.PricingTestParameters.CustomerName.IsBlank() ? "Enter customer name" : @Model.PricingTestParameters.CustomerName)" onfocus="if(this.value==this.defaultValue){this.value='';}" type="text" />
+            <input name="PricingTestParameters.CustomerId" id="CustomerId" value="@(Model.PricingTestParameters.CustomerId.IsBlank() ? "" : @Model.PricingTestParameters.CustomerId)" type="hidden" />
+            
+            <div class="form-label">
+                <label>Currency:</label>
+            </div>
+            @Html.DropDownListFor(m => m.PricingTestParameters.CurrencyCode, Model.PricingTestParameters.CurrencyCodes, new { name="PricingTestParameters.CurrencyCode"})
+    
+            <div class="form-label">
+                <label>Warehouse:</label>
+            </div>
+            <input name="PricingTestParameters.Warehouse" type="text" id="warehouse" value="@Model.PricingTestParameters.Warehouse" />
+            <input name="PricingTestParameters.WarehouseId" id="warehouseId" value="@(Model.PricingTestParameters.WarehouseId.IsBlank() ? "" : @Model.PricingTestParameters.WarehouseId)" type="hidden" />
+    
+            <div class="form-label">
+                <label>Unit Of Measure:</label>
+            </div>
+            <input name="PricingTestParameters.UnitOfMeasure" type="text" id="UnitOfMeasure" value="@Model.PricingTestParameters.UnitOfMeasure" />
+        
+            <div class="form-label">
+                <label>Pricing Date:</label>    
+            </div>
+            <input name="PricingTestParameters.PricingDate" type="text" id="PricingDate" class="datepicker" value="@Model.PricingTestParameters.PricingDate" />
+            
+            <div class="form-label">
+                <label>Quantity</label>
+            </div>
+            <input name="PricingTestParameters.Qty" type="text" id="Qty" value="@Model.PricingTestParameters.Qty" />
+    
+            <br />
+            <br />
+            <a id="submitPricing" type="text" class="btn btnStyleA btn-search" style="cursor:pointer" >Submit</a>
+            <div class="spinner" style="display: none">Working...</div>
+        }
+    </div>
+    <div id="pricingResults"></div>
+</div>
+        

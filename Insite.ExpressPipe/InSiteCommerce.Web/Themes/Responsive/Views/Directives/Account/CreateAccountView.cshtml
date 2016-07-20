@@ -1,0 +1,78 @@
+﻿@using Insite.Core.Providers
+@using Insite.WebFramework.Mvc.Extensions
+
+<div class="row">
+    <div class="medium-6 large-6 columns ca-form">
+        <form id="createAccountForm">
+            <div class="required-msg"><span class="redTxt">*</span> @T("Required")</div>
+            <div class="row ca-form-email">
+                <div class="medium-5 large-5 columns">
+                    <label for="CreateNewAccountInfo_EmailAddress">@T("Email Address") <span class="redTxt">*</span></label>
+                </div>
+                <div class="medium-7 large-7 columns">
+                    <input type="text" id="CreateNewAccountInfo_EmailAddress" name="CreateNewAccountInfo.EmailAddress"
+                           data-rule-required="true"
+                           data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("Email Address"))"
+                           data-rule-email="true"
+                           data-msg-email="@string.Format(MessageProvider.Current.Field_Invalid, T("Email Address"))"
+                           ng-model="vm.email">
+                    <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.EmailAddress" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+            <div class="row ca-form-username">
+                <div class="medium-5 large-5 columns">
+                    <label for="CreateNewAccountInfo_UserName">@T("Username") <span class="redTxt">*</span></label>
+                </div>
+                <div class="medium-7 large-7 columns">
+                    <input type="text" id="CreateNewAccountInfo_UserName" name="CreateNewAccountInfo.UserName"
+                           data-rule-required="true"
+                           data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("Username"))"
+                           ng-model="vm.userName">
+                    <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.UserName" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+            <div class="row ca-form-password">
+                <div class="medium-5 large-5 columns">
+                    <label for="CreateNewAccountInfo_Password">@T("Password") <span class="redTxt">*</span></label>
+                </div>
+                <div class="medium-7 large-7 columns">
+                    <input type="password" id="CreateNewAccountInfo_Password" name="CreateNewAccountInfo.Password"
+                           data-rule-required="true"
+                           data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("Password"))"
+                           data-rule-minlength="{{settings.passwordMinimumLength}}"
+                           data-msg-minlength="{{'@MessageProvider.Current.ChangePasswordInfo_Password_Too_Short'.replace('{0}', vm.settings.passwordMinimumLength)}}"
+                           ng-model="vm.password">
+                    <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.Password" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+            <div class="row ca-form-retype">
+                <div class="medium-5 large-5 columns">
+                    <label for="CreateNewAccountInfo_ConfirmPassword">@T("Confirm Password") <span class="redTxt">*</span></label>
+                </div>
+                <div class="medium-7 large-7 columns">
+                    <input type="password" id="CreateNewAccountInfo_ConfirmPassword" name="CreateNewAccountInfo.ConfirmPassword"
+                           data-rule-required="true"
+                           data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("Confirm Password"))"
+                           data-rule-equalto="#CreateNewAccountInfo_Password"
+                           data-msg-equalto="@MessageProvider.Current.CreateNewAccountInfo_PasswordCombination_DoesNotMatch"
+                           ng-model="vm.confirmPassword">
+                    <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.ConfirmPassword" data-valmsg-replace="true"></span>
+                    <div class="pw-note">@MessageProvider.Current.ChangePasswordInfo_Password_Not_Meet_Requirements</div>
+                </div>
+            </div>
+            <div class="newsletter" ng-if="vm.settings.allowSubscribeToNewsLetter">
+                <label class="input-lbl">
+                    <input type="checkbox" id="CreateNewAccountInfo_NewsletterSubscription" name="CreateNewAccountInfo.NewsletterSubscription" ng-model="vm.isSubscribed">
+                    <input type="hidden" name="CreateNewAccountInfo.NewsletterSubscription" value="false">
+                    @Html.Message("SignIn_Sign_Up_Newsletter", "Sign me up for newsletters and product updates.")
+                </label>
+            </div>
+            <div class="error">
+                <span id="createError" class="field-validation-error" ng-if="vm.createError" ng-bind="vm.createError"></span>
+            </div>
+            <div class="btns">
+                <button id="createAccount" type="submit" class="btn primary" ng-click="vm.createAccount()">@T("Create Account")</button>
+            </div>
+        </form>
+    </div>
+</div>

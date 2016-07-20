@@ -1,0 +1,17 @@
+﻿@using Insite.Core.Providers
+@using Insite.WebFramework.Mvc.Extensions
+<div class="column">
+    <div class="row">
+        <ul class="checkout-crumbs">
+            <li ng-class="step1"><span class="number">1</span> @T(" Registration")</li>
+
+            <li ng-class="step2"><span class="number">2</span> @T("Company Information")</li>
+
+            <li ng-class="step3"><span class="number">3</span> @T("User Information")</li>
+        </ul>
+    </div>
+    <isc-registration-step-one-view></isc-registration-step-one-view>
+    <isc-registration-step-two-view></isc-registration-step-two-view>
+    <isc-registration-step-three-view></isc-registration-step-three-view>
+    <isc-registration-confirmation-view></isc-registration-confirmation-view>
+</div>

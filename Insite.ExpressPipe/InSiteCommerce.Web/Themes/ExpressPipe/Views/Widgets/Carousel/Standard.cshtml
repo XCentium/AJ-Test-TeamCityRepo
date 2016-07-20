@@ -1,0 +1,27 @@
+﻿@using Insite.Core.Interfaces.Plugins.Content
+@using Insite.WebFramework.Mvc.Extensions
+@model Carousel
+
+@if (ContentMode == ContentMode.Editing && CurrentPageContentKey == Model.PageContentKey)
+{
+    <div class="widget-carousel @Model.CssClass">
+        @Html.Zone(Model, "Carousel Slides")
+    </div>
+}
+else
+{
+    var widgets = Content.GetWidgets(Model.ContentKey, "Carousel Slides");
+
+	<div class="columns">
+    	<div class="widget-carousel slideshow-wrapper flexslider @Model.CssClass" data-animation="@Model.AnimationType.ToLower()" data-animation_speed="@Model.AnimationSpeed" data-timer_speed="@Model.TimerSpeed" data-slide_number="@(widgets.Count > 1 && Model.DisplaySlideNumbers)" data-bullets="@(widgets.Count > 1 && Model.DisplayBullets)">
+        	<ul class="slides">
+        	    @foreach (var childItem in widgets)
+        	    {
+        	        <li>
+        	            @Html.ThemedPartial(childItem.GetViewPath(), childItem)
+        	        </li>
+        	    }
+        	</ul>
+		</div>
+    </div>
+}

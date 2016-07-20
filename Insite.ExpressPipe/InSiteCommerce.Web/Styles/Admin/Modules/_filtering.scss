@@ -1,0 +1,24 @@
+﻿.quick-filter {
+    display: flex;
+}
+
+.quick-filter > select {
+    flex-shrink: 0;
+    margin-bottom: 0;
+    width: auto; //IE doesn't listen to "initial"
+    width: initial;
+}
+
+.quick-filter > .inline-label {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.quick-filter .remove-quick-filter {
+    border-left: 0;
+    border-right: 0;
+    width: 2rem;
+    cursor: pointer;
+
+    i { color: $brand !important; }
+}

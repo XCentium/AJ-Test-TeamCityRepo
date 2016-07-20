@@ -1,0 +1,114 @@
+﻿@using Insite.Core.Interfaces.Plugins.Content
+@using Insite.WebFramework.Mvc.Extensions
+@model Insite.ContentAdmin.Models.ContentItems.PreviewViewModel
+
+@{
+    Layout = "/areas/contentadmin/views/shared/_baselayout.cshtml";
+}
+
+@section Styles {
+    <style>
+        body { overflow: visible; }
+    </style>
+}
+<div class="cms-previewPage">
+    <div class="cms-previewBar">
+        <h2>
+            Previewing @Model.DisplayName
+            <em>
+                @Model.Language.Description
+                @if (Model.Language.HasPersonaSpecificContent)
+                {
+                    <text>/ @Model.Persona.Name</text>
+                }
+                @if (Model.Language.HasDeviceSpecificContent)
+                {
+                    <text>/ @Model.DeviceType</text>
+                }
+            </em>
+        </h2>
+        <select class="cms-switchViewport makeFancy">
+            <option value="dev-desktop">Desktop</option>
+            <option value="dev-tablet-portrait">Tablet Portrait (768x1024)</option>
+            <option value="dev-tablet-landscape">Tablet Landscape (1024x768)</option>
+            <option value="dev-smartphone-portrait">Smartphone Portrait (320x480)</option>
+            <option value="dev-smartphone-landscape">Smartphone Landscape (480x320)</option>
+        </select>
+        <button class="cms-button active cms-sideBySide">Side by Side</button><!-- remove inline markup spaces between elements
+     --><button class="cms-button cms-fullWidth">Full Width</button><!--
+     --><button class="cms-button cms-switchPane" disabled>Switch Version</button><!--
+     --><button class="cms-button cms-closePreview" onclick="window.close();">Close</button>
+    </div>
+    <div class="clearfix previewHolder">
+        <div class="cms-previewPane active">
+            <h3>Currently Published</h3>
+            <div class="cms-previewFrameHolder">
+                <iframe src="@Url.Action("Item", "Content", new { area = "", id = Model.ContentKey, LanguageId = Model.Language.Id, PersonaId = Model.Persona.Id, Model.DeviceType, Mode = ContentMode.Viewing })"></iframe>
+            </div>
+        </div>
+        <div class="cms-previewPane">
+            <h3 class="highlight">
+                @if (Model.IsPreviewingRollback)
+                {
+                    <text>Version From @Model.PublishedDateTime</text>
+                }
+                else
+                {
+                    <text>Unpublished</text>
+                }
+            </h3>
+            <div class="cms-previewFrameHolder">
+                <iframe src="@Url.Action("Item", "Content", new { area = "", id = Model.ContentKey, LanguageId = Model.Language.Id, PersonaId = Model.Persona.Id, Model.DeviceType, Mode = Model.IsPreviewingRollback ? ContentMode.Viewing : ContentMode.Reviewing, Model.PublishedDateTime })"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Script(@<script>
+    jQuery(function () {
+        $(".makeFancy").fancySelect();
+        $(".cms-sideBySide").click(function(e) {
+            e.preventDefault();
+            $(this).addClass("active").siblings().removeClass("active");
+            $(".cms-previewPage").removeClass("fullPage");
+            $(".cms-switchPane").prop("disabled", true);
+        });
+        $(".cms-fullWidth").click(function (e) {
+            e.preventDefault();
+            $(this).addClass("active").siblings().removeClass("active");
+            $(".cms-previewPage").addClass("fullPage");
+            $(".cms-switchPane").prop("disabled", false);
+        });
+        $(".cms-switchPane").click(function(e) {
+            e.preventDefault();
+            $(".cms-previewPane.active").removeClass("active").siblings().addClass("active");
+        });
+        var redoHeight = function() {
+            $iFrames.each(function() {
+                $(this).height(window.innerHeight - $(".cms-previewPane .highlight").outerHeight() - $(".cms-previewBar").outerHeight() - 20);
+            });
+        };
+        var $iFrames = $(".cms-previewPage .cms-previewPane .cms-previewFrameHolder iframe");
+        $iFrames.load(function () {
+            redoHeight();
+        });
+
+        var $window = $(window);
+        $iFrames.parent().height($window.height() - $iFrames.position().top - 5);
+
+        var viewportClasses = [];
+        $(".cms-switchViewport option").each(function() {
+            viewportClasses.push($(this).val());
+        });
+
+        $(".cms-previewPage").on("change.fs", ".cms-switchViewport", function () {
+            $iFrames.parent().removeClass(viewportClasses.join(" "));
+            $iFrames.parent().addClass($(this).val());
+
+            $(".previewHolder").width("auto");
+            redoHeight();
+        });
+
+        $(".cms-switchViewport").trigger("change.fs");
+    })
+</script>)

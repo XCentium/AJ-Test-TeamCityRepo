@@ -1,0 +1,31 @@
+﻿<li class="item-block">
+    <div class="item-thumb">
+        <a href="#">
+            <img src="{{product.SmallImagePath}}" />
+        </a>
+    </div>
+    <div class="item-details">
+        <div class="item-brand">
+            Delta Faucet
+        </div>
+        <div class="item-name">
+            <a href="#">{{product.Name}}</a>
+        </div>
+        <div class="item-num">
+            {{product.ModelNumber}}
+        </div>
+        <div class="item-price">@*{{product.GetProductPricing(new PricingServiceParameter()).ActualPriceDisplay*@</div>
+        <div class="add-to-cart">
+            <div class="item-qty">
+                <label>@T("Qty")</label>
+                <input type="text" value="1" class="qty numerictextbox">
+            </div>
+            <div class="item-buttons">
+                <button class="button">Add To Cart</button>
+                <div class="item-add-to-list">
+                    <a href="#" ng-if="vm.isAuthenticated()">+ Add To List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>

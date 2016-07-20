@@ -1,0 +1,25 @@
+﻿/* moved to _tables.scss */
+
+.order-number,
+.job-name,
+.ordered-by,
+.po-number {
+    /*display: inline-block;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;*/
+}
+
+.job-name,
+.ordered-by,
+.po-number {
+    word-wrap: break-word;
+}
+
+.order-detail-header {
+    .documents {
+        margin: 0;
+    }
+}

@@ -1,0 +1,31 @@
+﻿
+<div ng-if="editable && cart.showLineNotes && !cartLine.isPromotionItem" class="actions-panel edit">
+    <a id="{{'notePanelClicked_' + cartLine.id}}" href="" class="btn tertiary add-to-cart panel-trigger" data-cartnotes="true" ng-click="vm.notePanelClicked(cartLine.id)">@T("Line Notes")</a>
+    <div class="item-actions" data-cartnotes="true" ng-class="{open : (cartLine.id == vm.openLineNoteId)}">
+        <div class="item-actions-wrap">
+            <div class="large-9 columns item-code-notes">
+                <div class="row">
+                    <div ng-if="cart.showCostCode" class="large-6 columns cost-code">
+                        <label for="cost-code" ng-bind="cart.costCodeLabel">:</label>
+                        <select id="cartLineNoteCostCodeSelector_{{cartLine.id}}"
+                                ng-if="cart.canEditCostCode"
+                                ng-model="cartLine.costCode"
+                                ng-options="code.costCode as code.description for code in cart.costCodes"
+                                ng-change="vm.updateLine(cartLine, false)"></select>
+                        <span ng-if="!cart.canEditCostCode" ng-bind="cart.costCodeLabel"></span>
+                    </div>
+                    <div class="large-6 columns item-notes">
+                        <label>@T("Add Item Notes"):</label>
+                        <input data-linenote-input type="text"
+                               id="{{cartLine.id + '_notes'}}"
+                               name="{{cartLine.id + '_notes'}}"
+                               ng-disabled="!cart.canModifyOrder"
+                               ng-model="cartLine.notes"
+                               ng-keypress="vm.notesKeyPress($event,cartLine)"
+                               ng-blur="vm.updateLine(cartLine, false)" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

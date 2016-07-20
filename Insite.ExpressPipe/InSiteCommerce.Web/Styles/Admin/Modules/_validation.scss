@@ -1,0 +1,279 @@
+﻿// using FontAwesome as a bacground image for validation result
+
+//TODO: STOP USING EEEEEE/CCCCCC/999999/333333
+//      GET RID OF THESE IN ANOTHER ROUND OF CLEAN UP
+.formitem {
+    /*position:relative; */
+    &:after {
+        position: inherit;
+        @extend %icon;
+        font-size: 18px;
+        top: 0;
+        left: 0;
+        float: right;
+        margin-right: 5px;
+    }
+}
+
+.formitem-error {
+    display: none;
+    color: $error;
+    font-style: italic;
+    margin-top: -6px;
+
+    &::before {
+        @extend %icon;
+        font-size: 16px;
+        content: "\e000";
+        position: relative;
+        top: -3px;
+        margin-right: 4px;
+    }
+}
+
+// item is locked for edit
+.formitem.fi-locked {
+    min-height: 30px;
+    display: block;
+    margin-bottom: 1rem;
+
+    &:after {
+        content: "\e804";
+        color: #EEEEEE;
+    }
+}
+
+
+// item is passed validation
+.formitem.fi-valid {
+
+    &::after {
+        content: "\e281";
+        color: $brand;
+        position: static;
+        margin-top: -38px;
+    }
+}
+
+// item is not passed validation
+.formitem.fi-invalid {
+
+    .pw-note {
+        display: flex;
+    }
+    .formitem-error {
+        display: flex;
+    }
+    input {
+        border: solid 2px $error;
+    }
+}
+
+
+.errormsg {
+    color: $error;
+}
+
+
+// checklist to validate
+
+ul.checklist {
+    list-style: none;
+    margin-left: 0;
+    margin-top: 5px;
+
+    li::before {
+        @extend %icon;
+        content: "\e206";
+        color: #EEEEEE;
+        float: left;
+        font-size: 10pt;
+        line-height: 18px;
+        display: block;
+        position: static;
+        font-weight: 600;
+        margin-right: 5px;
+    }
+
+    li.passed::before {
+        color: $brand;
+    }
+}
+
+/*import messages */
+
+.import-status {
+    .title-bar {
+        width: 100% !important;
+        border-bottom: 0 !important;
+        padding-left: 10px !important;
+        margin-bottom: 0 !important;
+    }
+
+    .import-details {
+        border-top: solid 1px #ccc;
+        margin-left: 0rem;
+        margin-right: 0rem;
+        p {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 1.25rem 0;
+        }
+    }
+
+    .icon-refresh {
+        color: $brand;
+    }
+
+    &.complete {
+        .title {
+            color: $brand;
+        }
+    }
+
+    &.error {
+        .title {
+            color: $error;
+
+            .import-details {
+                display: flex !important;
+
+                p {
+                    color: $error;
+                }
+            }
+        }
+    }
+
+
+    .import-msg {
+        padding: 0 !important;
+
+        .title-bar {
+            color: $white;
+            padding-left: 10px;
+
+            .icon {
+                margin-right: 10px;
+            }
+        }
+
+        &.errors {
+            .title-bar {
+                background-color: $error;
+            }
+        }
+
+        &.complete {
+            .title-bar {
+                background-color: $brand;
+            }
+        }
+    }
+}
+
+@mixin validationicon($iconcode) {
+    ::-webkit-input-placeholder::before {
+        @extend %icon;
+        content: "/"+ $iconcode +"/";
+        color: $brand;
+    }
+
+    ::-moz-placeholder::before {
+        @extend %icon;
+        content: "/"+ $iconcode +"/";
+        color: $brand;
+    }
+
+    :-ms-input-placeholder::before {
+        @extend %icon;
+        content: "/"+ $iconcode +"/";
+        color: $brand;
+    }
+
+    input:-moz-placeholder::after {
+        @extend %icon;
+        content: "/"+ $iconcode +"/";
+        color: $brand;
+    }
+}
+
+.rotate {
+    -moz-animation: spin .9s 1 linear infinite;
+    -o-animation: spin .9s 1 linear infinite;
+    -webkit-animation: spin .9s 1 linear infinite;
+    animation: spin .9s 1 linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(359deg);
+    }
+}
+
+@-moz-keyframes spin {
+    0% {
+        -moz-transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(359deg);
+    }
+}
+
+@-o-keyframes spin {
+    0% {
+        -o-transform: rotate(0deg);
+    }
+
+    100% {
+        -o-transform: rotate(359deg);
+    }
+}
+
+@-ms-keyframes spin {
+    0% {
+        -ms-transform: rotate(0deg);
+    }
+
+    100% {
+        -ms-transform: rotate(359deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(359deg);
+    }
+}
+
+.validationloader {
+    height: 20px;
+    width: 20px;
+    -moz-animation: spin 0.8s infinite linear;
+    -o-animation: spin 0.8s infinite linear;
+    -webkit-animation: spin 0.8s infinite linear;
+    animation: spin 0.8s infinite linear;
+    border: 3px solid #000;
+    border-top-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 7px;
+}
+
+.validationloader.green {
+    border-color: $brand;
+    border-top-color: transparent;
+}
+
+.error-message {
+    margin-top: 10px;
+}

@@ -1,0 +1,13 @@
+﻿@using System
+@using Insite.Data.Entities
+@using Insite.WebFramework.Content
+@model ContentItemFieldModel
+
+@if (Model.FieldType == FieldType.Variant)
+{
+    <em>
+        @Model.LanguageDescription
+        @(!Model.PersonaName.IsBlank() ? "/ " + Model.PersonaName : "")
+        @(!Model.DeviceType.IsBlank() ? "/ " + Model.DeviceType : "")
+    </em>
+}

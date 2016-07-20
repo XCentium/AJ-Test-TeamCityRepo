@@ -1,0 +1,115 @@
+﻿@using Insite.Admin.Extensions
+<div class="grid-block">
+    <div class="grid-block vertical">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="text-left is-actionable" style="width: 100px;">
+                        <div class="column-header">Product Image</div>
+                    </th>
+                    <th class="text-left is-actionable">
+                        <div class="column-header">Product Number</div>
+                    </th>
+                    <th class="text-left is-actionable">
+                        <div class="column-header">Description</div>
+                    </th>
+                    <th class="text-left is-actionable">
+                        <div class="column-header">Unit of Measure</div>
+                    </th>
+                    <th class="text-left is-actionable">
+                        <div class="column-header">Unit Price</div>
+                    </th>
+                    <th class="text-left is-actionable">
+                        <div class="column-header">Qty Ordered</div>
+                    </th>
+                    <th class="text-left is-actionable">
+                        <div class="column-header">Price Adjustments</div>
+                    </th>
+                    <th class="text-left is-actionable">
+                        <div class="column-header">Total Price</div>
+                    </th>
+                    <th class="text-left is-actionable">
+                        <div class="column-header">Due Date</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat-start="item in entityDetailsCtrl.model.orderLines track by item.id">
+                    <td style="width: 100px;">
+                        <div class="productimage" ng-if="entityDetailsCtrl.products[item.productId] && entityDetailsCtrl.products[item.productId].imagePath">
+                            <img ng-src="{{ entityDetailsCtrl.products[item.productId].imagePath }}" style="max-width: 45px; max-height: 45px;" />
+                        </div>
+                    </td>
+                    <td>
+                        <span ng-bind="entityDetailsCtrl.products[item.productId].productNumber"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="item.description"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="item.unitOfMeasure"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="item.regularPrice.toFixed(2)"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="item.qtyOrdered"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="((item.regularPrice-item.actualPrice)*item.qtyOrdered).toFixed(2)"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="(item.actualPrice*item.qtyOrdered).toFixed(2)"></span>
+                    </td>
+                    <td>
+                        <span ng-bind="item.dueDate | date: 'short'"></span>
+                    </td>
+                </tr>
+                <tr ng-repeat-end ng-if="item.notes || (item.customProperties && item.customProperties.length > 0) || (item.orderLineConfigurationValues && item.orderLineConfigurationValues.length > 0)">
+                    <td colspan="9" class="extrainfo">
+                        <div ng-if="item.notes">
+                            <b>Line Notes: </b><span ng-bind="item.notes"></span>
+                        </div>
+                        <div ng-if="item.customProperties && item.customProperties.length > 0">
+                            <b>Line Properties: </b>
+                            <span ng-repeat="cp in item.customProperties track by cp.id">
+                                {{entityDetailsCtrl.getCustomPropertyDisplay(cp) + ($last ? '' : ',')}}
+                            </span>
+                        </div>
+                        <div ng-if="item.orderLineConfigurationValues && item.orderLineConfigurationValues.length > 0">
+                            <b>Configuration Options: </b>
+                            <span ng-repeat="olcv in item.orderLineConfigurationValues track by olcv.id">
+                                {{olcv.optionSequence + ' - ' + olcv.optionValue + ($last ? '' : ',')}}
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<br/>
+<div class="grid-block columns wrap">
+    <div class="grid-block vertical columns__column medium-12 large-6">
+    </div>
+    <div class="grid-block vertical columns__column medium-12 large-6">
+        <div>
+            @Html.FormControl(@<label>Order Subtotal</label>, @<div class="readonly orderTotals__amount" >{{entityDetailsCtrl.orderSubTotal.toFixed(2)}}</div>)
+        </div>
+        <div>
+            @Html.FormControl(@<label>Shipping & Handling</label>, @<div class="readonly orderTotals__amount">{{entityDetailsCtrl.shippingAndHandling.toFixed(2)}}</div>)
+        </div>
+        <div>
+            @Html.FormControl(@<label>Total Tax</label>, @<div class="readonly orderTotals__amount">{{entityDetailsCtrl.totalTax.toFixed(2)}}</div>)
+        </div>
+        <div ng-if="entityDetailsCtrl.promotionOrderDiscountTotal > 0">
+            @Html.FormControl(@<label>Order Promotions Total</label>, @<div class="readonly orderTotals__amount">{{entityDetailsCtrl.promotionOrderDiscountTotal.toFixed(2)}}</div>)
+        </div>
+        <div ng-if="entityDetailsCtrl.promotionShippingDiscountTotal > 0">
+            @Html.FormControl(@<label>Shipping Promotions Total</label>, @<div class="readonly orderTotals__amount">{{entityDetailsCtrl.promotionShippingDiscountTotal.toFixed(2)}}</div>)
+        </div>
+        <div>
+            @Html.FormControl(@<label>Order Grand Total</label>, @<div class="readonly orderTotals__amount">{{entityDetailsCtrl.orderGrandTotal.toFixed(2)}}</div>)
+        </div>
+    </div>
+</div>

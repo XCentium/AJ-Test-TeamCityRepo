@@ -1,0 +1,55 @@
+﻿@helper CheckoutButtons()
+{
+	<div class="summary-primary-cta">
+		<button id="quoteDetailsViewAcceptQuoteAndCheckOutButton"
+				ng-if="!vm.quote.isJobQuote"
+				ng-disabled="quote.status == 'QuoteRequested' || quote.statusDisplay == 'Expired' || quote.status == 'QuoteRejected' || quote.statusDisplay == 'Order Pending'"
+				ng-click="acceptcheckout()"
+				class="button primary expand" type="button">
+			@T("Accept Quote & Checkout")
+		</button>
+	</div>
+
+	<isc-morsco-availability-shipping-tax ng-if="quote.statusDisplay != 'Expired'"></isc-morsco-availability-shipping-tax>
+
+    <hr ng-hide="quote.status === 'Expired'" />
+
+
+    @*<div>
+		<button class="button tertiary expand" ng-disabled="quote.statusDisplay == 'Requested'" ng-click="vm.reQuote()">@T("Re-Quote")</button>
+    </div>*@
+
+    <div>
+		<button class="button tertiary expand" ng-if="quote.status == 'QuoteProposed' && quote.statusDisplay != 'Expired'" ng-click="deleteconfirmationpopup()">@T("Decline Quote")</button>
+    </div>
+
+	@* Delete Confirmation Modal *@
+	<div class="reveal-modal tiny" id="declineQuoteConfirmation" data-reveal data-options="close_on_background_click:false;close_on_esc:false;">
+        <div>
+            <p>This action removes the quote from view</p>
+            <p>Select <strong>Yes</strong> to complete the action</p>
+        </div>
+		<div class="buttons">
+			<a id="declineQuoteConfirmationButton" class="button" href="javascript:void(0);" ng-click="declinequote()">@T("YES")</a>
+			<button class="button secondary close-reveal-modal" area-label="Close" type="button">CANCEL</button>
+		</div>
+	</div>
+
+}
+    <div class="summary">
+        <header class="summary-header">
+            @T("Quote Summary")
+        </header>
+		<div class="summary-content">
+			<div class="summary-totals">
+				<div class="row collapse sub-total" ng-if="quote.statusDisplay != 'Requested'">
+					<div class="xsmall-6 columns sub-label">@T("Subtotal")</div>
+					<div class="xsmall-6 columns sub-amount" ng-bind="quote.orderSubTotalDisplay"></div>
+				</div>
+			</div>
+
+			@CheckoutButtons()
+		</div>
+    </div>
+
+

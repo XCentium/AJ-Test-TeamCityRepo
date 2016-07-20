@@ -1,0 +1,54 @@
+﻿@import 'foundation/settings';
+
+//$link-color: darken(#00A6F2,20%);
+$link-color: #145D85;
+$light-blue: #00A6F2;
+
+$brand-primary: #9C0A00;
+$brand-secondary: #C8CBCF;
+$brand-tertiary: #880900;
+$brand-quaternary: #7ED321; // need to set
+
+$error: #D90E00;
+
+$gray: #919498;
+
+$lightest-gray: #E1E6EC;
+$lighter-gray: #C8CBCF;
+$light-gray: #B6BABF;
+
+$dark-gray: #646567;
+$darker-gray: #505759;
+$darkest-gray: #2B2F30;
+
+$blue: $link-color;
+
+$lightest-blue: #EDF1F8;
+$lighter-blue: lighten($blue,55%);
+$light-blue: lighten($blue,35%);
+
+$dark-blue: darken($blue,10%);
+$darker-blue: darken($blue,15%);
+$darkest-blue: darken($blue,25%);
+
+$almost-white: #F7F7F7;
+$almost-black: #202324;
+
+$black: #131516;
+
+$ivory: #FFFBF5;
+
+$orange: #DE8F0E;
+$dark-orange: #D37710;
+
+$green: #669F13;
+
+$font-family: 'Roboto', sans-serif;
+
+$margin-single: rem-calc(10);
+$margin-double: rem-calc(20);
+$margin-quadruple: rem-calc(40);
+
+$padding-single: rem-calc(10);
+$padding-double: rem-calc(20);
+$padding-quadruple: rem-calc(40);

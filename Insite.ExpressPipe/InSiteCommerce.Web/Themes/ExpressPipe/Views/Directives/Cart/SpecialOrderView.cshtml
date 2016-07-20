@@ -1,0 +1,30 @@
+﻿<div>
+	<div class="reveal-modal small" id="specialOrderForm" data-reveal>
+		<h2>Request a Special Order Product</h2>
+		<form>
+			<div class="row collapse">
+				<div class="small-2 column">
+					<label>Quantity</label>
+				</div>
+				<div class="small-2 column end">
+					<input type="number" name="quantity" min="1" value="1" ng-model="vm.quantity" />
+				</div>
+			</div>
+			<div class="row collapse">
+				<div class="small-2 column">
+					<label>Description</label>
+				</div>
+				<div class="small-7 column end">
+                    <input type="text" name="description" min="1" required validation="vm.validation.description" placeholder="Brand, Name, Manufacturer Part Number" ng-model="vm.description" />
+                    <span class="alert" ng-show="!vm.isValid">* Please enter a description</span>
+				</div>
+			</div>
+		</form>
+		<div class="buttons">
+			<button class="button secondary" ng-click="vm.cancelSpecialOrder()" area-label="Close" type="button">CANCEL</button>
+			<button class="button primary" type="button" ng-click="vm.createSpecialOrder()">ADD PRODUCT</button>
+		</div>
+	</div><!--/#specialOrderForm-->
+
+	<div class="reveal-modal small" id="test" data-reveal>Test</div>
+</div>

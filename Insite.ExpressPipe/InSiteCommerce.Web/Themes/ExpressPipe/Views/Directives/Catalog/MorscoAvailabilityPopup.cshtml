@@ -1,0 +1,38 @@
+﻿<div>
+    <div id="popup-availability" class="reveal-modal small popup-availability" data-reveal data-reveal-init>
+        <div class="modal-wrap">
+            <h2>@T("Availability")</h2>
+            <div class="pop-content">
+                
+                <table class="availability-locations">
+                    <thead>
+                        <tr>
+                            <th class="col-branch">Branch Name</th>
+							<th class="col-street">Street Address</th>
+                            <th class="col-availability">Availability</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="warehouse in vm.warehouses">
+                            
+                            <td class="col-branch" ng-bind="warehouse.Value.BranchName"></td>
+                            <td class="col-street" ng-bind="warehouse.Value.Address"></td>
+                            <td class="col-availability" ng-bind="vm.stockList[warehouse.Key] < 0 ? 0 : vm.stockList[warehouse.Key]"></td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="col-total text-right">
+                                Total in Network: <span ng-bind="(vm.availability) ? vm.availability.StockQty : '0'"></span>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <p class="text-right"><span class="available">Available for order</span></p>
+
+                <a class="close-reveal-modal">&#215;</a>
+
+            </div>
+        </div>
+    </div>
+</div>

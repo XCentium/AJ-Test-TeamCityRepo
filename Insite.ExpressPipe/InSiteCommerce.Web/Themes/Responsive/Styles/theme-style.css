@@ -1,0 +1,51 @@
+/* 3.7 Responsive Theme */
+
+html body {
+	background-image: url([bodyBackgroundImagePath]);
+	background-color:[bodyBackgroundColor];
+	background-repeat:[backgroundImageRepeat];
+}
+/* TERT COLOR */
+
+#footer {
+	border-bottom-color: [tertiaryColor];
+}
+
+
+/* SECONDARY COLOR */
+
+a.btn.isc-addToWishlistPopup, a.btn.btn-add-list, body [role="main"] .section-container > section.active > .title a, .price-sale, .compare_item a.compare_remove {
+	color: [secondaryColor];
+}
+body [role="main"] .section-container > section > .title, body [role="main"] .section-container > section > .title:hover, a.btn.secondary:link, a.btn.secondary:visited, button.secondary {
+	background-color: [secondaryColor];
+}
+
+@media all and (max-width:767px) {
+.pc-attr-list .pc-attr>span,  .pc-attr-list .pc-value>span {
+	background-color: [secondaryColor] !important;
+}
+}
+a.compare-link, .product-compare-add a.compare-link {
+    color:[secondaryColor];
+}
+
+
+/* PRIMARY COLOR */
+
+a:link, a:visited, a:active, a.compare-active:before, .autocomplete-suggestions strong, a.btn.tertiary:hover, a.btn.tertiary:focus, button.btn.tertiary:hover, button.btn.tertiary:focus, li[role="sign-out"] .btn.sign-out, li[role="sign-in"] .btn.sign-in, header [role="user-msgs"] a, #loginPanel a.ex .foundicon-remove:before, #header .foundicon-remove:before, [role="left-nav"] .nav-panel nav .top-bar-section li a, #loginPanel .row .small-6 input, #userPanel .foundicon-remove:before, .accordion>li>a, .accordion>li.active>a, .sub-nav dd a, div.remove a.btn-remove:hover, div.remove a.btn-remove:focus {
+	color: [primaryColor];
+}
+[role="primary-nav"] ul:not(.side-nav) li:hover a span, [role="primary-nav"] ul:not(.side-nav) li:focus a span, [role="primary-nav"] ul:not(.side-nav) li:hover a i, [role="primary-nav"] ul:not(.side-nav) li:focus a i, .pnav-top-qo #qoButton, .pnav-top-account #maButton, .pnav-top-main #lnButton, .sidebar-main .ln-button, .sidebar-account .ma-button, .sidebar-qo .qo-button, .pnav-top-main .ln-button a i, .sidebar-main .ln-button a i, .sidebar-qo .qo-button a i, .sidebar-account .ma-button a i {
+	color: [primaryColor] !important;
+}
+
+span.footable-toggle, .isc-nav-bar, .isc-primary-nav, .isc-primary-nav .subnav, .top-bar-section ul li > a:hover, .top-bar-section ul li > a.button:hover, .top-bar-section ul li > a.button.secondary:hover, .top-bar-section ul li > a.button.success:hover, .top-bar-section ul li > a.button.alert:hover, a.btn.primary:link, a.btn.primary:visited, button.primary, .btn.primary, li[role="sign-out"] .btn.sign-out:hover, li[role="sign-out"] .btn.sign-out:focus, li[role="sign-in"] .btn.sign-in:hover, li[role="sign-in"] .btn.sign-in:focus, header [role="user-msgs"] a:hover, header [role="user-msgs"] a:focus, header [role="secondary-nav"] .user-button:hover, header [role="secondary-nav"] .user-button:focus, .topbar-user header [role="secondary-nav"] .user-button, header [role="secondary-nav"] a.search:hover, header [role="secondary-nav"] a.search:focus, .topbar-search header [role="secondary-nav"] a.search, .sidebar-main .ln-button, .sidebar-account .ma-button, [role="primary-nav"], #header [role="search"] a.search:hover, #header [role="search"] a.search:focus, .topbar-search #header [role="search"] a.search {
+	background-color: [primaryColor];
+}
+.item-list .pc-active-item {
+	border-color: [primaryColor] !important;
+}
+.compare-buttons .btn-compare, .footable-toggle, .btn-compare  {
+    background-color: [primaryColor];
+}

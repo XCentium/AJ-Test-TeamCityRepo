@@ -1,0 +1,61 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+<div>
+    <div>
+        <div class="hide-for-small back-btn">
+            <a id="savedOrderDetailViewReturnToSavedOrdersLink" href="@(Url.ContentPage<Insite.Cart.Content.SavedOrderListPage>())" class="btn tertiary btn-return">@T("Return to Saved Orders")</a>
+        </div>
+
+        <p class="error">@* TODO *@</p>
+
+        <div class="order-details-top">
+            <div class="row">
+                <div class="medium-4 large-4 columns od-head">
+                    <h3 class="od-lbl">@T("Date")</h3>
+                    <h3 class="od-data" ng-bind="vm.cart.orderDate | date:'shortDate'"></h3>
+                </div>
+                <div class="medium-4 large-4 columns bill-info">
+                    <div class="oc-head">
+                        <h3>@T("Billing Information")</h3>
+                    </div>
+                    <isc-address-display prefix="bt" address="vm.cart.billTo" show-email="true"></isc-address-display>
+                </div>
+                <div class="medium-4 large-4 columns ship-info">
+                    <div class="oc-head">
+                        <h3>@T("Shipping Information")</h3>
+                    </div>
+                    <isc-address-display prefix="st" address="vm.cart.shipTo" show-email="false"></isc-address-display>
+                </div>
+            </div>
+        </div>
+
+        <div class="row order-details">
+            <isc-cart-lines cart="vm.cart" include-inventory="true" include-quote-required="vm.showInventoryAvailability" class="large-12 columns item-list cart-items"></isc-cart-lines>
+        </div>
+
+        <isc-cart-total-display cart="vm.cart"></isc-cart-total-display>
+
+        <div class="btns">
+            <button id="savedOrderDetailViewPlaceSavedOrderButton" type="button"
+                    class="btn primary btn-place-saved-order"
+                    ng-if="vm.canAddToCart"
+                    ng-click="vm.placeSavedOrder('@(Url.ContentPage<Insite.Cart.Content.CartPage>())')"
+                    ng-bind="vm.canAddAllToCart ? '@T("Place Saved Order")' : '@T("Add All Available To Cart")'">
+            </button>
+            <button id="savedOrderDetailViewDeleteSavedOrderButton" type="button" class="btn secondary btn-delete-saved-order" ng-click="vm.deleteSavedOrder('@(Url.ContentPage<Insite.Cart.Content.SavedOrderListPage>())')">@T("Delete Saved Order")</button>
+            <a id="savedOrderDetailViewPrintSavedOrderButton" href="javascript: window.print();" class="hide-for-small btn secondary btn-print">@T("Print")</a>
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="/Directives/Account/AddressDisplay">
+        @Html.ThemedPartial("/Views/Directives/Account/AddressDisplay.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Cart/CartLines">
+        @Html.ThemedPartial("/Views/Directives/Cart/CartLines.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Cart/CartLineNote">
+        @Html.ThemedPartial("/Views/Directives/Cart/CartLineNote.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Cart/CartTotalDisplay">
+        @Html.ThemedPartial("/Views/Directives/Cart/CartTotalDisplay.cshtml")
+    </script>
+</div>

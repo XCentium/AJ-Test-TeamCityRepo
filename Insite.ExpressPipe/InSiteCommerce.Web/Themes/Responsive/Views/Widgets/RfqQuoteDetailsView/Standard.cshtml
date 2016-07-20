@@ -1,0 +1,48 @@
+﻿@using Insite.Core
+@using Insite.Core.Context
+@using Insite.WebFramework.Mvc.Extensions
+
+@if (SiteContext.Current.UserProfile.Salespersons.Count > 0)
+{
+    <isc-quote-details-sales-view></isc-quote-details-sales-view>
+
+    <script type="text/ng-template" id="/Directives/Rfq/QuoteDetailsSalesView">
+        @Html.ThemedPartial("/Views/Directives/Rfq/QuoteDetailsSalesView.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Rfq/QuoteOrderCalculator">
+        @Html.ThemedPartial("/Views/Directives/Rfq/QuoteOrderCalculator.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Rfq/QuoteLineCalculator">
+        @Html.ThemedPartial("/Views/Directives/Rfq/QuoteLineCalculator.cshtml")
+    </script>
+}
+else
+{
+    <isc-quote-details-view></isc-quote-details-view>
+
+    <script type="text/ng-template" id="/Directives/Rfq/QuoteDetailsView">
+        @Html.ThemedPartial("/Views/Directives/Rfq/QuoteDetailsView.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Rfq/PopupCartNotification">
+        @Html.ThemedPartial("/Views/Directives/Rfq/PopupCartNotification.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Rfq/RequestedDetailsGrid">
+        @Html.ThemedPartial("/Views/Directives/Rfq/RequestedDetailsGrid.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Rfq/ProposedDetailsGrid">
+        @Html.ThemedPartial("/Views/Directives/Rfq/ProposedDetailsGrid.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Cart/CartLineNote">
+        @Html.ThemedPartial("/Views/Directives/Cart/CartLineNote.cshtml")
+    </script>
+}
+
+<script type="text/ng-template" id="/Directives/Rfq/QuoteDetailHeader">
+    @Html.ThemedPartial("/Views/Directives/Rfq/QuoteDetailHeader.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Rfq/RfqMessages">
+    @Html.ThemedPartial("/Views/Directives/Rfq/RfqMessages.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Rfq/RfqMessageList">
+    @Html.ThemedPartial("/Views/Directives/Rfq/RfqMessageList.cshtml")
+</script>

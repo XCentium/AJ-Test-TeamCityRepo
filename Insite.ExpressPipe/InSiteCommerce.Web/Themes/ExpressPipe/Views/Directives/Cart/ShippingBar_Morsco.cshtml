@@ -1,0 +1,24 @@
+﻿<div class="panel delivery-method">
+    <span>Delivery Method:</span>
+    <div class="radios">
+        <div ng-repeat="carrier in vm.cart.carriers" class="radio">
+            <label for="delivery-method">
+                <input type="radio" name="selectedCarrier" id="{{carrier.id}}"
+                       ng-checked="carrier.id == vm.cart.carrier.id"
+                       ng-bind="vm.cart.carrier.id" value="{{carrier.id}}"
+                       ng-click="vm.shippingMethodChange()" /> {{carrier.description}}
+            </label>
+            <div ng-if="carrier.description == 'Deliver'" class="branch-selector">
+                <select @*ng-hide="vm.selectedCarrier.id !== carrier.id.toString()"*@
+                        id="shippingMethod" name="shippingMethod"
+                        data-rule-required="true"
+                        data-msg-required='@T("Shipping Method is required.")'
+                        ng-model="vm.selectedShipViaId1"
+                        ng-change="vm.updateShipVia()">
+                    <option value="">@T("Select Branch")</option>
+                    <option ng-repeat="shipVia in vm.selectedCarrier.shipVias | validShipVia:vm.cart:vm.selectedCarrier" value="{{shipVia.id.toString()}}" ng-selected="vm.selectedShipVia == shipVia.id.toString()">{{shipVia.description | limitTo: 70}}{{shipVia.description.length > 70 ? '...' : ''}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

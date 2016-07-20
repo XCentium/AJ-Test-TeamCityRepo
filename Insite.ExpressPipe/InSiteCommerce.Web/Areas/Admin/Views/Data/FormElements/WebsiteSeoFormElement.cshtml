@@ -1,0 +1,70 @@
+﻿@using Insite.Admin.Extensions
+@model Insite.Admin.FormBuilder.Elements.WebsiteSeoFormElement
+
+
+@if (Model.IsEditMode)
+{
+    <div>Website Seo Settings</div>
+}
+else
+{
+    <isa-website-seo model="entityDetailsCtrl.model" additional-dirty-checks="entityDetailsCtrl.additionalDirtyChecks" model-changed="entityDetailsCtrl.modelChanged"></isa-website-seo>
+
+    <script type="text/ng-template" id="WebsiteSeo">
+        <div  class ="websiteSeo-formElement">
+            <div ng-show="vm.isLoading">
+                Loading...
+            </div>
+            <div ng-show="!vm.isLoading">
+                <div class="error-message" ng-show="vm.errorMessage" ng-bind="vm.errorMessage"></div>
+                <div ng-show="!vm.errorMessage">
+                    @Html.FormControl(@<label for="ExcludeProducts" class="seo-option-heading seo-settings-inline">Hide all products from search engines</label>,
+                        @<div class="flip-switch seo-settings-inline">
+                                <input id="ExcludeProducts" type="checkbox" ng-model="vm.settings.HideProductsFromSearch" />
+                                <label for="ExcludeProducts">
+                                    <div class="switch-inner">
+                                        <span class="switch-on"><i class="icon icon-check-circle"></i> ON</span>
+                                        <span class="switch-off">OFF <i class="icon icon-check-circle"></i></span>
+                                    </div>
+                                </label>
+                            </div>)
+                    @Html.FormControl(@<label for="UseProductCanonicalLinks" class="seo-option-heading seo-settings-inline">Use canonical links for product pages in the sitemap</label>,
+                        @<div class="flip-switch seo-settings-inline">
+                                <input id="UseProductCanonicalLinks" type="checkbox" ng-model="vm.settings.UseProductCanonicalLinks" />
+                                <label for="UseProductCanonicalLinks">
+                                    <div class="switch-inner">
+                                        <span class="switch-on"><i class="icon icon-check-circle"></i> ON</span>
+                                        <span class="switch-off">OFF <i class="icon icon-check-circle"></i></span>
+                                    </div>
+                                </label>
+                            </div>)
+
+                    <div ng-if="vm.settings.IsMicroSite">
+                        @Html.FormControl(@<label for="MicrositeCanonicalProducts" class="seo-option-heading seo-settings-inline">Products on this microsite have their own canonical urls</label>,
+                            @<div class="flip-switch seo-settings-inline">
+                                <input id="MicrositeCanonicalProducts" type="checkbox" ng-model="vm.settings.MicrositeCanonicalProducts" />
+                                <label for="MicrositeCanonicalProducts">
+                                    <div class="switch-inner">
+                                        <span class="switch-on"><i class="icon icon-check-circle"></i> ON</span>
+                                        <span class="switch-off">OFF <i class="icon icon-check-circle"></i></span>
+                                    </div>
+                                </label>
+                            </div>)
+                    </div>
+
+                    <div ng-show="vm.tree.length > 0">
+                        <div class="seo-option-heading">CMS pages visible to search engines</div>
+                        <div class="seo-option-sub-heading">Deselect CMS pages to hide from search engines</div>
+
+                        <div id="cmsTree">
+                            <div class="select-all">
+                                <a href="javascript:void(0);" ng-click="vm.cmsSelectAllClick(true)">Select All</a>
+                                <a href="javascript:void(0);" ng-click="vm.cmsSelectAllClick(false)">Deselect All</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+}

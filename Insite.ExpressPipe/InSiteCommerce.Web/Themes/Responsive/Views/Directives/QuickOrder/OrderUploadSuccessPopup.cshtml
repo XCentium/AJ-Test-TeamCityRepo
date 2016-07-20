@@ -1,0 +1,8 @@
+﻿@using Insite.Cart.Content
+<div id="orderUploadSuccessPopup" class="reveal-modal popup-share" data-reveal>
+    <div class="ou-modal modal-wrap success">
+        <i class="fa fa-check"></i>
+        <h3>{{itemsCount}} @T("items uploaded").</h3>
+        <a class="btn primary dark-blue slim no-margin-bottom " href="@(Url.ContentPage<CartPage>())">@T("Continue to Cart")</a>
+    </div>
+</div>

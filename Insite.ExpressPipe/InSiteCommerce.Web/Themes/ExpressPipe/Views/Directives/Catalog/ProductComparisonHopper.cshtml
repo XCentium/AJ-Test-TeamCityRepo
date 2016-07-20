@@ -1,0 +1,30 @@
+﻿@using Insite.Catalog.Content
+@*
+    example-usage:
+
+    <isc-product-comparison-hopper></isc-product-comparison-hopper>
+
+    Note:
+    procutsToCompare is initialized as an empty array, no passing in of lists needed. Products are added or removed based on broadcasted events.
+*@
+
+<div class="compare-hopper hide-for-medium-down" ng-show="vm.canShowCompareHopper()">
+    <div class="compare-header">
+        <h4>You have selected {{vm.productsToCompare.length}} of 4 items to compare selected</h4>
+    </div>
+    <div class="compare-container">
+        <div class="compare-items">
+            <div class="compare-item" ng-repeat="product in vm.productsToCompare">
+                <a href="javascript:void(0);" class="compare-remove" ng-click="vm.clickRemove(product)"><i class="fa fa-remove"></i></a><img ng-src="{{product.smallImagePath}}" alt="product.altText" />
+                <div class="item-name">
+                    <a data-id="product.id" href="javascript:void(0);">{{product.shortDescription}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="compare-buttons">
+            <div>Select up to 4</div>
+            <a href="@(Url.ContentPage<ProductComparisonPage>())"><button class="button">@T("Compare")</button></a>
+            <!--<a id="compare-clear" href="javascript:void(0);"><button class="btn tertiary btn-clear" ng-click="vm.removeAllProductsToCompare()">@T("Clear All")</button></a>-->
+        </div>
+    </div>
+</div>

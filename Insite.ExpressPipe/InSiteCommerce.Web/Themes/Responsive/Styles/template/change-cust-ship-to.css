@@ -1,0 +1,33 @@
+.change-cust-ship-to .btns a.btn {
+  margin-bottom: 1em;
+}
+
+@media all and (max-width: 767px) {
+  .change-cust-ship-to .btns a.btn {
+    width: 100%;
+  }
+}
+@media all and (min-width: 768px) {
+  .change-cust-ship-to .btns {
+    text-align: right;
+  }
+}
+.change-cust-ship-to .si-step-2 {
+  margin-bottom: 1.5em;
+}
+
+.change-cust-ship-to .si-step-2 .select-step {
+  margin-bottom: 1em;
+}
+
+@media all and (min-width: 768px) {
+  .change-cust-ship-to .si-step-2 .btn {
+    float: right;
+    margin-left: 1em;
+  }
+}
+.change-cust-ship-to .btns {
+  margin-top: .25em;
+}
+
+/*# sourceMappingURL=change-cust-ship-to.css.map */

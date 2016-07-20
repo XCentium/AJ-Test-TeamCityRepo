@@ -1,0 +1,68 @@
+﻿
+
+<div class="pc-carousel top-carousel isc-carousel">
+    <ul class="items">
+        <li class="columns isc-productContainer" ng-repeat="product in vm.productsToCompare">
+            <div class="item-wrap pc-active-item">
+                <div class="carousel-item-equalize">
+                    <div class="remove">
+                        <a id="compareProductsCarouselRemoveProductButton_{{product.id}}" class="btn btn-remove removeProductFromComparison" data-productid="{{product.id}}">
+                            <i class="foundicon-remove"></i>
+                        </a>
+                    </div>
+                    <div class="thumb-wrap">
+                        <div class="item-thumb">
+                            <a id="compareProductsCarouselProductThumbLink_{{product.id}}" ng-href="{{product.productDetailUrl}}">
+                                <img ng-src="{{product.mediumImagePath}}" alt="{{product.altText}}" comparecarouselimageonload />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item-name">
+                        <a id="compareProductsCarouselProductLink_{{product.id}}" ng-href="{{product.productDetailUrl}}">{{product.shortDescription}}</a>
+                    </div>
+                    <div class="item-num">
+                        <span class="item-num-sku">{{product.name}}</span>
+                    </div>
+
+                    <div ng-if="product.canShowPrice">
+                        <div class="price">
+                            <isc-product-price product="product" id-key="" ng-if="product.canShowPrice"></isc-product-price>
+                            <span class="um displayUnitOfMeasure" @*ng-if="vm.showUnitOfMeasure(crossSellProduct)"*@>/ <span class="isc-uomDisplay">{{product.unitOfMeasureDisplay}}</span></span>
+                        </div>
+
+                        <div ng-if="vm.showQuantityBreakPricing(product)" data-dropdown>
+                            <isc-quantity-break-pricing product-id="product.id" break-prices="product.pricing.actualBreakPrices"></isc-quantity-break-pricing>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions-panel">
+                    <a id="compareProductsCarouselAddToCartLink_{{product.id}}" class="btn primary add-to-cart panel-trigger" href="javascript:void(0);" ng-if="product.canAddToCart">@T("Order_Verb")</a>
+                    <a id="compareProductsCarouselViewDetailsLink_{{product.id}}" class="btn primary btn-view-details" ng-href="{{product.productDetailUrl}}" ng-if="!product.canAddToCart">@T("View Details")</a>
+
+                    <div class="item-actions">
+                        <div class="item-actions-wrap">
+
+                            <div class="um-pack" ng-if="product.canShowUnitOfMeasure">
+                                <div class="um">
+                                    <label ng-if="vm.showUnitOfMeasure(product)">@T("U/M"):</label>
+                                    <isc-unit-of-measure-select-list product="product" alternate-units-of-measure="{{vm.productSettings.alternateUnitsOfMeasure}}" display-pack="true" change-unit-of-measure="vm.changeUnitOfMeasure(product)"></isc-unit-of-measure-select-list>
+                                </div>
+                            </div>
+
+                            <div class="item-qty" ng-if="product.canAddToCart">
+                                <label>@T("QTY_quantity"):</label>
+                                <input id="compareProductsCarouselQuanitityInput_{{product.id}}" type="text" ng-model="product.qtyOrdered" ng-init="product.qtyOrdered = 1" class="qty numerictextbox" />
+                            </div>
+
+                            <div class="action">
+                                <button id="compareProductsCarouselAddToCartButton_{{product.id}}" class="btn primary btn-add-cart" ng-click="vm.addToCart({ product: product })" ng-if="product.canAddToCart" ng-disabled="!product.qtyOrdered || product.qtyOrdered == 0">@T("Add to Cart")</button>
+                                <a id="compareProductsCarouselAddToWishlistButton_{{product.id}}" href="javascript:void(0);" class="btn secondary btn-add-list isc-addToWishlistPopup" ng-click="vm.openWishListPopup({ product: product })" ng-if="product.canAddToWishlist">@T("Add to Wishlist")</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

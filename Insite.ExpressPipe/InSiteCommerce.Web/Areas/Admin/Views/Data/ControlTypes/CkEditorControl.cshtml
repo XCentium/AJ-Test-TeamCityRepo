@@ -1,0 +1,26 @@
+﻿@using Insite.Admin.Models
+@model Insite.Admin.Models.ControlTypeViewModel<Insite.Admin.ControlTypes.CkEditorControl>
+
+@{
+    var validator = Model.PropertyDefinition.DataTypeValidator as Insite.Admin.DataTypeValidators.StringValidator;
+    var maxLength = validator != null ? validator.MaxLength : -1;
+    var minLength = validator != null ? validator.MinLength : -1;
+    var required = Model.PropertyDefinition.IsRequired;
+    var regExp = validator != null ? validator.RegularExpression : null;
+}
+@Html.Partial("FormControlContainer", new FormControlContainerModel
+{
+    ControlTypeViewModel = Model,
+    FieldContent = @<textarea id="@Model.Id"
+                              name="@Model.Id"
+                              class="@Model.ControlType.DisplayWidth.ToString().ToLower()"
+                              ck-editor
+                              min-rows="@Model.ControlType.MinRows"
+                              max-rows="@Model.ControlType.MaxRows"
+                              ng-model="@Model.EditPageModelBinding"
+                              ng-if="isTabActive === undefined || isTabActive"
+                              @(!regExp.IsBlank() ? "pattern=" + regExp : "")
+                              @(maxLength > 0 ? "maxlength=" + maxLength : "")
+                              @(minLength > 0 ? "minlength=" + minLength : "")
+                              @(required ? "required" : "")></textarea>
+})

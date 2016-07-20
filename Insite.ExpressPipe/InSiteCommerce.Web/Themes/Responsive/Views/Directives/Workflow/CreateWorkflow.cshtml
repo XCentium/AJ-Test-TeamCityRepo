@@ -1,0 +1,48 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@section BodyClass { ma-rma }
+@section Styles
+{
+    @Html.RequireCss(Url.ThemedContent("/Styles/template/ma-rma.css"))
+    @Html.RequireCss("/Scripts/libraries/zurb-responsive-tables/0.0.0/responsive-tables.css")
+}
+
+@Html.RequireScript("/Scripts/libraries/zurb-responsive-tables/0.0.0/responsive-tables.js")
+@Html.RequireScript(Url.ThemedContent("/Scripts/App/workflows/insite.workflows.service.js"))
+@Html.RequireScript(Url.ThemedContent("/Scripts/App/workflows/insite.createworkflow.controller.js"))
+
+
+<div class="row main-row" ng-controller="CreateWorkflowController">
+    <div class="medium-12 large-12 columns">
+        <ul class="breadcrumbs">
+            <li class="hide-for-small">
+                <a href="/">Home</a>
+            </li>
+            <li class="hide-for-small">
+                <a href="/Workflows">Workflows</a>
+            </li>
+            <li class="hide-for-small current">
+                Create new workflow
+            </li>
+        </ul>
+        <h1>@T("Workflows")</h1>
+
+        <a id="CreateParameterPopupLink_Href" href="javascript:void(0);" data-reveal-id="CreateParameterPopupLink"></a>
+        <div id="CreateParameterPopupLink" class="popup-requisition reveal-modal" data-reveal data-options="close_on_background_click: false;" data-reveal-init>
+            @Html.Partial("_CreateParameter");
+            <a id="closeParameter" class="close-reveal-modal">&#215;</a>
+        </div>
+
+        <a id="CreateResultPopupLink_Href" href="javascript:void(0);" data-reveal-id="CreateResultPopupLink"></a>
+        <div id="CreateResultPopupLink" class="popup-requisition reveal-modal" data-reveal data-options="close_on_background_click: false;" data-reveal-init>
+            @Html.Partial("_CreateResult");
+            <a id="closeResult" class="close-reveal-modal">&#215;</a>
+        </div>
+        
+        <div class="view-req">
+            <a class="btn secondary btn-view-requisitions" ng-click="getParameterCreator();" href="javascript:void(0);" id="createParameter">@T("Create Parameter")</a>
+            <a class="btn secondary btn-view-requisitions" ng-click="getResultCreator();" href="javascript:void(0);" id="createResult">@T("Create Result")</a>
+
+        </div>
+
+    </div>
+</div>

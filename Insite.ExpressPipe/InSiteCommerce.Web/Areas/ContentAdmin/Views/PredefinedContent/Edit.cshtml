@@ -1,0 +1,86 @@
+﻿@using Insite.Common.Providers
+@using Insite.WebFramework.Mvc.Extensions
+@using EditViewModel = Insite.ContentAdmin.Models.PredefinedContent.EditViewModel;
+@model EditViewModel
+@{
+    Layout = "/Areas/ContentAdmin/Views/Shared/_SlidePanelLayout.cshtml";
+}
+
+@section ClassName { cms-editVariant }
+@section Header { Edit Predefined Content }
+
+@using (Html.BeginForm(new { Model.ContentManagerId }))
+{
+    <fieldset>
+        <label>@Model.Name</label>
+        <textarea class="ckeditor @(!Model.CanEdit ? "readonly" : "")" id="@Model.ContentManagerId" name="HtmlContent">@Html.Raw(Model.HtmlContent)</textarea>
+        @Html.ValidationSummary()
+        <div class="buttonArea">
+            <div>
+                <button class="cms-button cms-close">Cancel</button>
+                @if (Model.HasUnapprovedContent)
+                {
+                    <button class="cms-button cms-actionButton" type="submit" name="Action:@EditViewModel.ClearRevisionAction">Clear Revision</button>
+                }
+                @if (Model.CanEdit && Model.CanApprove && !Model.HasFuturePublish)
+                {
+                    <button class="cms-button cms-actionButton" type="submit" name="Action:@EditViewModel.SaveAction">Save</button>
+                }
+                else if (Model.CanEdit && !Model.HasFuturePublish)
+                {
+                    <button class="cms-button cms-actionButton" type="submit" name="Action:@EditViewModel.SaveAction">Save & Submit For Approval</button>
+                }
+            </div>
+            <div class="edit-publish-on">
+                @if (Model.CanEdit && Model.CanApprove)
+                {
+                    @Publish("Save & Publish")
+                }
+                else if (Model.CanApprove && Model.HasUnapprovedContent)
+                {
+                    @Publish("Publish")
+                }
+            </div>
+        </div>
+    </fieldset>
+}
+
+@Html.RenderDeferredScripts()
+
+@helper Publish(string buttonName)
+{
+    if (Model.HasFuturePublish)
+    {
+        <div class="cms-clear-future-publish">
+            There is an existing publish date in the future. You can publish this item on that date, or cancel the existing publish date
+            <button class="cms-button cms-actionButton" type="submit" name="Action:@EditViewModel.ClearFuturePublishAction">Clear Publish Date</button>
+        </div>
+    }
+
+    <label>Publish On</label>
+    if (Model.HasFuturePublish)
+    {
+        @Html.Hidden("PublishDate", Model.PublishedDate)
+        <input type="text" value="@Model.PublishedDate" disabled />
+    }
+    else
+    {
+        if (!Model.HasUnapprovedContent && !Model.CanEdit)
+        {
+            @Html.Hidden("PublishDate", Model.PublishedDate)
+            <input type="text" value="@Model.PublishedDate" disabled />
+        }
+        else
+        {
+            <div class="isc-datewrap">
+                @{ var now = new DateTimeOffset(DateTimeProvider.Current.Now, TimeSpan.Zero); }
+
+                @Html.Hidden("PublishDate", now, new { @class = "isc-datetimevalue" })
+                <input type="text" class="isc-datepicker" name="PublishOn_Date" data-minDate="@now" placeholder="Date"/>
+                <input type="text" class="isc-timepicker" name="PublishOn_Time" placeholder="Time" value=""/>
+            </div>
+        }
+    }
+
+    <button class="cms-button cms-actionButton" type="submit" name="Action:@EditViewModel.PublishAction">@buttonName</button>
+}

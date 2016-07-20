@@ -1,0 +1,30 @@
+﻿@using Insite.Order.Content
+
+<div ng-cloak>
+    <div ng-show="vm.orderHistory.orders.length > 0">
+        <table class="responsive info-tbl">
+            <tbody>
+                <tr>
+                    <th class="col-date">@T("Date")</th>
+                    <th class="col-ordernum">@T("Order #")</th>
+                    <th class="col-shipto">@T("Ship To")</th>
+                    <th class="col-status">@T("Status")</th>
+                    <th class="col-po">@T("PO #")</th>
+                    <th class="col-tot">@T("Total")</th>
+                </tr>
+                <tr ng-repeat="order in vm.orderHistory.orders">
+                    <td class="col-date"><a id="recentOrdersDateLink_{{$index}}" href="@(Url.ContentPage<OrderDetailPage>())?orderNumber={{ order.webOrderNumber || order.erpOrderNumber }}">{{ order.orderDate | date:'shortDate' }} </a></td>
+                    <td class="col-ordernum"><a id="recentOrdersWebOrderNumberLink_{{$index}}" ng-href="@(Url.ContentPage<OrderDetailPage>())?ordernumber={{ order.webOrderNumber || order.erpOrderNumber }}" ng-click="">{{ order.webOrderNumber || order.erpOrderNumber }}</a></td>
+                    <td class="col-shipto" ng-bind="order.stCompanyName"></td>
+                    <td class="col-status" ng-bind="order.status"></td>
+                    <td class="col-po" ng-bind="order.customerPO" ng-click="copyToSearch(order.customerPO)"></td>
+                    <td class="col-tot" ng-bind="order.orderTotalDisplay"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="search-no-results" ng-show="vm.orderHistory.orders.length === 0">
+        <h3>@T("No orders found").</h3>
+    </div>
+</div>

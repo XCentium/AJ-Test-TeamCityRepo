@@ -1,0 +1,10 @@
+﻿body.ma-workflows { }
+
+pre { font-size: 11px; }
+.string { color: green; }
+.number { color: darkorange; }
+.boolean { color: blue; }
+.null { color: magenta; }
+.key { color: red; }
+.json-wrap { background-color: white; padding: 2.75em 1.25em 1.25em 1.25em; border: solid 1px #ddd; -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4); box-shadow: 0 0 10px rgba(0, 0, 0, 0.4); position: relative; width: 100%; max-width: 100%; }
+.break-word { word-wrap: break-word; }

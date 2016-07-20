@@ -1,0 +1,17 @@
+﻿@using System
+@model EditContentFieldModel<TextContentFieldAttribute>
+
+<label for="@Model.FieldName">
+    @Model.DisplayName
+    @if (Model.ContentFieldAttribute.IsRequired)
+    {
+        <span class="required">(required)</span>
+    }
+    @Html.Partial("ContentItemFields/_ContextDisplay", Model.ContentItemFieldModel)
+</label>
+<span data-valmsg-replace="true" data-valmsg-for="@(Model.FieldName)"></span>
+<input id="@Model.FieldName" type="text" name="@Model.FieldName" value="@Model.GetValue()"
+    @if (Model.ContentFieldAttribute.IsRequired || !Model.ContentFieldAttribute.RegExValidation.IsBlank()) { <text> data-val="true" </text>  }
+    @if (Model.ContentFieldAttribute.IsRequired) { <text> data-val-required="Value is required" </text>  }
+    @if (!Model.ContentFieldAttribute.RegExValidation.IsBlank()) { <text> data-val-regex="@Model.ContentFieldAttribute.InvalidRegExMessage" data-val-regex-pattern="@Model.ContentFieldAttribute.RegExValidation" </text>   } />
+

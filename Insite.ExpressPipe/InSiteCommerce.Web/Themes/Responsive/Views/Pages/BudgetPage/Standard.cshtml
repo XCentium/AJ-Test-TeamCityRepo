@@ -1,0 +1,15 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Budget.Content.BudgetPage
+@section BodyClass { ma-budget-management bm-setup }
+@section Styles
+{
+    @Html.RequireCss(Url.ThemedContent("/Styles/Template/ma-budget-management.css"))
+}
+
+<div class="row main-row cms-rearrangeable">
+    <div class="medium-12 large-12 columns">
+        @Html.Zone(Model, "Content")
+    </div>
+</div>
+
+

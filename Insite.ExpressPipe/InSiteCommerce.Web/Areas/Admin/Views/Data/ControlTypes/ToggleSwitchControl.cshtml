@@ -1,0 +1,27 @@
+﻿@using Insite.Admin.Models
+@model ControlTypeViewModel<Insite.Admin.ControlTypes.ToggleSwitchControl>
+
+@if (Model.PropertyDefinition.CanEdit)
+{
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<div class="flip-switch" ng-if="typeof(@Model.EditPageModelBinding) !== 'undefined'">
+            <input string-to-boolean type="checkbox" ng-model="@Model.EditPageModelBinding" id="@Model.PropertyDefinition.Name" />
+            <label for="@Model.PropertyDefinition.Name">
+                <div class="switch-inner">
+                    <span class="switch-on">@Model.ControlType.GetTrueLabel().ToUpper() <i class="icon icon-check-circle"></i></span>
+                    <span class="switch-off"><i class="icon icon-check-circle"></i> @Model.ControlType.GetFalseLabel().ToUpper()</span>
+                </div>
+            </label>
+        </div>
+    })
+}
+else
+{
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<div class="readonly">{{ @Model.EditPageModelBinding == true ? '@Model.ControlType.GetTrueLabel()' : '@Model.ControlType.GetFalseLabel()' }}</div>
+    })
+}

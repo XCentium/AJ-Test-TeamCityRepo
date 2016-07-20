@@ -1,0 +1,89 @@
+﻿@model Insite.Admin.FormBuilder.Elements.ApplicationDictionaryPropertyAttributesFormElement
+
+@if (Model.IsEditMode)
+{
+    <div>@Model.PropertiesFormElementType.ToString().SplitCamelCase() Properties Table</div>
+}
+else
+{
+    <isa-application-dictionary-property-attributes
+        additional-dirty-checks="entityDetailsCtrl.additionalDirtyChecks"
+        model="entityDetailsCtrl.model"
+        model-changed="entityDetailsCtrl.modelChanged"
+        property-type="@Model.PropertiesFormElementType.ToString().SplitCamelCase()">
+    </isa-application-dictionary-property-attributes>
+
+    <script type="text/ng-template" id="ApplicationDictionaryPropertyAttributes">
+        <div class="grid-block vertical">
+            <div class="title-bar"><h1 class="title left">{{vm.displayProperties.length | number:0}} {{vm.propertyType}} Properties</h1></div>
+
+            <div class="grid-block" st-table="vm.displayProperties" st-safe-src="vm.properties">
+                <div class="grid-block">
+                    <isa-table>
+                        <isa-table-header>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left" st-sort="name" st-sort-default="true">
+                                            <div class="column-header">Name</div>
+                                        </th>
+                                        <th ng-if="!vm.model.isCustomProperty" class="text-left" st-sort="label">
+                                            <div class="column-header">Base Value</div>
+                                        </th>
+                                        <th ng-if="!vm.model.isCustomProperty" class="text-left" st-sort="label">
+                                            <div class="column-header">Override?</div>
+                                        </th>
+                                        <th class="text-left" st-sort="label">
+                                            <div ng-if="!vm.model.isCustomProperty" class="column-header">Override Value</div>
+                                            <div ng-if="vm.model.isCustomProperty" class="column-header">Value</div>
+                                        </th>
+                                        <th ng-if="!vm.model.isCustomProperty" class="text-left" st-sort="label">
+                                            <div class="column-header">Current Value</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </isa-table-header>
+
+                        <isa-table-content>
+                            <table class="table">
+                                <tbody>
+                                    <tr ng-repeat="property in vm.displayProperties" emit-repeat-finished>
+                                        <td class="text-left">{{property.name}}</td>
+                                        <td ng-if="!vm.model.isCustomProperty" class="text-left">{{property.baseValue}}</td>
+                                        <td ng-if="!vm.model.isCustomProperty" class="text-left"><input type="checkbox" ng-model="property.isOverridden" /></td>
+                                        <td class="text-left">
+                                            <div ng-if="!property.isEnum">
+                                                <div ng-if="property.attributeType === 'string'">
+                                                    <input type="text" ng-model="property.overrideValue" ng-disabled="!property.isOverridden" />
+                                                </div>
+                                                <div ng-if="property.attributeType === 'bool' || property.attributeType === 'bool?'">
+                                                    <input type="checkbox" ng-model="property.overrideValue" ng-disabled="!property.isOverridden" />
+                                                </div>
+                                                <div ng-if="property.attributeType === 'int' || property.attributeType === 'int?'">
+                                                    <input string-to-integer type="number" ng-model="property.overrideValue" ng-disabled="!property.isOverridden" />
+                                                </div>
+                                                <div ng-if="property.attributeType === 'decimal' || property.attributeType === 'decimal?'">
+                                                    <input string-to-decimal type="number" step="any" ng-model="property.overrideValue" ng-disabled="!property.isOverridden" />
+                                                </div>
+                                                <div ng-if="property.attributeType === 'DateTimeOffset' || property.attributeType === 'DateTimeOffset?'">
+                                                    <isa-date-time-picker model="property.overrideValue" date-format="yyyy-MM-ddTHH:mm:sszzz" ng-disabled="!property.isOverridden"></isa-date-time-picker>
+                                                </div>
+                                            </div>
+                                            <div ng-if="property.isEnum && property.availableValues !== ''">
+                                                <select ng-model="property.overrideValue" ng-options="val for val in property.availableValues.split(',')" ng-disabled="!property.isOverridden">
+                                                    <option value="" disabled>Select Value</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td ng-if="!vm.model.isCustomProperty" class="text-left">{{property.isOverridden && property.overrideValue != null ? property.overrideValue : property.baseValue}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </isa-table-content>
+                    </isa-table>
+                </div>
+            </div>
+        </div>
+    </script>
+}

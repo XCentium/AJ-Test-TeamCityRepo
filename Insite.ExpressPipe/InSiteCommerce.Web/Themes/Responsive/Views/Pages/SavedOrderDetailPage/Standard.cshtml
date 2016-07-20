@@ -1,0 +1,18 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Cart.Content.SavedOrderDetailPage
+
+@section BodyClass { ma-saved-order-details }
+@section Styles
+{
+    @Html.RequireCss(Url.ThemedContent("/Styles/template/ma-saved-order-details.css"))
+    @Html.RequireCss("/Scripts/libraries/zurb-responsive-tables/0.0.0/responsive-tables.css")
+}
+
+@Html.RequireScript("/Scripts/libraries/zurb-responsive-tables/0.0.0/responsive-tables.js")
+
+<div class="row main-row">
+    <div class="large-12 columns">
+        @Html.Zone(Model, "Content")
+    </div>
+</div>
+

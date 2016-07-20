@@ -1,0 +1,73 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.ContentAdmin.Models.ContentItems.EditContentFieldModel<SelectedPageContentFieldAttribute>
+
+@{ var pageName = Model.GetValue<string>(); }
+<div class="cms-selectPageWrap cms-add-linked-page" id="cms-selectPageWrap@(Model.FieldName)">
+    <label for="@Model.FieldName">
+        @Model.DisplayName
+        @if (Model.ContentFieldAttribute.IsRequired)
+        {
+            <span class="required">(required)</span>
+        }
+        @Html.Partial("ContentItemFields/_ContextDisplay", Model.ContentItemFieldModel)
+    </label>
+    @*ugly, but to get the jquery validation to work we have to do this, the other option is to modify the ignore property for jquery.validation,
+        but there is no way to include specific fields and we don't know if we can modify the default for the whole form to not ignore anything*@
+    <div style="overflow: hidden; height: 1px; width: 1px; margin: -100px; position: absolute;">
+        <input type="text" name="@Model.FieldName" id="@Model.FieldName" value="@(pageName == "" && Model.ContentFieldAttribute.IsRequired ? "" : pageName)"
+               @if (Model.ContentFieldAttribute.IsRequired) { <text> data-val="true" data-val-required="Value is required" </text>  } />
+    </div>
+    <input class="cms-selectPageName" type="text" value="@pageName" readonly="readonly" disabled="disabled" />
+    <button class="cms-button cms-btn-primary cms-browse" type="button">Browse</button>
+    @*TODO CMS 3.7.1 if we have a clear function, it needs to set the value to 0/[blank] depending on if IsRequired is set*@
+    <div class="cms-selectPageHolder">
+        <ul style="">
+            @helper RenderNode(AbstractPage abstractPage)
+{
+            <li>
+                <a href="#" data-contentname="@abstractPage.Name">@abstractPage.Name</a>
+                @{ var childPages = Content.GetChildPages<AbstractPage>(abstractPage.ContentKey).AllPages.Where(o => !(o is AbstractNavigationPage)); }
+                @if (childPages.Any())
+                {
+                    <ul>
+                        @foreach (var childPage in childPages)
+                        {
+                            @RenderNode(childPage)
+                        }
+                    </ul>
+                }
+            </li>
+}
+            @RenderNode(Content.GetPage<HomePage>().Page)
+        </ul>
+    </div>
+    <span data-valmsg-replace="true" data-valmsg-for="@(Model.FieldName)"></span>
+</div>
+
+
+
+@Html.Script(
+    @<script>
+        (function () {
+            var $selectPageWrap = $("#cms-selectPageWrap@(Model.FieldName)");
+            $selectPageWrap.find(".cms-selectPageHolder").on("click", "a", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                $selectPageWrap.find(".cms-selectPageHolder").hide();
+                var $this = $(this);
+                $selectPageWrap.find("[name=@Model.FieldName]").val($this.attr("data-contentName"));
+                $selectPageWrap.find(".cms-selectPageName").val($this.text());
+            });
+            $selectPageWrap.find(".cms-browse").click(function (e) {
+                $selectPageWrap.find(".cms-selectPageHolder").show();
+                e.stopPropagation();
+            });
+            $selectPageWrap.find(".cms-selectPageHolder").click(function(e) {
+                e.stopPropagation();
+            });
+            $(document).click(function(e) {
+                $selectPageWrap.find(".cms-selectPageHolder").hide();
+            });
+        })();
+    </script>
+    )

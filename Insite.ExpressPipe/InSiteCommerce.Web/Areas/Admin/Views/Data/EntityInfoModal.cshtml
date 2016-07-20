@@ -1,0 +1,16 @@
+﻿<div class="modal--medium" zf-modal="" id="entityInfoModal">
+    <div class="modal-header">
+        <h4 class="modal-title">Info</h4>
+        <a zf-close class="close-button"><i class="icon icon-close"></i></a>
+    </div>
+    <div class="modal-content">
+        <p><strong>Created By:</strong> {{entityDetailsCtrl.model.createdBy}}</p>
+        <p><strong>Created On:</strong> {{entityDetailsCtrl.model.createdOn | date:'short'}}</p>
+        <p><strong>Modified By:</strong> {{entityDetailsCtrl.model.modifiedBy}}</p>
+        <p><strong>Modified On:</strong> {{entityDetailsCtrl.model.modifiedOn | date:'short'}}</p>
+        <p><strong>Id:</strong> {{entityDetailsCtrl.model.id}}</p>
+    </div>
+    <div class="modal-footer">
+        <a class="button" href="" ng-click="entityDetailsCtrl.showRawModel();">View the raw json</a>
+    </div>
+</div>

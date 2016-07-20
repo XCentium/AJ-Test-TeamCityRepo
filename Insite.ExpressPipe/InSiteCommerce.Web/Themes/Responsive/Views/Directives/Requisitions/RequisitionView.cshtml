@@ -1,0 +1,73 @@
+﻿<div>
+    <div ng-if="vm.pagination.totalItemCount > 0" ng-cloak>
+        <h3 class="results-count">
+            <span class="result-num" id="requisitionItemsTotalCount" ng-bind="vm.pagination.totalItemCount"></span>
+            <span class="result-lbl">@T("Requisitions").ToLower()</span>
+        </h3>
+        <p class="error" style="visibility: hidden">Error messaging.</p>
+        <div class="btns">
+            <a id="requisitionViewAddToCartButtonTop" href="javascript:void(0);" ng-click="vm.addAllToCart();" class="btn primary btn-add-cart isc-addRequisitionToCart">@T("Add to Cart")</a>
+        </div>
+        <isc-pager pagination="vm.pagination" storage-key="vm.paginationStorageKey" update-data="vm.getRequisitionCollection()"></isc-pager>
+        <form name="requisitionForm">
+            <div class="row order-details">
+                <ul class="large-12 columns item-list cart-items" ng-repeat="requisition in vm.requisitionCollection.requisitions">
+                    <li class="row item-block checkout-item">
+                        <div class="small-3 columns item-thumb">
+                            <a id="requisitionViewProductLink_{{requisition.productId}}" ng-href="{{ requisition.productUri }}">
+                                <img ng-src="{{ requisition.smallImagePath }}" alt="{{ requisition.AltText }}" />
+                            </a>
+                        </div>
+                        <div class="small-9 columns item-details">
+
+                            <isc-product-name product="requisition"></isc-product-name>
+
+                            <div class="price">
+                                <isc-product-price product="vm.convertForPrice(requisition)"></isc-product-price>
+
+                                <isc-unit-of-measure-display product="requisition"> </isc-unit-of-measure-display>
+
+                                <div class="quantity-pricing">
+                                    <isc-quantity-break-pricing product-id="requisition.id" break-prices="requisition.breakPrices"></isc-quantity-break-pricing>
+                                </div>
+                            </div>
+
+                            <div class="item-opt">
+                                <div class="item-qty">
+                                    <strong>@T("QTY_quantity"):</strong> <span ng-bind="requisition.qtyOrdered"></span>
+                                </div>
+                                <div class="item-subtotal" ng-bind="requisition.pricing.extendedActualPriceDisplay"></div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="row req-approve">
+                        <div class="small-6 columns view-req">
+                            <a class="btn secondary btn-view-requisitions" ng-click="vm.openRequisition(requisition.id);" href="javascript:void(0);">@T("View Requisitions")</a>
+                        </div>
+                        <div class="small-6 columns approve-req">
+                            <label class="input-lbl rq-approve">
+                                <input id="requisitionViewApproveCheckbox" name="approved" ng-model="requisition.isApproved" ng-change="vm.changeApprovedList(requisition)" type="checkbox">@T("Approve")
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </form>
+        <div style="margin-top: 10px;">
+            <isc-pager pagination="vm.pagination" storage-key="vm.paginationStorageKey" update-data="vm.getRequisitionCollection()"></isc-pager>
+        </div>
+        <div class="btns">
+            <a id="requisitionViewAddToCartButtonBottom" href="javascript:void(0);" ng-click="vm.addAllToCart();" class="btn primary btn-add-cart isc-addRequisitionToCart">@T("Add to Cart")</a>
+        </div>
+    </div>
+    <div class="search-no-results" ng-if="vm.pagination.totalItemCount === 0" ng-cloak>
+        <h3>@T("No requisitions found.")</h3>
+    </div>
+
+    <div id="popup-requisition" class="popup-requisition reveal-modal" data-reveal data-options="close_on_background_click: false;" data-reveal-init>
+        <div class="modal-wrap ">
+            <isc-requisition-lines></isc-requisition-lines>
+            <a id="closeReveal" class="close-reveal-modal">&#215;</a>
+        </div>
+    </div>
+</div>

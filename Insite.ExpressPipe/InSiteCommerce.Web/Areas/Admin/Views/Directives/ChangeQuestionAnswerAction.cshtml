@@ -1,0 +1,54 @@
+﻿
+
+<div zf-modal="changeQuestionAnswer" id="changeQuestionAnswer" class="collapse modal--large modal-changePassword">
+    <form name="vm.changePasswordForm" novalidate>
+        <div class="grid-block vertical">
+            <div class="modal-header">
+                <h4 class="modal-title">Change Question/Answer</h4>
+                <a zf-close="" class="close-button right"><i class="icon icon-close"></i></a>
+            </div>
+            <div class="modal-content grid-block form-content alternate-form">
+                <div class="grid-block vertical">
+                    <div class="grid-block  ">
+                        <div class="medium-4 grid-content">
+                            <label><b>Password</b></label>
+                        </div>
+                        <div class="medium-8 grid-content">
+                            <span class="formitem" ng-class="{'fi-invalid': vm.isCurrentPasswordCorrect === false, 'fi-valid': vm.isCurrentPasswordCorrect}">
+                                <input type="password" placeholder="" name="currentPassword" ng-model="vm.currentPassword" required>
+                                <span class="formitem-error">Incorrect Password</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="grid-block ">
+                        <div class="medium-4 grid-content">
+                            <label><b>New Question</b></label>
+                        </div>
+                        <div class="medium-8 grid-content">
+                            <span class="formitem">
+                                <input type="text" placeholder="" name="newPassword" ng-model="vm.newQuestion" required>
+                                <span class="formitem-error">This is a required field</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="grid-block">
+                        <div class="medium-4 grid-content">
+                            <label><b>New Answer</b></label>
+                        </div>
+                        <div class="medium-8 grid-content">
+                            <span class="formitem">
+                                <input type="text" placeholder="" name="retypePassword" ng-model="vm.newAnswer" required>
+                                <span class="formitem-error">This is a required field</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="button float-right" value="Change Question/Answer" ng-click="vm.changeCredentials()" ng-disabled="!vm.changePasswordForm.$valid"/>
+                <a zf-close class="button float-right">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,54 @@
+﻿@using Insite.Admin.Models
+@model Insite.Admin.FormBuilder.Elements.ProductStyleTraitsSelectorFormElement
+
+
+@if (Model.IsEditMode)
+{
+    <div>Child Product Variants (Style Traits Value) Selector!</div>
+}
+else
+{
+    <isa-product-style-traits-selector initial-model="entityDetailsCtrl.initialModel" model="entityDetailsCtrl.model"  additional-dirty-checks="entityDetailsCtrl.additionalDirtyChecks" model-changed="entityDetailsCtrl.modelChanged"></isa-product-style-traits-selector>
+}
+<script type="text/ng-template" id="ProductStyleTraitsSelector">
+    <div class="grid-block" ng-show="vm.model && vm.model.styleParentId">
+        <div class="grid-block vertical">
+            <div class="title-bar">
+                <h1 class="title left">
+                    <span class="title__label">Assign Variant Trait Values</span>
+                </h1>
+
+                <span class="right">
+                </span>
+            </div>
+            <div class="title-bar">
+                <div class="left">
+                    <span>This is variant child of <a ng-href="/admin/data/products/{{vm.styleParent.id}}"><b>{{vm.styleParent.shortDescription}}</b></a> product.</span>
+                </div>
+                <span class="center">
+                </span>
+                <span class="right">
+                </span>
+            </div>
+            <div class="grid-block vertical">
+                <div ng-repeat="trait in vm.styleClass.styleTraits">
+                    <div class="grid-block form-control">
+                        <div class="medium-4 grid-block">
+                            <label>{{trait.name}}</label>
+                        </div>
+                        <div class="medium-8 grid-block">
+                            <input kendo-combo-box
+                                   ng-model="vm.selectedStyleTrait[trait.name]"
+                                   k-data-source='itemsDataSource{{trait.name | spaceless}}'
+                                   k-placeholder="'Select Value'"
+                                   k-data-text-field="'name'"
+                                   k-data-value-field="'id'"
+                                   k-auto-bind="false" />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

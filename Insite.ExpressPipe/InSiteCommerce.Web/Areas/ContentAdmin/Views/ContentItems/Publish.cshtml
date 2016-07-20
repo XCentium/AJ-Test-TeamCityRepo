@@ -1,0 +1,133 @@
+﻿@using Insite.Common.Providers
+@using Insite.WebFramework.Mvc.Extensions
+@model Insite.ContentAdmin.Models.ContentItems.PublishViewModel
+
+@{
+    Html.EnableClientValidation();
+    Html.EnableUnobtrusiveJavaScript();
+    Layout = "/Areas/ContentAdmin/Views/Shared/_ModalLayout.cshtml";
+}
+
+@section ClassName { cms-publishModal clearfix }
+@section Header { Publishing @Model.Page.DisplayName() }
+
+@if (!Model.ModifiedVariants.Any() && Model.LayoutIsPublished && !Model.ExistingPublishOn.HasValue)
+{
+    <p>There is no content on this page to publish.</p>
+    <div class="buttonArea">
+        <button class="cms-close cms-button">Close</button>
+    </div>
+}
+else if (!Model.AllowPublish && Model.ModifiedVariants.Any() && Model.ModifiedVariants.All(o => o.WasSubmittedForApproval) && !Model.ExistingPublishOn.HasValue)
+{
+    <p>All content on this page was already submitted for approval.</p>
+    <div class="buttonArea">
+        <button class="cms-close cms-button">Close</button>
+    </div>
+}
+else
+{
+    <div>
+        @using (Html.BeginForm(new { Model.Page.ContentKey }))
+        {
+            if (Model.ModifiedVariants.Any())
+            {
+                <p>The following versions of this page have changed</p>
+                <style>
+                    .cms-modal table td { padding: 2px; }
+                </style>
+                <table class="info-tbl">
+                    <thead>
+                        <tr>
+                            <th class="pub-lang">Language</th>
+                            <th class="pub-persona">Persona</th>
+                            <th class="pub-device">Device</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var modifiedVariant in Model.ModifiedVariants)
+                        {
+                            <tr>
+                                @using (Html.BeginCollectionItem("VariantsToPublish"))
+                                {
+                                    <td class="pub-lang">@modifiedVariant.LanguageDescription</td>
+                                    <td class="pub-persona">@modifiedVariant.PersonaName</td>
+                                    <td class="pub-device">@modifiedVariant.DeviceType</td>
+                                    <td><a target="_blank" class="btn-preview" href="@Url.Action("Preview", "ContentItems", new { Model.Page.ContentKey, modifiedVariant.LanguageId, modifiedVariant.PersonaId, modifiedVariant.DeviceType })">Preview</a></td>
+                                    <td class="pub-select">
+                                        @Html.Hidden("LanguageId", modifiedVariant.LanguageId)
+                                        @Html.Hidden("PersonaId", modifiedVariant.PersonaId)
+                                        @Html.Hidden("DeviceType", modifiedVariant.DeviceType)
+                                        @{ var publishChecked = (Model.VariantsToPublish == null && (modifiedVariant.WasSubmittedForApproval || Model.IsEditor)) ||
+                                                                (Model.VariantsToPublish != null && Model.VariantsToPublish.Any(o => o.Equals(modifiedVariant))); }
+                                        <input class="cms-publishVariantToggle" value="@modifiedVariant." type="checkbox" @(publishChecked ? "checked='checked'" : "") />
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else if (!Model.LayoutIsPublished)
+            {
+                <p>Only the layout and general fields of this page have changed</p>
+            }
+            <div>
+                @Html.ValidationSummary(false)
+            </div>
+            <div class="publish-date-set clearfix">
+                @if (Model.ExistingPublishOn.HasValue && Model.AllowPublish && (!Model.LayoutIsPublished || (Model.ModifiedVariants != null && Model.ModifiedVariants.Any())))
+                {
+                    <div>
+                        There is an existing publish date in the future. You can publish these page<br /> versions on that date, or cancel the existing publish date.
+                        <button class="cms-button" type="submit" name="Action:@PublishViewModel.ClearAction">Clear Publish Date</button>
+                    </div>
+                }
+                else if (Model.ExistingPublishOn.HasValue && Model.AllowPublish)
+                {
+                    <div style="width: 500px;">
+                        There is an existing publish date for @Model.ExistingPublishOn. To edit or rollback this page you must clear this publish date.
+                        <div class="buttonArea">
+                            <button class="cms-close cms-button">Cancel</button>
+                            <button class="cms-button cms-actionButton" type="submit" name="Action:@PublishViewModel.ClearAction">Clear Publish Date</button>
+                        </div>
+                    </div>
+                }
+
+                @if (!Model.LayoutIsPublished || (Model.ModifiedVariants != null && Model.ModifiedVariants.Any()))
+                {
+                    if (Model.AllowPublish)
+                    {
+                        <div class="buttonArea">
+                            <div class="publish-date-time">
+                                <label>Set future publish date/time</label>
+                                @if (Model.ExistingPublishOn.HasValue)
+                                {
+                                    @Html.Hidden("PublishOn", Model.ExistingPublishOn)
+                                    <input type="text" value="@Model.ExistingPublishOn" disabled />
+                                }
+                                else
+                                {
+                                    @Html.Hidden("PublishOn")
+                                    <input type="text" class="isc-datepicker" name="PublishOn_Date" data-mindate="@DateTimeProvider.Current.Now" placeholder="Date" value="" />
+                                    <input type="text" class="isc-timepicker" name="PublishOn_Time" placeholder="Time" value="" />
+                                }
+                            </div>	
+                            <button class="cms-close cms-button">Cancel</button>
+                            <button class="cms-button cms-actionButton btn-publish" type="submit" name="Action:@PublishViewModel.PublishAction">Publish</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="buttonArea">
+                            <button class="cms-close cms-button">Cancel</button>
+                            <button class="cms-button cms-actionButton btn-publish" type="submit" name="Action:@PublishViewModel.SubmitForApprovalAction">Submit For Approval</button>
+                        </div>
+                    }
+                }
+            </div>
+        }
+    </div>
+}

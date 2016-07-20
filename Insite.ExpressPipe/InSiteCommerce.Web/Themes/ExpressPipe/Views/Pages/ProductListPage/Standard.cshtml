@@ -1,0 +1,46 @@
+﻿@model Insite.Catalog.Content.ProductListPage
+@using System.Web.Optimization
+@using Insite.WebFramework.Mvc.Extensions
+@using InsiteCommerce.Web
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Serialization
+@* @section BodyClass *@
+
+
+@* Redo this client side using vm.isSearch
+    @Html.Script(Html.ThemedPartial("_PersonalizationJs", Model, new ViewDataDictionary{ {"PageName", Model.IsSearchResult ? "SearchResults" : "ProductList"} }))
+    @Html.Script(Html.ThemedPartial("_ReviewsJs", Model, new ViewDataDictionary { { "PageName", Model.IsSearchResult ? "SearchResults" : "ProductList" } }))
+    @Html.Script(Html.ThemedPartial("_PersonalizationJs", Model, new ViewDataDictionary{ {"PageName", "CategoryDetail"} })) this was on the old category detail
+*@
+
+@section Styles
+{
+    @Styles.Render(Html.ThemedBundle(BundleConfig.ProductListStyleBundlePath))
+}
+
+<div class="cms-rearrangeable">
+    @Html.Zone(Model, "Content")
+    <div class="category-content">
+        @Html.Zone(Model, "Category Content")
+    </div>
+    <div class="no-results-content">
+        @Html.Zone(Model, "No Results Content")
+    </div>
+    <div class="row recos">
+        @Html.Zone(Model, "Recos")
+    </div>
+</div>
+
+@section AfterBodyContent {
+    <script type="text/javascript">
+        insite.catalog.catalogPageGlobal = @Html.Raw(JsonConvert.SerializeObject(Model.CatalogPage, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }));
+    </script>
+}
+
+@section AfterNwrap {
+    <isc-product-comparison-hopper></isc-product-comparison-hopper>
+}
+
+<script type="text/ng-template" id="/Directives/Catalog/ProductComparisonHopper">
+    @Html.ThemedPartial("/Views/Directives/Catalog/ProductComparisonHopper.cshtml")
+</script>

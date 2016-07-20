@@ -1,0 +1,18 @@
+﻿@model Insite.Configurator.Models.ConfigurationOptionViewModel
+<div id="@(Model.Name)Wrapper" class="configurator-option-wrapper">
+    <label for="@Model.Name" class="configurator-option-label">@Model.LabelValue</label>
+    @{
+        var attributes = new Dictionary<string, object>
+            {
+                {"class", "configurator-option-input configurator-option-check-box"}, 
+                {"title", Model.ToolTip}, 
+                {"data-field-label", Model.LabelValue}, 
+                {"data-field-required", Model.IsRequired ? "1" : "0"},
+                {"data-bind", "event:{ change: onChange }, value: '" + Model.Value + "', checked: " + Model.Name}
+            };           
+    }
+    <div class="configurator-option-checkbox-wrapper">
+        @Html.CheckBox(@Model.Name, attributes)
+    </div>
+</div>
+<br />

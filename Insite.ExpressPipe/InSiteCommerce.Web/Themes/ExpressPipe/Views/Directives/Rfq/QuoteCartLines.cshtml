@@ -1,0 +1,136 @@
+﻿@using Insite.Core.Providers
+@using Insite.Data.Entities;
+
+
+<ul class="cart-grid">
+	<li class="item-block item-header checkout-item row collapse hide-for-small-down">
+        <div class="small-5 columns col-description">
+            @T("Description")
+        </div>
+		<div class="small-2 columns col-availability">
+			@T("Availability")
+		</div>
+		<div class="small-2 columns col-price columns ">
+			@T("Price")
+		</div>
+		<div class="small-1 columns col-qty">
+			@T("Qty")
+		</div>
+		<div class="small-2 end columns col-total">
+			@T("Total")
+		</div>
+	</li>
+
+	<li ng-repeat="cartLine in cart.cartLines | filter: quoteRequiredFilter" class="item-list">
+
+		<div class="item-block checkout-item" ng-class="{open : (cartLine.id == vm.openLineNoteId)}">
+
+			<div class="row collapse">
+				<span ng-if="cartLine.isPromotionItem && editable">@MessageProvider.Current.Cart_PromotionalItem</span>
+
+				<div class="col-thumb xsmall-3 medium-1 columns">
+					<isc-product-thumb product="cartLine"></isc-product-thumb>
+				</div>
+
+				<div class="col-description xsmall-9 medium-4 columns">
+                    <div class="item-brand" ng-if="cartLine.properties['productType'] == 'special order'">
+                        <span>@T("Custom Special Order")</span>
+                    </div>
+                    <div class="item-brand" ng-if="cartLine.properties['productType'] != 'special order'">
+                        <span ng-bind="cartLine.properties['manufacturerName']"></span>
+                    </div>
+
+					<div class="item-name">
+						<div class="item-name" ng-if="cartLine.properties['productType'] == 'special order'">
+							<span ng-bind="cartLine.properties['sopDescription']"></span>
+						</div>
+						<div class="item-name" ng-if="cartLine.properties['productType'] != 'special order'">
+							<a ng-href="{{cartLine.productUri}}">
+								<span ng-bind="cartLine.shortDescription"></span>
+							</a>
+						</div>
+					</div>
+
+					<div class="item-num hide">
+						{{cartLine.manufacturerItem}}
+					</div>
+					<span ng-if="!cartLine.isFixedConfiguration" ng-repeat="sectionOption in cartLine.sectionOptions">
+						<span ng-bind="sectionOption.sectionName + ':' + sectionOption.optionName"></span>
+					</span>
+
+					<isc-product-name product="cartLine" no-link="true"></isc-product-name>
+
+					<ul class="item-utilities inline-list">
+						<li ng-if="cartLine.properties['specifications']"><a href="{{cartLine.properties.specifications.FilePath}}" title="@T("Product Spec")" ng-if="cartLine.properties['specifications']" target="_blank"><i class="fa fa-file"></i></a></li>
+						<li ng-if="cart.showLineNotes && !cartLine.isPromotionItem"><a data-cartnotes="true" ng-click="vm.notePanelClicked(cartLine.id)"><!--<i class="fa fa-sticky-note"></i>--> @T("Line Notes")</a></li>
+                        <li ng-if="vm.isAuthenticated && cartLine.properties['productType'] != 'special order'"><a ng-click="vm.openWishListPopup(cartLine.productId, cartLine.qtyOrdered)" href="javascript:;"><!--<i class="fa fa-star"></i>--> @T("Add to List")</a></li>
+					</ul>
+
+					<div class="item-notes" ng-if="cart.showLineNotes && cartLine.notes.length > 0">
+						<strong>@T("Line Notes"):</strong>
+						<span ng-bind="cartLine.notes"></span>
+					</div>
+					<div class="item-actions" data-cartnotes="true">
+						<div ng-if="cart.showCostCode" class="cost-code-field">
+							<label for="cost-code" ng-bind="cart.costCodeLabel">:</label>
+							<select ng-if="cart.canEditCostCode"
+									ng-model="cartLine.costCode"
+									ng-options="code.costCode as code.description for code in cart.costCodes"
+									ng-change="vm.updateLine(cartLine, false)"></select>
+							<span ng-if="!cart.canEditCostCode" ng-bind="cart.costCodeLabel"></span>
+						</div>
+						<div class="item-notes-field">
+							<label>@T("Line Notes"):</label>
+							<input data-linenote-input type="text"
+								   id="{{cartLine.id + '_notes'}}"
+								   name="{{cartLine.id + '_notes'}}"
+								   ng-disabled="!cart.canModifyOrder"
+								   ng-model="cartLine.notes"
+								   ng-keypress="vm.notesKeyPress($event,cartLine)"
+								   ng-blur="vm.updateLine(cartLine, false)" />
+						</div>
+
+					</div>
+				</div>
+
+                <div class="xsmall-3 medium-2 columns col-availability">
+                    <div class="availability" ng-if="cartLine.properties['productType'] != 'special order'">
+                        <div ng-bind="cartLine.properties['qtyonhand']"></div>
+                        <morsco-cart-availability-message availability="cartLine.availability" warehouses="warehouses" itemline="cartLine">
+                        </morsco-cart-availability-message>
+                        @*<div><a href="#" ng-click="vm.showProductAvailabilityPopup(cartLine, warehouses)" data-reveal-id="popup-availability">Check All Locations</a></div>*@
+                    </div>
+                    <div class="availability" ng-if="cartLine.properties['productType'] != 'catalog'">&nbsp;</div>
+
+                </div>
+
+				<div class="xsmall-3 medium-2 columns col-price">
+					<isc-product-price product="cartLine" ng-if="cartLine.properties['productType'] == 'catalog'"></isc-product-price>
+					<isc-unit-of-measure-display product="cartLine" ng-if="cartLine.properties['productType'] == 'catalog'"> </isc-unit-of-measure-display>
+
+                    <span data-tooltip aria-haspopup="true" class="has-tip" ng-if="cartLine.properties['productType'] != 'catalog' || cart.status == 'QuoteProposed'" title="Add to cart and request a quote to get pricing">@T("Request Quote for Price")</span>
+					<span ng-if="cartLine.properties['productType'] != 'catalog'">&nbsp;</span>
+
+					<div class="quantity-pricing">
+						<isc-quantity-break-pricing product-id="cartLine.productId" break-prices="cartLine.breakPrices"></isc-quantity-break-pricing>
+					</div>
+				</div>
+
+				<div class="xsmall-1 medium-1 columns col-qty">
+					<span ng-if="!editable">
+						<span ng-bind="cartLine.qtyOrdered"></span>
+					</span>
+					<span ng-if="editable">
+						<input type="number" class="numerictextbox qty txt" min="1" ng-model="cartLine.qtyOrdered" ng-disabled="true" />
+					</span>
+				</div>
+
+				<div class="xsmall-5 small-3 medium-2 end columns col-total">
+					<span class="price" ng-if="!cartLine.quoteRequired && cartLine.properties['productType'] == 'catalog'" ng-bind="cartLine.pricing.extendedActualPriceDisplay"></span>
+				</div>
+			</div>
+
+		</div>
+
+	</li>
+</ul>

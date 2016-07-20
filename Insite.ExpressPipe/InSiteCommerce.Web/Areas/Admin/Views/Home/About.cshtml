@@ -1,0 +1,72 @@
+﻿@model Insite.Admin.Models.AboutViewModel
+
+<div class="vertical grid-block form-content">
+    <h1>Insite Commerce Version @Model.Version</h1>
+    <div>Copyright &copy; @DateTime.Now.Year, Insite Software Solutions, Inc.</div>
+    <br />
+    <fieldset>
+        <legend>Licenses</legend>
+        <hr />
+        <div class="grid-block">
+            <div class="grid-block vertical">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Module</th>
+                            <th>Status</th>
+                            <th>Count</th>
+                            <th>Expiration Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var license in Model.Licenses)
+                        {
+                            <tr>
+                                <td>@license.Module</td>
+                                <td>@license.Status</td>
+                                <td>@license.Count</td>
+                                <td>@license.ExpirationDate</td>
+                            </tr>
+                        }
+                        @for (var i = 0; i < 4 - Model.Licenses.Count; i++)
+                        {
+                            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </fieldset>
+    <br />
+    <fieldset>
+        <legend>Hosts</legend>
+        <hr />
+        <div class="grid-block">
+            <div class="grid-block vertical">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Licensed for Hosts</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var host in Model.Hosts)
+                        {
+                            <tr>
+                                <td>@host</td>
+                            </tr>
+                        }
+                        @for (var i = 0; i < 4 - Model.Hosts.Count; i++)
+                        {
+                            <tr><td>&nbsp;</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </fieldset>
+    <br />
+    <div>Please visit <a href="http://www.insitesoft.com" target="_blank">www.insitesoft.com</a> to learn more about expanding your licensing agreement.</div>
+    <br />
+    <div>Warning: This computer program is protected by copyright law and international treaties. Unauthorized reproduction or distribution of this program or any portion of it may result in severe civil and criminal penalties and will be prosecuted to the maximum extent possible under the law. </div>
+</div>

@@ -1,0 +1,17 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model MyAccountPage
+
+@section BodyClass { ma-dashboard }
+@section Styles
+{
+    @Html.RequireCss(Url.ThemedContent("/Styles/Template/ma-dashboard.css"))
+}
+
+
+<div class="row main-row">
+    <div class="medium-12 large-12 columns">
+        @Html.Zone(Model, "Content")
+    </div>
+</div>
+
+

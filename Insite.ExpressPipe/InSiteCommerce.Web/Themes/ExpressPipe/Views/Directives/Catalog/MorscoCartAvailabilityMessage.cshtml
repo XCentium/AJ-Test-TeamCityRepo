@@ -1,0 +1,14 @@
+﻿<div ng-if="itemline.properties['availability']">
+    <a href="javascript:;" ng-if="availability.messageType != 0"
+       ng-click="vm.showProductAvailabilityPopup(itemline,warehouses)"
+       ng-class='{instock : (availability.messageType == 1), available : (availability.messageType == 2), outstock : (availability.messageType == 3)}'
+       data-availability="{{availability.message}}">
+        {{availability.message}}
+
+    </a>
+    <a href="javascript:;" ng-if="availability.messageType != 0"
+       ng-click="vm.openAvailabilityPopup()"
+       class="info-icon">
+        <i class="fi-info"></i>
+    </a>
+</div>

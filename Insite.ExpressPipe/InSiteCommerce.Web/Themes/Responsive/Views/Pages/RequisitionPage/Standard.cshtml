@@ -1,0 +1,17 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Requisition.Content.RequisitionPage
+@section BodyClass { ma-requisition-approval }
+@section Styles
+{
+    @Html.RequireCss(Url.ThemedContent("/Styles/template/ma-requisition-approval.css"))
+    @Html.RequireCss("/Scripts/libraries/zurb-responsive-tables/0.0.0/responsive-tables.css")
+}
+
+@Html.RequireScript("/Scripts/libraries/zurb-responsive-tables/0.0.0/responsive-tables.js")
+
+<div class="row main-row">
+    <div class="large-12 columns">
+        @Html.Zone(Model, "Content")
+    </div>
+</div>
+

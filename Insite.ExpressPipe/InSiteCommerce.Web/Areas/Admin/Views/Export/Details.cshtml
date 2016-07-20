@@ -1,0 +1,59 @@
+﻿<isa-export-details pluralized-entity-name="@ViewBag.PluralizedName" pluralized-entity-label="@ViewBag.PluralizedLabel" job-id="@ViewBag.JobId"></isa-export-details>
+
+<script type="text/ng-template" id="exportDetails">
+    <div class="title-bar">
+        <span class="title left">
+            Export {{vm.pluralizedEntityLabel}} - Job #{{vm.job.jobNumber}}
+            <i class="datetime" ng-show="!vm.job.isStarted">In queue</i>
+            <i class="datetime" ng-show="vm.job.isStarted">Started: {{vm.job.jobStartTime | date:'short'}}</i>
+        </span>
+        <span class="right">
+            <a class="button tertiary" ng-click="vm.navigateToAllJobs()">View All Jobs</a>
+            <a class="button tertiary" ng-click="vm.return()">Return to {{vm.pluralizedEntityLabel}}</a>
+            <a class="button" href="javascript:void();" ng-click="vm.cancel()" ng-show="vm.job.isStarted && !vm.job.isFinished && !vm.job.isCanceled">Cancel Export</a>
+            <a class="button" ng-show="vm.job.isFinished && vm.job.fileLocation" ng-click="vm.setActiveToFalse()"
+                              ng-href="@(Url.Action("GetFile", "Export")){{vm.getFileLocationQueryString()}}">Download File</a>
+        </span>
+    </div>
+    <div class="small-12 medium-8 grid-content form-content" draggable ng-show="vm.job.isStarted">
+        <div class="grid-block row border descrbox form-content" ng-show="vm.job.isStarted && !vm.job.isFinished && !vm.job.isCanceled">
+            <div class="grid-content ">
+                <p class="text-center">The exported file is being created. You can navigate the console while this job runs, and you will be notified when it is ready.</p>
+            </div>
+        </div>
+        <br />
+        
+        <div class="grid-block vertical import-status" ng-show="!vm.job.isFailed">
+            <div class="grid-block row border">
+                <div class="title-bar ng-scope">
+                    <div class="left title" ng-show="vm.job.isStarted && !vm.job.isFinished && !vm.job.isCanceled">
+                        <div class="validationloader green"></div>Preparing export for download: row {{vm.job.jobRecordsExported}} of {{vm.job.jobRecordsCount}}
+                    </div>
+                    <div class="left title" ng-show="vm.job.isCanceled">Export Canceled</div>
+                    <div class="left title" ng-show="vm.job.isFinished && !vm.job.isCanceled && !vm.job.isFailed">Export File Ready</div>
+                </div>
+                <div class="grid-block import-details" ng-show="vm.job.isFinished && !vm.job.isCanceled && !vm.job.isFailed">
+                    <div class="grid-content form-content">
+                        <a class="button float-left" ng-show="vm.job.isFinished && vm.job.fileLocation" ng-click="vm.setActiveToFalse()"
+                                                     ng-href="@(Url.Action("GetFile", "Export")){{vm.getFileLocationQueryString()}}">Download File</a>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+                
+        <div ng-show="vm.job.isFinished && vm.job.isFailed">
+            <div class="grid-block vertical border import-msg errors">
+                <div class="title-bar">
+                    <div class="left title"><i class="icon icon-warning" title="icon-warning"></i>The export failed.</div>
+                </div>
+                <div class="grid-block row">
+                    <div class="grid-content form-content">
+                        <p>Please review the integration job log to determine cause of failure.</p>
+                        <a class="button" ng-href="{{'/admin/data/integrationjobs/' + vm.jobId}}">View Job Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

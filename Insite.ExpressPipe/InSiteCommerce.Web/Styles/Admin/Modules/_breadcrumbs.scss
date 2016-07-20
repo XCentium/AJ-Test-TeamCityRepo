@@ -1,0 +1,58 @@
+﻿$image-folder-file-path: '/Images/';
+$breadcrumb-font-color: $type-light !default;
+$breadcrumb-font-color-link: $white !default;
+$breadcrumb-font-color-link-hover: $brand-light !default;
+
+
+
+.breadcrumb {
+    font-size: 14px;
+    list-style: none;
+    margin-bottom: 0;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    letter-spacing: $header-letter-spacing;
+    font-family: $header-font-family;
+
+    > li {
+        display: inline-block;
+        text-transform: capitalize;
+        color: $breadcrumb-font-color;
+        padding: .5rem;
+        position: relative;
+
+        > a {
+            border-bottom: solid 1px $type-help;
+            color: $breadcrumb-font-color-link;
+            display: inline-block;
+            max-width: 175px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            vertical-align: middle;
+            line-height: 1rem;
+            white-space: nowrap;
+
+            > i {
+                font-size: 18px;
+                line-height: 14px;
+                vertical-align: text-top;
+            }
+        }
+
+        &:hover > a {
+            color: $breadcrumb-font-color-link-hover;
+            border-bottom-color: $breadcrumb-font-color-link-hover;
+        }
+
+        &:not(:first-child):before {
+            content: "/";
+            display: inline-block;
+            width: 18px;
+            height: 100%;
+        }
+
+        &:first-child a {
+            border-bottom-color: transparent;
+        }
+    }
+}

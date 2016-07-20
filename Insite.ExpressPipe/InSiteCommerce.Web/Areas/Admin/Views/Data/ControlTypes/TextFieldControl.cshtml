@@ -1,0 +1,42 @@
+﻿@using Insite.Admin.ControlTypes
+@using Insite.Admin.Models
+@model ControlTypeViewModel<TextFieldControl>
+
+@if (Model.PropertyDefinition.CanEdit)
+{
+    var validator = Model.PropertyDefinition.DataTypeValidator as Insite.Admin.DataTypeValidators.StringValidator;
+    if (validator == null)
+    {
+        throw new ArgumentException("TextFieldControl used for a non-string property.");
+    }
+    var isPassword = Model.ControlType.IsPassword;
+    var disableAutocomplete = Model.ControlType.DisableAutocomplete;
+    var maxLength = validator.MaxLength;
+    var minLength = validator.MinLength;
+    var required = Model.PropertyDefinition.IsRequired;
+    var regExp = validator.RegularExpression;
+
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<input @(new HtmlString(isPassword ? (disableAutocomplete ? " name=autofill_username_" + Model.Id + " type=text class=hidden_autofill_disabler /> " +
+                                                             "<input name=autofill_password_" + Model.Id + " type=password class=hidden_autofill_disabler /> <input type=password" : "type=password") : "type=text"))
+                               id="@Model.Id"
+                               name="@Model.Id"
+                               class="@Model.ControlType.DisplayWidth.ToString().ToLower()"
+                               ng-model="@Model.EditPageModelBinding @Html.Raw(Model.ControlType.DisplayFilter != "" ? "| " + Model.ControlType.DisplayFilter : "")"
+                               @(!regExp.IsBlank() ? "pattern=" + regExp : "")
+                               @(maxLength > 0 ? "maxlength=" + maxLength : "")
+                               @(minLength > 0 ? "minlength=" + minLength : "")
+                               @(required ? "required" : "")
+                               @(disableAutocomplete ? "autocomplete=off" : "") />
+    })
+}
+else
+{
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<div class="readonly">{{::@Model.EditPageModelBinding @Html.Raw(Model.ControlType.DisplayFilter != "" ? "| " + Model.ControlType.DisplayFilter : "")}}</div>
+    })
+}

@@ -1,0 +1,18 @@
+﻿@model Insite.ContentAdmin.Models.ContentItems.UnlinkViewModel
+
+@{
+    Layout = "/Areas/ContentAdmin/Views/Shared/_ModalLayout.cshtml";
+}
+
+@section Header { Unlink @Model.Title }
+
+@using (Html.BeginForm(new { Model.ContentKey }))
+{
+    <p>
+        Are you sure you wish to unlink and copy this page to this site?
+    </p>
+    <div class="buttonArea">
+        <button class="cms-close cms-button" type="button">Cancel</button>
+        <button class="cms-button cms-actionButton" type="submit">Confirm</button>
+    </div>
+}

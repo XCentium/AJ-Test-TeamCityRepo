@@ -1,0 +1,48 @@
+body.ma-request-quote { }
+
+.ma-request-quote .rq-form .required-msg  {
+	margin:1em 0;
+	}	
+		
+.ma-request-quote .rq-form div[class^="rq-form"]  {
+	width:100%;
+	float:left;
+	clear:left;
+	margin-bottom:0.25em;
+	}	
+
+.ma-request-quote .rq-form textarea {
+	height:150px; }
+
+.ma-request-quote .rq-form .rq-form-details input {
+	width:auto;
+	display:inline-block;
+	float:none;
+	margin-left:0.5em; }
+	
+.ma-request-quote .rq-head select{
+	margin-top:1em;
+	}
+	
+@media all and (max-width: 767px) { 	
+.ma-request-quote .btns .btn {
+	width:100%;
+	}
+}
+						
+@media all and (min-width: 768px) { 	
+.ma-request-quote .rq-head,
+.ma-request-quote .rq-form {
+	width:60%;
+	}
+	
+.ma-request-quote .rq-form label {
+	width:40%;
+	float:left;
+	}
+	
+.ma-request-quote .rq-form input {
+	width:55%;
+	float:right;
+	}
+}

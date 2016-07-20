@@ -1,0 +1,12 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+
+@model string
+
+@if (Model.EqualsIgnoreCase("Monetate"))
+{
+    @Html.RequireScript(Url.ThemedContent("/Scripts/App/insite.personalization.monetate.js"))
+}
+else if (Model.EqualsIgnoreCase("Certona"))
+{
+    @Html.RequireScript("//edge1.certona.net/cd/44e9013d/www.certona.insitesoftdemo.com/scripts/resonance.js")
+}

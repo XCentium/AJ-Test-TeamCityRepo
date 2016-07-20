@@ -1,0 +1,36 @@
+﻿@using Insite.Admin.Models
+@using Insite.Core.ApplicationDictionary
+@model Insite.Admin.FormBuilder.Elements.ProductConfigurationRadioButtonFormElement
+    
+@if (Model.IsEditMode)
+{
+    <div>Product Configuration Radio Button</div>
+}
+else
+{
+    <isa-product-configuration-radio-button  model="entityDetailsCtrl.model" details-controller="entityDetailsCtrl"></isa-product-configuration-radio-button>   
+}
+
+<script type="text/ng-template" id="ProductConfigurationRadioButton">
+    <div>
+        <div class="grid-block form-control">
+            <div class="medium-3 grid-block">
+                <label>Configuration Type </label>
+            </div>
+            <div class="medium-9 grid-block vertical form-control__control-padding">
+                <div>
+                    <div class="grid-block noscroll form-control-content">
+                        <div style="overflow-y: auto; ">
+                            <input type="radio" id="configurationType_None" ng-click="vm.changedRadio()" name="configurationType_None" value="None" ng-model="vm.configurationType" class="ng-pristine ng-untouched ng-valid"><label for="configurationType_None">None</label>
+                            <input type="radio" id="configurationType_Standard" ng-click="vm.changedRadio()" name="configurationType_Standard" value="Standard" ng-model="vm.configurationType" class="ng-pristine ng-untouched ng-valid"><label for="configurationType_Standard">Standard</label>
+                            <input type="radio" id="configurationType_Fixed" ng-click="vm.changedRadio()" name="configurationType_Fixed" value="Fixed" ng-model="vm.configurationType" class="ng-pristine ng-untouched ng-valid"><label for="configurationType_Fixed">Fixed</label>
+                            <input type="radio" id="configurationType_Advanced" ng-click="vm.changedRadio()" name="configurationType_Advanced" value="Advanced" ng-model="vm.configurationType" class="ng-pristine ng-untouched ng-valid"><label for="configurationType_Advanced">Advanced</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</script>
+

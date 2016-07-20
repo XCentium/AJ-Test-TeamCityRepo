@@ -1,0 +1,54 @@
+﻿@using Insite.Core.Providers
+@using Insite.QuickOrder.Content
+@using Insite.WebFramework.Mvc.Extensions
+
+<div>
+    <div class="dash-section qo-container" ng-show="vm.canAddToCart">
+        
+        <header class="dash-section-header qo-header">
+            <h3>@T("Quick Order")</h3>
+        </header>
+            
+        <div class="dash-section-content no-padding">
+            <div class="row qo-form">
+                <div class="xsmall-6 small-8 medium-5 xlarge-6 columns qo-search-box">
+                    <input id="qo-search-widget" type="text" name="textfield" ng-init="vm.autocompleteOptions.placeholder = '@T("Enter keyword or item #")'" class="qo-searchbox"
+                           kendo-auto-complete k-options="vm.autocompleteOptions" ng-model="vm.searchTerm" isc-enter="vm.onEnter(vm.searchTerm)" />
+                    <span class="qo-msg error" ng-show="vm.errorMessage">{{vm.errorMessage}}</span>
+                </div>
+                <div class="xsmall-3 small-2 columns qo-qty">
+                    <label for="quickOrderQuantity">@T("QTY_quantity")</label>
+                    <input type="text" name="input2" id="quickOrderQuantity" value="1" class="qty numerictextbox" ng-model="vm.selectedQty" />
+                </div>
+                <div class="xsmall-3 small-2 columns qo-um">
+                    <label for="quickOrderUM">@T("U/M")</label>
+                    <select id="quickOrderUnitOfMeasureSelector" ng-model="vm.selectedUnitOfMeasure" ng-change="vm.changeUnitOfMeasure(vm.product)" name="unitOfMeasure" class="uom-selector">
+                        <option ng-if="vm.alternateUnitsOfMeasure && vm.product.productUnitOfMeasures.length > 0" ng-init="vm.selectedUnitOfMeasure = vm.product.selectedUnitOfMeasure" ng-repeat="uom in vm.product.productUnitOfMeasures" value="{{uom.unitOfMeasure}}"
+                                ng-selected="{{vm.product.selectedUnitOfMeasure == uom.unitOfMeasure}}">
+                            {{uom.description ? uom.description : uom.unitOfMeasureDisplay}} {{uom.qtyPerBaseUnitOfMeasure !== 1 ? "/" + uom.qtyPerBaseUnitOfMeasure : ""}}
+                        </option>
+                        <option ng-if="!(vm.alternateUnitsOfMeasure && vm.product.productUnitOfMeasures.length > 0)" ng-init="vm.selectedUnitOfMeasure = 'EA'" value="EA">
+                            @T("EA")
+                        </option>
+                    </select>
+                </div>
+                <div class="xsmall-12 medium-3 xlarge-2 columns go-button">
+                    <button id="quickOrderAddToCartButton" class="button primary expand" ng-click="vm.addToCart(vm.product)" ng-disabled="!vm.selectedQty || vm.selectedQty == 0 || vm.findingProduct">@T("Add to Cart")</button>
+                </div>
+            </div>
+        </div>
+
+        <footer class="dash-section-footer">
+            <ul class="inline-list text-right qo-links">
+                <li><a class="button secondary small" id="quickOrderOrderMultipleItemsLink" ng-href="@(Url.ContentPage<QuickOrderPage>())">@T("Quick Order Multiple Items")</a></li>
+                <li><a class="button secondary small" id="quickOrderUploadAnOrderLink"  ng-href="@(Url.ContentPage<OrderUploadPage>())" ng-show="vm.orderSettings.canOrderUpload">@T("File Upload")</a></li>
+            </ul>
+        </footer>
+
+        <input type="hidden" id="messageConfigurableProduct" value="@Html.Message("QuickOrder_CannotOrderConfigurable", "Cannot quick order configurable products")" />
+        <input type="hidden" id="messageStyledProduct" value="@Html.Message("QuickOrder_CannotOrderStyled", "Product requires styling.")" />
+        <input type="hidden" id="messageEnterProduct" value="@Html.Message("QuickOrder_EnterProductName", "Enter a product name.")" />
+        <input type="hidden" id="messageUnavailable" value="@Html.Message("QuickOrder_ProductIsUnavailable", "Product is unavailable.")" />
+        <input type="hidden" id="messageNotFound" value="@MessageProvider.Current.Product_NotFound" />
+    </div>
+</div>

@@ -1,0 +1,35 @@
+﻿@model Insite.Admin.FormBuilder.Elements.ApplicationDictionaryViewOverrideFormElement
+
+@if (Model.IsEditMode)
+{
+    <div>
+        <span>Application Dictionary View Override Table</span>
+        <br />
+        <span>@Model.Fields</span>
+    </div>
+}
+else
+{
+    <isa-application-dictionary-view-override ng-if="!entityDetailsCtrl.model.isCustomProperty" model="entityDetailsCtrl.model" model-type="@Model.ModelType" fields="@Model.Fields"></isa-application-dictionary-view-override>
+
+    <script type="text/ng-template" id="ApplicationDictionaryViewOverride">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="medium-2 override-table-heading">Name</th>
+                    <th class="medium-2 override-table-heading">Base</th>
+                    <th class="medium-2 override-table-heading">Override</th>
+                    <th class="medium-2 override-table-heading">Current</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="column in vm.fields.split(',')">
+                    <td>{{vm.splitCamelCase(column)}}</td>
+                    <td>{{vm.definition[column]}}</td>
+                    <td>{{vm.model[column]}}</td>
+                    <td>{{vm.model[column] !== null ? vm.model[column] : vm.definition[column]}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </script>
+}

@@ -1,0 +1,94 @@
+﻿@using System.Web.Mvc.Html
+@using Insite.Admin.Providers
+@using Insite.Common.Dependencies
+@using Insite.Core.Interfaces.Plugins.DeviceTypeProvider
+@model Insite.Admin.Models.ContentCollectionViewModel
+
+<isa-content-entities pluralized-parent-entity-name="@Model.PluralizedParentEntityName"
+                        parent-entity-id="{{::contentMngrController.contentManagerId}}"
+                        pluralized-entity-name="@Model.EntityDefinition.PluralizedName"
+                        collection-name="@Model.CollectionName"
+                        page-size="@Model.PageSize"
+                        properties-to-select="@(Model.PropertiesToSelect)"
+                        default-sort="@Model.Form.DefaultSortProperty"
+                        default-sort-ascending="@Model.Form.DefaultSortIsAscending"
+                        class="grid-block"></isa-content-entities>
+
+<script type="text/ng-template" id="content-entities-@Model.CollectionName">
+    <div ng-cloak ng-if="entityListCtrl.displayList" class="grid-block">
+        <div class="grid-block vertical filter" st-table="entityListCtrl.entities" st-pipe="entityListCtrl.loadEntities">
+            <div class="title-bar">
+                <span class="left">
+                    <span class="inline-label">
+                        <label>Language</label>
+                        <select ng-model="entityListCtrl.languageId" ng-change="entityListCtrl.applyQuickFilter()">
+                            <option value="">All Languages</option>
+                            @foreach (var language in Model.Languages)
+                            {
+                                <option value="@language.Id">@string.Format("{0} ({1})", language.Description, language.LanguageCode)</option>
+                            }
+                        </select>
+                    </span>
+                    <span class="inline-label">
+                        <label>Persona</label>
+                        <select ng-model="entityListCtrl.personaId" ng-change="entityListCtrl.applyQuickFilter()">
+                            <option value="">All Personas</option>
+                            @foreach (var persona in Model.Personas)
+                            {
+                                <option value="@persona.Id">@persona.Name</option>
+                            }
+                        </select>
+                    </span>
+                    <span class="inline-label">
+                        <label>Device:</label>
+                        <select ng-model="entityListCtrl.deviceType" ng-change="entityListCtrl.applyQuickFilter()">
+                            <option value="">All Devices</option>
+                            @foreach (var device in Enum.GetValues(typeof(DeviceType)))
+                            {
+                                <option value="@(device)">@device</option>
+                            }
+                        </select>
+                    </span>
+                </span>
+            </div>
+            <div class="grid-block">
+                <isa-table>
+                    <isa-table-header>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    @foreach (var column in Model.Columns)
+                                    {
+                                        <th class="text-left is-actionable" st-sort="@column.Name" @(column.Name == "revision" ? "st-sort-default=reverse" : string.Empty)>
+                                            <div class="column-header">@column.Label</div>
+                                        </th>
+                                    }
+                                </tr>
+                            </thead>
+                        </table>
+                    </isa-table-header>
+                    <isa-table-content class="revision-table-content">
+                        <table class="table">
+                            <tbody>
+                                <tr ng-repeat="entity in entityListCtrl.entities" ng-show="entityListCtrl.shouldShow(entity.id)" ng-class="entityListCtrl.isSelected(entity.id) ? 'list-row--is-selected' : ''" ng-click="entityListCtrl.setActive(entity.id)" emit-repeat-finished>
+                                    @foreach (var column in Model.Columns)
+                                    {
+                                        <td class="text-left">
+                                            @if (column.ControlType != null)
+                                            {
+                                                @Html.Partial("/Areas/admin/Views/Data/ControlTypes/" + column.ControlType.ViewName + "_Display.cshtml", DependencyLocator.Current.GetInstance<IControlTypeViewModelProvider>().GetControlTypeViewModel(column))
+                                            }
+                                        </td>
+                                    }
+                                </tr>
+                            </tbody>
+                        </table>
+                    </isa-table-content>
+                </isa-table>
+            </div>
+            <div class="grid-block">
+                <div ng-show="!entityListCtrl.entities.length" class="content-none">No Content</div>
+            </div>
+        </div>
+    </div>
+</script>

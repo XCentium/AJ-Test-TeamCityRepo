@@ -1,0 +1,13 @@
+﻿<div class="order-subtotal-grid">
+    <div class="row collapse">
+        <div class="small-12 end columns text-right">
+            <small>
+                @T("Subtotal")
+                <ng-pluralize ng-if="isNonCatalog" count="cart.properties['nonCatalogProductCount']" when="{'0': 'No items', 'one': '(1 item)', 'other': '({} items)'}"></ng-pluralize>
+                <ng-pluralize ng-if="!isNonCatalog" count="cart.properties['catalogOrderCount']" when="{'0': 'No items', 'one': '(1 item)', 'other': '({} items)'}"></ng-pluralize>:
+            </small>
+            <span ng-if="isNonCatalog" class="price"><strong><i class="warning">@T("To be Quoted")</i></strong></span>
+			<strong ng-if="!isNonCatalog" ng-bind="cart.orderSubTotalDisplay" class="price"></strong>
+        </div>
+    </div>               
+</div>

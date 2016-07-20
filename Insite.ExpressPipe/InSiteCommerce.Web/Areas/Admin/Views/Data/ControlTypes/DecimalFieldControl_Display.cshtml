@@ -1,0 +1,11 @@
+﻿@using Insite.Admin.DataTypeValidators
+@model Insite.Admin.Models.ControlTypeViewModel<Insite.Admin.ControlTypes.DecimalFieldControl>
+@{
+    var validator = Model.DataTypeValidator as DecimalValidator;
+    if (validator == null)
+    {
+        throw new ArgumentException("DecimalFieldControl used for a non-decimal property.");
+    }
+}
+
+{{::@Model.ListPageModelBinding | number @(validator.DecimalPlaces >= 0 ? string.Format(": {0}", validator.DecimalPlaces) : "")}}

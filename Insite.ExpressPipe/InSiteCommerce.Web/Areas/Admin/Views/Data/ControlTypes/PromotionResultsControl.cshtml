@@ -1,0 +1,96 @@
+﻿@using Insite.Admin.Extensions
+@model Insite.Admin.Models.ControlTypeViewModel<Insite.Admin.ControlTypes.PromotionResultsControl>
+
+<isa-promotion-results model="entityDetailsCtrl.model"
+                       form="entityDetailsCtrl.form"
+                       property-service-uri="entityDetailsCtrl.propertyServiceUri"
+                       read-only="@((!Model.PropertyDefinition.CanEdit).ToString().ToLower())">
+</isa-promotion-results>
+
+<script type="text/ng-template" id="PromotionResults">
+    <div>
+        <div class="rule-manager__header">
+            <span class="title center" ng-if="!vm.hasResults()">There are no results currently. Begin adding results below.</span>
+            <span class="clearfix ng-scope" ng-if="vm.hasResults()">
+                <a class="tertiary float-right no-margin" ng-click="vm.showDeletePopup()">
+                    <i class="icon icon-delete button__icon button__icon--large"></i>All Results
+                </a>
+            </span>
+        </div>
+        <div class="grid-block vertical">
+            <div class="grid-block vertical rule-manager__group">
+                <div class="grid-block vertical rule-manager__rule" ng-repeat="(resultIndex, result) in vm.results">
+                @Html.FormControl(
+                    @<label>Result Type</label>,
+                    @<div class="large">
+                        <div class="grid-block noscroll form-control-content">
+                            <select name="resultType_{{resultIndex}}"
+                                    ng-model="result.type"
+                                    ng-options="resultType.displayName for resultType in vm.promotionResultTypes"
+                                    {{ vm.hasResults() ? 'required' : '' }}>
+                                <option value="" label="Select Result" selected="selected">Select Result</option>
+                            </select>
+
+                            <a class="button button-icon" ng-class="{ 'disabled': vm.results.length === 1 }" title="Delete" ng-click="vm.deleteResult(resultIndex)">
+                                <i class="icon icon-delete"></i>
+                            </a>
+                        </div>
+                    </div>)
+
+                    <div ng-if="result.type" ng-repeat="parameter in result.type.parameterDescriptions">
+                        @Html.FormControl(
+                            @<label ng-bind="parameter.label"></label>,
+                            @<div class="large">
+                                <span ng-if="parameter.pluralizedLookupObject && parameter.pluralizedLookupObject !== 'categories'">
+                                    <isa-dropdown   angular-controller="LookupDropdownController"
+                                                    class="lookup-dropdown"
+                                                    selected-entity-id="result.parameters[parameter.name]"
+                                                    pluralized-entity-name="{{parameter.pluralizedLookupObject}}"
+                                                    ng-model="result.parameters[parameter.name]"
+                                                    sort-list=""
+                                                    required></isa-dropdown>
+                                </span>
+                                <span ng-if="parameter.pluralizedLookupObject && parameter.pluralizedLookupObject === 'categories'">
+                                    <isa-category-lookup entity-id="result.parameters[parameter.name]"
+                                                         website-id=""
+                                                         allow-website-select="true"></isa-category-lookup>
+                                </span>
+                                <span ng-if="!parameter.pluralizedLookupObject">
+                                    <span ng-if="parameter.valueType === 'checkbox'">
+                                        <div class="flip-switch">
+                                            <input string-to-boolean type="checkbox" ng-model="result.parameters[parameter.name]" id="resultParam_{{resultIndex}}_{{$index}}"/>
+                                            <label for="resultParam_{{resultIndex}}_{{$index}}">
+                                                <div class="switch-inner">
+                                                    <span class="switch-on"><i class="icon icon-check-circle"></i> Yes</span>
+                                                    <span class="switch-off">No <i class="icon icon-check-circle"></i></span>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </span>
+                                    <span ng-if="parameter.valueType !== 'checkbox'">
+                                        <input name="resultParam_{{resultIndex}}_{{$index}}" type="{{parameter.valueType ? parameter.valueType : 'text'}}"
+                                               ng-model="result.parameters[parameter.name]"
+                                               class="medium"
+                                               parameter-name="{{::parameter.name}}"
+                                               required />
+                                    </span>
+                                </span>
+                            </div>)
+                    </div>
+                </div>
+                <div class="grid-block rule-manager__add-rule">
+                    <a class="grid-block" title="Add" ng-click="vm.expandResult()"><i class="icon icon-plus-solid"></i>Result</a>
+                </div>
+            </div>
+        </div>
+        <div class="modal--medium" zf-modal zf-closable="modal" id="deletePromotionResults">
+            <div class="modal-content">
+                <h4>Are you sure you want to delete every result for this {{vm.entityDefinition.label}}?</h4>
+            </div>
+            <div class="modal-footer">
+                <button zf-close class="button tertiary">Cancel</button>
+                <button ng-click="vm.deleteAllResults()" class="button secondary">Delete</button>
+            </div>
+        </div>
+    </div>
+</script>

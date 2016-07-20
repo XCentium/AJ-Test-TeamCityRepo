@@ -1,0 +1,42 @@
+﻿@using Insite.Admin.Models
+@model Insite.Admin.Models.ControlTypeViewModel<Insite.Admin.ControlTypes.FilePickerControl>
+
+@if (Model.PropertyDefinition.CanEdit)
+{
+    var validator = Model.PropertyDefinition.DataTypeValidator as Insite.Admin.DataTypeValidators.StringValidator;
+    var regExp = validator != null ? validator.RegularExpression : null;
+
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<isa-file-picker type="file"
+                                         field-id="@Model.Id"
+                                         ng-model="@Model.EditPageModelBinding"
+                                         base-path="@Model.PropertyDefinition.EntityDefinition.PluralizedName"></isa-file-picker>
+    })
+
+    <script type="text/ng-template" id="filePicker_@Model.Id">
+        <div class="file-picker large">
+            <span class="inline-label">
+                <input type="text"
+                       id="@Model.Id"
+                       name="@Model.Id"
+                       @if (Model.PropertyDefinition.IsRequired)
+                       {
+                           <text>required="required"</text>
+                       }
+                       ng-model="filePickerCtrl.path"
+                       data-pattern="@regExp" />
+                <button class="button" ng-click="filePickerCtrl.openPopup()" ng-disabled="@((!Model.PropertyDefinition.CanEdit).ToString().ToLower())">Browse</button>
+            </span>
+        </div>
+    </script>
+}
+else
+{
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<div class="readonly">{{::@Model.EditPageModelBinding}}</div>
+    })
+}

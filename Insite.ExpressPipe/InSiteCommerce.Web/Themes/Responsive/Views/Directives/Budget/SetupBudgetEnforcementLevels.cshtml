@@ -1,0 +1,36 @@
+﻿@using Insite.Core.Interfaces.EnumTypes
+@using Insite.WebFramework.Mvc.Extensions
+
+<section class="budget-enforcement-level">
+    <form>
+        <h3>@T("Budget Enforcement Level")</h3>
+        <div class="row">
+            <div class="medium-12 large-12 columns">
+                <p class="msg-enforcement">
+                    @Html.Message("Budget_EnforcementLevelInstructions", "Selecting an enforcement level for your Budgets will have an impact on the users shopping experience. Only one level may be active.")
+                </p>
+            </div>
+            <div class="medium-12 large-12 columns">
+                <fieldset class="enforcement-level-set">
+                    <div class="row">
+                        <div class="small-1 columns"><input type="radio" name="BudgetEnforcementLevel" ng-model="vm.billTo.budgetEnforcementLevel" value="@BudgetEnforcementLevel.None" id="level_0" /></div>
+                        <div class="small-11 columns"><label for="level_0">@T("No Enforcement")</label></div>
+                    </div>
+                    <div class="row">
+                        <div class="small-1 columns"><input type="radio" name="BudgetEnforcementLevel" ng-model="vm.billTo.budgetEnforcementLevel" value="@BudgetEnforcementLevel.ShipTo" id="level_1" /></div>
+                        <div class="small-11 columns"><label for="level_1">@T("Customer ship to level")</label></div>
+                    </div>
+                    <div class="row">
+                        <div class="small-1 columns"><input type="radio" name="BudgetEnforcementLevel" ng-model="vm.billTo.budgetEnforcementLevel" value="@BudgetEnforcementLevel.Customer" id="level_2" /></div>
+                        <div class="small-11 columns"><label for="level_2">@T("Customer level")</label></div>
+                    </div>
+                    <div class="row" ng-show="vm.budgetsFromOnlineOnly">
+                        <div class="small-1 columns"><input type="radio" name="BudgetEnforcementLevel" ng-model="vm.billTo.budgetEnforcementLevel" value="@BudgetEnforcementLevel.User" id="level_3" /></div>
+                        <div class="small-11 columns"><label for="level_3">@T("User level")</label></div>
+                    </div>
+                </fieldset>
+                <button id="budgetEnforcementLevelsSubmitBtn" type="submit" ng-click="vm.updateBudgetEnforcementLevel()" class="btn secondary btn-save">@T("Save")</button>
+            </div>
+        </div>
+    </form>
+</section>

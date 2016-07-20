@@ -1,0 +1,15 @@
+﻿@model EditContentFieldModel<RichTextContentFieldAttribute>
+
+<label for="@Model.FieldName">
+    @Model.DisplayName
+    @if (Model.ContentFieldAttribute.IsRequired)
+    {
+        <span class="required">(required)</span>
+    }
+    @Html.Partial("ContentItemFields/_ContextDisplay", Model.ContentItemFieldModel)
+</label>
+<span data-valmsg-replace="true" data-valmsg-for="@(Model.FieldName)"></span>
+<textarea style="height: 305px;" id="@Model.FieldName" class="ckeditor" name="@Model.FieldName" 
+    @if (Model.ContentFieldAttribute.IsRequired) { <text> data-val="true" data-val-required="Value is required" </text>  }>
+@Html.Raw(Model.GetValue<string>())
+</textarea>

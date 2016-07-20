@@ -1,0 +1,24 @@
+﻿@model Insite.Configurator.Models.ConfigurationOptionViewModel
+<div id="@(Model.Name)Wrapper" class="configurator-option-wrapper">
+    <label for="@Model.Name" class="configurator-option-label">@Model.LabelValue</label>
+    <ul class="configurator-option-radio-button-list">
+        @foreach (var selectListItem in Model.SelectionList)
+        {
+            var radioButtonId = Model.Name + "_" + selectListItem.Value;
+            var attributes = new Dictionary<string, object>
+            {
+                {"class", "configurator-option-input configurator-option-radio-button"}, 
+                {"title", Model.ToolTip}, 
+                {"data-field-label", Model.LabelValue},
+                {"id", radioButtonId},
+                {"data-field-required", Model.IsRequired ? "1" : "0"},
+                {"data-bind", "event:{ change: onChange }, checked: " + Model.Name}
+            };                                    
+            <li>
+                @Html.RadioButton(Model.Name, selectListItem.Value, selectListItem.Value == Model.Value, attributes)
+                <label for="@radioButtonId">@selectListItem.Text</label>        
+            </li>
+        }        
+    </ul>
+</div>
+<br />

@@ -1,0 +1,211 @@
+﻿@helper FilterStatusControls()
+{
+    <div class="facets-filtered n-filtered" ng-if="vm.categoryIds.length > 0 || vm.attributeValues.length > 0 || vm.priceFilters.length > 0 || vm.searchWithinTerms.length > 0">
+        <h4>Selected Filters</h4>
+        <ul>
+			<li>
+				<a id="" href="javascript:;" ng-repeat="catObject in vm.categoryIds" ng-click="vm.toggleCategory(catObject)">
+					<i class="fa fa-remove"></i> <em>@T("Category"):</em> <span>{{catObject.shortDescription}}</span><br />
+			    </a>
+			</li>
+
+            <li ng-repeat="attributeValue in vm.attributeValues">
+                <a id="categoryLeftNavSectionNameFilterLink_{{$index}}" href="javascript:;" ng-click="vm.toggleFilter(attributeValue.attributeValueId)">
+                    <i class="fa fa-remove"></i> <em>{{attributeValue.sectionNameDisplay}}:</em> <span>{{attributeValue.valueDisplay}}</span>
+                </a>
+            </li>
+            <li ng-repeat="priceFacet in vm.priceFilters">
+                <a id="categoryLeftNavPriceFilterLink_{{$index}}" href="javascript:;" ng-click="vm.togglePriceFilter(priceFacet.minimumPrice.toString())">
+                    <i class="fa fa-remove"></i> <em>@T("Price"): {{vm.priceRangeDisplay(priceFacet)}}</em>
+                </a>
+            </li>
+            <li ng-repeat="term in vm.searchWithinTerms">
+                <a id="categoryLeftNavClearSearchFilterLink" href="javascript:;" ng-click="vm.clearSearchWithinItem($index)">
+                    <i class="fa fa-remove"></i> <em>@T("Search"): {{term}}</em>
+                </a>
+            </li>
+        </ul>
+        <div class="clear-all"><a id="categoryLeftNavClearAllFiltersLink" href="#" ng-click="vm.clearFilters() ">@T("Clear All")</a>
+        </div>
+    </div>
+}
+
+<div class="large-3 columns">
+    <div class="ln2-wrap">
+        <div ng-if="category" class="nav-head">
+            <h2>{{vm.category.shortDescription}}</h2>
+            <ul>
+                <li ng-repeat="breadcrumb in vm.leftNavBreadCrumbs()"><a id="categoryLeftNavBreadcrumbLink_{{$index}}" href="{{breadcrumb.path}}">{{breadcrumb.text}}</a></li>
+            </ul>
+        </div>
+
+        <a href="#" class="button primary expand n-filter-toggle show-for-medium-down">Filters</a>
+
+        <div class="n-filter" ng-if="vm.products.attributeTypeFacets.length > 0 || vm.products.categoryFacets.length > 0 || vm.products.priceRange.priceFacets.length > 0 || vm.quickSearchTerm.term">
+
+            <div class="n-filter-close show-for-medium-down hide-for-print">
+                <a href="#" class="n-filter-toggle-close"><i class="fa fa-lg fa-angle-left"></i> Close</a>
+            </div>
+
+            @FilterStatusControls()
+
+            <div class="f-cat" ng-if="vm.products.categoryFacets.length > 0">
+                <section class="accordion facets-attributes" data-accordion>
+                    <div id="accord-1" class="accordion-navigation expanded">
+                        <label for="accord-1" class="accord-head" ng-click="vm.toggleFacet('accord-1')">
+                            <input type="checkbox" id="accord-1" name="accord-1" class="accord-check" checked/>
+                            @T("Categories")
+                        </label>
+                        <article class="accord-content">
+                            <div class="f-wrap">
+                                <ul>
+                                    <li ng-repeat="categoryFacet in vm.products.categoryFacets | orderBy : 'shortDescription'"
+                                        ng-class="{'f-selected' : categoryFacet.selected}"
+                                        ng-click="vm.toggleCategory(categoryFacet)"
+                                        ng-if="(categoryFacet.shortDescription | lowercase) != 'default'">
+                                        <a id="categoryLeftNavCategoryFacetLink_{{$index}}" href="javascript:;">
+                                            <span class="f-name">{{categoryFacet.shortDescription}}</span>
+                                            <span class="f-count">({{categoryFacet.count}})</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="accord-more" ng-show="vm.products.categoryFacets.length > 6"><a href="#">show more</a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+            </div>
+
+            <div class="f-cat" ng-if="vm.products.priceRange.priceFacets.length > 0">
+                <section class="accordion" data-accordion>
+                    <div id="accord-2" class="accordion-navigation expanded">
+                        <label for="accord-2" class="accord-head" ng-click="vm.toggleFacet('accord-2')">
+                            <input type="checkbox" id="accord-2" name="accord-2" class="accord-check" checked/>
+                            @T("Price")
+                        </label>
+                        <article class="accord-content">
+                            <div class="f-wrap">
+                                <ul>
+                                    <li ng-repeat="priceFacet in vm.products.priceRange.priceFacets | orderBy : 'minimumPrice'" ng-class="{'f-selected' : priceFacet.selected}"
+                                        ng-click="vm.togglePriceFilter(priceFacet.minimumPrice.toString())">
+                                        <a href="javascript:;">
+                                            <span class="f-name">{{vm.priceRangeDisplay(priceFacet)}}</span> <span class="f-count">({{priceFacet.count}})</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="accord-more" ng-show="vm.products.priceRange.priceFacets.length > 6"><a href="#">show more</a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+            </div>
+
+            <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','name']" class="f-cat" ng-if="vm.products.attributeTypeFacets.length > 0">
+                <section class="accordion facets-attributes" data-accordion">
+                    <div id="accord-{{$index + 3}}" class="accordion-navigation">
+                        <label for="accord-{{$index + 3}}" class="accord-head" ng-click="vm.toggleFacet('accord-' + ($index + 3))">
+                            <input type="checkbox" id="accord-{{$index + 3}}" class="accord-check" />
+                            {{section.nameDisplay}}
+                        </label>
+                        <article class="accord-content">
+                            <div class="f-wrap">
+                                <ul>
+                                    <li ng-repeat="attributeValue in section.attributeValueFacets | orderBy : ['sortOrder','valueDisplay']"
+                                        ng-class="{'f-selected' : attributeValue.selected}"
+                                        data-id="{{attributeValue.attributeValueId}}"
+                                        ng-click="vm.toggleFilter(attributeValue.attributeValueId)">
+                                        <a href="javascript:;">
+                                            <span class="f-name ">{{attributeValue.valueDisplay}}</span>
+                                            <span class="f-count">({{attributeValue.count}})</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="accord-more" ng-show="section.attributeValueFacets.length > 6"><a href="#">show more</a></div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+            </div>
+            <!-- hidden div to force load of checked image -->
+            <div class="f-cat" style="display: none;">
+                <ul class="accordion">
+                    <li class="current active">
+                        <ul><li class="f-selected"></li></ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- narrow version filters -->
+        <div class="f-cat hide" role="mobile-filters">
+            <section class="accordion">
+                <div>
+                    <input type="checkbox" id="accord-10000" class="accord-check" />
+                    <label for="accord-10000" class="accord-head">@T("Filters")</label>
+                    <article class="accord-content">
+                        <form>
+                            <div class="row">
+                                @FilterStatusControls()
+                            </div>
+                            <div class="row">
+                                <div class="filter-option-container">
+                                    <div class="search-within-search">
+                                        <label ng-if="!vm.category">@T("Search Within Results")</label>
+                                        <label ng-if="vm.category">@T("Search Within Category")</label>
+
+                                        <div class="search-container">
+                                            <div class="search-input">
+                                                <input id="searchWithin" type="text" placeholder="@T("Enter keywords")" ng-model="vm.searchWithinInput" isc-enter="vm.searchWithinEntered()" />
+                                            </div>
+                                            <div class="search-button">
+                                                <button class="btn primary fastClick" ng-click="vm.searchWithinEntered()">Go</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if="vm.products.categoryFacets.length > 0" class="filter-option-container">
+                                    <select id="categoryLeftNavCategorySelectorMobile"
+                                            data-mini="true"
+                                            ng-model="filterCategoryId"
+                                            ng-change="vm.toggleCategoryId(filterCategoryId)">
+                                        <option value="">@T("Category")</option>
+                                        <option ng-attr-id="{{'leftNavCategoryFacetCategoryId_' + $index}}" ng-repeat="categoryFacet in vm.products.categoryFacets | orderBy : 'shortDescription'"
+                                                ng-selected="categoryFacet.selected"
+                                                value="{{categoryFacet.categoryId}}">
+                                            {{categoryFacet.shortDescription}} ({{categoryFacet.count}})
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div ng-if="vm.products.priceRange.priceFacets.length > 0" class="filter-option-container">
+                                    <select id="categoryLeftNavPriceSelectorMobile" data-mini="true" ng-model="priceFacetMinimum" ng-change="vm.togglePriceFilter(priceFacetMinimum)">
+                                        <option value="">@T("Price")</option>
+                                        <option ng-attr-id="{{'leftNavPriceFacetMinimumPrice_' + $index}}" ng-repeat="priceFacet in vm.products.priceRange.priceFacets | orderBy : 'minimumPrice'"
+                                                ng-selected="priceFacet.selected"
+                                                value="{{priceFacet.minimumPrice}}">
+                                            {{vm.priceRangeDisplay(priceFacet)}}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div ng-repeat="section in vm.products.attributeTypeFacets | orderBy : ['sort','name']" class="filter-option-container">
+                                    <select id="categoryLeftNavAttributesSelectorMobile" data-mini="true" ng-model="sectionValueId" ng-change="vm.toggleFilter(sectionValueId || section.attributeTypeId)">
+                                        <option value="">{{section.nameDisplay}}</option>
+                                        <option ng-attr-id="{{'leftNavPriceFacetAttributeValueId_' + $index}}" ng-repeat="attributeValue in section.attributeValueFacets | orderBy : ['sortOrder','valueDisplay']"
+                                                ng-selected="attributeValue.selected"
+                                                value="{{attributeValue.attributeValueId}}">
+                                            {{attributeValue.valueDisplay}} ({{attributeValue.count}})
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+

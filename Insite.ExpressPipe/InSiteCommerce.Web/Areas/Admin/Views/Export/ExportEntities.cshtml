@@ -1,0 +1,104 @@
+﻿@model Insite.Admin.Models.ExportViewModel
+
+<isa-export pluralized-name="@Model.PluralizedName" pluralized-label="@Model.PluralizedLabel" class="vertical grid-block"></isa-export>
+
+<script type="text/ng-template" id="export">
+
+    <div class="title-bar">
+        <span class="title left">Export @Model.PluralizedLabel</span>
+        <span class="right">
+            <a class="button tertiary" href="#" ng-click="vm.cancel()">Cancel</a>
+            <a class="button" href="#" ng-disabled="!(vm.exporting && vm.exporting.length > 0)" ng-click="vm.export()">Export</a>
+        </span>
+    </div>
+    <div class="vertical grid-block form-content">
+        <div class="shrink grid-block form-content">
+            @*ISC-2356 REMOVE UNTIL WE PROPERLY SUPPORT CHILD/ASSIGMENT EXPORTS*@
+            @*<div class="warp medium-6 vertical grid-block"> 
+                <div ng-if="vm.assignments">
+                    <label><b>What would you like to export?</b></label>
+                    <input type="radio" ng-change="vm.getExportInfo()" ng-model="vm.exportAssignment" name="exportAssignment" value="@Model.PluralizedName" id="exportEntity" />
+                    <label for="exportEntity" ng-class="{ 'activeradio': vm.exportAssignment === '@Model.PluralizedName' }">@Model.PluralizedLabel</label>
+
+                    <div ng-repeat="assignment in vm.assignments">
+                        <div class="">
+                            <input type="radio" ng-change="vm.getExportInfo()" ng-model="vm.exportAssignment" name="exportAssignment" value="{{assignment}}" id="export{{assignment}}" />
+                            <label for="export{{assignment}}" ng-class="{ 'activeradio': vm.exportAssignment === assignment }" ng-bind-template="{{assignment}} Assignments"></label>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            </div>*@
+            <div class="warp medium-6 vertical grid-block">
+                <div ng-if="vm.selectedIds && vm.selectedIds.length > 0">
+                    <label><b>Which @Model.PluralizedName would you like to export?</b></label>
+                    <input type="radio" ng-model="vm.exportSelect" name="exportSelect" value="selected" id="exportSelected" />
+                    <label for="exportSelected" ng-class="{ 'activeradio': vm.exportSelect === 'selected' }">Export selected @Model.PluralizedName</label><br />
+                    <input type="radio" ng-model="vm.exportSelect" name="exportSelect" value="all" id="exportAll" />
+                    <label for="exportAll" ng-class="{ 'activeradio': vm.exportSelect === 'all' }">Export all @Model.PluralizedName</label>
+                </div>
+            </div>
+        </div>
+        <div class="title-bar">
+            <div class="left title">Select Columns To Export</div>
+        </div>
+        <div class="grid-block">
+            <div class="medium-6 form-content">
+                <div class="text-right">
+                    <a ng-if="vm.saved" href="javascript:void(0);"><i class="icon icon-check"></i> Saved</a>
+                    <a ng-if="!vm.saved" href="javascript:void(0);" ng-click="vm.saveDefaultSelections()">Save As Default Selections</a>
+                </div>
+                <section class="columns-leftbar">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-center column-select">
+                                    <input ng-click="vm.moveAllToNotExporting($event)" type="checkbox" ng-checked="true">
+                                </th>
+                                <th ng-click="vm.changeSort('exporting')" ng-class="{ 'is-sorted-asc': vm.exportingReverse, 'is-sorted-desc': !vm.exportingReverse }" class="is-actionable">
+                                    <div class="column-header text-left">Exporting</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody ui-sortable ng-model="vm.exporting">
+                            <tr class="is-actionable" ng-repeat="column in vm.exporting" ng-click="vm.moveToNotExporting(column.value)" style="cursor: move">
+                                <td class="text-center column-select">
+                                    <input type="checkbox" ng-checked="true">
+                                </td>
+                                <td>{{column.label}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+            <div class="medium-6 form-content">
+                <div class="grid-block align-spaced noscroll">
+                    <div>&nbsp;</div>
+                </div>
+                <section class="columns-rightbar">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="text-center column-select">
+                                    <input ng-click="vm.moveAllToExporting($event)" type="checkbox" ng-checked="false">
+                                </th>
+                                <th ng-click="vm.changeSort('not-exporting')" ng-class="{ 'is-sorted-asc': vm.notExportingReverse, 'is-sorted-desc': !vm.notExportingReverse }" class="is-actionable">
+                                    <div class="column-header text-left">Not Exporting</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="is-actionable" ng-repeat="column in vm.notExporting | orderBy:'label':vm.notExportingReverse" ng-click="vm.moveToExporting(column.value)">
+                                <td class="text-center column-select">
+                                    <input type="checkbox" ng-checked="false">
+                                </td>
+                                <td>{{column.label}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+        </div>
+    </div>
+
+</script>

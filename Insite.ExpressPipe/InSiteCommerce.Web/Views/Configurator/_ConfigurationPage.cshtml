@@ -1,0 +1,8 @@
+﻿@model Insite.Configurator.Models.ConfigurationPageViewModel
+<fieldset class="configurator-page" id="@Model.ConfigurationPageId">
+    <legend>@Model.ConfigurationPageTitle</legend>
+    <input name="pageUniqueId" type="hidden" value="@Model.ConfigurationPageId.ToString()"/>
+    <div id="configuratorPageWrapper@(Model.ConfigurationPageKey)" class="configurator-page-wrapper">
+        @Html.Raw(Model.ConfigurationOptionsHtmlOutput)
+    </div>
+</fieldset>

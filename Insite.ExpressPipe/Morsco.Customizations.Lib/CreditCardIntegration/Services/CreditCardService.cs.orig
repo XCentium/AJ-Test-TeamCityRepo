@@ -1,0 +1,187 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Threading.Tasks;
+using Insite.Core.Services;
+using Insite.Core.WebApi.Interfaces;
+using InSite.Model.Core;
+using InSite.Model.Interfaces;
+using InSite.Model.Interfaces.Dependency;
+using Morsco.Customizations.Lib.Interfaces;
+using Insite.Catalog.Services.Dtos;
+using Insite.Catalog.Services.Results;
+using Insite.ExpressPipe.PonderosaService.Entities;
+using Insite.ExpressPipe.PonderosaService.Services;
+using InSite.Model;
+using InSite.Model.Interfaces.Repositories;
+using Microsoft.Ajax.Utilities;
+using Morsco.Customizations.Lib.CreditCardIntegration.Interfaces;
+using Morsco.Customizations.Lib.CreditCardIntegration.Models;
+using Morsco.Customizations.Lib.NHibernate.Model;
+
+
+namespace Morsco.Customizations.Lib.CreditCardIntegration.Services
+{
+    public class CreditCardService : ServiceBase, ICreditCardService, IInterceptable, IDependency
+    {
+        private ICreditCardRepository repository;
+
+		public CreditCardService(IUnitOfWorkFactory unitOfWorkFactory, IContextProvider contextProvider, ITranslationLocalizer translationLocalizer, ICreditCardRepository repository)
+            :base(unitOfWorkFactory, contextProvider, translationLocalizer)
+        {
+            this.repository = repository;
+        }
+
+        public async Task<CreditCardsResult> GetUserCardList(CurrentContext currentContext)
+	    {
+			var contactID = currentContext.UserProfile.Id;
+
+	        var ccs = new CreditCardServices();
+	        //var rst = css.GetCreditCardList(contactID);
+
+			
+
+			List<CreditCardDto> listOfCards = GetTestCardData();
+			var result = new CreditCardsResult();
+	        result.CreditCards = listOfCards;
+			result.Success = true;
+
+
+			return await Task.FromResult<CreditCardsResult>(result);
+        }
+
+	    public async Task<CreditCardInitiateResult> InitiateAddNewCreditCard(CurrentContext currentContext, AddCardRequest addCardRequest, string origin)
+	    {
+		    var result = new CreditCardInitiateResult();
+            
+            result.RedirectUrl = origin + "/userfiles/_test.html";
+		    result.SetupResult = "Success";
+
+			return await Task.FromResult<CreditCardInitiateResult>(result);
+	    }
+
+		public async Task<CreditCardsResult> FinalizeNewCreditCard(CurrentContext currentContext, String setupResult)
+	    {
+			List<CreditCardDto> listOfCards = GetTestCardData();
+
+			//Dummy Card 3
+			var card3 = new CreditCardDto();
+			card3.Element_Acct_ID = "abc789";
+			card3.Card_Number = "xxx-xxx-xxxx-9012";
+			card3.Card_Holder = "Your Name";
+			card3.Card_Type = "AM";
+			card3.Expire_Date = "1118";
+			card3.Auth_Type = "1";
+			card3.IsSelectedCard = false;
+			listOfCards.Add(card3);
+
+			var result = new CreditCardsResult();
+			result.CreditCards = listOfCards;
+			result.Success = true;
+
+			return await Task.FromResult<CreditCardsResult>(result);
+	    }
+
+	    public async Task<CreditCardsResult> DeleteCardFromContact(CurrentContext currentContext, string elementAccountId)
+	    {
+			List<CreditCardDto> listOfCards = GetTestCardData();
+			var result = new CreditCardsResult();
+			result.CreditCards = listOfCards;
+		    result.Success = true;
+
+			return await Task.FromResult<CreditCardsResult>(result);
+	    }
+
+
+<<<<<<< HEAD
+	    public async Task<Boolean> StoreMostRecentlyUsedCard(CurrentContext currentContext, string elementAccountId)
+=======
+        public async Task<CreditCardsResult> SetMostRecentlyUsedCard(CurrentContext currentContext, string elementAccountId)
+>>>>>>> develop
+	    {
+		    var serviceResult = false;
+
+<<<<<<< HEAD
+		    result = await Task.FromResult<Boolean>(
+				DoStoreMostRecentlyUsedCard(currentContext.UserProfile.Id.ToString(), elementAccountId, currentContext.BillTo.Id.ToString())
+=======
+		    serviceResult = await Task.FromResult<Boolean>(
+				DoSetMostRecentlyUsedCard(currentContext.UserProfile.Id.ToString(), elementAccountId, currentContext.BillTo.Id.ToString())
+>>>>>>> develop
+			);
+
+            List<CreditCardDto> listOfCards = GetTestCardData();
+            var result = new CreditCardsResult();
+            foreach (var card in listOfCards)
+            {
+                card.IsSelectedCard = (card.ElementAccId == elementAccountId);
+            }
+            result.CreditCards = listOfCards;
+            result.Success = true;
+
+            return await Task.FromResult<CreditCardsResult>(result);
+	    }
+
+	    private Boolean DoStoreMostRecentlyUsedCard(string userId, string elementAccountId, string billToId)
+	    {
+			var cardRow = repository.InsertUpdateRecentlyUsedCreditCard(userId, elementAccountId, billToId);
+
+			return cardRow != null;
+	    }
+
+	    private List<CreditCardEntity> SetMostRecentlySelectedCard()
+	    {
+		    
+	    }
+
+		private List<CreditCardDto> GetTestCardData()
+	    {
+			List<CreditCardDto> listOfCards = new List<CreditCardDto>();
+
+			//Dummy Card 1
+			var card = new CreditCardDto();
+<<<<<<< HEAD
+			card.Element_Acct_ID = "abc123";
+			card.Card_Number = "xxx-xxx-xxxx-1234";
+			card.Card_Holder = "Mr. Bigglesworth";
+			card.Card_Type = "VI";
+			card.Expire_Date = "0117";
+			card.Auth_Type = "1";
+			card.IsSelectedCard = true;
+=======
+			card.ElementAccId = "abc123";
+			card.CardNumber = "xxx-xxx-xxxx-1234";
+			card.CardHolder = "Mr. Bigglesworth";
+			card.CardType = "VI";
+			card.ExpireDate = "0117";
+			card.AuthType = "1";
+			card.IsSelectedCard = false;
+>>>>>>> develop
+			listOfCards.Add(card);
+
+			//Dummy Card 2
+			var card2 = new CreditCardDto();
+<<<<<<< HEAD
+			card2.Element_Acct_ID = "abc456";
+			card2.Card_Number = "xxx-xxx-xxxx-5678";
+			card2.Card_Holder = "Tom Smith";
+			card2.Card_Type = "MC";
+			card2.Expire_Date = "0517";
+			card2.Auth_Type = "1";
+			card2.IsSelectedCard = false;
+=======
+			card2.ElementAccId = "abc456";
+			card2.CardNumber = "xxx-xxx-xxxx-5678";
+			card2.CardHolder = "Tom Smith";
+			card2.CardType = "MC";
+			card2.ExpireDate = "0517";
+			card2.AuthType = "1";
+			card2.IsSelectedCard = true;
+>>>>>>> develop
+			listOfCards.Add(card2);
+
+			return listOfCards;
+	    }
+	
+	}
+}

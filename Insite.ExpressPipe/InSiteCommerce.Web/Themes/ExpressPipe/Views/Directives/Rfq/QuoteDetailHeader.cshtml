@@ -1,0 +1,55 @@
+﻿@using Insite.Core.Providers
+@using Insite.WebFramework.Mvc.Extensions
+
+<div ng-cloak>
+
+	<header class="row order-detail-header">
+		<div class="medium-6 columns">
+			<h1>@T("Quote #")<span ng-bind="vm.quote.orderNumber"></span></h1>
+		</div>
+		<div class="medium-6 columns">
+			<h2>@T("Status"): <span class="status" ng-bind="vm.quote.statusDisplay" ng-class="vm.quote.statusDisplay | lowercase"></span></h2>
+		</div>
+	</header>
+
+	<div class="alert-box info cms-rearrangeable" ng-if="vm.quote.statusDisplay == 'Requested'">
+		<div class="row">
+			<div class="medium-12 columns">
+				
+				<span>@Html.Message("Widget.Quote_Detail_Quote_Captions")</span>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel">
+		<div class="row">
+			<div class="medium-6 columns">
+                <h5>Quote Information</h5>
+				<dl class="inline-data-list">
+					<dt>@T("PO#")</dt>
+					<dd><span ng-bind="vm.quote.poNumber"></span></dd>
+
+					<dt>@T("Job Name")</dt>
+					<dd><span ng-bind="vm.quote.properties['companyName']"></span></dd>
+
+					<dt>@T("Requested Date")</dt>
+					<dd><span ng-bind="vm.quote.orderDate | date:'M/d/yyyy'"></span></dd>
+
+					<dt>@T("Requested By")</dt>
+					<dd><span ng-bind="vm.quote.properties['placedByUserName']"></span></dd>
+
+					<dt>{{vm.quote.isJobQuote ? '@T("Job Expiration Date")' : '@T("Expiration Date")'}}</dt>
+					<dd><span ng-if="vm.quote.statusDisplay == 'Active' || vm.quote.statusDisplay == 'Expired'" ng-bind="vm.quote.expirationDate | date:'M/d/yyyy'"></span></dd>
+
+					<dt>@T("Sales Rep")</dt>
+					<dd><span ng-if="vm.quote.statusDisplay == 'Active' || vm.quote.statusDisplay == 'Expired'" ng-bind="vm.quote.properties['salesRep']"></span></dd>
+				</dl>
+			</div>
+			<div class="medium-6 columns">
+                <h5>Notes</h5>
+				<span ng-bind="vm.quote.notes"></span>
+			</div>
+		</div>
+	</div>
+
+</div>

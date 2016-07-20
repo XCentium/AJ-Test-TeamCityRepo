@@ -1,0 +1,94 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+<div>
+    <form name="dealerSearchForm" ng-submit="vm.getDealers()" novalidate>
+        <div class="row dealer-search">
+            <div class="medium-6 large-6 columns dealer-search-loc">
+                <h4>
+                    @Html.Message("DealerLocator_LocationSearchLabel", "Zip/Postal Code or City, State/Province or Country:")
+                </h4>
+                <input id="dealerLocatorViewAddressSearchField" type="text" name="addressSearchField" class="addressSearchField" ng-model="vm.addressSearchField" required />
+            </div>
+            <div class="medium-6 large-6 columns dealer-search-name">
+                <h4>
+                    @Html.Message("DealerLocator_NameSearchLabel", "Location Name (optional):")
+                </h4>
+                <input id="dealerLocatorStoreNameField" type="text" name="name" class="nameSearchField" ng-model="vm.storeName" />
+                <button id="dealerLocatorViewSearchButton" type="submit" class="btn primary fastClick dealer-search">
+                    <i class="foundicon-search"></i><span>@T("Search")</span>
+                </button>
+            </div>
+        </div>
+    </form>
+    <div ng-if="!vm.locationKnown">
+        <span class="field-validation-error">
+            @Html.Message("DealerLocator_GeocodeErrorMessage", "Unable to find location. Check your search location and try again.")
+        </span>
+    </div>
+    <div ng-if="vm.locationKnown && vm.dealers.length == 0">
+        <span class="field-validation-error">
+            @Html.Message("DealerLocator_NoResultsMessage", "No results found, please search again.")
+        </span>
+    </div>
+    <div class="dealer-loc-map" id="dealer-loc-map">
+        <map name="dealersmap" zoom="11" style="height: 650px;"></map>
+    </div>
+
+    <div class="dealer-loc-results" ng-if="vm.dealers.length > 0">
+        <div class="results-count">
+            <div class="rcount">
+                <strong ng-cloak>{{ vm.pagination.totalItemCount }}</strong> @(T("results"))
+            </div>
+            <div class="distance-unit">
+                <label><input id="dealerLocatorViewMilesRadio" type="radio" name="milesKmGroup" class="Imperial" ng-model="vm.distanceUnitOfMeasure" ng-value="0" />@(T("mi"))</label>
+                <label><input id="dealerLocatorViewKmRadio" type="radio" name="milesKmGroup" class="Metric" ng-model="vm.distanceUnitOfMeasure" ng-value="1" />@(T("km"))</label>
+            </div>
+        </div>
+
+        <ul class="sl-list">
+            <li ng-repeat="dealer in vm.dealers">
+                <div class="result-num">{{vm.getDealerNumber($index)}}</div>
+                <div class="dealer-deetz">
+                    <div class="dealer-name">
+                        <a id="dealerLocatorViewDealerNameLink_{{dealer.id}}" href="@(Url.ContentPage<Insite.Dealers.Content.DealerPage>())?dealerId={{dealer.id}}" ng-cloak>{{dealer.name}}</a>
+                    </div>
+                    <div class="dealer-addy" ng-cloak>
+                        {{dealer.address1}}<br/>
+                        <span ng-if="dealer.address2">{{dealer.address2}}<br /></span>
+                        {{dealer.city}}, {{dealer.state}} {{dealer.zip}}<br/>
+                        {{dealer.phone1}}
+                    </div>
+
+                    <div class="dealer-hours-map" ng-if="dealer.htmlContent">
+                        <h4>@T("Hours")</h4>
+                        <div ng-bind-html="dealer.htmlContent|trusted"></div>
+                    </div>
+                    <div class="dealer-links">
+
+                        <div class="dealer-hours" ng-if="dealer.htmlContent">
+                            <a id="dealerLocatorViewDealerHoursLink_{{dealer.id}}" href="#" ng-click="vm.openHours($event)" data-dropdown="dealer-hours-{{dealer.id}}" class="t-dropdown">@(T("Hours"))</a>
+                        </div>
+
+                        <a id="dealerLocatorViewDealerDirectionsLink_{{dealer.id}}" href="http://maps.google.com/maps?daddr={{dealer.address1}} {{dealer.address2}}, {{dealer.city}}, {{dealer.state}} {{dealer.postalCode}}" class="dealer-directions" target="_blank">@(T("Directions"))</a>
+
+                        <span ng-if="dealer.webSiteUrl" ng-cloak>
+                            <a id="dealerLocatorViewDealerWebsiteLink_{{dealer.id}}" href="{{dealer.webSiteUrl}}" class="dealer-www" target="_blank">@(T("Website"))</a>
+                        </span>
+                        <span ng-if="vm.distanceUnitOfMeasure===0" class="dealer-distance miles" ng-cloak>{{ dealer.distance.toFixed(2) }} @(T("mi"))  </span>
+                        <span ng-if="vm.distanceUnitOfMeasure===1" class="dealer-distance kilometers" ng-cloak>{{ (dealer.distance * 1.60934).toFixed(2) }} @(T("km"))</span>
+
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <isc-pager pagination="vm.pagination" bottom="true" update-data="vm.searchDealers()"></isc-pager>
+    </div>
+
+    <div ng-repeat="dealer in vm.dealers" class="dealer-hours" ng-if="dealer.htmlContent">
+        <div id="dealer-hours-{{dealer.id}}" class="f-dropdown content" data-dropdown-content>
+            <div class="tt-wrap" ng-bind-html="dealer.htmlContent|trusted"></div>
+        </div>
+    </div>
+</div>
+
+

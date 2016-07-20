@@ -1,0 +1,8 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Morsco.Customizations.Lib.Widgets.EmailUsForm
+
+<div class="widget @Model.CssClass">
+    <h3>@Html.Message("Widget.Email_Us_Form_Title")</h3>
+    <div>@Html.Message("Widget.Email_Us_Form_Message")</div>
+    <a href='mailto:@Html.Message("Widget.Email_Us_Form_Email")' class='button'>@Html.Message("Widget.Email_Us_Form_Button_Text")</a>
+</div>

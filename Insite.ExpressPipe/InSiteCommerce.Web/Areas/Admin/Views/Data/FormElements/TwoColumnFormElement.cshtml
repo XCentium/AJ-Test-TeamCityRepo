@@ -1,0 +1,11 @@
+﻿@using Insite.Admin.FormBuilder.Models.FormBuilder
+@model Insite.Admin.FormBuilder.Elements.TwoColumnFormElement
+
+<div class="grid-block columns wrap">
+    <div class="grid-block vertical columns__column @Model.LeftColumnClasses">
+        @Html.Partial("Zone", ZoneViewModel.Create(Model, "Left"))
+    </div>
+    <div class="grid-block vertical columns__column @Model.RightColumnClasses">
+        @Html.Partial("Zone", ZoneViewModel.Create(Model, "Right"))
+    </div>
+</div>

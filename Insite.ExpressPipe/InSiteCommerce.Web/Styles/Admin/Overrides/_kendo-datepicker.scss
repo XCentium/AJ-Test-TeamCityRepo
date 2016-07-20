@@ -1,0 +1,140 @@
+﻿.k-calendar {
+    .k-header {
+        .k-link.k-nav-fast {
+            font-weight: bold;
+            color: $brand;
+        }
+
+        .k-nav-fast.k-state-hover {
+            background-color: transparent;
+            background-image: none;
+            color: $brand;
+        }
+
+        .k-nav-prev.k-state-hover, .k-nav-next.k-state-hover {
+            background-image: none;
+            background-color: transparent;
+            border-color: transparent;
+        }
+    }
+
+    .k-content {
+        td, th {
+            border: 0;
+            border-radius: 100%;
+            padding: 0;
+            text-align: center;
+            width: 32px;
+            height: 32px;
+        }
+
+        th {
+            color: $type;
+            font-weight: bold;
+        }
+
+        td.k-state-focused, .k-state-focused.k-state-selected {
+            box-shadow: none;
+        }
+
+        .k-link {
+            color: $type;
+            font-weight: 600;
+            min-height: 0;
+            line-height: 1rem;
+            padding: 9px;
+        }
+
+        .k-state-hover, .k-state-selected {
+            background-color: $brand;
+            background-image: none;
+            border-color: $brand;
+            box-shadow: none;
+
+            .k-link {
+                color: white;
+            }
+        }
+
+        .k-state-selected {
+            .k-link {
+                font-weight: bold;
+            }
+        }
+
+        .k-other-month {
+            &.k-state-hover {
+                .k-link {
+                    color: white;
+                }
+            }
+
+            .k-link {
+                background-image: none;
+                color: $type-light;
+            }
+        }
+    }
+
+    /*
+        .k-meta-view is when the user is selecting Months/Years
+    */
+    .k-content.k-meta-view {
+        .k-state-hover, td[aria-selected="true"] {
+            background-color: transparent;
+            background-image: none;
+            border-color: transparent;
+            box-shadow: none;
+
+            .k-link {
+                color: $brand;
+            }
+        }
+
+        td[aria-selected="true"] {
+            .k-link {
+                font-weight: bold;
+            }
+        }
+    }
+
+    .k-footer {
+        .k-nav-today {
+            color: $brand;
+            font-weight: 600;
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+.k-picker-wrap {
+    &.k-state-hover,
+    &.k-state-focused,
+    &.k-state-default {
+        background-color: transparent;
+        background-image: none;
+        border-color: $border-gray;
+
+        .k-i-calendar {
+            background-position: -32px -176px;
+        }
+
+        .k-i-clock {
+            background-position: -32px -192px;
+        }
+    }
+
+    .k-input {
+        &:hover, &:focus {
+            border: 0;
+        }
+
+        &[readonly] {
+            background-color: $background-gray;
+            color: $type;
+        }
+    }
+}

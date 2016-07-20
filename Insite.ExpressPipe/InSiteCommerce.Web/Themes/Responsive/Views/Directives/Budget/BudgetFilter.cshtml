@@ -1,0 +1,51 @@
+﻿@using Insite.Core.Interfaces.EnumTypes
+@using Insite.WebFramework.Mvc.Extensions
+
+<div class="row">
+    <div class="small-12 columns enforcement-level-display">
+        <span class="enf-display-lbl">@Html.Message("Budget_CurrentEnforcementLevel", "Your Budget Enforcement is set to"):</span>
+        <span class="enf-display-val" ng-if="enforcementLevel == '@BudgetEnforcementLevel.None'">@T("No Enforcement")</span>
+        <span class="enf-display-val" ng-if="enforcementLevel == '@BudgetEnforcementLevel.ShipTo'">@T("Customer ship to level")</span>
+        <span class="enf-display-val" ng-if="enforcementLevel == '@BudgetEnforcementLevel.Customer'">@T("Customer level")</span>
+        <span class="enf-display-val" ng-if="enforcementLevel == '@BudgetEnforcementLevel.User'">@T("User level")</span>
+    </div>
+    <div class="small-12 columns">
+        <p class="msg-enforcement">
+            @Html.Message("Budget_CreateBudgetForLevel", "You must create a Budget for this enforcement level before it will be activated. All other budget assignments created will be for review purposes only.")
+        </p>
+    </div>
+    <div class="small-12 columns">
+        <fieldset class="budget-search-fields">
+            <div class="row budget-search">
+                <div class="small-12 columns budget-selections">
+                    <div>
+                        <label>@T("Select User")</label>
+                        <select id="budgetFilterSelectUser" ng-model="user" ng-change="switchFilterInput({ selectedValue:user, param:'user' })" class="user-selector" ng-options="account.userName for account in accounts | orderBy:'userName'">
+                            <option value="">@T("Select User")</option>
+                        </select>
+                    </div>
+                    <div class="select-step">
+                        <span>@T("Or")</span>
+                        <label>@T("Select Ship To Address")</label>
+                        <select id="budgetFilterSelectShipTo" ng-model="shipTo" ng-change="switchFilterInput({ selectedValue:shipTo, param:'shipTo' })" class="shipto-selector" ng-options="shipTo.label for shipTo in shipToList | filter:{customerSequence: '!-1'}">
+                            <option value="">@T("Select Ship To")</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="small-12 columns budget-year">
+                    <div class="row">
+                        <div class="small-12 columns budget-year-lbl">
+                            <label for="budget-year">@T("Budget Year"):</label>
+                        </div>
+                        <div class="small-12 columns budget-year-ops">
+                            <select id="budgetFilterSelectYear" ng-model="year" class="budget-year-selection" ng-options="value for value in budgetYears"></select>
+                        </div>
+                        <div class="small-12 columns budget-year-action">
+                            <button id="budgetFilterViewBudgetBtn" ng-click="viewBudget()" class="btn secondary btn-view-budget">@T("View Budget")</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>

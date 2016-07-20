@@ -1,0 +1,69 @@
+﻿@using Insite.Account.Content
+@using Insite.Cart.Content
+@using Insite.Rfq.Content
+@using Insite.Requisition.Content
+
+@helper CheckoutButtons()
+{
+    <div class="summary-primary-cta">
+        <a ng-if="cart.canCheckOut" class="button expand large"
+           ng-href="{{cart.canBypassCheckoutAddress ? '@(Url.ContentPage<ReviewAndPayPage>())' + cart.cartIdParam : '@(Url.ContentPage<CheckoutAddressPage>())' + cart.cartIdParam}}">@T("Proceed To Checkout")</a>
+    </div>
+    <div>
+        <a ng-if="!cart.canCheckOut" class="button expand" href="javascript:void(0)">@T("Checkout")</a>
+    </div>
+}
+
+<div class="summary">
+    <header ng-if="cart.cartLines.length > 0"  class="summary-header">
+        @T("Order Summary")
+    </header>
+    <div ng-if="cart.cartLines.length > 0"  class="summary-content">
+        <div class="summary-totals">
+            <div class="row collapse sub-total">
+                <div class="xsmall-6 columns sub-label">@T("Subtotal")<span>({{cart.properties['catalogOrderCount']}})</span></div>
+                <div class="xsmall-6 columns sub-amount" ng-bind="cart.orderSubTotalDisplay"></div>
+            </div>
+            <div class="row collapse" ng-if="(cart.showTaxAndShipping || !isCartPage) && cart.totalTaxDisplay.length > 0">
+                <div class="xsmall-6 columns sub-label">@T("Tax")</div>
+                <div class="xsmall-6 columns sub-amount" ng-bind="cart.totalTaxDisplay"></div>
+            </div>
+            <div class="row collapse" ng-if="(cart.showTaxAndShipping || !isCartPage) && cart.shippingAndHandlingDisplay.length > 0">
+                <div class="xsmall-6 columns sub-label">@T("Shipping & Handling")</div>
+                <div class="xsmall-6 columns sub-amount" ng-bind="cart.shippingAndHandlingDisplay"></div>
+            </div>
+            <div class="row collapse promo-applied" ng-repeat="promotion in promotions">
+                <div class="xsmall-6 columns sub-label">
+                    @T("Promotion"): <em><span ng-bind="promotion.name"></span></em>
+                </div>
+                <div class="xsmall-6 columns sub-amount" ng-bind="promotion.amountDisplay"></div>
+            </div>
+            <div class="row collapse order-total" ng-if="(cart.showTaxAndShipping || !isCartPage)">
+                <div class="xsmall-6 columns sub-label">@T("Total")</div>
+                <div class="xsmall-6 columns sub-amount" ng-bind='cart.orderGrandTotalDisplay'></div>
+            </div>
+        </div>
+
+        @CheckoutButtons()
+    </div>
+
+    <footer class="summary-footer">
+        <div ng-if="cart.canRequestQuote && cart.cartLines.length > 0">
+            <h6>&nbsp;</h6>
+            <p class="big">
+                <a href="@(Url.ContentPage<RfqRequestQuotePage>())" ng-disabled="cart.isAwaitingApproval">
+                    <i class="fa fa-calculator"></i> <span ng-bind="cart.isSalesperson ? '@T("Create a Quote")' : '@T("Request a Quote")'"></span>
+                </a>
+            </p>
+        </div>
+
+        <div>
+            <h6>@T("Can't find what you're looking for?")</h6>
+            <p><a href="javascript:void();" data-reveal-id="specialOrderForm"><i class="fa fa-table"></i> @T("Special Request Form")</a>.</p>
+        </div>
+    </footer>
+
+    <morsco-special-order-view></morsco-special-order-view>
+</div>
+
+

@@ -1,0 +1,27 @@
+﻿@model EditContentFieldModel<DatePickerField>
+
+<label for="@(Model.FieldName)_Date">
+    @Model.DisplayName
+    @if (Model.ContentFieldAttribute.IsRequired)
+    {
+        <span class="required">(required)</span>
+    }
+    @Html.Partial("ContentItemFields/_ContextDisplay", Model.ContentItemFieldModel)
+</label>
+<span data-valmsg-replace="true" data-valmsg-for="@(Model.FieldName)"></span>
+<div class="isc-datewrap">
+    @{ var dateTimeValue = Model.GetValue<DateTimeOffset?>(); }
+    @if (Model.ContentFieldAttribute.IsRequired)
+    {
+        @Html.Hidden(Model.FieldName, dateTimeValue, new { @class = "isc-datetimevalue", data_val = "true", data_val_required = "Value is required" })
+    }
+    else
+    {
+        @Html.Hidden(Model.FieldName, dateTimeValue, new { @class = "isc-datetimevalue" })
+    }
+    <input type="text" class="isc-datepicker" name="@(Model.FieldName)_Date" placeholder="Date" value="@(dateTimeValue.HasValue ? dateTimeValue.Value.LocalDateTime.ToShortDateString() : "")" />
+    @if (Model.ContentFieldAttribute.IncludeTimePicker)
+    {
+        <input type="text" class="isc-timepicker" name="@(Model.FieldName)_Time" placeholder="Time" value="@(dateTimeValue.HasValue ? dateTimeValue.Value.LocalDateTime.ToShortTimeString() : "")" />
+    }
+</div>

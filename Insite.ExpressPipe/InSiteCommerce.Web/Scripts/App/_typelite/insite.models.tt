@@ -1,0 +1,136 @@
+﻿<#@ template debug="false" hostspecific="True" language="C#" #>
+<#@ assembly name="$(TargetDir)TypeLite.dll" #>
+<#@ assembly name="$(TargetDir)TypeLite.Net4.dll" #>
+<#@ assembly name="$(TargetDir)$(TargetFileName)" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.Account.dll" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.Core.dll" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.Cart.dll" #>  
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.OrderApproval.dll" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.Catalog.dll" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.Customers.dll" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.Dashboard.dll" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.Dealers.dll" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.Message.dll" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.Order.dll" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.IdentityServer.dll" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.Invoice.dll" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.Promotions.dll" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.Requisition.dll" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.Rfq.dll" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.Websites.dll" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.WishLists.dll" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.Budget.dll" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.Workflows.dll" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.JobQuote.dll" #>
+<#@ assembly name="$(SolutionDir)InsiteCommerce.Web\bin\Insite.Admin.dll" #>
+<#@ import namespace="TypeLite" #>
+<#@ import namespace="TypeLite.Net4" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@output extension=".d.ts"#>
+
+<#@include file="..\..\Manager.ttinclude"#>
+<# var manager = Manager.Create(Host, GenerationEnvironment); #>
+
+<#
+var ts = TypeScript.Definitions()
+		.For<Insite.Account.WebApi.V1.ApiModels.AccountModel>()		
+		.For<Insite.Account.WebApi.V1.ApiModels.AccountSettingsModel>()
+		.For<Insite.Account.WebApi.V1.ApiModels.AccountCollectionModel>()
+		.For<Insite.Account.WebApi.V1.ApiModels.SessionModel>()
+		.For<Insite.Account.WebApi.V1.ApiModels.AccountShipToCollectionModel>()
+		.For<Insite.Account.WebApi.V1.ApiModels.AccountShipToModel>()
+		.For<Insite.Budget.WebApi.V1.ApiModels.BudgetModel>() 
+		.For<Insite.Budget.WebApi.V1.ApiModels.BudgetCalendarModel>() 
+		.For<Insite.Cart.WebApi.V1.ApiModels.CartCollectionModel>()		
+        .For<Insite.Cart.WebApi.V1.ApiModels.CartModel>()
+		.For<Insite.Cart.WebApi.V1.ApiModels.CartLineCollectionModel>()		
+        .For<Insite.Cart.WebApi.V1.ApiModels.CartLineModel>()
+		.For<Insite.Cart.WebApi.V1.ApiModels.CartSettingsModel>()
+		.For<Insite.OrderApproval.WebApi.V1.ApiModels.OrderApprovalCollectionModel>()
+		.For<Insite.Catalog.WebApi.V1.ApiModels.AutocompleteModel>()
+		.For<Insite.Catalog.WebApi.V1.ApiModels.ProductModel>()
+		.For<Insite.Catalog.WebApi.V1.ApiModels.ProductCollectionModel>()
+		.For<Insite.Catalog.WebApi.V1.ApiModels.AutocompleteProductModel>()
+		.For<Insite.Catalog.WebApi.V1.ApiModels.AutocompleteProductCollectionModel>()
+		.For<Insite.Catalog.WebApi.V1.ApiModels.CrossSellCollectionModel>()
+		.For<Insite.Catalog.WebApi.V1.ApiModels.CatalogPageModel>()
+		.For<Insite.Catalog.WebApi.V1.ApiModels.CategoryCollectionModel>()
+		.For<Insite.Catalog.WebApi.V1.ApiModels.ProductPriceModel>()
+		.For<Insite.Catalog.WebApi.V1.ApiModels.ProductSettingsModel>()
+		.For<Insite.Customers.WebApi.V1.ApiModels.BillToCollectionModel>()
+		.For<Insite.Customers.WebApi.V1.ApiModels.BillToModel>()
+		.For<Insite.Customers.WebApi.V1.ApiModels.ShipToCollectionModel>()
+		.For<Insite.Customers.WebApi.V1.ApiModels.ShipToModel>()
+		.For<Insite.Dashboard.WepApi.V1.ApiModels.DashboardPanelCollectionModel>()
+		.For<Insite.Dealers.WebApi.V1.ApiModels.DealerModel>()
+		.For<Insite.Dealers.WebApi.V1.ApiModels.DealerCollectionModel>()
+		.For<Insite.IdentityServer.Models.ExternalProviderLinkCollectionModel>()
+		.For<Insite.Invoice.WebApi.V1.ApiModels.InvoiceModel>()
+		.For<Insite.Invoice.WebApi.V1.ApiModels.InvoiceCollectionModel>()
+		.For<Insite.Promotions.WebApi.V1.ApiModels.PromotionModel>()
+		.For<Insite.Promotions.WebApi.V1.ApiModels.PromotionCollectionModel>()
+		.For<Insite.Message.WebApi.V1.ApiModels.MessageCollectionModel>()
+		.For<Insite.Message.WebApi.V1.ApiModels.MessageModel>()
+		.For<Insite.Order.WebApi.V1.ApiModels.OrderCollectionModel>()
+		.For<Insite.Order.WebApi.V1.ApiModels.OrderModel>()
+		.For<Insite.Order.WebApi.V1.ApiModels.OrderSettingsModel>()
+		.For<Insite.Order.WebApi.V1.ApiModels.OrderLineModel>()
+		.For<Insite.Order.WebApi.V1.ApiModels.RmaModel>()
+		.For<Insite.Requisition.WebApi.V1.ApiModels.RequisitionCollectionModel>()
+		.For<Insite.Requisition.WebApi.V1.ApiModels.RequisitionModel>()
+		.For<Insite.Requisition.WebApi.V1.ApiModels.RequisitionLineModel>()
+		.For<Insite.Rfq.WebApi.V1.ApiModels.QuoteModel>()
+		.For<Insite.Rfq.WebApi.V1.ApiModels.QuoteSettingsModel>()
+		.For<Insite.Websites.WebApi.V1.ApiModels.WebsiteModel>()
+		.For<Insite.WishLists.WebApi.V1.ApiModels.WishListCollectionModel>()
+		.For<Insite.WishLists.WebApi.V1.ApiModels.WishListModel>()
+		.For<Insite.WishLists.WebApi.V1.ApiModels.WishListLineModel>()
+		.For<Insite.WishLists.WebApi.V1.ApiModels.WishListSettingsModel>()
+		.For<Insite.Workflows.WebApi.V1.ApiModels.ParameterResultsModel>()
+		.For<Insite.Workflows.WebApi.V1.ApiModels.AssemblyModel>()
+		.For<Insite.Workflows.WebApi.V1.ApiModels.ServiceModel>()
+		.For<Insite.Workflows.WebApi.V1.ApiModels.ModuleModel>()
+		.For<Insite.Workflows.WebApi.V1.ApiModels.ModuleCollection>()
+		.For<Insite.Workflows.WebApi.V1.ApiModels.HandlerModel>()
+		.For<Insite.Workflows.WebApi.V1.ApiModels.HandlerModelCollection>()
+		.For<Insite.JobQuote.WebApi.V1.ApiModels.JobQuoteModel>()
+		.For<Insite.JobQuote.WebApi.V1.ApiModels.JobQuoteLineModel>()
+		.For<Insite.JobQuote.WebApi.V1.ApiModels.JobQuoteCollectionModel>()
+		.For<Insite.Admin.Models.ExportViewModel>()
+		.For<Insite.Admin.Models.ExportDetailsViewModel>()
+		.For<Insite.Admin.Models.JobListModel>()
+		.For<Insite.Admin.Models.QuickFilterModel>()
+		.WithFormatter((TypeLite.TsModels.IMemberIdentifier identifier) => {
+            if (identifier.Name == null || !identifier.Name.Any())
+            {
+                return identifier.Name;
+            }
+
+            var firstLower = 0;
+            for (var i = 0; i < identifier.Name.Count(); i++)
+            {
+                if (char.IsLower(identifier.Name[i]))
+                {
+                    firstLower = i;
+                    break;
+                }
+            }
+
+            var stringBuilder = new StringBuilder(identifier.Name);
+
+            stringBuilder[0] = char.ToLower(stringBuilder[0]);
+            for (var i = 1; i < firstLower - 1; i++)
+            {
+                stringBuilder[i] = char.ToLower(stringBuilder[i]);
+            }
+
+            return stringBuilder.ToString();
+		});
+#>
+<#= Regex.Replace( ts.Generate(TsGeneratorOutput.Properties)
+        , @":\s*System\.Collections\.Generic\.KeyValuePair\<(?<k>[^\,]+),(?<v>[^\,]+)\>\[\];"
+        , m=>": {[key: "+m.Groups["k"].Value+"]: "+m.Groups["v"].Value+"};"
+        , RegexOptions.Multiline)
+#>
+<# manager.EndBlock(); #>
+<# manager.Process(true); #>

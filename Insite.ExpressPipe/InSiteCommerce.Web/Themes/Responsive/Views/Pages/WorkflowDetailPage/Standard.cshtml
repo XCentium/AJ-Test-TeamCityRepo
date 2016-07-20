@@ -1,0 +1,19 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Workflows.Content.WorkflowDetailPage
+@section Styles
+{
+    @this.Html.RequireCss(this.Url.ThemedContent("/Styles/template/ma-workflows.css"))
+    @this.Html.RequireCss("/Scripts/libraries/zurb-responsive-tables/0.0.0/responsive-tables.css")
+}
+
+@this.Html.RequireScript("/Scripts/libraries/zurb-responsive-tables/0.0.0/responsive-tables.js")
+<!-- PAGE CONTENT -->
+<div class="row main-row">
+    <div class="large-12 columns" ng-controller="WorkflowDetailController">
+        @this.Html.Zone(this.Model, "Content")
+    </div>
+</div>
+
+<script type="text/ng-template" id="/Directives/Workflow/WorkflowDetailView">
+    @(this.Html.ThemedPartial("/Views/Directives/Workflow/WorkflowDetailView.cshtml"))
+</script>

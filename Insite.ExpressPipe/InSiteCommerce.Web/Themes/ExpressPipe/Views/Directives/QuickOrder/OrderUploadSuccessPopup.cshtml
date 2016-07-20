@@ -1,0 +1,14 @@
+﻿@using Insite.Cart.Content
+<div id="orderUploadSuccessPopup" class="reveal-modal tiny popup-share" data-reveal>
+    <div class="ou-modal modal-wrap success">
+
+        <div class="alert-box success">
+            <i class="fa fa-check"></i> {{itemsCount}} @T("items uploaded").
+        </div>
+
+        <div class="buttons text-right">
+            <button class="button primary" ng-click="vm.goToCartFinally('@(Url.ContentPage<CartPage>())')">@T("Continue to Cart")</button>
+        </div>
+
+    </div>
+</div>

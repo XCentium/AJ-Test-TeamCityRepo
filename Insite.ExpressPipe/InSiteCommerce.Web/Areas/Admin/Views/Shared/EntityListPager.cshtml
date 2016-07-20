@@ -1,0 +1,10 @@
+﻿<script type="text/ng-template" id="customPager.html">
+    <div class="list-pager">
+        <a class="button button-icon" ng-class="currentPage == 1 ? 'disabled' : ''" ng-click="selectPage(1)"><i class="icon icon-dbl-chevron-left"></i></a>
+        <a class="button button-icon"  ng-class="currentPage == 1 ? 'disabled' : ''" ng-click="selectPage(currentPage - 1)"><i class="icon icon-left-arrow-solid-1"></i></a>
+        <st-custom-pageselect></st-custom-pageselect>
+        <span class="pager-label"><span>of</span> <span class="page-count"><b>{{numPages}}</b></span></span>
+        <a class="button button-icon" ng-class="currentPage == numPages ? 'disabled' : ''" ng-click="selectPage(currentPage + 1)"><i class="icon icon-right-arrow-solid-1"></i></a>
+        <a class="button button-icon" ng-class="currentPage == numPages ? 'disabled' : ''" ng-click="selectPage(numPages)"><i class="icon icon-dbl-chevron-right"></i></a>
+    </div>
+</script>

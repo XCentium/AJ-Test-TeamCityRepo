@@ -1,0 +1,15 @@
+﻿@using Insite.Account.Content
+@using Insite.Cart.Content
+@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Account.Content.ChangeCustomerView
+
+<isc-select-customer-view dashboard-url="@(Url.ContentPage<MyAccountPage>())"
+                          home-page-url="@(Url.ContentPage<HomePage>())"
+                          addresses-url="@(Url.ContentPage<MyAccountAddressPage>())"
+                          checkout-address-url="@(Url.ContentPage<CheckoutAddressPage>())"
+                          review-and-pay-url="@(Url.ContentPage<ReviewAndPayPage>())"></isc-select-customer-view>
+
+
+<script type="text/ng-template" id="/Directives/Account/SelectCustomerView">
+    @Html.ThemedPartial("/Views/Directives/Account/SelectCustomerView.cshtml")
+</script>

@@ -1,0 +1,44 @@
+﻿
+@using Insite.Admin.Models
+@model OneToManyRelationshipsModel
+
+<div class="vertical grid-block">
+    <isa-one-to-many-relationships collection-name="@Model.CollectionName"
+                                   default-sort="@Model.Form.DefaultSortProperty"
+                                   default-sort-ascending="@Model.Form.DefaultSortIsAscending"
+                                   children-column="@Model.ChildrenColumn"
+                                   parent-id-column="@Model.ParentIdColumn"
+                                   page-size="@Model.PageSize"
+                                   parent-entity-id="entityDetailsCtrl.entityId"
+                                   pluralized-entity-name="@Model.EntityDefinition.PluralizedName"
+                                   properties-to-select="@Model.PropertiesToSelect"
+                                   class="grid-block"></isa-one-to-many-relationships>
+
+    <script type="text/ng-template" id="one-to-many-relationships-@Model.CollectionName-@Model.ChildrenColumn">
+        <div  class="grid-block">
+            @Html.Partial("EntityList", new EntityListModel
+            {
+                Title = Model.Label,
+                SingularTitle = Model.Label,
+                EntitiesViewModel = Model,
+                Buttons =@<text>
+                <span class="right">
+                    <span ng-if="entityListCtrl.areNoneSelected()">
+                        <a class="button" disabled>Unassign</a>
+                        <a class="button" ng-click="entityListCtrl.assignEntities()">Assign @Model.Label</a>
+                    </span>
+                    <span ng-if="!entityListCtrl.areNoneSelected()">
+                        <a class="button" ng-click="entityListCtrl.unassignSelected()">Unassign</a>
+                        <a class="button" disabled>Assign @Model.Label</a>
+                    </span>
+                </span>
+        </text>
+            })
+        </div>
+        <div ng-if="!entityListCtrl.displayList">
+            <p class="list-unavailable">This @Model.EntityDefinition.Label needs to be saved before you may assign @Model.Label.</p>
+        </div>
+        @Html.Partial("AddOneToManyRelationships")
+        @Html.Partial("EditTraits")
+    </script>
+</div>

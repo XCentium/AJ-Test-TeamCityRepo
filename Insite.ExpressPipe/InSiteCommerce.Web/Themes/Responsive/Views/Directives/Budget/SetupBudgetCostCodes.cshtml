@@ -1,0 +1,54 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+<section class="cost-code-setup">
+    <h3>@T("Cost Code Setup")</h3>
+    <input type="hidden" id="ActiveTextDisplay" value="@T("Active")" />
+    <form id="budgetCostCodeForm">
+        <div class="row">
+            <div class="medium-12 large-12 columns">
+                <p class="msg-enforcement">
+                    @Html.Message("Budget_CostCodeInstructions", "Cost codes are assigned to users during User Administration. Cost codes are used on orders placed by the user and can be associated to a budget for enforcement or for reporting purposes.")
+                </p>
+            </div>
+            <div class="medium-12 large-12 columns">
+                <fieldset class="set-cost-code">
+                    <legend>@Html.Message("Budget_CostCodeTitleInstructions", "This title will appear any place that cost codes are presented.")</legend>
+                    <label>@T("Cost Code Title"):</label>
+                    <input id="setupBudgetCodesCostCodeInput" ng-model="vm.billTo.costCodeTitle" type="text" />
+                </fieldset>
+                <table class="responsive info-tbl cost-code-tbl" id="BudgetSetup_CostCode">
+                    <thead>
+                        <tr>
+                            <th class="col-costcode">@T("Cost Code")</th>
+                            <th class="col-description">@T("Description")</th>
+                            <th class="col-active">
+                                <a id="setupBudgetCodesCostSortStatusColumnLink" ng-click="vm.sortStatusColumn()" ng-class="vm.sortDirection > 0 ? 'sort-ascending' : 'sort-descending' " class="sort">@T("Status")</a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-class="{'ordering': customerCostCode.CostCode == ''}" ng-repeat="(i,customerCostCode) in vm.billTo.costCodes">
+                            <td class="col-costcode">
+                                <input id="setupBudgetCodesCodeInput{{i}}" ng-model="customerCostCode.costCode" type="text" />
+                            </td>
+                            <td class="col-description">
+                                <input id="setupBudgetCodesCodeDescriptionInput{{i}}" ng-model="customerCostCode.description" type="text" />
+                            </td>
+                            <td class="col-active">
+                                <input ng-model="customerCostCode.isActive" id="code_status_[{{i}}]" type="checkbox" class="bm-cc-active" />
+                                <label for="code_status_[{{i}}]" class="bm-cc-active-label">@T("Active")</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="add-cost-code medium-6 large-6 columns isc-addPriceBreaks" ng-click="vm.addCostCode()" ng-hide="!vm.canAddCostCodeRow()">
+                        <a id="setupBudgetCodesAddCostCodeBtn" class="isc-addCostCode"><i class="icon-plus"></i>@T("Cost Code")</a>
+                    </div>
+                    <div class=" medium-6 large-6 columns">
+                        <button id="setupBudgetCodesCostCodesSaveBtn"  class="btn secondary btn-save " ng-click="vm.updateCostCodes()" type="submit">@T("Save")</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>

@@ -1,0 +1,81 @@
+﻿@using Insite.Common
+@using Insite.WebFramework.Mvc.Extensions
+@using Morsco.Customizations.Lib.Widgets
+@model CareersForm
+
+<div class="widget-contactform widget-careersform">
+    <div class="cf-form @Model.CssClass">
+        @using (Html.BeginForm("SubmitWithAttachment", "ContactUs", FormMethod.Post, new { enctype = "multipart/form-data", id = "contactUsForm" + Model.ContentKey }))
+        {
+            <input type="hidden" value="@string.Join(",", Model.EmailTo.ToArray())" hidden />
+            <h3>@Model.Title</h3>
+            <div class="required-msg"><span class="redTxt">*</span> @T("Required")</div>
+            <div class="cf-form-firstname">
+                <label for="lirstName@(Model.ContentKey)">@T("First Name")<span class="redTxt">*</span></label>
+                <input type="text" name="FirstName" id="lirstName@(Model.ContentKey)" data-val-required="@Model.NameIsRequiredErrorMessage" data-val="true" />
+                <span data-valmsg-replace="true" data-valmsg-for="FirstName"></span>
+            </div>
+            <div class="cf-form-lastname">
+                <label for="lastName@(Model.ContentKey)">@T("Last Name")<span class="redTxt">*</span></label>
+                <input type="text" name="LastName" id="lastName@(Model.ContentKey)" data-val-required="@Model.NameIsRequiredErrorMessage" data-val="true" />
+                <span data-valmsg-replace="true" data-valmsg-for="LastName"></span>
+            </div>
+            <div class="cf-form-email">
+                <label for="emailAddress@(Model.ContentKey)">@T("Email Address") <span class="redTxt">*</span></label>
+                <input type="text" name="EmailAddress" id="emailAddress@(Model.ContentKey)" data-val-required="@Model.EmailIsRequiredErrorMessage" data-val="true"
+                       data-val-regex-pattern="@Html.Raw(RegularExpressionLibrary.EmailAddress)"
+                       data-val-regex="@Model.EmailIsInvalidErrorMessage" />
+                <span data-valmsg-replace="true" data-valmsg-for="EmailAddress"></span>
+            </div>
+            <input type="hidden" id="topic@(Model.ContentKey)" name="Topic" data-val="true" value="@CurrentPage.Title">
+            <div class="cf-form-file">
+                <label>@T("Upload your Resume/Cover Letter \n (.doc, .docx, .txt, .pdf)") <span class="redTxt">*</span></label>
+                <input type="file" accept=".pdf,.doc,.docx,.txt" id="contactUsFormFile" name="attachment" data-val-required="@Model.FileIsRequiredErrorMessage" data-val="true"
+                       data-val-regex-pattern="^.*\.(doc|DOC|docx|DOCX|txt|TXT|pdf|PDF)$"
+                       data-val-regex="@Model.FileisInvalidErrorMessage" /><br />
+                <span id="fileError" data-valmsg-replace="true" data-valmsg-for="attachment"></span>
+            </div>
+            <div class="btns">
+                <button id="contactUsFormSendButton" type="submit" class="btn primary btn-send">@T("Submit")</button>
+            </div>
+            <div class="successMessage" style="display: none;">
+                @Html.Raw(Model.SuccessMessage)
+            </div>
+        }
+    </div>
+</div>
+
+@Html.Script(
+    @<script>
+        jQuery(function ($) {
+            $('#contactUsFormFile').bind('change', function () {
+                if (this.files[0].size > 2500000) {
+                    $("#contactUsFormFile").val("");
+                    $("#fileError").removeClass("field-validation-valid").addClass("field-validation-error").html("<span id='fileSizeError'>Please upload a file that is less than 2.5MB</span>");
+                } else {
+                    $("#fileSizeError").hide();
+                    $("#fileError").removeClass("field-validation-error");
+                }
+            });
+
+            $("#contactUsForm@(Model.ContentKey)").submit(function (e) {
+                e.preventDefault();
+                var $form = $(this);
+                if (!$form.valid()) {
+                    return;
+                }
+                var formdata = new FormData($(this)[0]); //FormData object
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/ContactUs/SubmitWithAttachment?EmailTo=@string.Join(",", Model.EmailTo.ToArray())');
+                xhr.send(formdata);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        $("#contactUsFormFile").prop('disabled', true);
+                        $("#contactUsForm@(Model.ContentKey)").find(".btns").hide();
+                        $("#contactUsForm@(Model.ContentKey)").find(".successMessage").show();
+                    }
+                }
+                return false;
+            });
+        });
+    </script>)

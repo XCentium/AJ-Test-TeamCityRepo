@@ -1,0 +1,23 @@
+﻿<div class="search-container">
+    <form>
+        <div class="search-input">
+            <label for="criteria">@T("Search")</label>
+
+            <input ng-model="vm.criteria" type="text" class="isc-searchAutoComplete"
+                   ng-init="vm.autocompleteOptions.placeholder = '@T("Enter keyword or item #")'; vm.translations = [{key: 'category',text: '@T("Categories")'},{key: 'content',text: '@T("Content")'},{key: 'product',text: '@T("Products")'}, {key: 'manufacturerItemNumber',text: '@T("MFG #")'},  {key: 'partNumber',text: '@T("Part #")'},  {key: 'customerPartNumber',text: '@T("My Part #")'}]"
+                   kendo-auto-complete
+                   k-options="vm.autocompleteOptions"
+                   isc-enter="vm.onEnter()"
+                   name="criteria"
+                   onfocus="$(this).data('kendoAutoComplete').search()">
+            @* While using the onfocus event might not follow our standards, its the only way I could hooking into the focus event successfully. *@
+        </div>
+        <div class="search-history">
+            <div class="search-history-label"><span>@T("Search History")</span></div>
+            <div class="clear-search-history"><a href="#" ng-click="vm.clearSearchHistory()">@T("Clear Search History")</a></div>
+        </div>
+        <div class="search-button">
+            <button class="btn primary fastClick" ng-click="vm.search()">@T("Go")</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,14 @@
+﻿.columns-title p{
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.columns-leftbar, .columns-rightbar {
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+tr.disabled {
+    background-color: #fafafa;
+    color: $type-disabled;
+}

@@ -1,0 +1,12 @@
+﻿@model Insite.ContentLibrary.Models.PopupContainer
+<div id="@Model.PopupContainerName" class="reveal-modal @Model.CustomCssContainerName" data-reveal data-reveal-init>
+    <div class="modal-wrap ">
+        <h4>@Model.Title</h4>
+        @Html.Raw(Model.BodyHtml)
+        @if (!Model.AdditionalContent.IsBlank())
+        {
+            <p>@Html.Raw(Model.AdditionalContent)</p>
+        }
+        <a id="genericPopupCloseButton" class="close-reveal-modal">&#215;</a>
+    </div>
+</div>

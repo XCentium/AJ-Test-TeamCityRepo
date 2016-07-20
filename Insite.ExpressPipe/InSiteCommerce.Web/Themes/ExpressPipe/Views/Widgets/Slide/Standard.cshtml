@@ -1,0 +1,17 @@
+﻿@using System
+@model Morsco.Customizations.Lib.Widgets.Slide
+
+<div class="slide @Model.CssClass" style="background-image: url(@Model.BackgroundImage);">
+    <div class="slide-content">
+        @if (!Model.Title.IsBlank()) {
+            <h2>@Model.Title</h2>
+        }
+        @if (!Model.Text.IsBlank()) {
+            <p>@Model.Text</p>
+        }
+        @if (!Model.Link.IsBlank())
+        {
+            <div><a class="button" href="@Model.Link">@T("SEE MORE")</a></div>
+        }
+    </div>
+</div>

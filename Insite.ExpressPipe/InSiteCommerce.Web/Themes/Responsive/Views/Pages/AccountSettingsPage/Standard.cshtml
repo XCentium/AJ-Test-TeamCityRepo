@@ -1,0 +1,16 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Account.Content.AccountSettingsPage
+
+@section Styles
+{
+    @Html.RequireCss(Url.ThemedContent("/Styles/template/ma-settings.css"))
+}
+@section BodyClass { ma-settings }
+
+@* TODO @Html.Script(Html.ThemedPartial("_PersonalizationJs", Model, new ViewDataDictionary{ {"PageName", "AccountSettings"} }))*@
+
+<div class="row main-row">
+    <div class="medium-12 large-12 columns">
+        @Html.Zone(Model, "Content")
+    </div>
+</div>

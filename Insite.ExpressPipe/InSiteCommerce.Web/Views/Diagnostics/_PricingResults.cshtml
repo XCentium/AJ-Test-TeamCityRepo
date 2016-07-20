@@ -1,0 +1,70 @@
+﻿@model Insite.Catalog.Models.PricingTestViewModel
+
+<!-- _PricingResults -->
+@if (Model.PricingResults == null)
+{
+    return;
+}
+    
+@if (Model.PricingTestParameters.PriceAllProducts)
+{
+    <h2>Pricing Mismatched Results</h2>
+}
+else
+{
+    <h2>Pricing Results</h2>
+}
+
+<table class="info-tbl cart-items-2">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Regular Price</th>
+            <th>Actual Price</th>
+            <th>Extended Price</th>
+            <th>Currency Rate</th>
+            <th>Pricing Service</th>
+            <th>Regular Price Breaks</th>
+            <th>Actual Price Breaks</th>
+            <th>Performance</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var priceresult in Model.PricingResults)
+        {
+            <tr>
+                <td>@priceresult.ProductName</td>
+                <td>@priceresult.Qty</td>
+                <td>@priceresult.PricingServiceResult.RegularPriceDisplay</td>
+                <td>@priceresult.PricingServiceResult.ActualPriceDisplay</td>
+                <td>@priceresult.PricingServiceResult.ExtendedActualPriceDisplay</td>
+                <td>@priceresult.PricingServiceResult.CurrencyRate</td>
+                <td>@priceresult.PricingServiceName</td>
+                <td>
+                    @if (priceresult.PricingServiceResult.RegularBreakPrices != null)
+                    {
+                        foreach (var priceBreak in @priceresult.PricingServiceResult.RegularBreakPrices)
+                        {
+                            <span style="font-weight: bold">@priceBreak.BreakQty.ToString("N0")</span>
+                            <span style="margin-left:3px">@priceBreak.PriceDisplay</span>
+                            <br/>
+                        }
+                    }
+                </td>
+                <td>
+                    @if (priceresult.PricingServiceResult.ActualBreakPrices != null)
+                    {
+                        foreach (var priceBreak in @priceresult.PricingServiceResult.ActualBreakPrices)
+                        {
+                            <span style="font-weight:bold">@priceBreak.BreakQty.ToString("N0")</span>
+                            <span style="margin-left:3px">@priceBreak.PriceDisplay</span>
+                            <br/>
+                        }
+                    }
+                </td>
+                <td>@priceresult.Performance <text> ms</text></td>
+            </tr>
+        }
+    </tbody>
+</table>

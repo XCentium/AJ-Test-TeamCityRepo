@@ -1,0 +1,52 @@
+﻿@using Insite.Admin.Models
+@model Insite.Admin.Models.AssignmentsViewModel
+
+<isa-assignments@(Model.CustomDirectivePostfix)
+                 pluralized-parent-entity-name="@Model.PluralizedParentEntityName" 
+                 parent-entity-id="entityDetailsCtrl.entityId"
+                 pluralized-entity-name="@Model.EntityDefinition.PluralizedName" 
+                 collection-name="@Model.CollectionName"
+                 page-size="@Model.PageSize" 
+                 properties-to-select="@Model.PropertiesToSelect"
+                 default-sort="@Model.Form.DefaultSortProperty" 
+                 default-sort-ascending="@Model.Form.DefaultSortIsAscending"
+                 ditch-grid-blocks="entityDetailsCtrl.model.isDynamic"
+                 is-archivable="@Model.EntityDefinition.IsArchivable.ToString().ToLower()"
+                 parent-model="entityDetailsCtrl.model"
+                 ng-class="{ 'grid-block': !entityDetailsCtrl.model.isDynamic }"></isa-assignments@(Model.CustomDirectivePostfix)>
+
+<script type="text/ng-template" id="assignments-@Model.CollectionName">
+    <div ng-cloak ng-if="entityListCtrl.displayList" class="grid-block">
+        @Html.Partial("EntityList", new EntityListModel
+        {
+            OverriddenInstructionalText = Model.AssignmentDefinition.InstructionalText,
+            ShowSelectColumn = Model.AssignmentDefinition.CanEdit,
+            EntitiesViewModel = Model,
+            Buttons = @<text>
+                         @if (Model.AssignmentDefinition.CanEdit)
+                         {
+                            <span class="right" ng-if="!entityListCtrl.ditchGridBlocks">
+                                <span ng-if="entityListCtrl.areNoneSelected()">
+                                    <a class="button" disabled>Unassign</a>
+                                    <a class="button" ng-click="entityListCtrl.assignEntities()">Assign @Model.EntityDefinition.PluralizedLabel</a>
+                                </span>
+                                <span ng-if="!entityListCtrl.areNoneSelected()">
+                                    <a class="button" ng-click="entityListCtrl.unassignSelected()">Unassign</a>
+                                    <a class="button" disabled>Assign @Model.EntityDefinition.PluralizedLabel</a>
+                                </span>
+                            </span>
+                         }
+                      </text>
+        })
+    </div>
+    <div ng-if="!entityListCtrl.displayList">
+        <p class="list-unavailable">This @Model.ParentEntityLabel needs to be saved before you may assign @(Model.EntityDefinition.PluralizedLabel).</p>
+    </div>
+    @Html.Partial("AddAssignments")
+</script>
+
+
+
+
+
+

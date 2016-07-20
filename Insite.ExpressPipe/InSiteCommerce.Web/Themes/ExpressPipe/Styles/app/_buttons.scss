@@ -1,0 +1,52 @@
+﻿button,
+.button {
+    text-transform: uppercase;
+    padding-left: $padding-double;
+    padding-right: $padding-double;
+    //background-color: $light-gray;
+    background-color: $orange;
+
+    -webkit-box-shadow: inset -2px -2px 0px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: inset -2px -2px 0px 0px rgba(0,0,0,0.2);
+    box-shadow: inset -2px -2px 0px 0px rgba(0,0,0,0.2);
+
+    
+
+    &:hover,
+    &:focus {
+        text-decoration: none;
+        background-color: lighten($orange,5%);
+    }
+
+    &.secondary {
+        background-color: $gray;
+        color: $almost-white;
+
+        &:hover,
+        &:focus {
+            background-color: darken($almost-white,5%);
+        }
+    }
+
+    &.tertiary {
+        background-color: $lighter-gray;
+        color: $darker-gray;
+
+        &:hover,
+        &:focus {
+            background-color: darken($lighter-gray,5%);
+        }
+    }
+
+    &.disabled,
+    &[disabled] {
+        background-color: $lightest-gray;
+        color: $lighter-gray;
+
+        &:hover,
+        &:focus {
+            background-color: $lightest-gray;
+            color: $lighter-gray;
+        }
+    }
+}

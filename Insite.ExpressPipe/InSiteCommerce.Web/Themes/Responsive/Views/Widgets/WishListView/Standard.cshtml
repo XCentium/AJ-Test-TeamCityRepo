@@ -1,0 +1,21 @@
+﻿@using Insite.Core.Providers
+@using Insite.WebFramework.Mvc.Extensions
+
+@model Insite.WishLists.Content.WishListView
+
+<div>
+    <isc-wish-list-view></isc-wish-list-view>
+    
+    @* TODO add all to cart is currently broken, when it is fixed, do we need to show this popup? If so, get rid of Html.Content and give this an id that matches convention. And use coreService.displayModal()
+        @Html.Action("GenericPopupPartial", "Shared", new { containerName = "AddAllToCartPopup", BodyHtml = Html.Content("WishList1_AllProductsAddedSuccess"), Title = @T("Add All To Cart") })*@
+
+    @Html.Action("GenericPopupPartial", "Shared", new { containerName = "popup-deletewishlist", BodyHtml = Model.DeleteWishlistMessage, Title = @T("Delete Wishlist") })
+    @Html.Action("GenericPopupPartial", "Shared", new { containerName = "popup-addtocart-noinventory", BodyHtml = MessageProvider.Current.Cart_NotEnoughInventory, Title = @T("Add To Cart") })
+</div>
+
+<script type="text/ng-template" id="wishList_topContent">
+    @Html.Zone(Model, "TopContent")
+</script>
+<script type="text/ng-template" id="/Directives/WishList/WishListView">
+    @Html.ThemedPartial("/Views/Directives/WishList/WishListView.cshtml")
+</script>

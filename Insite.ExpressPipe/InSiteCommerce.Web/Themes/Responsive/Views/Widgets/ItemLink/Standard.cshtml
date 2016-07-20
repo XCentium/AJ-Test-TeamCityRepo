@@ -1,0 +1,25 @@
+﻿@using Insite.Core.Interfaces.Plugins.Content
+@model ItemLink
+
+@{ var page = Content.GetPage<AbstractPage>(Model.LinkedContentName).Page; }
+
+@if (page == null)
+{
+    if (ContentMode != ContentMode.Viewing)
+    {
+        <p>There was no page found with the name '@Model.LinkedContentName', edit this item to resolve the issue</p>
+    }
+}
+else
+{
+    <a id="@("itemLink_" + Model.Id)" class="widget-itemlink @Model.CssClass" href="@GenerateUrl(page)">
+        @if (!Model.ImageUrl.IsBlank())
+        {
+            <img src="@Model.ImageUrl" title="@page.Title" alt="@page.Title" />
+        }
+        else
+        {
+            @page.Title
+        }
+    </a>
+}

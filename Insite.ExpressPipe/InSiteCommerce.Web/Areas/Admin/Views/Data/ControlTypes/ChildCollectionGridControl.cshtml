@@ -1,0 +1,3 @@
+﻿@model Insite.Admin.Models.ControlTypeViewModel
+
+@Html.Action("ChildEntities", "Data", new { entityName = Model.PropertyDefinition.EntityDefinition.Name, collectionName = Model.PropertyDefinition.Name, area = "Admin" })

@@ -1,0 +1,75 @@
+﻿@using Insite.Admin.Models
+@model Insite.Admin.Models.ChildCollectionViewModel
+
+<isa-child-entities form-name="@Model.Form.Name"
+                    parent-entity-name="@Model.ParentPropertyName"
+                    pluralized-parent-entity-name="@Model.PluralizedParentEntityName"
+                    parent-entity-id="{{::entityDetailsCtrl.entityId}}"
+                    pluralized-entity-name="@Model.EntityDefinition.PluralizedName" 
+                    collection-name="@Model.CollectionName"
+                    page-size="@Model.PageSize" 
+                    properties-to-select="@Model.PropertiesToSelect"
+                    default-sort="@Model.Form.DefaultSortProperty" 
+                    default-sort-ascending="@Model.Form.DefaultSortIsAscending"
+                    is-archivable="@Model.IsArchivable.ToString().ToLower()"
+                    class="grid-block"
+                    @* TODO 4.2 this doesn't seem to affect the styles at all, we should get the grid-block class out of where this is used completely, in fixed-table-header*@
+                    ditch-grid-blocks="true"></isa-child-entities>
+
+<script type="text/ng-template" id="child-entities-@Model.CollectionName">
+    <div ng-cloak ng-if="entityListCtrl.displayList" class="grid-block">
+        @Html.Partial("EntityList", new EntityListModel
+        {
+            PrependAdditionalColumns = Model.PrependAdditionalColumns,
+            AdditionalColumnHeaders = Model.AdditionalColumnHeaders,
+            AdditionalColumns = Model.AdditionalColumns,
+            ShowSelectColumn = Model.ShowSelectColumn,
+            ShowTitleBar = Model.ShowTitleBar,
+            EditIcon = Model.EntityDefinition.CanEdit && (Model.Form.ShowEditButton || !Model.Form.ShowViewButton) ? "icon-edit" : "icon-visibility",
+            EntitiesViewModel = Model,
+            Buttons =@<span class="right">
+                @if (Model.Form.AllowRefresh)
+                {
+                    @Html.Partial("RefreshButton")
+                }
+                @if (Model.Form.AllowDelete && Model.EntityDefinition.CanDelete)
+                {
+                    @Html.Partial("DeleteButton")
+                }
+                @if (Model.Form.AllowAssignments && Model.Assignments.Any() && Model.EntityDefinition.CanEdit)
+                {
+                    @Html.Partial("AssignmentsActionButton")
+                }
+                @if (Model.Form.AllowMultiEdit)
+                {
+                    <a class="button button-icon" title="@(Model.EntityDefinition.CanEdit && (Model.Form.ShowEditButton || !Model.Form.ShowViewButton) ? "Edit" : "View")" ng-disabled="entityListCtrl.areNoneSelected()" ng-click="entityListCtrl.areNoneSelected() || entityListCtrl.editMultipleRecords()">
+                        <i class="icon @(Model.EntityDefinition.CanEdit && (Model.Form.ShowEditButton || !Model.Form.ShowViewButton) ? "icon-edit" : "icon-visibility")"></i>
+                    </a>
+                }
+
+                @if (Model.Form.AllowAdd && Model.EntityDefinition.CanCreate && !Model.EntityDefinition.IsImmutable)
+                {
+                    <a class="button" ng-click="entityListCtrl.createNewRecord()" ng-href="/admin/data/@Model.EntityDefinition.PluralizedName.ToLower()/new?@(Model.ChildQueryString)&{{entityListCtrl.getParentsForUrl()}}"><i class="icon icon-plus-solid"></i> @Model.EntityDefinition.Label</a>
+                }
+            </span>
+        })
+        @Html.Partial("DeleteConfirmation", Model.EntityDefinition)
+        @Html.Partial("EditColumns")
+        @Html.Partial("MultiAssignments")
+    </div>
+    <div ng-if="!entityListCtrl.displayList" class="grid-block">
+        <p class="list-unavailable">This @Model.ParentEntityLabel needs to be saved before you may add @(Model.EntityDefinition.PluralizedLabel).</p>
+    </div>
+</script>
+
+@foreach (var entity in Model.Assignments)
+{
+    if (entity.Name.EqualsIgnoreCase("Categories"))
+    {
+        @Html.Action("CategoryTree", "Data", new { CategoryTreeMode = CategoryTreeMode.MultiAssignCategories, IncludeDirective = false })
+    }
+    else
+    {
+        @Html.Action("AddMultipleAssignmentsTemplate", "Data", new { area = "Admin", entityName = Model.EntityDefinition.Name, assignmentName = entity.Name })
+    }
+}

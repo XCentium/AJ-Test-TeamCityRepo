@@ -1,0 +1,58 @@
+﻿@using Insite.Cart.Content
+@using Insite.Core.Providers
+@using Insite.OrderApproval.Content
+
+<div ng-cloak>
+    <div class="quote-items-note messaging" ng-if="vm.currentCart.canRequestQuote && vm.currentCart.quoteRequiredCount > 0">
+        <p>@MessageProvider.Current.Rfq_Requires_Quote_InCartMessage</p>
+        <a id="orderApprovalDetailViewRfqButton" href="@(!string.IsNullOrEmpty(Url.Action("RequestQuote", "Rfq")) ? Url.Action("RequestQuote", "Rfq") : "javascript:void(0);")" class="btn primary btn-yes-rfq">@T("Yes, Request a Quote")</a>
+        <a id="orderApprovalDetailViewContinueShoppingButton" href="@(Url.ContentPage<HomePage>())" class="btn primary btn-no">@T("No, Continue Shopping")</a>
+    </div>
+
+    <div class="hide-for-small back-btn">
+        <a id="orderApprovalDetailViewReturnToOrderApprovalButton" href="@(Url.ContentPage<OrderApprovalListPage>())" class="btn tertiary btn-return">@T("Return to Order Approval")</a>
+    </div>
+
+    <p class="error" ng-show="vm.approveOrderErrorMessage">
+        <span class="field-validation-error" ng-bind="vm.approveOrderErrorMessage"></span>
+    </p>
+
+    <div class="order-details-top">
+        <div class="row">
+            <div class="medium-4 large-4 columns od-head">
+                <h3 class="od-lbl">@T("Order #")</h3>
+                <h3 class="od-data" ng-bind="vm.cart.orderNumber"></h3>
+                <h3 class="od-lbl">@T("Order Date")</h3>
+                <h3 class="od-data" ng-bind="vm.cart.orderDate | date:'shortDate'"></h3>
+                <h3 class="od-lbl">@T("PO #")</h3>
+                <h3 class="od-data" ng-bind="vm.cart.poNumber"></h3>
+            </div>
+            <div class="medium-4 large-4 columns bill-info">
+                <div class="oc-head">
+                    <h3>@T("Billing Information")</h3>
+                </div>
+                <isc-address-display prefix="bt" address="vm.cart.billTo" show-email="true"></isc-address-display>
+            </div>
+            <div class="medium-4 large-4 columns ship-info">
+                <div class="oc-head">
+                    <h3>@T("Shipping Information")</h3>
+                </div>
+                <isc-address-display prefix="st" address="vm.cart.shipTo" show-email="false"></isc-address-display>
+            </div>
+        </div>
+    </div>
+
+    <div class="row order-details">
+        <isc-cart-lines cart="vm.cart" include-quote-required="true" class="medium-12 large-12 columns item-list cart-items"></isc-cart-lines>
+    </div>
+
+    <isc-cart-total-display cart="vm.cart"></isc-cart-total-display>
+
+    <div class="btns">
+        <button id="orderApprovalDetailViewApproveOrderButton" type="button" class="btn primary btn-place-saved-order" ng-if="vm.account.canApproveOrders" ng-click="vm.approveOrder('@(Url.ContentPage<CartPage>())')">@T("Approve Order")</button>
+        <a id="orderApprovalDetailViewPrintButton" href="javascript: window.print();" class="hide-for-small btn secondary btn-print">@T("Print")</a>
+    </div>
+
+</div>
+
+

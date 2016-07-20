@@ -1,0 +1,49 @@
+﻿@model Insite.Budget.Content.BudgetView
+
+<div>
+    <div>
+        <dl class="sub-nav">
+            <dd data-isc-tab="BudgetSetup" class="active">
+                <a id="BudgetSetupLink" href="javascript:;">@T("Budget Setup")</a>
+            </dd>
+            <dd data-isc-tab="BudgetMaintenance">
+                <a id="BudgetMaintenanceLink" href="javascript:;">@T("Budget Maintenance")</a>
+            </dd>
+            <dd data-isc-tab="BudgetReview">
+                <a id="BudgetReviewLink" href="javascript:;">@T("Budget Review")</a>
+            </dd>
+        </dl>
+    </div>
+    <div data-isc-tab-body id="BudgetSetupContainer">
+        <isc-setup-budget-enforcement-levels></isc-setup-budget-enforcement-levels>
+        <isc-setup-budget-periods></isc-setup-budget-periods>
+        <isc-setup-budget-cost-codes></isc-setup-budget-cost-codes>
+    </div>
+    <div data-isc-tab-body id="BudgetMaintenanceContainer" style="display: none;">
+        <div class="row">
+            <div class="small-12 columns">
+                <isc-budget-filter user="vm.maintenanceUser" ship-to="vm.maintenanceShipTo"
+                                   year="vm.maintenanceBudgetYear" view-budget="vm.maintenanceViewBudget()"
+                                   accounts="vm.accounts" ship-to-list="vm.shipTos" budget-years="vm.budgetYears" enforcement-level="vm.enforcementLevel"
+                                   switch-filter-input="vm.switchFilterInput(selectedValue, param, 'maintenance')">
+                </isc-budget-filter>
+                <isc-budget-maintenance currency-symbol="vm.billTo.customerCurrencySymbol" maintenance-info="vm.maintenanceInfo"
+                                        update-budgets="vm.updateBudgets()" get-end-date="vm.getEndDate(review)">
+                </isc-budget-maintenance>
+            </div>
+        </div>
+    </div>
+    <div data-isc-tab-body id="BudgetReviewContainer" style="display: none;">
+        <div class="row">
+            <div class="small-12 columns">
+                <isc-budget-filter user="vm.reviewUser" ship-to="vm.reviewShipTo"
+                                   year="vm.reviewBudgetYear" view-budget="vm.reviewViewBudget()"
+                                   accounts="vm.accounts" ship-to-list="vm.shipTos" budget-years="vm.budgetYears" enforcement-level="vm.enforcementLevel"
+                                   switch-filter-input="vm.switchFilterInput(selectedValue, param, 'review')">
+                </isc-budget-filter>
+                <isc-budget-review currency-symbol="vm.billTo.customerCurrencySymbol" review-info="vm.reviewInfo"></isc-budget-review>
+            </div>
+        </div>
+    </div>
+    @Html.Action("GenericPopupPartial", "Shared", new { containerName = "budgets-saved-popup", BodyHtml = Model.ChangesSavedMesage, Title = @T("Budgets Updated") })
+</div>

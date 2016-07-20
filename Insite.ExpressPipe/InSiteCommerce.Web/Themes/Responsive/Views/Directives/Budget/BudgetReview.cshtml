@@ -1,0 +1,29 @@
+﻿<div class="row">
+    <div class="small-12 columns">
+        <table class="responsive info-tbl budget-period-tbl">
+            <thead>
+                <tr>
+                    <th class="col-period">@T("Period")</th>
+                    <th class="col-startdate">@T("Start Date")</th>
+                    <th class="col-a">@T("Budget")</th>
+                    <th class="col-b">@T("Current Fiscal Year")</th>
+                    <th class="col-c">@T("Variance")</th>
+                    <th class="col-d">@T("Last Fiscal Year")</th>
+                    <th class="col-e">@T("Variance")</th>
+                </tr>
+            </thead>
+            <tbody id="BudgetReview">
+                <tr ng-repeat="row in reviewInfo.budgetLineCollection">
+                    <td class="col-period">{{row.period}}</td>
+                    <td class="col-startdate">{{row.startDate | date: 'shortDate'}}</td>
+                    <td class="col-a" ng-bind="row.currentFiscalYearBudgetDisplay"></td>
+                    <td class="col-b" ng-bind="row.currentFiscalYearActualDisplay"></td>
+                    <td class="col-c" ng-bind="row.currentFiscalYearVarianceDisplay"></td>
+                    <td class="col-d" ng-bind="row.lastFiscalYearActualDisplay"></td>
+                    <td class="col-e" ng-bind="row.lastFiscalYearVarianceDisplay"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

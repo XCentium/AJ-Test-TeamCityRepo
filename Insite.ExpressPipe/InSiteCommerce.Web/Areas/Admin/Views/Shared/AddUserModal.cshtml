@@ -1,0 +1,76 @@
+﻿<div ng-controller="AddUserController as vm">
+    <div zf-modal="addUserModal" id="addUserModal" class="collapse modal--large modal-changePassword">
+        <form name="vm.addUserForm" novalidate>
+            <div class="grid-block vertical">
+                <div class="modal-header">
+                    <h4 class="modal-title">Create New User</h4>
+                    <a zf-close="" class="close-button right"><i class="icon icon-close"></i></a>
+                </div>
+                <div class="modal-content grid-block form-content">
+                    <div class="medium-8 grid-block medium-up-1 alternate-form">
+                        <div class="grid-block">
+                            <div class="medium-4 grid-content">
+                                <label><b>User Name</b></label>
+                            </div>
+                            <div class="medium-8 grid-content">
+                                <span class="formitem" ng-class="vm.validateField(vm.addUserForm.userName)">
+                                    <input type="text" placeholder="" name="userName" ng-model="vm.userName" required>
+                                    <span class="formitem-error" ng-show="vm.usernameUseByAnotherPerson">Username already exists</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="grid-block">
+                            <div class="medium-4 grid-content">
+                                <label><b>Email</b></label>
+                            </div>
+                            <div class="medium-8 grid-content">
+                                <span class="formitem" ng-class="vm.validateField(vm.addUserForm.email)">
+                                    <input type="email" placeholder="" name="email" ng-model="vm.email" required ng-pattern="vm.emailRegex">
+                                    <span class="formitem-error" ng-show="vm.addUserForm.email.$error.pattern">Email is wrong.</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="grid-block">
+                            <div class="medium-4 grid-content">
+                                <label><b>Password</b></label>
+                            </div>
+                            <div class="medium-8 grid-content">
+                                <span class="formitem" ng-class="vm.validateField(vm.addUserForm.password)">
+                                    <input type="password" placeholder="" name="password" ng-model="vm.password" required>
+                                    <span class="formitem-error">Does not meet requirements</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="grid-block">
+                            <div class="medium-4 grid-content">
+                                <label><b>Confirm Password</b></label>
+                            </div>
+                            <div class="medium-8 grid-content">
+                                <span class="formitem" ng-class="vm.validateField(vm.addUserForm.retypePassword)">
+                                    <input type="password" placeholder="" name="retypePassword" ng-model="vm.retypePassword" required>
+                                    <span class="formitem-error">Does not match password</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="medium-4 grid-block border">
+                        <div class="grid-content">
+                            <p>
+                                <strong>Password Requirements</strong>
+                            </p>
+                            <ul class="checklist">
+                                <li ng-class="{'passed': vm.isMinLengthPassed}">At least {{vm.minLength}} characters</li>
+                                <li ng-show="vm.minDigits > 0" ng-class="{'passed': vm.isMinDigitsPassed}">At least {{vm.minDigits}} digit</li>
+                                <li ng-show="vm.minSpecials > 0" ng-class="{'passed': vm.isMinSpecialsPassed}">At least {{vm.minSpecials}} special character (example: $ & # ! @@)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="button float-right" value="Create User" ng-click="vm.createNewUser()" ng-disabled="!vm.addUserForm.$valid || !vm.validateForm()" />
+                    <a zf-close class="button secondary float-right">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

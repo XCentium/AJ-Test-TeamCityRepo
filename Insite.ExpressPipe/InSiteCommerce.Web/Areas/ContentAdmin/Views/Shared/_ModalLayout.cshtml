@@ -1,0 +1,7 @@
+﻿<div class="cms-modal clearfix @RenderSection("ClassName", false)">
+    @if (IsSectionDefined("Header"))
+    {
+        <header>@RenderSection("Header", false)</header>
+    }
+    @RenderBody()
+</div>

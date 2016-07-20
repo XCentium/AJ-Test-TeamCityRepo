@@ -1,0 +1,41 @@
+﻿@using Insite.Account.Content
+@using Insite.Cart.Content
+@using Insite.WebFramework.Mvc.Extensions
+@model SignInView
+
+<isc-sign-in-view home-page-url="@(Url.ContentPage<HomePage>())"
+                  change-customer-page-url="@(Url.ContentPage<ChangeCustomerPage>())"
+                  dashboard-url="@(Url.ContentPage<MyAccountPage>())"
+                  addresses-url="@(Url.ContentPage<MyAccountAddressPage>())"
+                  checkout-address-url="@(Url.ContentPage<CheckoutAddressPage>())"
+                  review-and-pay-url="@(Url.ContentPage<ReviewAndPayPage>())"></isc-sign-in-view>
+
+<script type="text/ng-template" id="register_createAccountContent">
+    @Html.Raw(Model.CreateAccountContent)
+</script>
+
+<script type="text/ng-template" id="changePassword_instructions">
+    @Html.Raw(Model.ChangePasswordInstructions)
+</script>
+
+<script type="text/ng-template" id="/Directives/Account/SignIn">
+    @Html.ThemedPartial("/Views/Directives/Account/SignIn.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Account/UserNamePassword">
+    @Html.ThemedPartial("/Views/Directives/Account/UserNamePassword.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Account/Register">
+    @Html.ThemedPartial("/Views/Directives/Account/Register.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Account/ChangePassword">
+    @Html.ThemedPartial("/Views/Directives/Account/ChangePassword.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Account/ForgotPasswordPopup">
+    @Html.ThemedPartial("/Views/Directives/Account/ForgotPasswordPopup.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Account/SignInView">
+    @Html.ThemedPartial("/Views/Directives/Account/SignInView.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Account/ExternalProviders">
+    @Html.ThemedPartial("/Views/Directives/Account/ExternalProviders.cshtml")
+</script>

@@ -1,0 +1,81 @@
+﻿<div>
+    <div ng-if="isCatalog">
+        <div class="order-subtotal-grid row collapse">
+            <div class="summary-totals small-5 small-offset-7 columns">
+                <div class="row collapse sub-total">
+                    <div class="xsmall-6 columns sub-label">@T("Subtotal")
+						<ng-pluralize count="cart.properties['catalogOrderCount']" when="{'0': 'No items', 'one': '(1 item)', 'other': '({} items)'}"></ng-pluralize>:
+					</div>
+                    <div class="xsmall-6 columns sub-amount text-right" ng-bind="cart.orderSubTotalDisplay"></div>
+                </div>
+                <div class="row collapse" ng-if="cart.totalTax > 0">
+                    <div class="xsmall-6 columns sub-label">@T("Tax")</div>
+                    <div class="xsmall-6 columns sub-amount text-right" ng-bind="cart.totalTaxDisplay"></div>
+                </div>
+                <div class="row collapse" ng-if="cart.shippingAndHandling > 0">
+                    <div class="xsmall-6 columns sub-label">@T("Shipping & Handling")</div>
+                    <div class="xsmall-6 columns sub-amount text-right" ng-bind="cart.shippingAndHandlingDisplay"></div>
+                </div>
+                <div class="row collapse promo-applied" ng-repeat="promotion in promotions">
+                    <div class="xsmall-6 columns sub-label">@T("Promotion"): <em><span ng-bind="promotion.name"></span></em></div>
+                    <div class="small-6 columns sub-amount text-right" ng-bind="promotion.amountDisplay"></div>
+                </div>
+                <div class="row collapse order-total">
+                    <div class="xsmall-6 columns sub-label col-total">@T("Total")</div>
+                    <div class="xsmall-6 columns sub-amount text-right item-subtotal" ng-bind='cart.orderGrandTotalDisplay'></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row collapse">
+            <div class="small-1 columns col-qty">
+                <div class="item-qty" ng-if="!editable">
+                    <span ng-bind="cartLine.qtyOrdered"></span>
+                </div>
+            </div>
+            <div class="small-1 columns col-price">
+                <isc-unit-of-measure-display product="cartLine"> </isc-unit-of-measure-display>
+            </div>
+            <div class="small-2 columns col-availability">
+                <span ng-bind="cartLine.manufacturerItem"></span>
+            </div>
+            <div class="small-4 columns col-price">
+                <div class="item-brand">
+                    <span ng-bind="cartLine.properties['manufacturerName']"></span>
+                </div>
+                <div class="item-name">
+                    <span ng-bind="cartLine.shortDescription"></span>
+                </div>
+                <div class="item-notes" ng-if="cart.showLineNotes && cartLine.notes.length > 0">
+                    <strong>@T("Notes"):</strong>
+                    <span ng-bind="cartLine.notes"></span>
+                </div>
+            </div>
+            <div class="small-2 columns col-qty">
+                <div class="price">
+                    <isc-product-price product="cartLine"></isc-product-price>
+
+                    <div class="quantity-pricing">
+                        <isc-quantity-break-pricing product-id="cartLine.productId" break-prices="cartLine.breakPrices"></isc-quantity-break-pricing>
+                    </div>
+                </div>
+            </div>
+            <div class="small-2 end columns col-total">
+                <div class="item-subtotal"><span ng-if="!cartLine.quoteRequired" ng-bind="cartLine.pricing.extendedActualPriceDisplay"></span></div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="!isCatalog">
+        <div class="order-subtotal-grid">
+            <div class="summary-totals">
+                <div class="row collapse sub-total">
+                    <div class="small-4 small-offset-8 end columns text-right">
+                        @T("Subtotal")
+                        <ng-pluralize ng-if="!isNonCatalog" count="cart.properties['nonCatalogProductCount']" when="{'0': 'No items', 'one': '(1 item)', 'other': '({} items)'}"></ng-pluralize>:
+                        <strong><i class="warning">@T("To be Quoted")</i></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

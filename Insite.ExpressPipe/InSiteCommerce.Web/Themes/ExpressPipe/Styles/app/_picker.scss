@@ -1,0 +1,50 @@
+﻿/* Date Picker */
+
+.picker__select--month, .picker__select--year {
+    padding:0; }
+
+.picker--opened .picker__holder {
+	overflow:visible !important; }
+
+.picker__holder {
+	border-color:#ccc !important;
+	min-width:300px !important;
+	max-width:90% !important; }
+
+.picker__table {
+	border:0;
+	background:none;
+	font-size:1.2em !important; }
+
+	.picker__table thead {
+		background:none; }
+
+	.picker__table th,
+	.picker__table td {
+		text-align:center;
+		background:none;
+		border:0 !important; }
+
+.picker__weekday {
+	padding:.5em !important;
+	line-height:1em !important; }
+
+.picker__table td {
+	padding:0 !important; }
+
+.picker__year {
+	font-size:1em !important; }
+
+.picker__day {
+	font-weight:normal !important; }
+
+.picker__day--selected {
+	font-weight:bold !important; }
+
+.picker__table .picker__day--outfocus {
+	color:#b7b7b7; }
+
+.picker__footer button {
+	margin:0;
+	color:inherit !important;
+	font-weight:600; }

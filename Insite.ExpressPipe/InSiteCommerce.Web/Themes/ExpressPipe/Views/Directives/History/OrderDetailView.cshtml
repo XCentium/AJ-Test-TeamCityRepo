@@ -1,0 +1,268 @@
+﻿@using Insite.Data.Entities
+@using Insite.Order.Content
+@using Insite.WebFramework.Mvc.Extensions
+
+<div ng-cloak>
+
+    <header class="row order-detail-header">
+        <div class="medium-6 columns">
+            <h1>@T("Order #")<span id="orderid" ng-bind="vm.order.erpOrderNumber" class="order-number"></span></h1>
+        </div>
+        <div class="medium-4 columns">
+            <h2>
+                @T("Status"):
+                <span class="status" ng-bind="vm.order.status" ng-class="vm.order.status | lowercase"></span>
+            </h2>
+        </div>
+        <div class="medium-2 columns text-right">
+            <ul class="documents">
+                <li><a data-tooltip aria-haspopup="true" class="has-tip tip-top" title="@T("Invoice")" href="{{vm.order.properties['invoiceUrl']}}" ng-if="vm.order.properties['invoiceUrl'] && vm.order.properties['orderSalesHistoryType'] != 'SH'" target="_blank"><i class="epicon epicon-invoice"></i></a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div ng-if="vm.validationMessage" ng-cloak>
+        <span class="error">{{vm.validationMessage}}</span>
+    </div>
+
+    <div ng-if="!vm.validationMessage" ng-cloak>
+        <div class="panel">
+            <div class="row">
+                <div class="medium-4 large-4 columns">
+                    <h5>@T("Order Information")</h5>
+                    <dl class="inline-data-list">
+                        <dt>@T("Job Name")</dt>
+                        <dd ng-bind="vm.order.properties.companyName" class="job-name"></dd>
+                        <dt>@T("Order Date")</dt>
+                        <dd ng-bind="vm.order.orderDate | date:'M/d/yyyy': 'UTC'"></dd>
+                        <dt>@T("Ordered By")</dt>
+                        <dd ng-bind="vm.order.properties.orderedBy" class="ordered-by"></dd>
+                        <dt>@T("PO #")</dt>
+                        <dd ng-bind="vm.order.customerPO" class="po-number"></dd>
+
+                    </dl>
+                </div>
+                <div class="medium-4 large-4 columns">
+                    <!-- If Delivery Method is Shipped -->
+                    <h5 ng-if="vm.order.shipCode !== 'WC WILL CALL'">@T("Delivery Address")</h5>
+                    <h5 ng-if="vm.order.shipCode == 'WC WILL CALL'">@T("Pickup Location")</h5>
+                    <address>
+                        <ul class="no-bullet">
+                            <li ng-bind="vm.order.stCompanyName"></li>
+                            <li ng-bind="vm.order.stAddress1"></li>
+                            <li ng-if="vm.order.stAddress2" ng-bind="vm.order.stAddress2"></li>
+                            <li ng-bind="vm.stFormat"></li>
+                        </ul>
+                    </address>
+                </div>
+                <div class="medium-4 large-4 columns">
+                    <h5>@T("Delivery Summary")</h5>
+                    <dl class="inline-data-list">
+                        <dt>@T("Ship Date")</dt>
+                        <dd ng-if="vm.order.shipCode.contains('Multiple')" ng-bind="vm.order.shipCode"></dd>
+                        <dd ng-if="!vm.order.shipCode.contains('Multiple')" ng-bind="vm.order.properties['lastShipDate'] | date: 'MM/dd/yyyy'"></dd>
+                        <dt>@T("Delivery Method")</dt>
+                        <dd ng-bind="vm.order.shipCode"></dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="column xlarge-9">
+
+                <header class="row hide-for-print">
+                    <div class="medium-4 medium-offset-8 end columns medium-text-right">
+                        <ul class="inline-list hide-for-print">
+                            <li><a href="javascript: window.print();"><i class="fa fa-print"></i> Print</a></li>
+                        </ul>
+                    </div>
+                </header>
+
+                <div class="order-details">
+                    
+
+
+
+
+                    <div class="cart-grid">
+                        <ul class="item-list order-items">
+                            <li class="item-block item-header order-item row collapse hide-for-small-down">
+                                <div class="small-5 columns col-description">
+                                    @T("Description")
+                                </div>
+                                <div class="small-1 columns col-price">
+                                    @T("Price")
+                                </div>
+                                <div class="small-1 columns col-qty">
+                                    @T("Order Qty")
+                                </div>
+                                <div class="small-1 columns col-qty">
+                                    @T("Ship Qty")
+                                </div>
+                                <div class="small-2 columns col-total" ng-if="vm.order.status != 'Invoiced'">
+                                    @T("Order Total")
+                                </div>
+                                <div class="small-2 columns col-total" ng-if="vm.order.status == 'Invoiced'">
+                                    @T("Invoice Total")
+                                </div>
+                                <div class="small-2 columns col-cta">
+                                    &nbsp;
+                                </div>
+                            </li>
+                            <li ng-repeat="orderline in vm.order.orderLines">
+
+                                <div class="item-block order-item">
+
+                                    <div class="row collapse">
+
+                                        <div class="col-thumb xsmall-3 medium-1 columns">
+                                            <a href="/product/{{orderline.productErpNumber}}"><img src="{{orderline.mediumImagePath}}"></a>
+                                        </div>
+
+                                        <div class="col-description xsmall-9 medium-4 columns">
+                                            <div class="item-brand">
+                                                <span ng-bind="orderline.properties.manufacturerName"></span>
+                                            </div>
+                                            <div class="item-name">
+                                                <a ng-href="{{orderline.productUri}}">
+                                                    <span ng-bind="orderline.shortDescription"></span>
+                                                </a>
+                                            </div>
+                                            <isc-product-name product="orderline" no-link="true"></isc-product-name>
+
+                                            <ul class="item-utilities inline-list"></ul>
+
+                                            <ul class="documents"></ul>
+
+                                            <div class="item-notes" ng-if="orderline.notes"> <strong>Notes:</strong> {{orderline.notes}}</div>
+                                        </div>
+
+                                        <div class="col-price xsmall-3 medium-1 columns">
+                                            <span class="small-label">@T("Price")</span>
+                                            {{orderline.unitPriceDisplay}} {{orderline.unitOfMeasure}}
+                                        </div>
+
+                                        <div class="col-qty xsmall-3 medium-1 columns">
+                                            <span class="small-label">@T("Qty Ordered")</span>
+                                            {{orderline.qtyOrdered}}
+                                        </div>
+
+                                        <div class="col-qty xsmall-3 medium-1 columns">
+                                            <span class="small-label">@T("Qty Shipped")</span>
+                                            {{orderline.qtyShipped}}
+                                        </div>
+
+                                        <div class="col-total xsmall-3 medium-2 columns">
+                                            <span class="small-label">@T("Total")</span>
+                                            {{orderline.lineTotalDisplay}}
+                                        </div>
+
+                                        <div class="col-cta xsmall-12 medium-2 columns">
+                                            <div class="add-to-cart xsmall-text-right">
+                                                <div class="item-qty">
+                                                    <label>Qty:</label>
+                                                    <input id="qty-{{orderline.id}}" type="number" min="orderline.properties.minimumSellQty" name="qty numerictextbox"
+                                                           ng-change="vm.updateQty(orderline)"
+                                                           ng-model-options="{ updateOn: 'blur' }"
+                                                           step="{{orderline.properties.minimumSellQty}}" class="qty numerictextbox" ng-model="orderline.qtyOrdered" />
+                                                </div>
+                                                <div class="item-buttons">
+                                                    <button ng-click="vm.reorderProduct($event, orderline)" class="button">@T("Add to Cart")</button>
+                                                    <div class="item-add-to-list xsmall-text-right small-text-right">
+                                                        <a href="javascript:;" ng-click="vm.openWishListPopup(orderline.productId, orderline.qtyOrdered)">+ Add to List</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="order-subtotal-grid row collapse">
+                        <div class="summary-totals small-5 small-offset-5 columns">
+                            <div class="row collapse sub-total">
+                                <div class="xsmall-6 columns sub-label">
+                                    @T("Subtotal")
+                                <ng-pluralize count="cart.properties['catalogOrderCount']" when="{'0': 'No items', 'one': '(1 item)', 'other': '({} items)'}"></ng-pluralize>:
+                                </div>
+                                <div class="xsmall-6 columns sub-amount text-right" ng-bind="vm.order.productTotal | currency"></div>
+                            </div>
+                            <div class="row collapse order-total">
+                                <div class="xsmall-6 columns sub-label col-total">@T("Total")</div>
+                                <div class="xsmall-6 columns sub-amount text-right item-subtotal" ng-bind="vm.order.orderTotalDisplay"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="medium-6 xlarge-3 end column">
+                <div class="summary">
+                    <header class="summary-header">
+                        @T("Order Summary")
+                    </header>
+                    <div class="summary-content">
+                        <div class="summary-totals">
+
+                            <div class="row collapse sub-total">
+                                <div class="xsmall-6 columns sub-label">
+                                    @T("Subtotal")<ng-pluralize count="vm.order.totalCountDisplay"
+                                                                when="{'0': 'No items',
+                                                                      'one': '(1 item)',
+                                                                      'other': '({} items)'}"></ng-pluralize>
+                                </div>
+                                <div id="cartOrderSubTotalDisplay" class="xsmall-6 columns sub-amount" ng-bind="vm.order.productTotal | currency"></div>
+                            </div>
+                            <div class="row collapse" ng-if="vm.order.taxAmount">
+                                <div class="xsmall-6 columns sub-label">@T("Tax")</div>
+                                <div class="xsmall-6 columns sub-amount" ng-bind="vm.order.taxAmount | currency"></div>
+                            </div>
+                            <div class="row collapse" ng-if="vm.order.shippingAndHandling">
+                                <div class="xsmall-6 columns sub-label">@T("Shipping & Handling")</div>
+                                <div class="xsmall-6 columns sub-amount" ng-bind="vm.order.shippingAndHandling | currency"></div>
+                            </div>
+                            <div class="row collapse order-total">
+                                <div class="xsmall-6 columns sub-label" ng-if="vm.order.status == 'Invoiced'">@T("Invoice Total")</div>
+                                <div class="xsmall-6 columns sub-label" ng-if="vm.order.status != 'Invoiced'">@T("Order Total")</div>
+                                <div class="xsmall-6 columns sub-amount" ng-bind="vm.order.orderTotalDisplay"></div>
+                            </div>
+
+                        </div>
+
+                        <div class="summary-primary-cta">
+                            <div><a href="javascript:void();" class="button primary expand" ng-click="vm.reorderAllProducts($event)">@T("Add All to Cart")</a></div>
+                        </div>
+
+                    </div>
+                    <footer class="summary-footer hide-for-print">
+                        <h6>&nbsp;</h6>
+                        <p><a href="javascript:void();" ng-click="vm.addAllToList()">@T("+ Add All to List")</a></p>
+                    </footer>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <isc-add-to-cart-popup ng-if="vm.settings.showAddToCartConfirmationDialog"></isc-add-to-cart-popup>
+
+    <script type="text/ng-template" id="/Directives/Account/AddressDisplay">
+        @Html.ThemedPartial("/Views/Directives/Account/AddressDisplay.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Cart/CartLines">
+        @Html.ThemedPartial("/Views/Directives/Cart/CartLines.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Cart/CartLineNote">
+        @Html.ThemedPartial("/Views/Directives/Cart/CartLineNote.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Cart/CartTotalDisplay">
+        @Html.ThemedPartial("/Views/Directives/Cart/CartTotalDisplay.cshtml")
+    </script>
+</div>

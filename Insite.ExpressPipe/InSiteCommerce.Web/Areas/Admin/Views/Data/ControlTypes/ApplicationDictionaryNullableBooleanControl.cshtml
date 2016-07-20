@@ -1,0 +1,42 @@
+﻿@using Insite.Admin.ControlTypes
+@using Insite.Admin.DataTypeValidators
+@using Insite.Admin.Models
+@model ControlTypeViewModel<ApplicationDictionaryNullableBooleanControl>
+
+@helper Option(string key, string value)
+{
+    <span @(key == "null" ? "ng-hide=entityDetailsCtrl.model.isCustomProperty" : "")>
+        @{ var inputId = Model.Name + "_" + key; }
+        <input type="radio"
+               id="@inputId"
+               name="@inputId"
+               ng-value="@key"
+               ng-model="@(Model.EditPageModelBinding)"
+               @(Model.PropertyDefinition.IsRequired ? "required" : "")
+               @if (!Model.PropertyDefinition.CanEdit) { <text> readonly</text> } />
+        <label for="@inputId">@value</label>
+        @if (Model.ControlType.ColumnLayout == ColumnLayout.Vertical)
+        {
+            <br />
+        }
+    </span>
+}
+
+@Html.Partial("FormControlContainer", new FormControlContainerModel
+{
+    ControlTypeViewModel = Model,
+    FieldContent =@<text>
+        @{
+            var validator = Model.DataTypeValidator as BoolValidator;
+            if (validator == null)
+            {
+                throw new ArgumentException("ApplicationDictionaryNullableBooleanControl used for a non-bool property.");
+            }
+        }
+        <div style="overflow-y: auto; @(Model.ControlType.MaxHeight > 0 ? "max-height: " + Model.ControlType.MaxHeight + "px;" : string.Empty)">
+            @Option("null", Model.ControlType.NullLabel)
+            @Option("true", Model.ControlType.GetTrueLabel())
+            @Option("false", Model.ControlType.GetFalseLabel())
+        </div>
+    </text>
+})

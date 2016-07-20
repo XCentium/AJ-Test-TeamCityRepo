@@ -1,0 +1,19 @@
+﻿@using Insite.Common
+@using Insite.Core.Providers
+<span>
+    <span ng-bind="fieldLabel"></span>
+    <span class="redTxt" ng-show="validation.isRequired">*</span>
+    <input type="text" ng-disabled="validation.isDisabled" ng-model="fieldValue"
+           id="{{fieldName}}"
+           name="{{fieldName}}"
+           ng-readonly="isReadOnly"
+           data-rule-required="{{validation.isRequired}}"
+           data-msg-required="{{'@MessageProvider.Current.Field_Required'.replace('{0}', fieldLabel)}}"
+           data-rule-maxlength="{{validation.maxLength}}"
+           data-msg-maxlength="{{'@MessageProvider.Current.Field_Too_Long'.replace('{0}', fieldLabel).replace('{1}', validation.maxLength)}}"
+           data-rule-email="{{isEmail === 'true' ? true : false}}"
+           data-msg-email="{{'@MessageProvider.Current.Field_Invalid'.replace('{0}', fieldLabel)}}"
+           data-rule-regex="{{isPhone === 'true' ? '@RegularExpressionLibrary.Phone.Replace(@"\", @"\\")' : '.*'}}"
+           data-msg-regex="@MessageProvider.Current.AddressInfo_Phone_Validation">
+    <span class="field-validation-valid" data-valmsg-for="{{fieldName}}" data-valmsg-replace="true"></span>
+</span>

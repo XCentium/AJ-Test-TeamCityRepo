@@ -1,0 +1,79 @@
+﻿.reveal-modal {
+    z-index: 9999;
+
+    @media (max-width: $large-breakpoint){
+        // was causing issues when table is too tall
+        max-height: 100%;
+        overflow-y: auto;
+        position: fixed;
+        top: 0;
+    }
+
+    .modal-wrap {
+        h1 {
+            margin-bottom: $margin-double;
+        }
+    }
+
+    h2 {
+        margin-bottom: $margin-double;
+    }
+
+    .close-reveal-modal.button {
+        position: inherit;
+        font-size: 0.85714rem;
+        font-weight: normal;
+        line-height: normal;
+        top: auto;
+        right: auto;
+    }
+
+    .buttons {
+        margin-top: $margin-double;
+        text-align: right;
+    }
+
+    /* add min widths */
+    @media #{$large-up} {
+        &.tiny { min-width: 30rem; }
+        &.small { min-width: 40rem; }
+        &.medium { min-width: 50rem; }
+    }
+}
+
+.close-reveal-modal:hover {
+    text-decoration: none;
+}
+
+.popup-add-wishlist {
+    select {
+        margin-bottom: 0;
+    }
+
+    .thor {
+        padding: $padding-single 0;
+
+        strong {
+            display: inline-block;
+            position: relative;
+            z-index: 10;
+            padding: 0 $padding-single/2;
+            background-color: #fff;
+        }
+
+        hr {
+            position: relative;
+            top: -0.8em;
+            margin: 0;
+        }
+    }
+
+    .buttons {
+        margin-top: $margin-double;
+
+        button,
+        .button {
+            margin-bottom: 0;
+        }
+    }
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0"?><DTSConfiguration><DTSConfigurationHeading>
+<DTSConfigurationFileInfo GeneratedBy="XcentiumLaptop\matthew.glover" GeneratedFromPackageName="LoadCategoryFiles" GeneratedFromPackageID="{EEE4ABE5-CC5C-4E9F-8721-ECDAAC1D8B6C}" GeneratedDate="3/21/2016 2:21:15 AM"/>
+</DTSConfigurationHeading>
+<Configuration ConfiguredType="Property" Path="\Package.Variables[User::ParamArchiveFolder].Properties[Value]" ValueType="String"><ConfiguredValue>\\mscwvesqld01\SSISPackages\Development\Category\Archive\</ConfiguredValue></Configuration>
+<Configuration ConfiguredType="Property" Path="\Package.Variables[User::ParamInputFolder].Properties[Value]" ValueType="String"><ConfiguredValue>\\mscwvesqld01\SSISPackages\Development\Category\</ConfiguredValue></Configuration>
+</DTSConfiguration>

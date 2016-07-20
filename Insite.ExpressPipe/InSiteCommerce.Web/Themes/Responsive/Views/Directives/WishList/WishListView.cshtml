@@ -1,0 +1,71 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+<div>
+    <div ng-show="vm.wishListCount > 0">
+        <div class="cm" ng-include="'wishList_topContent'"></div>
+        <div class="select-list" ng-show="vm.wishListSettings.allowMultipleWishLists">
+            <label>@T("Select List")</label>
+            <select id="wishListViewWishlistSelector" ng-model="vm.selectedWishList" ng-change="vm.getSelectedWishListDetails()"
+                    ng-options="wishList.name for wishList in vm.wishListCollection track by wishList.id"></select>
+            <a id="wishListViewDeleteWishListButton" class="btn tertiary btn-delete-list" ng-show="vm.wishListSettings.allowEditingOfWishLists" href="javascript:void(0);" ng-click="vm.deleteWishList()">@T("Delete List")</a>
+        </div>
+        <div class="btns" ng-hide="!vm.selectedWishList.canAddAllToCart || vm.selectedWishList.wishListLineCollection.length === 0">
+            <button id="wishListViewAddAllToCartUpperButton" class="btn primary btn-add-cart" ng-click="vm.addAllToCart()" ng-disabled="!vm.allQtysIsValid()"> @T("Add All To Cart")</button>
+        </div>
+        <div ng-show="vm.selectedWishList !== null">
+            <h2 ng-show="vm.selectedWishList.wishListLineCollection.length === 0">@Html.Message("WishLists_NoItemsInList", "There are currently no items in the selected WishList.")</h2>
+            <div ng-show="vm.selectedWishList.wishListLineCollection.length > 0">
+                <isc-pager pagination="vm.selectedWishList.pagination" storage-key="vm.paginationStorageKey" update-data="vm.getSelectedWishListDetails()"></isc-pager>
+                <ul class="item-list cart-items">
+                    <li class="row item-block checkout-item isc-productContainer" ng-repeat="wishListLine in vm.selectedWishList.wishListLineCollection track by wishListLine.id">
+                        <isc-product-thumb product="wishListLine"></isc-product-thumb>
+                        <div class="small-9 columns item-details">
+                            <div class="remove" ng-show="vm.wishListSettings.allowEditingOfWishLists">
+                                <a id="{{'wishListViewRemoveProductButton_' + $index }}" class="btn btn-remove isc-removeWishListProduct" ng-click="vm.deleteLine(wishListLine)"><i class="foundicon-remove"></i></a>
+                            </div>
+                            <isc-product-name product="wishListLine"></isc-product-name>
+                            <div ng-show="vm.productSettings.showInventoryAvailability" class="availability">
+                                <isc-availability-message availability="wishListLine.availability"></isc-availability-message>
+                            </div>
+                            <div ng-show="wishListLine.canShowPrice">
+                                <isc-product-price product="wishListLine"></isc-product-price>
+                                <span class="selected-uom" ng-if="wishListLine.unitOfMeasureDisplay">/ {{wishListLine.unitOfMeasureDisplay}}</span>
+                                <div class="quantity-pricing" ng-if="!wishListLine.quoteRequired">
+                                    <isc-quantity-break-pricing product-id="wishListLine.id" break-prices="wishListLine.pricing.actualBreakPrices"></isc-quantity-break-pricing>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="actions-panel">
+                            <a href="javascript:void(0);" class="btn primary add-to-cart panel-trigger">@T("Order_Verb")</a>
+                            <div class="item-actions">
+                                <div class="item-actions-wrap">
+                                    <div class="um-pack" ng-if="wishListLine.productUnitOfMeasures.length > 1">
+                                        <div class="um">
+                                            <span>@T("U/M"):</span>
+                                            <isc-unit-of-measure-select-list product="wishListLine" alternate-units-of-measure="{{vm.productSettings.alternateUnitsOfMeasure}}"
+                                                                             display-pack="false" change-unit-of-measure="vm.changeUnitOfMeasure(wishListLine)"></isc-unit-of-measure-select-list>
+                                        </div>
+                                    </div>
+                                    <div class="item-qty" ng-if="wishListLine.canEnterQuantity">
+                                        <label>@T("QTY_quantity"):</label>
+                                        <input id="{{'wishListViewQuantityInput_' + $index }}" type="text" class="numerictextbox qty" ng-model="wishListLine.qtyOrdered"
+                                               isc-enter="vm.quantityKeyPress(wishListLine)" ng-blur="vm.quantityKeyPress(wishListLine)" />
+                                    </div>
+                                    <div class="action" ng-if="wishListLine.canAddToCart">
+                                        <button id="{{'wishListViewAddToCartButton_' + $index }}" class="btn primary btn-add-cart" ng-click="vm.addLineToCart(wishListLine)" ng-disabled="!wishListLine.qtyOrdered || wishListLine.qtyOrdered == 0">@T("Add to Cart")</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <isc-pager bottom="true" pagination="vm.selectedWishList.pagination" storage-key="vm.paginationStorageKey" update-data="vm.getSelectedWishListDetails()"></isc-pager>
+            </div>
+        </div>
+        <div class="btns" ng-show="(vm.selectedWishList.canAddAllToCart || vm.selectedWishList.canAddToCart) && vm.selectedWishList.wishListLineCollection.length !== 0">
+            <button id="wishListViewAddAllToCartBottomButton" class="btn primary btn-add-cart" ng-click="vm.addAllToCart()" ng-disabled="!vm.allQtysIsValid()" ng-bind="vm.selectedWishList.canAddAllToCart ? '@T("Add All To Cart")' : '@T("Add All Available to Cart")'"></button>
+        </div>
+    </div>
+    <div class="search-no-results" ng-if="vm.wishListCount === 0">
+        <h3>@Html.Message("WishLists_NoWishlistsFound", "No Wish List found.")</h3>
+    </div>
+</div>

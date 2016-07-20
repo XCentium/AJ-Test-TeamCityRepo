@@ -1,0 +1,24 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Cart.Content.OrderConfirmationView
+
+<isc-order-confirmation-view></isc-order-confirmation-view>
+
+<script type="text/ng-template" id="orderConfirmation_topContent">
+    @Html.Zone(Model, "TopContent")
+</script>
+
+<script type="text/ng-template" id="/Directives/Account/AddressDisplay">
+    @Html.ThemedPartial("/Views/Directives/Account/AddressDisplay.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Cart/CartLines">
+    @Html.ThemedPartial("/Views/Directives/Cart/CartLines.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Cart/CartLineNote">
+    @Html.ThemedPartial("/Views/Directives/Cart/CartLineNote.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Cart/CartTotalDisplay">
+    @Html.ThemedPartial("/Views/Directives/Cart/CartTotalDisplay.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Cart/OrderConfirmationView">
+    @Html.ThemedPartial("/Views/Directives/Cart/OrderConfirmationView.cshtml")
+</script>

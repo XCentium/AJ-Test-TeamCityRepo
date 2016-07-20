@@ -1,0 +1,58 @@
+﻿body.ma-quick-order {
+}
+
+/* Quick Order Page */
+.quick-order-search {
+    padding: 20px;
+    border: 1px solid #C7C7C7;
+    h3 {
+        margin: 0 0 10px 0;
+        float: right;
+        &.title {
+            float: left;
+        }
+    } // end h3
+    form {
+        clear: both;
+        #quickOrderInput {
+            float: left;
+            width: 100%;
+            max-width: 500px;
+            background: url(/images/searchIcon.png) no-repeat center right 15px;
+        }
+        button {
+            float: right;
+        }
+        input[type="text"], button {
+            margin-bottom: 0;
+        }
+    }
+}
+
+
+
+@media screen and  (max-width: 767px){
+    /*quick order page*/
+    .quick-order-search {
+        button {
+            margin-top: 15px;
+            width: 100%;
+        }
+    }
+
+}
+
+
+
+@media screen and (min-width: 641px){
+
+    .order-upload-instructions {
+        float: right;
+    }
+
+    .h-500 {
+        min-height: 500px;
+        padding-bottom: 20px;
+    }
+
+}

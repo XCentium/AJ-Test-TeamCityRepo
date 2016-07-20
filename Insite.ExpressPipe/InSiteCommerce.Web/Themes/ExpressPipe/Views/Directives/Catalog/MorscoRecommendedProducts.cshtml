@@ -1,0 +1,13 @@
+﻿@using System.ServiceModel.Channels
+
+<div class="recos product-recos" ng-show="vm.productList.length > 0">
+    <header>
+        <h4>@T("Recommended Products")</h4>
+        <span class="paging-info"></span>
+    </header>
+    <div class="slick-it">
+        <div ng-repeat="product in vm.productList">
+            <isc-morsco-product-grid product="product"></isc-morsco-product-grid>
+        </div>
+    </div>
+</div>

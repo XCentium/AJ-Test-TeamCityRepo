@@ -1,0 +1,14 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Account.Content.CreateAccountPage
+@section BodyClass { create-account }
+@section Styles
+{
+    @Html.RequireCss(Url.ThemedContent("/Styles/template/create-account.css"))
+}
+@* TODO @Html.Script(Html.ThemedPartial("_PersonalizationJs", Model, new ViewDataDictionary { { "PageName", "CreateAccount" } }))*@
+
+<div class="row main-row">
+    <div class="medium-12 large-12 columns">
+        @Html.Zone(Model, "Content")
+    </div>
+</div>

@@ -1,0 +1,18 @@
+﻿div[role="main"]{
+    background-color: #fff;
+    padding-top: $padding-single;
+    padding-bottom: $padding-quadruple;
+    min-height: 600px;
+
+    @media (min-width: $small-breakpoint){
+        padding-top: $padding-double;
+    }
+}
+
+
+.page-utility-nav {
+    @media #{$large-up} {
+        margin-top: 0.5em;
+        margin-bottom: 0;
+    }
+}

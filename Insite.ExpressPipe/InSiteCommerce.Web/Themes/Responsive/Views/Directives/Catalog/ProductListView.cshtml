@@ -1,0 +1,256 @@
+﻿@using System.ServiceModel.Channels
+@using Insite.Core.Providers
+@using Insite.WebFramework.Mvc.Extensions
+
+<div>
+    <isc-spinner name="productlist" show="true"></isc-spinner>
+    <div class="row main-row"
+         ng-class="{
+             'vm-list': vm.isCategoryPage() || vm.view == 'list' || vm.view == 'List' || vm.view == undefined,
+             'vm-grid': !vm.isCategoryPage() && vm.view == 'grid',
+             'vm-table': !vm.isCategoryPage() && vm.view == 'table'
+         }"
+         ng-show="vm.ready" ng-cloak>
+
+        <isc-breadcrumb ng-if="vm.isCategoryPage()" breadcrumbs="vm.breadCrumbs"></isc-breadcrumb>
+
+        <div ng-if="vm.isCategoryPage()" class="columns left-nav-2">
+            <div class="ln2-wrap">
+                <div class="nav-head">
+                    <h2 id="categoryShortDescription">{{vm.category.shortDescription}}</h2>
+                    <ul>
+                        <li ng-repeat="subCategory in vm.category.subCategories">
+                            <a id="productListViewSubcategoryLink_{{subCategory.id}}" href="{{subCategory.path}}">{{subCategory.shortDescription}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+                    <div ng-if="vm.isCategoryPage()" class="right small-12 columns cl1-wrapper">
+            <div class="contentWrapper2">
+                <div class="content2">
+                    <div ng-bind-html="vm.category.htmlContent|trusted" class="cm cat-cm"></div>
+                    <div class="cat-list">
+                        <div ng-repeat="subCategory in vm.category.subCategories" class="cat-block">
+                            @*TODO handle microsites*@
+                            <div><a id="productListViewSubcategoryImgLink_{{subCategory.id}}" href="{{subCategory.path}}"><img ng-src="{{subCategory.smallImagePath}}" alt="{{subCategory.imageAltText}}" /></a>
+                            </div>
+                            <span><a id="productListViewSubcategoryDescriptionLink_{{subCategory.id}}" href="{{subCategory.path}}">{{subCategory.shortDescription}}</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+                    <div ng-if="!vm.isCategoryPage()" class="content-wrapper">
+
+            <isc-breadcrumb breadcrumbs="vm.breadCrumbs" search-query="vm.query"></isc-breadcrumb>
+
+            <div ng-if="vm.category != null && vm.category.largeImagePath" class="pl4-cm">
+                <img ng-src="{{vm.category.largeImagePath}}" alt="{{vm.category.imageAltText}}" title="{{vm.category.shortDescription}}" />
+            </div>
+
+            <isc-category-left-nav ng-if="vm.ready && (!vm.noResults || vm.searchWithinTerms.length > 0)" ready="vm.ready" products="vm.products" attribute-value-ids="vm.attributeValueIds" filter-category="vm.filterCategory"
+                                   price-filter-minimums="vm.priceFilterMinimums" update-product-data="vm.updateProductData()" bread-crumbs="vm.breadCrumbs"
+                                   search-within-terms="vm.searchWithinTerms" category="vm.category">
+            </isc-category-left-nav>
+
+            <div class="right small-12 columns" ng-class="{ 'large-8 plist-right': !vm.noResults || vm.searchWithinTerms.length > 0}">
+
+
+                <h3 class="results-count" ng-class="{ messaging: vm.noResults && vm.searchWithinTerms.length }">
+                    <span class="result-num" ng-if="!vm.noResults">{{vm.products.pagination.totalItemCount}}</span>
+                    <span class="result-lbl" ng-if="!vm.noResults && vm.products">@T("Items_pager").ToLower()</span>
+
+                    <span ng-if="vm.query && !(vm.searchCategory || vm.filterCategory.categoryId)" class="search-lbl">
+                        {{ vm.noResults ? '@T("No results found for")' : '@T("results for")' }} <strong>{{vm.query}}</strong>
+                    </span>
+                    <span ng-if="vm.query && (vm.searchCategory || vm.filterCategory.categoryId)" class="search-lbl">
+                        {{ vm.noResults ? '@T("No results found for")' : '@T("results for")' }} <strong>{{vm.query}}</strong> @T("in_category") {{vm.searchCategory.shortDescription || vm.filterCategory.shortDescription}}
+                    </span>
+                </h3>
+
+                <div class="search-didyoumean" ng-if="vm.products.didYouMeanSuggestions.length >= 1">@T("Did you mean ") <a ng-href="/search?criteria={{vm.products.didYouMeanSuggestions[0].suggestion | escape}}" ng-bind="vm.products.didYouMeanSuggestions[0].suggestion"></a>
+            </div>
+            <div class="search-autocorrect-original" ng-if="vm.autoCorrectedQuery">@T("Search instead for") <a href="/search?criteria={{vm.originalQuery | escape}}&includeSuggestions=false">{{vm.originalQuery}}</a>
+        </div>
+
+        <div ng-show="vm.products.products.length > 0">
+            <isc-pager pagination="vm.products.pagination" storage-key="vm.paginationStorageKey" update-data="vm.updateProductData()" select-view="vm.selectView(viewName)" custom-context="vm.customPagerContext" page-changed="vm.pagerPageChanged()"></isc-pager>
+            <ul class="item-list cart-items">
+                <li ng-repeat="product in vm.products.products" class="row item-block checkout-item isc-productContainer {{product.isSponsored ? 'sponsored' : ''}}" data-product="{{product.id}}">
+
+                    <div class="sponsored-container"><span class="sponsored-label" ng-if="product.isSponsored">Sponsored</span></div>
+
+                    <div class="item-thumb">
+                        <a id="productListViewProductImageLink_{{product.id}}" ng-href="{{product.productDetailUrl}}">
+                            <img ng-src="{{product.mediumImagePath}}" alt="{{product.altText}}" productlistimageonload />
+                        </a>
+                        <div ng-if="vm.settings.enableProductComparisons" class="product-compare-add">
+                            <a href="javascript:void(0);" data-id="{{product.id}}" class="compare-link" ng-class="{ 'compare-active': product.isBeingCompared }" ng-click="vm.compareProduct(product);">@T("Compare")</a>
+                        </div>
+                    </div>
+                    <div class="item-details">
+                        <div class="item-inf-wrapper">
+                            <div class="item-description">
+                                <div class="item-name">
+                                    <a id="tst-product-list-description-{{product.id}}" ng-href="{{product.productDetailUrl}}">{{product.shortDescription}}</a>
+                                </div>
+                                <div class="item-num">
+                                    <span class="item-num-sku" data-erpnumber="{{product.erpNumber}}">{{product.erpNumber}}</span>
+                                    <span ng-if="product.manufacturerItem" class="item-num-mfg">@("MFG #"): {{product.manufacturerItem}}</span>
+                                    <span ng-if="product.customerName" class="item-num-my">@T("My Part #"): {{product.customerName}}</span>
+                                </div>
+                            </div>
+                            <div id="BVRRInlineRating-{{product.Name}}" class="rating">
+                                <!-- TODO -->
+                            </div>
+                            <div ng-if="vm.settings.showInventoryAvailability" class="availability">
+                                <isc-availability-message availability="product.availability"></isc-availability-message>
+                            </div>
+                        </div>
+                        <div class="item-price">
+                            <isc-product-price product="product"></isc-product-price>
+
+                            <span ng-if="product.canShowPrice && product.unitOfMeasureDisplay && !product.quoteRequired" class="um displayUnitOfMeasure isc-uomDisplay">/  {{product.unitOfMeasureDisplay}}</span>
+
+                            <div class="d-block" ng-show="product.canShowPrice && !product.quoteRequired">
+                                <isc-quantity-break-pricing product-id="product.id" break-prices="product.pricing.actualBreakPrices"></isc-quantity-break-pricing>
+                            </div>
+                        </div>
+                        <isc-sorted-attribute-value-list attribute-types="product.attributeTypes" maximum-number="3" class="attribute-list"></isc-sorted-attribute-value-list>
+                    </div>
+                    <div class="actions-panel">
+                        <a id="productListViewAddToCartButton_{{product.id}}" ng-if="product.canAddToCart" href="javascript:;" class="btn primary add-to-cart panel-trigger">@T("Order_Verb")</a>
+                        <a ng-if="!product.canAddToCart" id='ViewDetails{{product.id}}' ng-href="{{product.productDetailUrl}}" class="btn primary btn-view-details">@T("View Details")</a>
+                        <div class="item-actions">
+                            <div class="item-actions-wrap">
+                                <div class="um-pack">
+                                    <div class="um">
+                                        <label ng-if="vm.settings.alternateUnitsOfMeasure && product.productUnitOfMeasures.length > 1">@T("U/M"):</label>
+                                        <isc-unit-of-measure-select-list product="product" alternate-units-of-measure="{{vm.settings.alternateUnitsOfMeasure}}" change-unit-of-measure="vm.changeUnitOfMeasure(product)" display-pack="true">
+                                        </isc-unit-of-measure-select-list>
+                                    </div>
+                                </div>
+                                <div ng-if="product.canEnterQuantity" class="item-qty">
+                                    <label>@T("QTY_quantity"):</label>
+                                    <input id="productListViewQuantityInput_{{$index}}" type="text" name="qty" ng-model="product.qtyOrdered" class="qty numerictextbox" />
+                                </div>
+                                <div class="action">
+                                    <button ng-show="vm.product.availability.messageType != 2 || vm.product.canBackOrder" id="addToCart{{product.id}}" ng-click="vm.addToCart(product)"
+                                            class="btn-add-cart btn primary" ng-disabled="!product.qtyOrdered || product.qtyOrdered == 0">
+                                        @T("Add To Cart")
+                                    </button>
+                                    <a id="productListViewAddToWishListButton_{{product.id}}" ng-if="product.canAddToWishlist" ng-click="vm.openWishListPopup(product)" role="button" class="btn secondary btn-add-list" href="javascript:;">@T("Add to Wishlist")</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <table ng-show="!vm.isSearch" id="tableView" class="info-tbl tv-table container">
+                <thead>
+                    <tr>
+                        <th data-class="tv-description" class="tv-description">@T("Description")</th>
+                        <th ng-repeat="section in vm.visibleTableColumns()" class="tv-attr{{$index+1}}" data-id="{{section.attributeTypeId}}" data-class="tv-attr{{$index+1}}">{{section.nameDisplay}}</th>
+                        <th data-class="tv-availability" class="tv-availability" ng-if="vm.settings.showInventoryAvailability">@T("Availability")</th>
+                        <th data-class="tv-price" class="tv-price">@T("Price")</th>
+                        <th data-class="tv-um" class="tv-um">@T("U/M")</th>
+                        <th data-class="tv-action" class="tv-action" data-toggle="true"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat-start="product in vm.products.products" class="isc-productContainer-tv" data-product="{{product.id}}">
+                        <td>
+                            <div class="item-thumb">
+                                <a id="productListViewProductDetailImageLink_{{product.id}}" ng-href="{{product.productDetailUrl}}">
+                                    <img ng-src="{{product.mediumImagePath}}" alt="{{product.altText}}" />
+                                </a>
+                            </div>
+                            <div class="item-description">
+                                <div class="item-name"><a id="productListViewProductDetailLink_{{product.id}}" ng-href="{{product.productDetailUrl}}">{{product.shortDescription}}</a>
+                                </div>
+                                <div class="item-num">
+                                    <span class="item-num-sku">{{product.erpNumber}}</span>
+                                    <span ng-if="product.manufacturerItem" class="item-num-mfg">@("MFG #"): {{product.manufacturerItem}}</span>
+                                    <span ng-if="product.customerName" class="item-num-my">@T("My Part #"): {{product.customerName}}</span>
+                                </div>
+                                <div ng-if="vm.settings.enableProductComparisons" class="product-compare-add">
+                                    <a href="javascript:;" data-id="{{product.id}}" class="compare-link" ng-class="{ 'compare-active': product.isBeingCompared }" ng-click="vm.compareProduct(product);">@T("Compare")</a>
+                                </div>
+                            </div>
+                        </td>
+                        <td ng-repeat="section in vm.visibleTableColumns()">
+                            {{vm.attributeValueForSection(section, product).valueDisplay}}
+                        </td>
+                        <td ng-if="vm.settings.showInventoryAvailability">
+                            <isc-availability-message availability="product.availability"></isc-availability-message>
+                        </td>
+                        <td>
+                            <isc-product-price product="product" id-key="_tv"></isc-product-price>
+                            <isc-quantity-break-pricing ng-show="product.canShowPrice && !product.quoteRequired"
+                                                        product-id="product.id + '_tv'" break-prices="product.pricing.actualBreakPrices">
+                            </isc-quantity-break-pricing>
+                        </td>
+                        <td>
+                            <span class="um displayUnitOfMeasure isc-uomDisplay">{{product.unitOfMeasureDisplay}}</span>
+                        </td>
+                        <td ng-class="{ noToggle: !product.canAddToCart }" class="tv-last-column">
+                            <a id="productListViewToggleTablePanel_{{product.id}}" ng-show="product.canAddToCart" class="footable-toggle btn primary" ng-click="vm.toggleTablePanel(product)"></a>
+                            <a ng-show="!product.canAddToCart" id='ViewDetails{{product.id}}' ng-href="{{product.productDetailUrl}}" class="btn primary btn-view-details">@T("View Details")</a>
+                        </td>
+                    </tr>
+                    <tr ng-repeat-end class="item-actions" ng-show="product.canAddToCart" ng-class="{'table-panel-visible' : vm.isTablePanelVisible(product)}">
+                        <td colspan="9">
+                            <div class="item-actions-wrap">
+                                <div class="um-pack">
+                                    <div class="um">
+                                        <label ng-if="vm.settings.alternateUnitsOfMeasure && product.productUnitOfMeasures.length > 1">@T("U/M"):</label>
+                                        <isc-unit-of-measure-select-list product="product" alternate-units-of-measure="{{vm.settings.alternateUnitsOfMeasure}}" change-unit-of-measure="vm.changeUnitOfMeasure(product)" display-pack=" true">
+                                        </isc-unit-of-measure-select-list>
+                                    </div>
+                                </div>
+                                <div ng-show="product.canEnterQuantity" class="item-qty">
+                                    <label>@T("QTY_quantity"):</label>
+                                    <input id="productListViewProductQuantityInput_{{product.id}}" type="text" name="qty" ng-model="product.qtyOrdered" class="qty numerictextbox" />
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="action">
+                                    <button ng-show="(vm.product.availability.messageType != 2 || vm.product.canBackOrder) && product.canAddToCart" id="addToCart{{product.id}}-tv" ng-click="vm.addToCart(product)" href="javascript:void(0);" class="btn-add-cart btn primary" ng-disabled="!product.qtyOrdered || product.qtyOrdered == 0">@T("Add To Cart")</button>
+                                    <a id="productListViewAddToWishlistButton_{{product.id}}" ng-show="product.canAddToWishlist" ng-click="vm.openWishListPopup(product)" role="button" class="btn secondary btn-add-list" href="javascript:void(0);">@T("Add to Wishlist")</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <isc-pager bottom="true" pagination="vm.products.pagination" storage-key="vm.paginationStorageKey" update-data="vm.updateProductData()" custom-context="vm.customPagerContext"></isc-pager>
+        </div>
+
+        <div class="clr lfl w100" ng-if="vm.products.products && !(vm.products.products.length > 0)">
+            <div ng-if="vm.isSearch">
+                <div ng-include="'productList_noSearchResultsFound'"></div>
+            </div>
+            <div ng-if="!vm.isSearch">
+                <div ng-include="'productList_noProductsFound'"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="AddToCompareExceedsSixProducts" class="reveal-modal medium" data-reveal data-reveal-init>
+    <div class="modal-wrap compare-wrap">
+        <strong>@Html.Message("ProductionCompare_MaximumItemsReached", "You have reached the maximum number of items (6).")</strong>
+        <p>@Html.Message("ProductionCompare_MaximumItemsReachedSubText", "Please 'Compare' or remove items.")</p>
+        <div class="compare-buttons">
+            <a id="productListViewExceedSixProductsCompareLink" href="@(Url.ContentPage<Insite.Catalog.Content.ProductComparisonPage>())"><button id="productListViewExceedSixProductsCompareButton" class="btn primary btn-compare">@T("Compare")</button></a>
+        </div>
+        <a id="productListViewExceedSixProductsCloseButton" class="close-reveal-modal">&#215;</a>
+    </div>
+</div>
+
+@Html.Action("GenericPopupPartial", "Shared", new { containerName = "popup-addtocart-noinventory", BodyHtml = MessageProvider.Current.Cart_NotEnoughInventory, Title = @T("Add To Cart") })
+</div>
+</div>

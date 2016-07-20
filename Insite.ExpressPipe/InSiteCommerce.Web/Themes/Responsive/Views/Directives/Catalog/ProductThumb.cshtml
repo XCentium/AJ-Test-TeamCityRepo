@@ -1,0 +1,10 @@
+﻿@*
+    usage example: 
+    <isc-product-thumb product="wishListLine"></isc-product-thumb>
+*@
+
+<div class="small-3 columns item-thumb">
+    <a id="productThumb_{{product.id}}" ng-href="{{product.productUri}}">
+        <img ng-src="{{product.smallImagePath}}" alt="{{product.altText}}"/>
+    </a>
+</div>

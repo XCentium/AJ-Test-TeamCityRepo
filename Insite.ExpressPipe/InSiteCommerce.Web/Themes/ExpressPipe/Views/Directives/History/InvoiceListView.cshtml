@@ -1,0 +1,312 @@
+﻿@using Insite.Invoice.Content
+<div ng-cloak>
+    <form>
+
+        <section class="panel aging-panel">
+            <div class="row">
+                <div class="xlarge-4 large-5 columns aging-totals">
+                    <h2 class="large-text-center">Total Open Invoices</h2>
+                    <div class="row">
+
+                        <div class="large-4 columns aging-numbers">
+                            <h4>Total</h4>
+                            <a href="" ng-click="vm.setFilters('Total')" ng-bind="vm.agingList['Total'].total | currency"></a>
+                        </div>
+                        <div class="large-4 columns aging-numbers">
+                            <h4>Future</h4>
+                            <a href="" ng-click="vm.setFilters('Future')" ng-bind="vm.agingList['Future'].total | currency"></a>
+                        </div>
+                        <div class="large-4 columns aging-numbers">
+                            <h4>Current</h4>
+                            <a href="" ng-click="vm.setFilters('Current')" ng-bind="vm.agingList['Current'].total | currency"></a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="xlarge-6 large-7 columns aging-past-due">
+                    <h2 class="large-text-center">Invoices Past Due</h2>
+                    <div class="row">
+                        <div class="large-3 columns aging-numbers">
+                            <h4>31-60</h4>
+                            <span ng-model="vm.agingList"></span>
+                            <a href="" ng-click="vm.setFilters('31-60')" ng-bind="vm.agingList['31-60'].total | currency"></a>
+                        </div>
+                        <div class="large-3 columns aging-numbers">
+                            <h4>61-90</h4>
+                            <a href="" ng-click="vm.setFilters('61-90')" ng-bind="vm.agingList['61-90'].total | currency"></a>
+                        </div>
+                        <div class="large-3 columns aging-numbers">
+                            <h4>91-120</h4>
+                            <a href="" ng-click="vm.setFilters('91-120')" ng-bind="vm.agingList['91-120'].total | currency"></a>
+                        </div>
+                        <div class="large-3 columns aging-numbers">
+                            <h4>121+</h4>
+                            <a href="" ng-click="vm.setFilters('120+')" ng-bind="vm.agingList['120+'].total | currency"></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="xlarge-2 columns aging-buttons">
+                    <a class="button expand" href="#" ng-click="vm.getBillTrustSSOUrl()">Pay Bills</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="search-panel search-orders">
+            <input type="checkbox" id="search-toggle" class="search-panel-check" />
+            <label for="search-toggle" class="search-panel-head">
+                @T("Search Invoices")
+            </label>
+            <article id="search-panel" class="search-panel-content">
+                <div class="row">
+                    <div class="medium-12 large-3 columns search-col-1">
+                        <div class="search-ship-to">
+                            <label for="status">@T("Status")</label>
+                            <select id="status" ng-model="vm.searchFilter.status">
+                                <option ng-repeat="item in [{ n: 'All', v: 'all' }, { n: 'Open', v: 'open' }, { n: 'Closed', v: 'closed' }]" value="{{item.v}}">{{item.n}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="medium-12 large-3 columns search-col-2">
+                        <div class="search-account-num">
+                            <label for="AccountNum">@T("Account #")</label>
+                            <select id="AccountNum" ng-model="vm.searchFilter['CustomerSequence']"
+                                    ng-options="shipTo.customerSequence as shipTo.customerSequence for shipTo in vm.shipToJobs"></select>
+
+                        </div>
+                    </div>
+                    <div class="medium-12 large-3 columns search-col-2">
+                        <div class="search-job-name">
+                            <label for="JobName">@T("Job Name")</label>
+                            <select id="JobName" ng-model="vm.searchFilter['JobName']"
+                                    ng-options="shipTo.companyName as shipTo.companyName for shipTo in vm.shipToJobs"></select>
+                        </div>
+                    </div>
+                    <div class="medium-12 large-3 columns search-col-3">
+                        <div class="search-po">
+                            <label for="PONumber">@T("PO #")</label>
+                            <input type="text" name="PONumber" id="PONumber" ng-model="vm.searchFilter.poNumber" />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="medium-12 large-3 columns search-col-2">
+                        <div class="search-invoice-num">
+                            <label for="InvoiceNumber">@T("Invoice #")</label>
+                            <input type="text" name="InvoiceNumber" id="InvoiceNumber" ng-model="vm.searchFilter.invoiceNumber" />
+                        </div>
+                    </div>
+                    <div class="medium-12 large-3 columns search-col-2">
+                        <div class="search-date">
+                            <label for="FromDate">@T("Invoice Date")</label>
+                            <div class="row">
+                                <div class="small-6 columns search-date-from">
+                                    <input placeholder="From" type="text" name="FromDate" id="FromDate" value="" class="datepicker" isc-pick-a-date="vm.searchFilter.fromDate" />
+                                </div>
+                                <div class="small-6 columns search-date-to">
+                                    <input placeholder="To" type="text" name="ToDate" id="ToDate" value="" class="datepicker" isc-pick-a-date="vm.searchFilter.toDate" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="medium-12 large-3 columns search-col-2">
+                        <div class="search-date">
+                            <label for="FromDueDate">@T("Due Date")</label>
+                            <div class="row">
+                                <div class="small-6 columns search-date-from">
+                                    <input placeholder="From" type="text" name="FromDueDate" id="FromDueDate" value="" class="datepicker" isc-pick-a-date="vm.searchFilter.fromDueDate" />
+                                </div>
+                                <div class="small-6 columns search-date-to">
+                                    <input placeholder="To" type="text" name="ToDueDate" id="ToDueDate" value="" class="datepicker" isc-pick-a-date="vm.searchFilter.toDueDate" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="medium-12 large-3 columns search-col-3">
+                        <div class="search-aging">
+                            <label for="agingMenu">@T("Aging")</label>
+                            <select id="agingMenu" name="agingMenu" ng-model="agingFilter" ng-init="agingFilter='all'" ng-change="vm.setAgingFilter(agingFilter)">
+                                <option value="all">All</option>
+                                <option value="current">Current</option>
+                                <option value="31-60">31-60</option>
+                                <option value="61-90">61-90</option>
+                                <option value="91-120">91-120</option>
+                                <option value="120+">120+</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="medium-12 large-3 columns search-col-2">
+                        <div class="search-orig-amt">
+                            <label for="OriginalAmtFrom">@T("Original Amount")</label>
+
+                            <div class="row">
+                                <div class="medium-12 large-6 columns search-col-2">
+                                    <input type="text" placeholder="From" name="OriginalAmtFrom" id="OriginalAmtFrom" ng-model="vm.searchFilter.originalAmountFrom" />
+                                </div>
+                                <div class="medium-12 large-6 columns search-col-2">
+                                    <input type="text" placeholder="To" name="OriginalAmtTo" id="OriginalAmtTo" ng-model="vm.searchFilter.originalAmountTo" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="medium-12 large-3 columns search-col-2">
+                        <div class="search-open-bal">
+                            <label for="OpenBalanceFrom">@T("Open Balance")</label>
+                            <div class="row">
+                                <div class="medium-12 large-6 columns search-col-2">
+                                    <input type="text" placeholder="From" name="OpenBalanceFrom" id="OpenBalanceFrom" ng-model="vm.searchFilter.openBalanceFrom" />
+                                </div>
+                                <div class="medium-12 large-6 columns search-col-2">
+                                    <input type="text" placeholder="To" name="OpenBalanceTo" id="OpenBalanceTo" ng-model="vm.searchFilter.openBalanceTo" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="medium-12 large-3 columns search-col-3">
+                        <div class="btns">
+                            
+                            <button id="invoiceListViewSearchButton" type="submit" class="btn primary btn-search" ng-click="vm.search()">@T("Search")</button>
+                            <button id="invoiceListViewClearButton" type="submit" class="btn secondary btn-clear" ng-click="vm.clear(); agingFilter = 'all'">@T("Clear")</button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+        </section>
+
+    </form>
+
+    <h3 class="error" ng-if="vm.validation" ng-bind="vm.validation.exceptionMessage"></h3>
+
+    <div ng-cloak ng-show="vm.invoiceHistory.invoices.length > 0">
+
+        <isc-morsco-pager pagination="vm.pagination" storage-key="vm.paginationStorageKey" update-data="vm.getInvoices()" title="Invoices"></isc-morsco-pager>
+        
+        <button id="saveInvoicesPdfsButton" class="btn secondary btn-clear" ng-click="vm.getBillTrustInvoiceUrl()">@T("Save PDFs")</button>
+        <button id="printInvoicesPdfsButton" class="btn secondary btn-clear" ng-click="vm.getBillTrustInvoiceUrl()">@T("Print PDFs")</button>
+        <button id="downloadSelectedInvoicesCsvButton" class="btn secondary btn-clear" ng-click="vm.downloadSelectedInvoicesCsv()">@T("Download CSV")</button>
+        
+        <div class="table-responsive-wrapper">
+            <table class="info-tbl">
+                <thead>
+                    <tr>
+                        <th class="col-selected">
+                            <input class="select-all-checkbox" type="checkbox" ng-model="vm.selectAll" ng-change="vm.toggleSelectAll()" name="selectall" />
+                        </th>
+                        <th class="col-pdf">
+                            @T("PDF")
+                        </th>
+                        <th class="col-status">
+                            <a id="invoiceListViewSortByShipTo"
+                               href="javascript:void(0)" class="sort"
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'isOpen', 'sort-descending': vm.searchFilter.sort === 'isOpen DESC'}"
+                               ng-click="vm.changeSort('isOpen')">
+                                @T("Status")
+                            </a>
+                        </th>
+                        <th class="col-acct">
+                            <a id="invoiceListViewSortByShipTo"
+                               href="javascript:void(0)" class="sort"
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'customerSequence', 'sort-descending': vm.searchFilter.sort === 'customerSequence DESC'}"
+                               ng-click="vm.changeSort('customerSequence')">
+                                @T("Acct #")
+                            </a>
+                        </th>
+                        <th class="col-status">
+                            <a id="invoiceListViewSortByShipTo"
+                               href="javascript:void(0)" class="sort"
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'STCompanyName', 'sort-descending': vm.searchFilter.sort === 'STCompanyName DESC'}"
+                               ng-click="vm.changeSort('STCompanyName')">
+                                @T("Job Name")
+                            </a>
+                        </th>
+                        <th class="col-po">
+                            <a id="invoiceListViewSortByCustomerPO"
+                               href="javascript:void(0)" class="sort"
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'CustomerPO', 'sort-descending': vm.searchFilter.sort === 'CustomerPO DESC'}"
+                               ng-click="vm.changeSort('CustomerPO')">
+                                @T("PO #")
+                            </a>
+                        </th>
+                        <th class="col-ordernum">
+                            <a id="invoiceListViewSortByInvoiceNo"
+                               href="javascript:void(0)" class="sort"
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'InvoiceNumber', 'sort-descending': vm.searchFilter.sort === 'InvoiceNumber DESC'}"
+                               ng-click="vm.changeSort('InvoiceNumber')">
+                                @T("Invoice #")
+                            </a>
+                        </th>
+                        <th class="col-date">
+                            <a id="invoiceListViewSortByDate"
+                               href="javascript:void(0)" class="sort"
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'InvoiceDate', 'sort-descending': vm.searchFilter.sort === 'InvoiceDate DESC'}"
+                               ng-click="vm.changeSort('InvoiceDate')">
+                                @T("Inv Date")
+                            </a>
+                        </th>
+                        <th class="col-shipto">
+                            <a id="invoiceListViewSortByDueDate"
+                               href="javascript:void(0)" class="sort"
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'DueDate', 'sort-descending': vm.searchFilter.sort === 'DueDate DESC'}"
+                               ng-click="vm.changeSort('DueDate')">
+                                @T("Due Date")
+                            </a>
+                        </th>
+                        <th class="col-tot col-openbal">
+                            <a id="invoiceListViewSortByTotal"
+                               href="javascript:void(0)" class="sort"
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'InvoiceTotal', 'sort-descending': vm.searchFilter.sort === 'InvoiceTotal DESC'}"
+                               ng-click="vm.changeSort('InvoiceTotal')">
+                                @T("Orig Amt")
+                            </a>
+                        </th>
+                        <th class="col-shipto">
+                            <a id="invoiceListViewSortByDueDate"
+                               href="javascript:void(0)" class="sort"
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'currentBalance', 'sort-descending': vm.searchFilter.sort === 'currentBalance DESC'}"
+                               ng-click="vm.changeSort('currentBalance')">
+                                @T("Open Bal")
+                            </a>
+                        </th>
+                        <th class="col-aging">
+                            <a id="invoiceListViewSortByTotal"
+                               href="javascript:void(0)" class="sort"
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'Aging', 'sort-descending': vm.searchFilter.sort === 'Aging DESC'}"
+                               ng-click="vm.changeSort('Aging')">
+                                @T("Days Aging")
+                            </a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="invoice in vm.invoiceHistory.invoices">
+                        <td class="col-selected select-invoice-checkbox"><input type="checkbox" id="select-{{invoice.id}}" data-invoice="{{invoice.invoiceNumber}}" data-invoice-pdf="{{invoice.properties['pdfUrl'] != '' ? invoice.invoiceNumber : ''}}" ng-click="vm.invoiceSelectChanged('select-' + invoice.id)" value="{{invoice.id}}" name="select-invoice" /></td>
+                        <td class="col-pdf pdf-link-{{invoice.invoiceNumber}}">
+                            <a href="{{invoice.properties['pdfUrl']}}" ng-if="invoice.properties['pdfUrl'].length > 0 && invoice.properties['invoiceSalesHistoryType'] != 'SH'" target="_blank" data-tooltip aria-haspopup="true" class="has-tip tip-top" title="@T("Invoice")"><i class="epicon epicon-invoice"></i></a>
+                        </td>
+                        <td class="col-status">{{(invoice.isOpen) ? "Open" : "Closed"}}</td>
+                        <td class="col-shipto" ng-bind="invoice.customerSequence"></td>
+                        <td class="col-shipto" ng-bind="invoice.properties.jobName"></td>
+                        <td class="col-po" ng-bind="invoice.customerPO"></td>
+                        <td class="col-invoicenum"><a href="/MyAccount/Orders/Details?ordernumber={{invoice.invoiceNumber}}" ng-bind="invoice.invoiceNumber"></a></td>
+                        <td class="col-date" ng-bind="invoice.invoiceDate | date:'M/d/yyyy':'UTC' "></td>
+                        <td class="col-duedate" ng-bind="invoice.dueDate | date:'M/d/yyyy':'UTC'"></td>
+                        <td class="col-tot" ng-bind="invoice.invoiceTotalDisplay"></td>
+                        <td class="col-tot col-openbal" ng-bind="invoice.currentBalanceDisplay"></td>
+                        <td class="col-aging" ng-bind="invoice.aging"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <isc-morsco-pager pagination="vm.pagination" storage-key="vm.paginationStorageKey" update-data="vm.getInvoices()" title="Invoices" bottom="true"></isc-morsco-pager>
+
+    </div>
+
+    <div class="search-no-results" ng-show="vm.invoiceHistory.invoices.length === 0"><h3>@T("No invoices found").</h3></div>
+
+</div>
+

@@ -1,0 +1,15 @@
+﻿@using Insite.Core.Providers
+
+@*
+    usage example:
+    <isc-product-price product="product" id-key=""></isc-product-price>
+
+    product is of format ProductDto, CartLineModel, or WishListLineModel
+***id-key is required only for table view on product list***
+*@
+
+
+<span ng-if="!product.quoteRequired && product.pricing && product.pricing.actualPrice != 0" class="price pd-price" id="displayPrice">
+	<span class="item-price" ng-class="{'price-sale' : product.pricing.isOnSale || product.isDiscounted || product.isPromotionItem}" ng-bind="vm.getActualPrice(product)"></span>
+	<span ng-if="product.pricing.isOnSale || product.isDiscounted || product.isPromotionItem" class="price-old" ng-bind="vm.getRegularPrice(product)"></span>
+</span>

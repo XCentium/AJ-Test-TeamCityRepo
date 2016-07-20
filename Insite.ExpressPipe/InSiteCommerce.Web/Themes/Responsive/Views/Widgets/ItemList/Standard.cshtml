@@ -1,0 +1,59 @@
+﻿@using Insite.Core.Interfaces.Plugins.Content
+@using Insite.WebFramework.Mvc.Extensions
+@model ItemList
+
+@Html.RequireScript("/Scripts/App/insite.itemlist.js")
+
+<div class="itemlist @Model.CssClass">
+    @{
+        var page = Content.GetPage<ContentPage>(Model.RootPageName).Page;
+    }
+    @if (page == null)
+    {
+        if (ContentMode != ContentMode.Viewing)
+        {
+            <p>There was no page found with the name '@Model.RootPageName', edit this item to resolve the issue</p>
+        }
+    }
+    else
+    {
+        <script>
+            var insite = insite || {};
+            insite.itemlist_@(Model.ViewModel.ItemListId) = function () {
+                "use strict";
+                var that = {};
+
+                that.changePage = function (page) {
+                    insite.itemlist.changePage(page, '@Model.ViewModel.ItemListId');
+                };
+
+                that.changePageSize = function (obj) {
+                    insite.itemlist.changePageSize(obj, '@Model.ViewModel.ItemListId');
+                };
+
+                return that;
+            }();
+        </script>
+
+        <h4>@page.Title</h4>
+        <ul class="itemlist-list">
+            @foreach (var contentPage in Model.ViewModel.Pages)
+            {
+                <li class="itemlist-item">
+                    <a href="@GenerateUrl(contentPage)" class="cms-itemList-itemLink">@contentPage.Title</a>
+                    <div class="cms-itemList-itemSummary">
+                        @Html.Raw(contentPage.Summary)
+                    </div>
+                </li>
+            }
+        </ul>
+        <div class="itemlist-paging">
+            <form id="@Model.ViewModel.ItemListId" action="@Html.ViewContext.HttpContext.Request.RawUrl" method="get" style="display: none;">
+                <input name="@(Model.Id)_page" class="page" type="hidden" value="@Model.ViewModel.PagingInfo.CurrentPage" />
+                <input name="@(Model.Id)_pageSize" class="pageSize" type="hidden" value="@Model.ViewModel.PagingInfo.PageSize" />
+            </form>
+            @Html.ThemedPartial("_Pager", Model.ViewModel.PagingInfo)
+        </div>
+    }
+    
+</div>

@@ -1,0 +1,14 @@
+﻿@using Insite.Admin.FormBuilder.Models.FormBuilder
+@model Insite.Admin.FormBuilder.Elements.ThreeColumnFormElement
+
+<div class="columns">
+    <div class="columns__column @Model.LeftColumnClasses">
+        @Html.Partial("Zone", ZoneViewModel.Create(Model, "Left"))
+    </div>
+    <div class="columns__column @Model.CenterColumnClasses">
+        @Html.Partial("Zone", ZoneViewModel.Create(Model, "Center"))
+    </div>
+    <div class="columns__column @Model.RightColumnClasses">
+        @Html.Partial("Zone", ZoneViewModel.Create(Model, "Right"))
+    </div>
+</div>

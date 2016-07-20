@@ -1,0 +1,17 @@
+﻿@model Insite.Admin.FormBuilder.Elements.PropertyFormElement
+
+@{
+    var controlTypeViewModel = Model.GetControlTypeViewModel();
+    var controlTypeName = controlTypeViewModel.ControlType != null ? controlTypeViewModel.ControlType.GetType().Name : "Undefined";
+}
+@if (Model.IsEditMode)
+{
+    <div>
+        @(controlTypeViewModel.OverriddenLabel ?? Model.PropertyDefinition.Label) <del>@(controlTypeViewModel.OverriddenLabel != null ? Model.PropertyDefinition.Label : "")</del> (@Model.PropertyDefinitionName) - <a href="@Url.Action("EditProperty", "Dictionary", new { entityName = Model.Form.EntityDefinitionName, propertyName = Model.PropertyDefinitionName })">@controlTypeName</a>
+    </div>
+}
+else
+{
+    @Html.Partial("~/Areas/admin/Views/Data/PropertyFormField.cshtml", controlTypeViewModel)
+}
+

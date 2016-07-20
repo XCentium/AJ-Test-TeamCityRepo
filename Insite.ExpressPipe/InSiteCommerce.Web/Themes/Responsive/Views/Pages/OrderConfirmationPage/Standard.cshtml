@@ -1,0 +1,14 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Cart.Content.OrderConfirmationPage
+
+@section BodyClass { checkout-order-confirm }
+@section Styles
+{
+    @Html.RequireCss(Url.ThemedContent("/Styles/template/checkout-order-confirm.css"))
+}
+
+@* TODO @Html.ThemedPartial("_PersonalizationJs", Model, new ViewDataDictionary{ {"PageName", "OrderConfirmation"} })*@
+
+<div class="row main-row">
+    @Html.Zone(Model, "Content")
+</div>

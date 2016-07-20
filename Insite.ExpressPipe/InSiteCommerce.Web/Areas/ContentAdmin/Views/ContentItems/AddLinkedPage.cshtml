@@ -1,0 +1,58 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.ContentAdmin.Models.ContentItems.AddLinkedPageViewModel
+
+@{
+    Layout = "/Areas/ContentAdmin/Views/Shared/_SlidePanelLayout.cshtml";
+}
+
+@section Header { Add Linked Page }
+
+@using (Html.BeginForm(new { Model.ParentContentKey }))
+{
+    <fieldset>
+        @if (Model.ParentWebsiteHomePageContentKey == 0)
+        {
+            <p>
+                The parent website doesn't appear to have been initialized.
+                Please verify the parent site has been initalized to continue adding linked pages.
+            </p>
+
+            <div class="buttonArea">
+                <button class="cms-button cms-close" type="button">Close</button>
+            </div>
+        }
+        else
+        {
+            @Html.Partial("ContentItemFields/SelectedPageLinkedContent", Model)
+
+            <div class="validationWrap">
+                <label>
+                    @Html.ValidationMessageFor(m => m.SyncLinkedToChildren)
+                    @Html.CheckBoxFor(m => m.SyncLinkedToChildren)
+                    Auto Link Child Content
+                </label>
+            </div>
+
+            @Html.ValidationSummary()
+
+            <div class="buttonArea">
+                <button class="cms-button cms-close" type="button">Cancel</button>
+                <button class="cms-button cms-actionButton" type="submit">Save</button>
+            </div>
+        }
+    </fieldset>
+}
+
+<script>
+    $(function() {
+        $(".cms-classSelect").on("change.fs", function() {
+            var $templateSelect = $(".cms-templateSelect");
+            $.get($templateSelect.attr("data-refreshUrl") + "?className=" + $(this).val(), function(htmlResult) {
+                $templateSelect.html($(htmlResult).html());
+                $templateSelect.trigger("update");
+            });
+        });
+    })
+</script>
+
+@Html.RenderDeferredScripts()

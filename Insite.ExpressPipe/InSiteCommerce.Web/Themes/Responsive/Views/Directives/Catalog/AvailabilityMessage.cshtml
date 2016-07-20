@@ -1,0 +1,5 @@
+﻿<span 
+    ng-if="availability.messageType != 0" 
+    ng-class='{instock : (availability.messageType == 1), outstock : (availability.messageType == 2), lowstock : (availability.messageType == 3)}'>
+    {{availability.message}}
+</span>

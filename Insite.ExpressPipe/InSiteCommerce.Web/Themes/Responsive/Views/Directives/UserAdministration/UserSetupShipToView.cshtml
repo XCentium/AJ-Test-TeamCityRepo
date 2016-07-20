@@ -1,0 +1,73 @@
+﻿@using Insite.Account.Content.UserAdministration
+@using Insite.WebFramework.Mvc.Extensions
+
+<div ng-cloak>
+    <div class="medium-12 large-12 columns">
+        <div class="hide-for-small back-btn">
+            <a id="backButton" class="btn tertiary btn-return" href="@(Url.ContentPage<UserSetupPage>())?userId={{vm.userProfileId}}">@T("Return to User Setup")</a>
+        </div>
+        <div id="error" class="error" ng-show="(!vm.saveSuccess && vm.errorMessage) || vm.defaultShiptoNotAssigned" ng-cloak>
+            <span class="field-validation-error" ng-show="vm.defaultShiptoNotAssigned">
+                @Html.Message("User_Admin_Default_ShipTo_Required", "Default Ship To must be assigned.")
+            </span>
+            <span class="field-validation-error" ng-show="vm.errorMessage">{{vm.errorMessage}}</span>
+        </div>
+        <div class="messaging" ng-show="vm.saveSuccess" ng-cloak>
+            <span>@T("User Created/Updated.")</span>
+        </div>
+        <form ng-submit="vm.saveShipToCollection()">
+            <div class="btns">
+                <button id="userSetupShipToViewSaveButton" class="btn primary btn-save">@T("Save")</button>
+                <a id="userSetupShipToViewCancelButton" href="@(Url.ContentPage<UserSetupPage>())?userId={{vm.userProfileId}}" class="btn secondary btn-cancel">@T("Cancel")</a>
+            </div>
+
+            <h3 class="results-count" ng-cloak><span class="result-num">{{vm.pagination.totalItemCount}}</span> <span class="result-lbl">records</span></h3>
+
+            <isc-pager pagination="vm.pagination" storage-key="vm.paginationStorageKey" update-data="vm.search()"></isc-pager>
+
+            <table class="responsive info-tbl tbl-assign-shipto">
+                <thead>
+                    <tr>
+                        <th class="col-default">Default</th>
+                        <th class="col-shipto"><a id="userSetupShipToViewSortByShipTo" ng-click="vm.sortBy('ShipTo')" ng-class="vm.getSortClass('ShipTo')" class="sort">@T("Ship To #")</a></th>
+                        <th class="col-city"><a id="userSetupShipToViewSortByCity" ng-click="vm.sortBy('City')" ng-class="vm.getSortClass('City')" class="sort">@T("City")</a></th>
+                        <th class="col-state"><a id="userSetupShipToViewSortByState" ng-click="vm.sortBy('State')" ng-class="vm.getSortClass('State')" class="sort">@T("State")</a></th>
+                        <th class="col-street"><a id="userSetupShipToViewSortByAddress" ng-click="vm.sortBy('Address')" ng-class="vm.getSortClass('Address')" class="sort">@T("Street Address")</a></th>
+                    </tr>
+                </thead>
+                <tbody id="shiptotable">
+                    <tr ng-repeat="shipTo in vm.userShipToCollection">
+                        <td class="col-default sto-dsto">
+                            <input id="userSetupShipToViewDefaultShipToRadio_{{$index}}" type="radio" name="isDefaultShipTo" ng-model="vm.defaultShipTo" ng-value="shipTo.shipToNumber" />
+                        </td>
+                        <td class="col-shipto">
+                            <div class="ship-num sto-sto" ng-cloak>{{shipTo.shipToNumber}}</div>
+                            <div class="assign-st sto-assign">
+                                <label class="input-lbl">
+                                    <input id="userSetupShipToViewShipToNumberCheckbox_{{$index}}" ng-bind-data-assign="shipTo.ShipToNumber" type="checkbox" ng-model="shipTo.assign" ng-disabled="shipTo.shipToNumber.length === 0" />
+                                    @T("Assign")
+                                </label>
+                            </div>
+                            <div class="cost-code sto-dcc">
+                                <select id="userSetupShipToViewShipToCostCodeSelector_{{$index}}" ng-model="shipTo.costCode" ng-options="cc.costCode as cc.costCode for cc in vm.costCodeCollection">
+                                    <option value="">@T("Select Cost Code")</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td class="col-city" ng-cloak>{{shipTo.city}}</td>
+                        <td class="col-state" ng-cloak>{{shipTo.state}}</td>
+                        <td class="col-street" ng-cloak>{{shipTo.address}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <isc-pager pagination="vm.pagination" bottom="true" storage-key="vm.paginationStorageKey" update-data="vm.search()"></isc-pager>
+
+            <div class="btns">
+                <button id="userSetupShipToViewBottomSaveButton" class="btn primary btn-save">@T("Save")</button>
+                <a id="userSetupShipToViewBottomCancelButton" href="@(Url.ContentPage<UserSetupPage>())?userId={{vm.userProfileId}}" class="btn secondary btn-cancel">@T("Cancel")</a>
+            </div>
+
+        </form>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+﻿@using Insite.Dashboard.Model
+@using Insite.Order.Content
+@using Insite.Rfq.Content
+@using Insite.WebFramework.Mvc.Extensions
+
+<div>
+    <div class="dash-left medium-3 large-3 columns">
+        <isc-quick-links></isc-quick-links>
+        <isc-my-lists></isc-my-lists>
+    </div>
+
+    <div class="dash-right medium-9 large-9 columns">
+
+        <isc-make-dashboard-homepage></isc-make-dashboard-homepage>
+
+        <h2>@T("Dashboard")</h2>
+
+        <isc-messages></isc-messages>
+
+        <isc-dashboard-links order-key="@DashboardPanelType.OrderApprovals"
+                             requisition-key="@DashboardPanelType.Requisitions"
+                             quote-key="@DashboardPanelType.RequestForQuote">
+        </isc-dashboard-links>
+
+        <isc-quick-order></isc-quick-order>
+
+        <div class="row dash-orders" ng-show="vm.canViewOrders">
+            <h3>@T("Recent Orders")</h3>
+            <a id="dashboardViewRecentOrdersViewAllButton" href="@(Url.ContentPage<OrdersPage>())" class="btn secondary btn-view-all">@T("View All")</a>
+            <isc-recent-orders></isc-recent-orders>
+        </div>
+
+        <div class="row dash-quotes" ng-show="vm.canRequestQuote">
+            <h3>@T("Recent Quotes")</h3>
+            <a id="dashboardViewRecentQuotesViewAllButton" href="@(Url.ContentPage<RfqMyQuotesPage>())" class="btn secondary btn-view-all">@T("View All")</a>
+            <isc-recent-quotes is-sales-person="vm.isSalesPerson"></isc-recent-quotes>
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="/Directives/Dashboard/QuickLinks">
+        @Html.ThemedPartial("/Views/Directives/Dashboard/QuickLinks.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Dashboard/MyLists">
+        @Html.ThemedPartial("/Views/Directives/Dashboard/MyLists.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Dashboard/Messages">
+        @Html.ThemedPartial("/Views/Directives/Dashboard/Messages.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Dashboard/HomepageOption">
+        @Html.ThemedPartial("/Views/Directives/Dashboard/HomepageOption.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Dashboard/DashboardLinks">
+        @Html.ThemedPartial("/Views/Directives/Dashboard/DashboardLinks.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/History/RecentOrders">
+        @(Html.ThemedPartial("/Views//Directives/History/RecentOrders.cshtml"))
+    </script>
+    <script type="text/ng-template" id="/Directives/Rfq/RecentQuotes">
+        @(Html.ThemedPartial("/Views/Directives/Rfq/RecentQuotes.cshtml"))
+    </script>
+</div>

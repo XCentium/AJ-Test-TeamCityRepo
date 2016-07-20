@@ -1,0 +1,18 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Order.Content.OrdersPage
+@section BodyClass { ma-order-history }
+
+@section Styles
+{
+    @(Html.RequireCss(Url.ThemedContent("/Styles/template/ma-order-history.css")))
+    @(Html.RequireCss("/Scripts/libraries/zurb-responsive-tables/0.0.0/responsive-tables.css"))
+}
+
+
+@(Html.RequireScript("/Scripts/libraries/zurb-responsive-tables/0.0.0/responsive-tables.js"))
+
+<div class="row main-row">
+    <div class="large-12 columns">
+        @(Html.Zone(Model, "Content"))
+    </div>
+</div>

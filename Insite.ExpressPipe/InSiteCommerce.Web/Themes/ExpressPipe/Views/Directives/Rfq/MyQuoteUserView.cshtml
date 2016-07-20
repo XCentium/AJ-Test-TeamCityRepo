@@ -1,0 +1,148 @@
+﻿@using Insite.Rfq.Content
+@using Insite.WebFramework.Mvc.Extensions
+<div ng-cloak>
+
+    <form>
+        <section class="search-panel search-orders">
+            <input type="checkbox" id="search-toggle" class="search-panel-check" checked />
+            <label for="search-toggle" class="search-panel-head">
+                @T("Search Quotes")
+            </label>
+            <article id="search-panel" class="search-panel-content">
+                <div class="row">
+                    <div class="medium-4 columns">
+                        <div>
+                            <span>@T("Search by")</span>
+                        </div>
+                        <div>
+                            <input type="text" name="QuoteNumber" id="QuoteNumber" ng-model="vm.searchFilter.quoteNumber" placeholder="@T("Quote #, PO #, Requested By")" />
+                        </div>
+                    </div>
+                    <div class="medium-2 columns">
+                        <label for="viewStatus">@T("Status")</label>
+                        <div class="row">
+                            <div class="medium-12 columns">
+                                <select ng-model="vm.selectedStatus" ng-options="item.v as item.n for item in [ {n:'Requested', v:'QuoteRequested'}, {n:'Active', v:'Active'}, {n:'Expired', v:'Expired'}, {n:'Order Pending', v:'QuoteSubmitted'}]" @*ng-change="vm.displayValue()"*@>
+                                    <option value="">All</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="medium-2 columns">
+                        &nbsp;<br />
+                        <button type="submit" class="button" ng-click="vm.search()">@T("Search")</button>
+                    </div>
+                    <div class="medium-4 columns"></div>
+                </div>
+            </article>
+
+        </section>
+    </form>
+
+    <div ng-show="vm.quotes.length === 0" class="search-no-results"><h3>@Html.Message("Rfq_NoQuotesMessage", "No quotes found.")</h3></div>
+
+    <div ng-show="vm.quotes && vm.quotes.length > 0">
+        <isc-morsco-pager pagination="vm.pagination" storage-key="vm.paginationStorageKey" update-data="vm.getQuotes()" title="Quotes"></isc-morsco-pager>
+        <div class="table-responsive-wrapper">
+            <table class="info-tbl quotes" role="grid">
+                <thead>
+                    <tr>
+                        <th class="col-ordernum">
+                            <a href="javascript:void(0)" class="sort"
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'OrderNumber', 'sort-descending': vm.searchFilter.sort === 'OrderNumber DESC'}"
+                               ng-click="vm.changeSort('OrderNumber')">
+                                @T("Quote #")
+                            </a>
+                        </th>
+                        <th class="col-status">
+                            <a href="javascript:void(0)" class="sort"
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'Status', 'sort-descending': vm.searchFilter.sort === 'Status DESC'}"
+                               ng-click="vm.changeSort('Status')">
+                                @T("Status")
+                            </a>
+                        </th>
+                        <th class="col-account">
+                            <a href="javascript:void(0)" class="sort"
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'customerSequence', 'sort-descending': vm.searchFilter.sort === 'customerSequence DESC'}"
+                               ng-click="vm.changeSort('customerSequence')">
+                                @T("Account#")
+                            </a>
+                        </th>
+                        <th class="col-cust">
+                            <a href="javascript:void(0)" class="sort"
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'companyname', 'sort-descending': vm.searchFilter.sort === 'companyname DESC'}"
+                               ng-click="vm.changeSort('companyname')">
+                                @T("Job Name")
+                            </a>
+                        </th>
+                        <th class="col-custpo">
+                            <a href="javascript:void(0)" class="sort"
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'poNumber', 'sort-descending': vm.searchFilter.sort === 'poNumber DESC'}"
+                               ng-click="vm.changeSort('poNumber')">
+                                @T("PO#")
+                            </a>
+                        </th>
+                        <th class="col-user">
+                            <a href="javascript:void(0)" class="sort"
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'requestedBy', 'sort-descending': vm.searchFilter.sort === 'requestedBy DESC'}"
+                               ng-click="vm.changeSort('requestedBy')">
+                                @T("Requested By")
+                            </a>
+                        </th>
+                        <th class="col-date">
+                            <a href="javascript:void(0)" class="sort"
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'orderDate', 'sort-descending': vm.searchFilter.sort === 'orderDate DESC'}"
+                               ng-click="vm.changeSort('orderDate')">
+                                @T("Requested Date")
+                            </a>
+                        </th>
+                        <th class="col-date">
+                            <a href="javascript:void(0)" class="sort"
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'expirationDate', 'sort-descending': vm.searchFilter.sort === 'expirationDate DESC'}"
+                               ng-click="vm.changeSort('expirationDate')">
+                                @T("Expiration Date")
+                            </a>
+                        </th>
+                        <th class="col-total">
+                            <a href="javascript:void(0)" class="sort"
+                               ng-class="{'sort-ascending': vm.searchFilter.sort === 'quoteTotal', 'sort-descending': vm.searchFilter.sort === 'quoteTotal DESC'}"
+                               ng-click="vm.changeSort('quoteTotal')">
+                                @T("Quote Total")
+                            </a>
+                        </th>
+                        <th class="col-delete">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="quote" ng-repeat="quote in vm.quotes">
+                        <td class="col-num"><span class="sticky-first"><a href='@(Url.ContentPage<RfqQuoteDetailsPage>())?quoteId={{quote.id}}' title="@T("View Quote")" ng-bind="quote.quoteNumber"></a></span></td>
+                        <td class="col-status">
+                            <span class="status" ng-bind="quote.statusDisplay" ng-class="quote.statusDisplay | lowercase"></span>
+                        </td>
+                        <td class="col-account"><span ng-bind="quote.properties['customerSequence']"></span></td>
+                        <td class="col-cust"><span ng-bind="quote.properties['companyName']"></span></td>
+                        <td class="col-custpo"><span ng-bind="quote.poNumber"></span></td>
+                        <td class="col-user"><span ng-bind="quote.properties['placedByUserName']"></span></td>
+                        <td class="col-date"><span ng-bind="quote.orderDate | date:'M/d/yyyy'"></span></td>
+                        <td class="col-date"><span ng-if="quote.status != 'QuoteRequested'" ng-bind="quote.expirationDate | date:'M/d/yyyy'"></span></td>
+                        <td class="col-total"><span ng-bind="quote.orderGrandTotalDisplay" ng-if="quote.status != 'QuoteRequested'"></span></td>
+                        <td class="col-delete"><span ng-if="quote.status != 'QuoteRequested'" ng-click="vm.deleteConfirmationPopup(quote)"><i class="fa fa-remove"></i></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <isc-morsco-pager pagination="vm.pagination" storage-key="vm.paginationStorageKey" update-data="vm.getQuotes()" title="Quotes" bottom="true"></isc-morsco-pager>
+        </div>    
+        @* Delete Confirmation Modal *@
+        <div class="reveal-modal tiny" id="deleteQuoteConfirmation" data-reveal data-options="close_on_background_click:false;close_on_esc:false;">
+            <div>
+                <p>This action removes the quote from view</p>
+                <p>Select <strong>Yes</strong> to complete the action</p>
+            </div>
+            <div class="buttons">
+                <a id="quoteConfirmDeleteQuoteButton" class="button" href="javascript:void(0);" ng-click="vm.deleteQuote(vm.quoteToDelete.id)">@T("YES")</a>
+                <button class="button secondary close-reveal-modal" area-label="Close" type="button">CANCEL</button>
+            </div>
+        </div>
+    </div>
+
+</div>

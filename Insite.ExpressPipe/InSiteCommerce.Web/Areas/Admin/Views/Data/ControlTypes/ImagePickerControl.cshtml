@@ -1,0 +1,41 @@
+﻿@using Insite.Admin.Models
+@model Insite.Admin.Models.ControlTypeViewModel<Insite.Admin.ControlTypes.ImagePickerControl>
+
+@if (Model.PropertyDefinition.CanEdit)
+{
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<isa-image-picker type="image"
+                                          field-id="@Model.Id"
+                                          can-edit="@((Model.PropertyDefinition.CanEdit).ToString().ToLower())"
+                                          storage-provider="@Model.ControlType.StorageProvider"
+                                          ng-model="@Model.EditPageModelBinding"></isa-image-picker>
+    })
+
+    <script type="text/ng-template" id="imagePicker">
+        <div class="file-picker large">
+            <span class="inline-label">
+                <input type="text"
+                       id="{{::filePickerCtrl.fieldId}}"
+                       name="{{::filePickerCtrl.fieldId}}"
+                       ng-model="filePickerCtrl.path"
+                       autocomplete="off"
+                       ng-readonly="::!filePickerCtrl.canEdit" />
+                <button class="button tertiary file-picker__browse-button" ng-click="filePickerCtrl.openPopup()" ng-disabled="::!filePickerCtrl.canEdit">Browse</button>
+                <button class="button tertiary" ng-click="filePickerCtrl.preview()" ng-disabled="!filePickerCtrl.isAllowPreview()">Preview</button>
+            </span>
+            <div class="error-messages">
+                <span ng-if="!filePickerCtrl.isValid"><i class="icon icon-warning"></i> Image cannot be located, please verify image path.</span>
+            </div>
+        </div>
+    </script>
+}
+else
+{
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<div class="readonly">{{::@Model.EditPageModelBinding}}</div>
+    })
+}

@@ -1,0 +1,78 @@
+﻿div.balSlider .k-slider-selection {
+    display: none;
+}
+
+.slideritem label {
+    display: inline-block;
+    font-weight: bold;
+    float: left;
+    line-height: 20px;
+    width: 100px;
+}
+
+.k-widget {
+
+    &.k-slider.k-slider-horizontal {
+        .k-first .k-label {
+            display: none;
+        }
+
+        .k-draghandle {
+            top: -5px;
+            width: 9px;
+            height: 9px;
+            border-color: transparent;
+            border-radius: 8px;
+            box-shadow: none;
+
+            &.k-state-selected:hover {
+                border-radius: 8px;
+                box-shadow: none;
+            }
+        }
+
+        .k-slider-track, .k-slider-selection {
+            height: 2px;
+            background-color: $border-gray;
+            margin-top: -2px;
+        }
+
+        .k-tick-large.k-first {
+            background-position: 0 -92px;
+        }
+
+        .k-slider-wrap.k-slider-buttons .k-button {
+            background-color: transparent;
+            border: none;
+
+            &.k-state-hover {
+                background-color: transparent;
+                border: none;
+            }
+        }
+
+        .k-slider-wrap.k-slider-buttons .k-button.k-state-hover {
+            background-image: none;
+        }
+
+        .k-button:not(.k-state-disabled):hover {
+
+            .k-i-arrow-w {
+                background-position: 0 -48px;
+            }
+
+            .k-i-arrow-e {
+                background-position: 0 -16px;
+            }
+        }
+
+        .k-icon {
+            background-image: url('/Images/sprite-Metro.png');
+        }
+    }
+
+
+    &.k-slider-tooltip {
+        display: none;
+    }
+}

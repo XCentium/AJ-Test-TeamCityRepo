@@ -1,0 +1,15 @@
+﻿@model Insite.Admin.Models.EntitiesViewModel
+
+<div zf-action-sheet="">
+    <a zf-as-button="" ng-disabled="entityListCtrl.areNoneSelected()" ng-click="entityListCtrl.areNoneSelected() || entityListCtrl.multipleAssignEntities('')" class="button button-icon">
+        <i title="Assign" class="icon icon-assign"></i>
+    </a>
+    <div zf-as-content="" position="bottom" ng-if="!entityListCtrl.areNoneSelected()">
+        <ul>
+            @foreach (var entity in Model.Assignments)
+            {
+                <li><a ng-click="entityListCtrl.multipleAssignEntities('@(entity.Name)')" zf-open="addMultipleAssignments-@(entity.Name)-modal">@(entity.Label)</a></li>
+            }
+        </ul>
+    </div>
+</div>

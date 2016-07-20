@@ -1,0 +1,218 @@
+﻿.top-nav-container {
+    @media (max-width: $small-breakpoint){
+        display: none;
+    }
+}
+
+.contain-to-grid.utility-nav {
+    background-color: $darkest-gray;
+    color: #fff;
+
+    .top-bar {
+        height: rem-calc(35);
+        background-color: $darkest-gray;
+        font-size: 0.8em;
+        line-height: rem-calc(35);
+        overflow: visible;
+
+        a {
+            color: $lighter-gray;
+
+            &:hover {
+                color: #fff;
+            }
+        }
+
+        .help-center,
+        .sign-out {
+            //margin-left: $margin-double;
+        }
+
+        .divider {
+            display: inline-block;
+            margin: 0 $margin-single;
+            color: $gray;
+        }
+
+    }
+
+    .utility-nav-left {
+        .utility-nav-account {
+            > span {
+                //margin-right: $margin-double;
+            }
+        }
+    }
+
+    .utility-nav-right {
+        @media (min-width: $small-breakpoint){
+            text-align: right;
+        }
+    }
+}
+
+.utility-nav-job-signout {
+    .inf-label {
+        display: inline-block;
+        margin-left: $margin-single;
+        color: $lighter-gray;
+        vertical-align: middle;
+    }
+    .inf-value {
+        display: inline-block;
+        min-width: 100px;
+        max-width: 150px;
+        padding-left: $padding-single/2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        vertical-align: middle;
+        font-weight: 600;
+        vertical-align: middle;
+        text-align: left;
+
+        @media (min-width: $large-breakpoint){
+            max-width: 200px;
+        }
+        
+        @media (min-width: $xlarge-breakpoint){
+            max-width: 220px;
+        }
+    }
+
+    .inf-cust {
+        display: inline-block;
+    }
+    .inf-ship {
+        display: inline-block;
+    }
+
+    .inf-change {
+        display: inline-block;
+        margin-left: $margin-single;
+    }
+    .inf-signout {}
+}
+
+.sign-out {
+    //margin-left: 1rem;
+}
+
+.top-bar {
+    select {
+        display: inline-block;
+        top: 0;
+        width: 250px;
+        height: 1.75rem;
+        margin-right: 5px;
+        padding: .3rem;
+        font-size: 1em;
+        vertical-align: middle;
+    }
+    .button {
+        top: 0;
+        height: 1.75rem;
+        padding-top: 0;
+        padding-bottom: 0;
+        font-size: 1em;
+        line-height: 1.75rem;
+        vertical-align: middle;
+    }
+}
+
+.with-selector {
+    display: inline-block;
+    position: relative;
+    
+    .inf-label {
+        line-height: 2em;
+    }
+
+    .inf-value {
+        margin-left: 3px;
+        padding-right: $padding-double;
+        cursor: pointer;
+        line-height: 2em;
+        background-color: $darkest-gray;
+
+        &:after {
+            @extend .fa, .fa-lg;
+            content: '\f0d7';
+            position: absolute;
+            top: 0.8em;
+            right: $padding-single/2;
+        }
+
+        &:hover {
+            background-color: $darkest-gray;
+        }
+    }
+    
+    .inf-selector {
+        position: relative;
+        display: inline-block;
+
+        > ul {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            margin: 0;
+            padding: $padding-single;
+            width: 100%;
+            max-height: 94%;
+            left: 0;
+            font-size: 1em;
+            text-align: left;
+            list-style: none;
+            line-height: 1em;
+            background-color: $darkest-gray;
+            overflow-y: auto;
+
+            @media #{$medium-up}{
+                left: auto;
+                right: 0;
+                width: 400px;
+            }
+
+            > li {
+                padding: 0.5em 0;
+
+                > a {
+                    display: block;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                }
+            }
+        }
+    }
+
+    &.expand {
+        .inf-value {
+            background-color: $darkest-gray;
+
+            &:after {
+                content: '\f0d8';
+            }
+        }
+        .inf-selector {
+            > ul {
+                display: block;
+            }
+        }
+    }
+}
+
+@media (max-width: $medium-breakpoint){
+    .inf-cust,
+    .inf-ship .inf-label {
+        display: none !important;
+    }
+}
+
+@media (max-width: $large-breakpoint){
+    .help-center,
+    .help-center-divider {
+        display: none !important;
+    }
+}

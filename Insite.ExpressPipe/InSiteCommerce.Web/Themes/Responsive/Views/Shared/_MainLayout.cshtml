@@ -1,0 +1,331 @@
+﻿@using System.Globalization
+@using System.Web.Optimization
+@using Insite.Core
+@using Insite.Core.Interfaces.Data
+@using Insite.Core.Providers
+@using Insite.Data.Repositories.Interfaces
+@using Insite.IdentityServer.Options
+@using Insite.WebFramework
+@using Insite.WebFramework.Mvc.Extensions
+@using InsiteCommerce.Web
+@using Insite.Common.Dependencies
+@using Insite.Core.Context
+@using Insite.PunchOut.Interfaces
+@using Insite.WebFramework.Mvc
+@using Newtonsoft.Json
+@using StackExchange.Profiling
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" data-isCustomErrorEnabled="@Html.IsCustomErrorEnabled()"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="" lang="en" data-isCustomErrorEnabled="@Html.IsCustomErrorEnabled()">
+<!--<![endif]-->
+    <head>
+        @{
+            var page = Model as IPage;
+            TemplatePage templatePage = null;
+            if (page is TemplatePage)
+            {
+                templatePage = page as TemplatePage;
+                page = CurrentPage;
+            }
+            var hideHeader = (page != null) ? page.HideHeader : false;
+            var hideFooter = (page != null) ? page.HideFooter : false;
+            var disallowInRobotsTxt = (page != null) ? page.DisallowInRobotsTxt : false;
+            var unitOfWork = DependencyLocator.Current.GetInstance<IUnitOfWorkFactory>().GetUnitOfWork();
+            var thirdPartyPersonalization = unitOfWork.GetTypedRepository<IWebsiteConfigurationRepository>().GetOrCreateByName<string>("ThirdPartyPersonalization", SiteContext.Current.Website.Id);
+            var trackJsToken = unitOfWork.GetTypedRepository<IApplicationSettingRepository>().GetOrCreateByName<string>("TrackJs_Token");
+            var hasPunchOutSession = DependencyLocator.Current.GetInstance<ICurrentPunchOutSessionProvider>().HasPunchOutSession();         
+        }
+        @if (page != null)
+        {
+            <title>@Html.PageTitle(page)</title>
+            <meta name="keywords" content="@page.MetaKeywords" />
+            <meta name="description" content="@page.MetaDescription" />
+            if (disallowInRobotsTxt)
+            {
+                <meta name="robots" content="noindex" />
+            }
+            if (!page.CanonicalUrl.IsBlank())
+            {
+                <link rel="canonical" href="@page.CanonicalUrl"/>
+            }
+            if (!page.PreviousUrl.IsBlank())
+            {
+                <link rel="prev" href="@page.PreviousUrl" />
+            }
+            if (!page.NextUrl.IsBlank())
+            {
+                <link rel="next" href="@page.NextUrl" />
+            }
+        }
+
+        @Html.ThemedPartial("_ThirdPartyHeadCallouts", thirdPartyPersonalization)
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>        
+
+        @Styles.Render(Html.ThemedBundle(BundleConfig.GlobalStyleBundlePath))
+        
+        @Styles.Render(Html.ThemedBundle(BundleConfig.BaseStyleBundlePath))    @* Minified version doesn't work in IE when combined with foundation *@
+        
+        @RenderSection("TemplateCssContent", false) @* for old views*@
+        @RenderSection("Styles", false)
+        @if (templatePage != null)
+        {
+            @Html.Raw(templatePage.Css)
+        }
+        @if (page is ContentPage)
+        {
+            @Html.Raw((page as ContentPage).Css)
+        }
+
+
+        @Html.Action("DynamicCssLink", "Shared", new { href = @Url.Action("CssThemeBase", "Shared") })
+
+        <style>
+            [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+                display: none !important;
+            }
+        </style>
+
+        @if (IsGoogleTrackerEnabled)
+        {
+            <script>
+                dataLayer = [{
+                    'Authentication State': '@(SiteContext.Current.UserProfile != null ? "Logged In" : "Not Logged In")',
+                    'User ID': '@(SiteContext.Current.UserProfile != null ? SiteContext.Current.UserProfile.Id.ToString() : string.Empty)'
+                }];
+            </script>
+        }
+        @if (GoogleTrackingType == GoogleTrackingTypes.GoogleAnalytics && IsGoogleTrackerEnabled)
+        {
+        <!-- Google Analytics -->
+            <script>
+            (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)}, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)})
+            (window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+            ga('create', '@GoogleTrackingId', 'auto');
+            ga('send', 'pageview');
+            </script>
+        <!-- End Google Analytics -->
+        }
+
+        @if (hasPunchOutSession && HttpContext.Current.User != null)
+        {
+            @* New punchout sessions only do server side auth so add the client token on the first page view *@
+            var token = Insite.IdentityServer.Factory.GetJsonWebTokenSafe(HttpContext.Current.User, SecurityOptions.IdentityServerOptions.IssuerUri);
+            if (!token.IsBlank())
+            {
+                <text>
+                    <script type="text/javascript">
+                        if (!window.localStorage.getItem("accessToken")) {
+                            window.localStorage.setItem("accessToken", "@token");
+                        }
+                    </script>
+                </text>
+            }
+        }
+
+    </head>
+<body class="@RenderSection("BodyClass", false)" ng-app="insite" ng-strict-di>
+    @if (page != null)
+    {
+        <span id="tst-page-@page.GetType().Name"></span>
+    }
+    @if (GoogleTrackingType == GoogleTrackingTypes.GoogleTagManager && IsGoogleTrackerEnabled)
+    {
+        <!-- Google Tag Manager -->
+        <noscript>
+            <iframe src="//www.googletagmanager.com/ns.html?id=@GoogleTrackingId" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+        </noscript>
+        <script>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window, document, 'script', 'dataLayer', '@GoogleTrackingId');
+        </script>
+        <!-- End Google Tag Manager -->
+    }
+    <div style="display: none;" class="cms-shell-controls">
+        <button data-bind="click: $root.ToggleShell"><span class="cms-control-decoration"></span></button><span class="cms-control-label"></span>
+    </div>
+    @if (!HttpContext.Current.IsDebuggingEnabled && !trackJsToken.IsBlank())
+    {
+        <script type="text/javascript" src="//d2zah9y47r7bi2.cloudfront.net/releases/current/tracker.js" data-token="@trackJsToken"></script>
+    }
+    <div id="narrowNav"></div>
+    <div id="nwrap">
+        <div class="off-canvas panelwrap" role="panel-wrap" ng-controller="SettingsController as settingsController">
+            @* Adding this here to fix multiple partials/widgets that might be on a page that each have an add to cart popup so it will get called multiple times, so just adding this here.*@
+            <isc-add-to-cart-popup></isc-add-to-cart-popup>
+            <isc-address-error-popup></isc-address-error-popup>
+            <isc-api-error-popup></isc-api-error-popup>
+
+            @if (!hideHeader)
+            {
+                @Html.Action("Header", "Layout")
+            }
+            <div class="cms-rearrangeable">
+                @RenderBody()
+            </div>
+        </div>
+        </div>
+        @if (!hideFooter)
+        {
+            @Html.Action("Footer", "Layout")
+        }
+
+        @* Adding this here to fix multiple partials/widgets that might be on a page that each have an add to wish list popup so it will get called multiple times, so just adding this here.*@
+        <isc-add-wishlist-popup popup-id="popup-add-wishlist"></isc-add-wishlist-popup>
+        <isc-spinner name="mainLayout"></isc-spinner>
+
+</div>@* These divs are started in the header.... I think *@
+    </div>
+    @RenderSection("AfterNwrap", required: false)
+
+    <div data-dropdown="dummy" style="display:none"></div> @* fixes popups with foundation + angular *@
+        
+    @Scripts.Render(BundleConfig.LibraryScriptBundlePath)
+    <script>
+        var lodash = _.noConflict();
+    </script>
+
+    @{
+        var currentLanguage = SiteContext.Current.Language;
+        var localizationCode = currentLanguage.CultureCode.IsBlank() ? currentLanguage.LanguageCode : currentLanguage.CultureCode;
+    }
+    @Html.RequireScriptIfItExists("/Scripts/Libraries/angular-i18n/angular-locale_" + localizationCode + ".js")
+    @Html.RequireScriptIfItExists("/Scripts/Libraries/pickadate/3.5.0-custom/translations/" + localizationCode.ToLower() + "_" + localizationCode.ToUpper() + ".js")
+
+    @Scripts.Render(BundleConfig.GlobalScriptBundlePath) 
+    <script type="text/javascript">
+        var insite = insite || {};
+
+        insite.core.generalErrorText = "@MessageProvider.Current.GeneralError";
+        insite.core.dateTimeFormat = "@CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern";
+        var insiteMicrositeUriPrefix = "";
+        var insiteBasicAuthHeader = "@Html.Raw(SecurityOptions.ClientId + ":" + SecurityOptions.ClientSecret)";
+        var insiteScope = "@SecurityOptions.Scope";
+        @if (!SiteContext.Current.Microsite.IsBlank())
+        {
+            <text>
+            insiteMicrositeUriPrefix = "/@SiteContext.Current.Microsite";
+            </text>
+        }
+        @if (hasPunchOutSession)
+        {
+            <text>insite.core.setupPunchoutKeepAlive();</text>
+        }
+        else
+        {
+            <text>insite.core.checkForIFrame();</text>
+        }
+
+        jQuery(function () {
+            insite.core.setup();
+            insite.responsive.setup();
+            insite.nav.setup();
+        });
+    </script>
+    
+    @MiniProfiler.RenderIncludes()
+	@Html.ThemedPartial("_ThirdPartyBodyCallouts", thirdPartyPersonalization)
+ 
+    @Html.RenderDeferredScripts()
+    @RenderSection("PageScriptBundle", required: false)
+        
+    @if (templatePage != null)
+    {
+        @Html.Raw(templatePage.JavaScript)
+    }
+    @if (page is ContentPage)
+    {
+        @Html.Raw((page as ContentPage).JavaScript)
+    }
+
+    @Html.ThemedPartial("CmsShellSetup", page)
+
+    <script>
+        $(document).ready(function() {
+            $(document).foundation();
+        });
+    </script>    
+    @RenderSection("AfterBodyContent", false)
+
+    <script type="text/ng-template" id="/Directives/WishList/AddWishListPopup">
+        @Html.ThemedPartial("/Views/Directives/WishList/AddWishListPopup.cshtml")            
+    </script>
+    <script type="text/ng-template" id="/Directives/Core/Pager">
+        @Html.ThemedPartial("/Views/Directives/Core/Pager.cshtml")            
+    </script>
+    <script type="text/ng-template" id="/Directives/QuickOrder/QuickOrder">
+        @Html.ThemedPartial("/Views/Directives/QuickOrder/QuickOrder.cshtml")            
+    </script>
+    <script type="text/ng-template" id="/Directives/Cart/MicroCart">
+        @Html.ThemedPartial("/Views/Directives/Cart/MicroCart.cshtml")            
+    </script>
+    <script type="text/ng-template" id="/Directives/Catalog/ProductSearch">
+        @Html.ThemedPartial("/Views/Directives/Catalog/ProductSearch.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Catalog/UnitOfMeasureSelectList">
+        @Html.ThemedPartial("/Views/Directives/Catalog/UnitOfMeasureSelectList.cshtml")            
+    </script>
+    <script type="text/ng-template" id="/Directives/Catalog/UnitOfMeasureDisplay">
+        @Html.ThemedPartial("/Views/Directives/Catalog/UnitOfMeasureDisplay.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Core/RequiredField">
+        @Html.ThemedPartial("/Views/Directives/Core/RequiredField.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Catalog/AvailabilityMessage">
+        @Html.ThemedPartial("/Views/Directives/Catalog/AvailabilityMessage.cshtml")            
+    </script>
+    <script type="text/ng-template" id="/Directives/Catalog/ProductThumb">
+        @Html.ThemedPartial("/Views/Directives/Catalog/ProductThumb.cshtml")            
+    </script>
+    <script type="text/ng-template" id="/Directives/Catalog/ProductName">
+        @Html.ThemedPartial("/Views/Directives/Catalog/ProductName.cshtml")            
+    </script>
+    <script type="text/ng-template" id="/Directives/Catalog/ProductPrice">
+        @Html.ThemedPartial("/Views/Directives/Catalog/ProductPrice.cshtml")            
+    </script>
+    <script type="text/ng-template" id="/Directives/Core/BreadCrumb">
+        @Html.ThemedPartial("/Views/Directives/Core/BreadCrumb.cshtml")            
+    </script>
+    <script type="text/ng-template" id="/Directives/Catalog/QuantityBreakPricing">
+        @Html.ThemedPartial("/Views/Directives/Catalog/QuantityBreakPricing.cshtml")            
+    </script>
+    <script type="text/ng-template" id="/Directives/Catalog/SortedAttributeValueList">
+        @Html.ThemedPartial("/Views/Directives/Catalog/SortedAttributeValueList.cshtml")            
+    </script>
+    <script type="text/ng-template" id="/Directives/Rfq/RequiresQuote">
+        @Html.ThemedPartial("/Views/Directives/Rfq/RequiresQuote.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Cart/AddToCartPopup">
+        @Html.ThemedPartial("/Views/Directives/Cart/AddToCartPopup.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Cart/AddressErrorPopup">
+        @Html.ThemedPartial("/Views/Directives/Cart/AddressErrorPopup.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Core/ApiErrorPopup">
+        @Html.ThemedPartial("/Views/Directives/Core/ApiErrorPopup.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Rfq/UpdatedQuotesMessage">
+        @Html.ThemedPartial("/Views/Directives/Rfq/UpdatedQuotesMessage.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Core/Spinner">
+        @Html.ThemedPartial("/Views/Directives/Core/Spinner.cshtml")
+    </script>
+    @if (Request.QueryString["ShowStats"] == "true")
+    {
+        <script>
+            (function () { var a = document.createElement("script"); a.src = "https://rawgithub.com/kentcdodds/ng-stats/master/dist/ng-stats.js"; a.onload = function () { window.showAngularStats({ position: "topright" }) }; document.head.appendChild(a) })();
+        </script>
+    }
+</body>
+<!-- @HttpContext.Current.Server.MachineName -->
+<!-- @Html.ProductName() -->
+<!-- Persona: @ContentContextProvider.CurrentPersona.Name -->
+</html>

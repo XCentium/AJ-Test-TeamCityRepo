@@ -1,0 +1,32 @@
+﻿@using Insite.Admin.FormBuilder.Elements
+@using Insite.Admin.Models
+@model Insite.Admin.FormBuilder.Elements.ProductStyleChildrenSelectorFormElement
+
+
+@if (Model.IsEditMode)
+{
+    <div>Product Child Variants!</div>
+}
+else
+{
+    <div ng-show="entityDetailsCtrl.model && !entityDetailsCtrl.model.styleParentId" class="grid-block">
+        <div class="vertical grid-block">
+            @Html.Partial("~/Areas/admin/Views/Data/PropertyFormField.cshtml", new PropertyFormElement() { PropertyDefinitionName = "styleClassId", Form = Model.Form, Id = Guid.NewGuid(), Zone = "Content" }.GetControlTypeViewModel())
+            <hr />
+            <div ng-show="entityDetailsCtrl.initialModel.styleClassId" class="grid-block">
+                @Html.Action("OneToManyRelationships", "Data", new
+                {
+                    collectionName = "productsChildVariants",
+                    pluralizedEntityName = "productsChildVariants",
+                    parentIdColumn = "styleParentId",
+                    childrenColumn = "styleChildren",
+                    Label = "Child Variants"
+                })
+            </div>
+            <div ng-show="!entityDetailsCtrl.initialModel.styleClassId" class="title-bar">
+                To assign Child Variants please choose a Variant Type and Save first.
+            </div>
+        </div>
+    </div>
+
+}

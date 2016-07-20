@@ -1,0 +1,214 @@
+@import "../_settings.scss";
+
+.dash-section {
+    margin-bottom: $margin-quadruple;
+
+    .dash-section-header {
+        padding: $padding-single $padding-double;
+        background-color: $darker-gray;
+        color: #fff;
+
+        h3 {
+            margin: 0;
+            color: #fff;
+        }
+    }
+    .dash-section-content {
+        padding: $padding-single 0;
+
+        &.no-padding {
+            padding: 0;
+        }
+    }
+    .dash-section-footer {
+        border-top: 2px solid $lighter-gray;
+        padding-top: $padding-single;
+    }
+}
+
+
+
+.messages {
+    margin: 0;
+    list-style: none;
+
+    .message {
+        position: relative;
+        padding: $padding-single 0;
+        border-top: 1px solid $lighter-gray;
+
+        &:first-child {
+            border-top: none;
+        }
+
+        .message-header {
+            .message-title {
+                display: inline-block;
+                
+                .msg-subject {
+                    vertical-align: middle;
+                }
+            }
+            .msg-date {
+                display: inline-block;
+                vertical-align: middle;
+                font-style: italic;
+            }
+            .msg-button {
+                margin-left: $margin-single;
+                margin-bottom: 0;
+                vertical-align: middle;
+            }
+        }
+
+        .message-body {
+            display: none;
+
+            p {
+                margin-bottom: 0;
+            }
+        }
+
+        &.expand .message-body {
+            display: block;
+            margin-top: $margin-single;
+            padding: $padding-double;
+            background-color: $lightest-gray;
+        }
+    }
+}
+
+
+
+
+.qo-header {
+    h2 {
+        margin: 0;
+    }
+    .qo-links {
+        margin-top: 0.35em;
+    }
+}
+
+.qo-form {
+    padding-top: 20px;
+}
+.qo-links {
+    margin-bottom: 0;
+}
+
+.qo-qty,
+.qo-um {
+    position: relative;
+
+    label {
+        position: absolute;
+        top: -1.5em;
+        font-size: 0.8em;
+        display: inline-block;
+    }
+
+    input {
+        display: inline-block;
+    }
+}
+
+.dash-tiles {
+    .tiles {
+        .tile {
+            position: relative;
+
+            > a {
+                position: relative;
+                display: block;
+                min-height: 150px;
+                text-align: center;
+                background-color: $lightest-gray;
+                color: $darkest-gray;
+
+                &:hover {
+                    background-color: $brand-primary;
+                    color: #fff;
+                }
+                > .fa-lg {
+                    font-size: 5em;
+                    line-height: 2em;
+                }
+                > span {
+                    position: absolute;
+                    bottom: $padding-single;
+                    left: $padding-single;
+                    right: $padding-single;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                }
+            }
+            .db-counter {
+                position: absolute;
+                left: 25px;
+                top: $padding-single;
+                color: #fff;
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+
+.quick-links,
+.user-lists {
+    list-style: none;
+    padding: $padding-single $padding-double;
+    margin: 0 0 $margin-double 0;
+    background-color: $lightest-gray;
+
+    -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.25);
+    -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.25);
+    box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.25);
+
+    .ql-head,
+    .ul-head {
+        h3 {
+            margin: 0;
+        }
+    }
+
+    li {
+
+    }
+}
+/*
+.ma-dashboard .db-li-oapp a:before,
+.ma-dashboard .db-li-req a:before,
+.ma-dashboard .db-li-quotes a:before {
+	text-align:center;
+	width:100%;
+	margin-top: -45px;
+	height: 45px;
+	display:inline-block;
+	font-family: 'ISC-Dashboard-Icon-Pack';
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	color:#fff;
+	top: 56%;
+	position: absolute;
+	}
+
+.ma-dashboard .db-li-quotes a:before {
+	content: "\e600";
+	font-size:45px;
+	}
+
+.ma-dashboard .db-li-oapp a:before {
+	content: "\e004";
+	font-size:45px;
+	}
+
+.ma-dashboard .db-li-req a:before {
+	content: "\e006";
+	font-size:45px;
+	}
+*/

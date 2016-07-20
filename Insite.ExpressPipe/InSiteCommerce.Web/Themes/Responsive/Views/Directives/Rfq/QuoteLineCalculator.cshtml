@@ -1,0 +1,151 @@
+﻿@using Insite.Core.Providers
+
+<div>
+    <div id="popup-quote-item" class="reveal-modal popup-quote-item" data-reveal data-reveal-init>
+        <div class="modal-wrap">
+            <form novalidate id="quoteLineCalculatorForm" class="custom">
+                <div class="row calc-disc">
+                    <div class="medium-4 large-4 columns col-1">
+                        <h4>@T("Item Pricing")</h4>
+                        <ul>
+                            <li class="unit-cost" ng-show="vm.quoteLine.pricingRfq.showUnitCost">
+                                <strong>@T("Unit Cost"):</strong>
+                                <span ng-bind="vm.quoteLine.pricingRfq.unitCostDisplay"></span>
+                            </li>
+                            <li class="price-list" ng-show="vm.quoteLine.pricingRfq.showListPrice">
+                                <strong>@T("List"):</strong>
+                                <span ng-bind="vm.quoteLine.pricingRfq.listPriceDisplay"></span>
+                            </li>
+                            <li class="price-customer" ng-show="vm.quoteLine.pricingRfq.showCustomerPrice">
+                                <strong>@T("Customer"):</strong>
+                                <span ng-if="vm.quote.isJobQuote" ng-bind="vm.quoteLine.pricing.actualPriceDisplay"></span>
+                                <span ng-if="!vm.quote.isJobQuote" ng-bind="vm.quoteLine.pricingRfq.customerPriceDisplay"></span>
+                            </li>
+                            <li class="price-min" ng-show="vm.quoteLine.pricingRfq.minimumPriceAllowed">
+                                <em>
+                                    <strong>@T("Minimum"):</strong>
+                                    <span ng-bind="vm.quoteLine.pricingRfq.minimumPriceAllowedDisplay"></span>
+                                </em>
+                            </li>
+                            <hr />
+                            <li class="qty-avail">
+                                <em>
+                                    <strong>@T("QTY Available"):</strong>
+                                    <span ng-bind="vm.quoteLine.qtyOnHand"></span>
+                                </em>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="medium-8 large-8 columns col-2">
+                        <table class="info-tbl">
+                            <thead>
+                                <tr>
+                                    <th class="col-1">@T("QTY")</th>
+                                    <th class="col-2">@T("Price")</th>
+                                    <th class="col-3"></th>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="priceBreak in vm.quoteLine.pricingRfq.priceBreaks track by $index">
+                                <tr ng-show="vm.showCalculator && vm.currentCalculatorLineIndex == {{$index}}">
+                                    <td class="col-1">
+                                        <select id="quoteLineCalculatorCalculationMethodSelector_{{$index}}"
+                                                ng-model="vm.calculationMethod"
+                                                ng-change="vm.changeCalculationMethod()"
+                                                ng-options="method.displayName for method in vm.quoteLine.pricingRfq.calculationMethods track by method.name"></select>
+                                    </td>
+                                    <td class="col-2">
+                                        <input type="text" ng-model="priceBreak.percent" class="numerictextbox txt disc-percent" autofocus="autofocus"
+                                               name="percent"
+                                               id="percent1212" />
+                                        <span>%</span>
+                                    </td>
+                                    <td class="col-3">
+                                        <button id="quoteLineCalculatorApplyButton_{{$index}}" ng-click="vm.applyBreakDiscount($index)" class="btn secondary btn-apply isc-btnApplyLine" type="button">@T("Apply")</button>
+                                        <button id="quoteLineCalculatorCancelButton_{{$index}}" ng-click="vm.cancelCalculator($index)" class="btn tertiary btn-cancel" type="button">@T("Cancel")</button>
+                                    </td>
+                                </tr>
+                            <tr class="quote-price" ng-show="vm.shouldShowPriceBreak(priceBreak)">
+                                <td ng-if="vm.quote.isJobQuote">
+                                    <strong class="show-for-small">@T("QTY")</strong>
+                                    <input id="quoteLineCalculatorStartQtyInput_{{$index}}"
+                                           type="text" class="numerictextbox txt"
+                                           ng-model="vm.quoteLine.qtyOrdered"
+                                           disabled="disabled" />
+                                </td>
+                                <td class="col-1" ng-if="!vm.quote.isJobQuote">
+                                    <strong class="show-for-small">@T("QTY")</strong>
+                                    <input id="quoteLineCalculatorStartQtyInput_{{$index}}"
+                                           ng-class="{ 'input-validation-error': (vm.invalidQty) && !vm.startQtyIsValid($index) }"
+                                           type="text" class="numerictextbox txt"
+                                           ng-change="vm.startQtyChanged($index)"
+                                           ng-model-options="{updateOn: 'blur'}"
+                                           ng-model="priceBreak.startQty" />
+                                    <em>@T("to")</em>
+                                    <input id="quoteLineCalculatorQtyToInput_{{$index}}"
+                                           type="text" class="numerictextbox txt qty-2"
+                                           ng-show="!$last"
+                                           ng-disabled="true"
+                                           ng-model="priceBreak.endQtyDisplay" />
+                                    <input id="quoteLineCalculatorQtyMaxInput_{{$index}}"
+                                           type="text" class="txt qty-2" data-attr-name="@T("Max")"
+                                           ng-class="{ 'input-validation-error': (vm.invalidQty) && !vm.endQtyIsValid($index) }"
+                                           ng-model="vm.displayMaxQty"
+                                           ng-show="$last"
+                                           ng-keypress="vm.qtyEndKeyPress($event,$index)"
+                                           ng-blur="vm.updateMaxQty($event,$index)" />
+                                </td>
+                                <td class="col-2">
+                                    <strong class="show-for-small">@T("Price")</strong>
+                                    <input id="quoteLineCalculatorPriceInput_{{$index}}"
+                                           type="text" class="txt price-1 isc-price"
+                                           name="{{$index}}_price"
+                                           ng-model="priceBreak.price"
+                                           ng-class="{ 'input-validation-error': (vm.priceRequired || vm.invalidPrice) && !vm.priceIsValid($index) }"
+                                           data-rule-required="true"
+                                           data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("Price"))"
+                                           data-rule-min="{{vm.quoteLine.pricingRfq.minimumPriceAllowed > 0 ? vm.quoteLine.pricingRfq.minimumPriceAllowed : 'false'}}"
+                                           data-msg-min="@MessageProvider.Current.Rfq_InvalidLinePrice"
+                                           ng-blur="vm.validateQuoteLineCalculatorForm()"/>
+                                </td>
+                                <td class="col-3">
+                                    <button id="quoteLineCalculatorCalculateButton_{{$index}}" ng-click="vm.openCalculator($index)" ng-show="!(vm.showCalculator && vm.currentCalculatorLineIndex == {{$index}})" class=" btn secondary btn-calc" type="button"><i class="icon-calculator"></i><span>@T("Calculate")</span></button>
+                                    <button id="quoteLineCalculatorRemoveButton_{{$index}}" ng-show="vm.quoteLine.pricingRfq.priceBreaks.length > 1 && !vm.quote.isJobQuote" ng-click="vm.removeLine($index)" class="btn tertiary btn-remove isc-deleteBreak" type="button"><i class="icon-x-1"></i><span>@T("Remove")</span></button>
+                                </td>
+                            </tr>
+                                <!--span class="field-validation-valid" data-valmsg-for="{{$index}}_price" data-valmsg-replace="true"></span-->
+                            </tbody>
+                        </table>
+
+                        <div class="add-price-breaks" ng-if="!vm.quote.isJobQuote">
+                            <a id="quoteLineCalculatorPriceBreaksButton_{{$index}}" href="javascript:;" ng-click="vm.addPriceBreak()" ng-show="vm.quoteLine.pricingRfq.priceBreaks.length < vm.maxPriceBreaks">
+                                <i class="icon-plus"></i>@T("Price Breaks")
+                            </a>
+                        </div>
+
+                        <div id="quoteLineCalculatorErrorSummary" class="validation-summary-errors" ng-if="vm.priceRequired || vm.invalidPrice || vm.invalidQty">
+                            <ul>
+                                <li ng-show="vm.priceRequired">
+                                    <label class="error">@string.Format(MessageProvider.Current.Field_Required, T("Price"))</label>
+                                </li>
+                                <li ng-show="vm.invalidPrice">
+                                    <label class="error">@MessageProvider.Current.Rfq_InvalidLinePrice</label>
+                                </li>
+                                <li ng-show="vm.invalidQty">
+                                    <label class="error">@MessageProvider.Current.Rfq_InvalidQty</label>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="btns">
+                            <button id="quoteLineCalculatorClearBreaksButton" ng-click="vm.clearBreaks()" class="btn tertiary btn-clear" type="button">@T("Clear")</button>
+                            <button id="quoteLineCalculatorApplyQuoteButton" ng-click="vm.applyQuoteBreaks()" class="btn primary btn-apply-quote isc-btnApplyQuote" type="button">@T("Apply Quote")</button>
+                            <button id="quoteLineCalculatorCancelButton" ng-click="vm.closeModal('#popup-quote-item')" class="btn secondary btn-cancel" type="button">@T("Cancel")</button>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

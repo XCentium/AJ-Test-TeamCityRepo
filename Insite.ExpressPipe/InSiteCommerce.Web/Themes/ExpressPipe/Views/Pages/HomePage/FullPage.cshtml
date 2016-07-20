@@ -1,0 +1,13 @@
+﻿@using Insite.ContentLibrary
+@using Insite.WebFramework.Mvc.Extensions
+@model HomePage
+
+@*TODO Widgets ditch this viewmodelbase thing?*@
+@Html.Script(Html.ThemedPartial("_PersonalizationJs", new ViewModelBase(), new ViewDataDictionary { { "PageName", "Home" } }))
+<div class="main-row">
+            
+    <div class="row cm">
+        @Html.Zone(Model, "Content")
+    </div>
+            
+</div>

@@ -1,0 +1,52 @@
+﻿@* TODO 4.2 we should look up the proper labels in here at some point *@
+<div zf-modal zf-closable="modal" class="copyWebsiteModal modal--medium" id="copyWebsiteModal">
+    <div class="modal-header">
+        <h4 class="modal-title">Copy {{vm.websiteName}} Website</h4>
+        <a zf-close class="close-button right"><i class="icon icon-close"></i></a>
+    </div>
+    <form name="vm.form" novalidate ng-submit="vm.copyWebsite()">
+        <div class="modal-content">
+            @Html.Action("GetControl", "Data", new { entityName = "Website", propertyName = "Name", angularControllerName = "vm" })
+
+            @Html.Action("GetControl", "Data", new { entityName = "Website", propertyName = "DomainName", angularControllerName = "vm" })
+
+            @Html.Action("GetControl", "Data", new { entityName = "Website", propertyName = "MicroSiteIdentifiers", angularControllerName = "vm" })
+
+            <div class="grid-block form-control">
+                <div class="grid-block form-control">
+                    <div class="grid-block">
+                        <label><input type="checkbox" ng-model="vm.setWebsiteAsParent" />Set {{vm.websiteName}} as parent website</label>
+                    </div>
+                </div>
+            </div>
+
+            <fieldset class="form-section">
+                <legend>Content to Copy</legend>
+                <hr>
+                <div class="grid-block form-content">
+                    <div class="grid-block vertical">
+                        <label><input type="checkbox" ng-model="vm.copyCategories"/>Categories</label>
+                        <div class="help-block" style="margin-bottom: 0.5rem; margin-top: 0;">*Copying categories can cause site slowdown and should not be performed during business hours.</div>
+                        <label><input type="checkbox" ng-model="vm.copyConfigurationOptions" />Configuration Options</label>
+                        <label><input type="checkbox" ng-model="vm.copyPromotions" />Promotions</label>
+                        <label><input type="checkbox" ng-model="vm.copyCrossSells" />Cross Sells</label>
+                        <label><input type="checkbox" ng-model="vm.copyCarriers" />Carriers</label>
+                        <label><input type="checkbox" ng-model="vm.copyCountries" />Countries</label>
+                        <label><input type="checkbox" ng-model="vm.copyStates" />States</label>
+                        <label><input type="checkbox" ng-model="vm.copyDealers" />Dealers</label>
+                        <label><input type="checkbox" ng-model="vm.copyCurrencies" />Currencies</label>
+                        <label><input type="checkbox" ng-model="vm.copyLanguages"/>Languages</label>
+                        <label><input type="checkbox" ng-model="vm.copyApplicationMessages" />Application Messages</label>
+                        <label><input type="checkbox" ng-model="vm.copyCmsContent" />CMS Content <span ng-show="vm.setWebsiteAsParent">(Copy)</span></label>
+                        <label ng-show="vm.setWebsiteAsParent"><input type="checkbox" ng-model="vm.linkCmsContent" />CMS Content (Link)</label>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="modal-footer">
+            <a zf-close ng-disabled="vm.copyInProgress" class="button tertiary" value="Cancel">Cancel</a>
+            <button ng-disabled="vm.copyInProgress" class="button">Copy</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,72 @@
+﻿@using Insite.Core.Providers
+@using Insite.Rfq.Content
+
+<div class="large-12 columns">
+                        
+    <div class="checkout-head">
+        <h1>@T("Checkout")</h1>
+        <div class="checkout-crumbs">
+            <div>@T("Billing & Shipping")</div>
+            <div class="crumb-sep">&gt;</div>
+            <div>@T("Review and Pay")</div>
+            <div class="crumb-sep">&gt;</div>
+            <div class="crumb-current">@T("Confirmation")</div>
+        </div>
+    </div>
+        
+    <div class="quote-items-note messaging" ng-if="vm.showRfqMessage">
+        <p>@MessageProvider.Current.Rfq_Requires_Quote_InCartMessage</p>
+        <a id="orderConfirmationViewRequestQuoteButton" href="@(Url.ContentPage<RfqRequestQuotePage>())" class="btn primary btn-yes-rfq">@T("Yes, Request a Quote")</a>
+        <a id="orderConfirmationViewContinueShoppingButton" href="@(Url.ContentPage<HomePage>())" class="btn primary btn-no">@T("No, Continue Shopping")</a>
+    </div>
+    <div class="btns" ng-if="!vm.showRfqMessage">
+        <a id="orderConfirmationViewContinueShoppingButton" href="@(Url.ContentPage<HomePage>())" class="btn primary btn-continue-shopping">@T("Continue Shopping")</a>
+    </div>
+
+    <div class="cm" ng-include="'orderConfirmation_topContent'"></div>
+                        
+    <div class="oc-num-date">
+        <h2>@T("Order Number"): <span id="confirmationCartOrderNumber" ng-bind="vm.cart.orderNumber"></span></h2>
+        <h2>@T("Order Date"): <span id="confirmationCartOrderDate" ng-bind="vm.cart.orderDate | date:'shortDate'"></span></h2>
+        <h2 ng-if="vm.cart.poNumber.length > 0">@T("PO #"): <span id="confirmationCartPONumber" ng-bind="vm.cart.poNumber"></span></h2>
+    </div>
+                        
+    <div class="row order-bill-ship">
+        <div class="large-4 columns bill-info">
+            <div class="oc-head">
+                <h3>@T("Billing Information")</h3>
+            </div>
+            <isc-address-display prefix="bt" address="vm.cart.billTo" show-email="true"></isc-address-display>
+        </div>
+        <div class="large-4 columns ship-info">
+            <div class="oc-head">
+                <h3>@T("Shipping Information")</h3>
+            </div>
+            <isc-address-display prefix="st" address="vm.cart.shipTo" show-email="false"></isc-address-display>
+        </div>
+        <div class="large-4 columns ship-method">
+            <div class="oc-head">
+                <h3>@T("Shipping Method")</h3>
+            </div>
+            <div class="oc-ship-meth">
+                <span ng-bind="vm.cart.carrier.description"></span>
+                <span ng-bind="vm.cart.shipVia.description"></span>
+            </div>
+            <div class="oc-order-notes" ng-if="vm.cart.notes.trim().length > 0">
+                <h4>@T("Order Notes"):</h4>
+                <div id="confirmationCartNotes" ng-bind="vm.cart.notes"></div>
+            </div>
+        </div>
+    </div>
+                        
+    <div class="row order-details">
+        <isc-cart-lines cart="vm.cart" class="large-8 columns item-list cart-items print-no-float print-overflow-visible"></isc-cart-lines>
+        <div class="large-4 columns cart-right">        
+            <isc-cart-total-display cart="vm.cart" promotions="vm.promotions"></isc-cart-total-display>
+            <div class="btns">
+                <a id="orderConfirmationViewContinuePrintButton" href="javascript: window.print();" class="hide-for-small btn secondary btn-print">@T("Print")</a>
+                <a id="orderConfirmationViewContinueShoppingButton" href="@(Url.ContentPage<HomePage>())" class="btn primary btn-continue-shopping">@T("Continue Shopping")</a>
+            </div>
+        </div>
+    </div>
+</div>

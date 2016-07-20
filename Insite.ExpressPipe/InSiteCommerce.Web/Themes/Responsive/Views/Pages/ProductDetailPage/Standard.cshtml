@@ -1,0 +1,28 @@
+﻿@model Insite.Catalog.Content.ProductDetailPage
+@using System.Web.Optimization
+@using Insite.WebFramework.Mvc.Extensions
+@using InsiteCommerce.Web
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Serialization
+@*
+    TODO how do we do these?
+    @Html.Script(Html.ThemedPartial("_PersonalizationJs", Model, new ViewDataDictionary{ {"PageName", "ProductDetail"} }))
+    @Html.Script(Html.ThemedPartial("_ReviewsJs", Model, new ViewDataDictionary{ {"PageName", "ProductDetail"} }))
+*@
+
+@section Styles
+{
+    @Styles.Render(Html.ThemedBundle(BundleConfig.ProductDetailStyleBundlePath))
+}
+
+@section AfterBodyContent {
+    <script type="text/javascript">        
+        insite.catalog.catalogPageGlobal = @Html.Raw(JsonConvert.SerializeObject(Model.CatalogPage, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }));
+    </script>
+}
+
+<div class="row main-row">
+    <div class="large-12 columns">
+        @Html.Zone(Model, "Content")
+    </div>
+</div>

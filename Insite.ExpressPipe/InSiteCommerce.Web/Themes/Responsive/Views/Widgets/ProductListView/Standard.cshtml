@@ -1,0 +1,17 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Catalog.Content.ProductListView
+<isc-product-list-view></isc-product-list-view>
+
+<script type="text/ng-template" id="productList_noSearchResultsFound">
+    @Html.Raw(Model.NoSearchResultsFound)
+</script>
+<script type="text/ng-template" id="productList_noProductsFound">
+    @Html.Raw(Model.NoProductsFound)
+</script>
+
+<script type="text/ng-template" id="/Directives/Catalog/ProductListView">
+    @Html.ThemedPartial("/Views/Directives/Catalog/ProductListView.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Catalog/CategoryLeftNav">
+    @Html.ThemedPartial("/Views/Directives/Catalog/CategoryLeftNav.cshtml")
+</script>

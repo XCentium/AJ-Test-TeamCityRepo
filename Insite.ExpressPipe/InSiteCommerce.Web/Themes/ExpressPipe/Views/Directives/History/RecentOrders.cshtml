@@ -1,0 +1,35 @@
+﻿@using Insite.Order.Content
+
+<div ng-cloak>
+    <div class="search-no-results" ng-show="vm.orderHistory.orders.length === 0">
+        <h3>@T("No orders found").</h3>
+    </div>
+    <div ng-show="vm.orderHistory.orders.length > 0">
+        <div class="table-responsive-wrapper">
+            <table class="info-tbl">
+                <thead>
+                    <tr>
+                        <th class="col-ordernum">@T("Order #")</th>
+                        <th class="col-status">@T("Status")</th>
+                        <th class="col-date">@T("Date")</th>
+                        <th class="col-po">@T("PO #")</th>
+                        <th class="col-shipto">@T("Job Name")</th>
+                        <th class="col-total">@T("Order Total")</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="order in vm.orderHistory.orders">
+                        <td class="col-ordernum"><a id="recentOrdersWebOrderNumberLink_{{$index}}" ng-href="@(Url.ContentPage<OrderDetailPage>())?ordernumber={{ order.webOrderNumber || order.erpOrderNumber }}" ng-click="">{{ vm.fixErpOrderNumber(order.erpOrderNumber, order.status) }}</a></td>
+                        <td class="col-status">
+                            <span ng-bind="order.status" class="status" ng-class="order.status | lowercase"></span>
+                        </td>
+                        <td class="col-date"><a id="recentOrdersDateLink_{{$index}}" href="@(Url.ContentPage<OrderDetailPage>())?orderNumber={{ order.webOrderNumber || order.erpOrderNumber }}">{{ order.orderDate | date:'M/d/yyyy':'UTC' }}</a></td>
+                        <td class="col-po" ng-bind="order.customerPO" ng-click="copyToSearch(order.customerPO)"></td>
+                        <td class="col-shipto" ng-bind="order.properties.companyName"></td>
+                        <td class="col-total" ng-bind="order.orderTotalDisplay"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

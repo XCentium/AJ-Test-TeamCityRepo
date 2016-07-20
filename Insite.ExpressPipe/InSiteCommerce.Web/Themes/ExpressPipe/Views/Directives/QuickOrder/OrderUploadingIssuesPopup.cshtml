@@ -1,0 +1,44 @@
+﻿@using Insite.Core.Providers
+@using Insite.WebFramework.Mvc.Extensions
+
+<div id="orderUploadingIssuesPopup" class="reveal-modal popup-share" data-options="close_on_background_click: false;" data-reveal data-reveal-init>
+    <div class="ou-modal issues wide modal-wrap">
+        <div class="alert-box alert"><i class="fa fa-exclamation-triangle"></i> @Html.Message("QuickOrder_OrderUpload_AddToCartError", "The following items could not be added to cart"):</div>
+        <div class="ou-table-wrapper">
+            <table class="ou-issues-table">
+                <thead>
+                    <tr>
+                        <td class="up-row-num">@T("Row #")</td>
+                        <td class="up-item-num">@T("Item #")</td>
+                        <td class="up-item-desc">@T("Description")</td>
+                        <td class="up-item-brand">@T("MFR Name")</td>
+                        <td class="up-qty">@T("QTY")</td>
+                        <td class="up-reason">@T("Reason")</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="errorProduct in vm.errorProducts">
+                        <td class="up-row-num" ng-bind="errorProduct.index"></td>
+                        <td class="up-item-num" ng-bind="errorProduct.name"></td>
+                        <td class="up-item-num" ng-bind="errorProduct.shortDescription"></td>
+                        <td class="up-item-num" ng-bind="errorProduct.properties"></td>
+                        <td class="up-qty" ng-bind="errorProduct.qtyRequested"></td>
+                        <td class="up-reason">
+                            <span ng-if="errorProduct.error === 'NotEnough'">@Html.Message("QuickOrder_NotEnoughQuantity", "Not enough quantity in stock")</span>
+                            <span ng-if="errorProduct.error === 'ConfigurableProduct'">@Html.Message("QuickOrder_CannotOrderConfigurable", "Cannot quick order configurable products")</span>
+                            <span ng-if="errorProduct.error === 'StyledProduct'">@Html.Message("QuickOrder_CannotOrderStyled", "Product requires styling.")</span>
+                            <span ng-if="errorProduct.error === 'Unavailable'">@Html.Message("QuickOrder_ProductIsUnavailable", "Product is unavailable.")</span>
+                            <span ng-if="errorProduct.error === 'InvalidUnit'">@T("Invalid U/M")</span>
+                            <span ng-if="errorProduct.error === 'NotFound'">@MessageProvider.Current.Product_NotFound</span>
+                            <span ng-if="errorProduct.error === 'OutOfStock'">@T("Out of stock")</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="buttons text-right">
+            <button class="button secondary" ng-click="vm.closeIssuesPopup()">@T("Cancel Upload")</button>
+            <button class="button primary" ng-click="vm.continueToCart('#orderUploadingIssuesPopup')">@T("Continue")</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model string
+
+@if (Model.EqualsIgnoreCase("Monetate"))
+{
+    <!-- Monetate wants this in the page directly and not in an external file and they want it to be the first thing in the head -->
+    @Html.ThemedPartial("_MonetateJs")
+}

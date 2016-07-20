@@ -1,0 +1,36 @@
+﻿@using Insite.Admin.FormBuilder.Models.FormBuilder
+@model Insite.Admin.FormBuilder.Elements.FieldSetFormElement
+
+<fieldset class="form-section flex-none" @Html.Raw(Model.HtmlTagAttributes)>
+    @if (Model.EnableToggle)
+    {
+        if (!Model.Legend.IsBlank())
+        {
+            <legend>
+                <span style="cursor: pointer;" isa-toggle-element element-id="fieldset_@Model.Id">
+                    @Model.Legend
+                    <i @Html.Raw(Model.DefaultToggleClosed ? "class='icon icon-expand-more'" : "class='icon icon-expand-less'")></i>
+                </span>
+            </legend>
+            <hr/>
+        }
+        else
+        {
+            <span style="cursor: pointer;" isa-toggle-element element-id="fieldset_@Model.Id">
+                <i @Html.Raw(Model.DefaultToggleClosed ? "class='icon icon-expand-more'" : "class='icon icon-expand-less'")></i>
+            </span>
+        }
+
+        <div id="fieldset_@Model.Id" @Html.Raw(Model.DefaultToggleClosed ? "style='display: none;'" : "")>
+            @Html.Partial("Zone", ZoneViewModel.Create(Model, "Content"))
+        </div>
+    }
+    else
+    {
+        if (!Model.Legend.IsBlank())
+        {
+            <legend class="form-section__legend">@Model.Legend</legend>
+        }
+        @Html.Partial("Zone", ZoneViewModel.Create(Model, "Content"))
+    }
+</fieldset>

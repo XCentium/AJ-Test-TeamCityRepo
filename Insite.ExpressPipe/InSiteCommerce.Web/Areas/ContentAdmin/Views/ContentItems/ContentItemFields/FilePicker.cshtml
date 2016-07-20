@@ -1,0 +1,32 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model EditContentFieldModel<FilePickerFieldAttribute>
+
+<label for="@Model.FieldName">
+    @Model.DisplayName
+    @if (Model.ContentFieldAttribute.IsRequired)
+    {
+        <span class="required">(required)</span>
+    }
+    @Html.Partial("ContentItemFields/_ContextDisplay", Model.ContentItemFieldModel)
+</label>
+<span data-valmsg-replace="true" data-valmsg-for="@(Model.FieldName)"></span>
+<div class="clearfix">
+    <input id="@Model.FieldName" type="text" name="@Model.FieldName" value="@(Model.GetValue<string>())"
+           @if (Model.ContentFieldAttribute.IsRequired) { <text> data-val="true" data-val-required="Value is required" </text>  } style="width: 75%; display: inline-block; float: left;" />
+    <button class="cms-button cms-btn-primary browse@(Model.FieldName)" style="width: 20%; float: right; height: 32px;">Browse</button>
+</div>
+
+@Html.Script(
+    @<script>
+        $(".browse@(Model.FieldName)").click(function(e) {
+            e.preventDefault();
+            var finder = new CKFinder();
+            finder.basePath = "/UserFiles/";
+            finder.resourceType = "@Model.ContentFieldAttribute.ResourceType";
+            finder.selectActionFunction = function (fileUrl) {
+                $("input[name=@(Model.FieldName)]").val(fileUrl);
+            };
+            finder.popup();
+        });
+    </script>
+)

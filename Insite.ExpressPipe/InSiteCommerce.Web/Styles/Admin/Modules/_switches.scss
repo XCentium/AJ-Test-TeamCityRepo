@@ -1,0 +1,22 @@
+﻿@import "../Mixins/switches";
+
+.flip-switch {
+  @include flip-switch;
+
+  > input[disabled],
+  > input.disabled {
+    & + label {
+      background: $background-gray;
+      cursor: not-allowed;
+
+      .switch-on,
+      .switch-off {
+        color: $brand-dark;
+      }
+    }
+  }
+}
+
+.activeradio {
+    font-weight: bold;
+}

@@ -1,0 +1,6 @@
+Part #,Description,QTY,"Please, don't forget to check ""First row is colum heading"" checkbox,  if you leave first line as is."
+,test description,1,
+,5products test,5,
+,test3,3,
+,test4,4,
+16957,16957,47,Value is assumed to be zero when QTY field is blank

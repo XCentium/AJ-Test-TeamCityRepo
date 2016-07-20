@@ -1,0 +1,94 @@
+﻿@using Insite.Admin
+@using Insite.Admin.FormBuilder
+@using Insite.Admin.Models
+@using Insite.Admin.Providers
+@using Insite.Common.Dependencies
+@using Insite.Core.ApplicationDictionary
+@using Insite.Core.Interfaces.Data
+@using Insite.Data.Entities
+@model Insite.Admin.FormBuilder.Elements.DynamicCategoryButtonsFormElement
+
+@if (Model.IsEditMode)
+{
+    <text>Dynamic Category</text>
+}
+else
+{
+    var entityDefinitionDto = DependencyLocator.Current.GetInstance<IEntityDefinitionProvider>().GetByName("Product", AdminContext.Current.UserProfile.UserName);
+    var controlTypeViewModelProvider = DependencyLocator.Current.GetInstance<IControlTypeViewModelProvider>();
+    var form = DependencyLocator.Current.GetInstance<IFormRepository>().GetByName("products");
+
+    var columnName = "products_GridColumns";
+
+    var customizedColumns = DependencyLocator.Current.GetInstance<IUnitOfWorkFactory>().GetUnitOfWork().GetRepository<UserProfilePreference>().GetTable()
+        .FirstOrDefault(o => o.UserProfileId == AdminContext.Current.UserProfile.Id && o.Name == columnName);
+    var columnString = customizedColumns == null || customizedColumns.Value.IsBlank() ? form.GridColumns : customizedColumns.Value;
+
+    var columns = columnString.Split(',').Select(o => entityDefinitionDto.Properties.FirstOrDefault(p => p.Name.EqualsIgnoreCase(o))).Where(o => o != null && o.CanBeDisplayedInGrid && !o.IsHidden).ToList();
+    var propertiesToSelect = string.Join(",", columns.Select(o => o.Name));
+
+    <isa-dynamic-category-buttons model="entityDetailsCtrl.model" is-model-dirty="entityDetailsCtrl.isModelDirty" properties-to-select="@propertiesToSelect"></isa-dynamic-category-buttons>
+
+    <script type="text/ng-template" id="DynamicCategoryButtonsTemplate">
+        <div ng-if="vm.model.isDynamic" class="title-bar grid-block">
+            <div class="medium-3">Products Assigned Based on Rules</div>
+            <div class="medium-9">
+                <button class="button tertiary" ng-click="vm.preview()">Preview</button>
+                <button class="button tertiary" ng-click="vm.generate()">Regenerate</button>
+            </div>
+        </div>
+
+        <div class="modal--large grid-modal" zf-modal id="previewDynamicCategory">
+            <div>
+                <div class="grid-block vertical">
+                    <div class="title-bar modal-header">
+                        <h1 class="title left">
+                            <span class="title__label">Preview of up to 30 matching @entityDefinitionDto.PluralizedLabel </span>
+                        </h1>
+                        <span class="right">
+                            <a class="close-button" zf-close><i class="icon icon-close"></i></a>
+                        </span>
+                    </div>
+                    <div class="grid-block table-block">
+                        <isa-table>
+                            <isa-table-header>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            @foreach (var column in columns)
+                                            {
+                                                <th class="text-left is-actionable">
+                                                    <div class="column-header">@column.Label</div>
+                                                </th>
+                                            }
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </isa-table-header>
+
+                            <isa-table-content>
+                                <table class="table">
+                                    <tbody>
+                                        <tr ng-repeat="entity in vm.previewEntities" emit-repeat-finished>
+                                            @foreach (var column in columns)
+                                            {
+                                                <td class="text-left">
+                                                    <div class="column-content">
+                                                        @if (column.ControlType != null)
+                                                        {
+                                                            @Html.Partial("/Areas/admin/Views/Data/ControlTypes/" + column.ControlType.ViewName + "_Display.cshtml", controlTypeViewModelProvider.GetControlTypeViewModel(column))
+                                                        }
+                                                    </div>
+                                                </td>
+                                            }
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </isa-table-content>
+                        </isa-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+}

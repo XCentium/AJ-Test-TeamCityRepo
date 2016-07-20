@@ -1,0 +1,118 @@
+﻿CREATE TABLE [dbo].[Product] (
+    [Id]                            UNIQUEIDENTIFIER NOT NULL,
+    [Name]                          NVARCHAR (255)   NOT NULL,
+    [ShortDescription]              NVARCHAR (2048)  NOT NULL,
+    [ERPDescription]                NVARCHAR (2048)  NOT NULL,
+    [ProductCode]                   NVARCHAR (50)    NOT NULL,
+    [PriceCode]                     NVARCHAR (50)    NOT NULL,
+    [UnitOfMeasure]                 NVARCHAR (50)    NOT NULL,
+    [Sku]                           NVARCHAR (100)   NOT NULL,
+    [SmallImagePath]                NVARCHAR (1024)  NOT NULL,
+    [MediumImagePath]               NVARCHAR (1024)  NULL,
+    [LargeImagePath]                NVARCHAR (1024)  NOT NULL,
+    [Drawing]                       NVARCHAR (255)   NOT NULL,
+    [ActivateOn]                    DATETIME2 (7)    NOT NULL,
+    [DeactivateOn]                  DATETIME2 (7)    NULL,
+    [SortOrder]                     INT              NOT NULL,
+    [TaxCode1]                      NVARCHAR (50)    NOT NULL,
+    [TaxCode2]                      NVARCHAR (50)    NOT NULL,
+    [ShippingWeight]                DECIMAL (18, 3)  NOT NULL,
+    [ShippingLength]                DECIMAL (18, 3)  NOT NULL,
+    [ShippingWidth]                 DECIMAL (18, 3)  NOT NULL,
+    [ShippingHeight]                DECIMAL (18, 3)  NOT NULL,
+    [ShippingAmountOverride]        DECIMAL (18, 5)  NULL,
+    [QtyPerShippingPackage]         INT              NOT NULL,
+    [MetaKeywords]                  NVARCHAR (MAX)   NOT NULL,
+    [MetaDescription]               NVARCHAR (MAX)   NOT NULL,
+    [PageTitle]                     NVARCHAR (1024)  NOT NULL,
+    [ShippingClassification]        NVARCHAR (100)   NOT NULL,
+    [PackDescription]               NVARCHAR (255)   NOT NULL,
+    [DisplayPricePerPiece]          BIT              NOT NULL,
+    [UnitCost]                      DECIMAL (18, 5)  NOT NULL,
+    [UrlSegment]                    NVARCHAR (255)   NOT NULL,
+    [ContentManagerId]              UNIQUEIDENTIFIER NULL,
+    [IsGiftCard]                    BIT              NOT NULL,
+    [AllowAnyGiftCardAmount]        BIT              NOT NULL,
+    [ERPNumber]                     NVARCHAR (50)    NOT NULL,
+    [IsOutOfStock]                  BIT              NOT NULL,
+    [UPCCode]                       NVARCHAR (50)    NOT NULL,
+    [ERPManaged]                    BIT              NOT NULL,
+    [DocumentManagerId]             UNIQUEIDENTIFIER NULL,
+    [ModelNumber]                   NVARCHAR (50)    NOT NULL,
+    [HandlingAmountOverride]        DECIMAL (18, 5)  NULL,
+    [IsSubscription]                BIT              NOT NULL,
+    [SubscriptionCyclePeriod]       NVARCHAR (50)    NOT NULL,
+    [SubscriptionPeriodsPerCycle]   INT              NOT NULL,
+    [SubscriptionTotalCycles]       INT              NOT NULL,
+    [SubscriptionFixedPrice]        BIT              NOT NULL,
+    [SubscriptionAddToInitialOrder] BIT              NOT NULL,
+    [SubscriptionShipViaId]         UNIQUEIDENTIFIER NULL,
+    [SubscriptionAllMonths]         BIT              NOT NULL,
+    [SubscriptionJanuary]           BIT              NOT NULL,
+    [SubscriptionFebruary]          BIT              NOT NULL,
+    [SubscriptionMarch]             BIT              NOT NULL,
+    [SubscriptionApril]             BIT              NOT NULL,
+    [SubscriptionMay]               BIT              NOT NULL,
+    [SubscriptionJune]              BIT              NOT NULL,
+    [SubscriptionJuly]              BIT              NOT NULL,
+    [SubscriptionAugust]            BIT              NOT NULL,
+    [SubscriptionSeptember]         BIT              NOT NULL,
+    [SubscriptionOctober]           BIT              NOT NULL,
+    [SubscriptionNovember]          BIT              NOT NULL,
+    [SubscriptionDecember]          BIT              NOT NULL,
+    [VendorId]                      UNIQUEIDENTIFIER NULL,
+    [PriceBasis]                    NVARCHAR (50)    NOT NULL,
+    [UseVendorMarkup]               BIT              NOT NULL,
+    [TrackInventory]                BIT              NOT NULL,
+    [IsConfigured]                  BIT              NOT NULL,
+    [Configuration]                 NVARCHAR (MAX)   NOT NULL,
+    [TaxCategory]                   NVARCHAR (50)    NOT NULL,
+    [BasicListPrice]                DECIMAL (18, 5)  NOT NULL,
+    [BasicSalePrice]                DECIMAL (18, 5)  NOT NULL,
+    [BasicSaleStartDate]            DATETIME2 (7)    NULL,
+    [BasicSaleEndDate]              DATETIME2 (7)    NULL,
+    [StyleClassId]                  UNIQUEIDENTIFIER NULL,
+    [StyleParentId]                 UNIQUEIDENTIFIER NULL,
+    [SearchLookup]                  NVARCHAR (MAX)   NOT NULL,
+    [RestrictionGroupId]            UNIQUEIDENTIFIER NULL,
+    [ReplacementProductId]          UNIQUEIDENTIFIER NULL,
+    [HasMsds]                       BIT              NOT NULL,
+    [IsHazardousGood]               BIT              NOT NULL,
+    [IsDiscontinued]                BIT              NOT NULL,
+    [ManufacturerItem]              NVARCHAR (100)   NOT NULL,
+    [RoundingRule]                  NVARCHAR (50)    NOT NULL,
+    [MultipleSaleQty]               INT              NOT NULL,
+    [Unspsc]                        NVARCHAR (100)   NOT NULL,
+    [IsSpecialOrder]                BIT              NOT NULL,
+    [IsFixedConfiguration]          BIT              NOT NULL,
+    [ConfigurationId]               UNIQUEIDENTIFIER NULL,
+    [IndexStatus]                   TINYINT          NOT NULL,
+    [QuoteOption]                   TINYINT          NOT NULL,
+    [ImageAltText]                  NVARCHAR (2048)  NOT NULL,
+    [LowStockLevel]                 DECIMAL (18, 5)  NOT NULL,
+    [CreatedOn]                     DATETIME2 (7)    NOT NULL,
+    [CreatedBy]                     NVARCHAR (100)   NOT NULL,
+    [ModifiedOn]                    DATETIME2 (7)    NOT NULL,
+    [ModifiedBy]                    NVARCHAR (100)   NOT NULL,
+    CONSTRAINT [CK_Product_Name] CHECK (len([Name])>(0)),
+    CONSTRAINT [FK_Product_DocumentManager] FOREIGN KEY ([DocumentManagerId]) REFERENCES [dbo].[DocumentManager] ([Id]) ON DELETE SET NULL
+);
+
+
+
+
+
+
+
+
+GO
+
+
+
+GO
+
+
+
+GO
+
+

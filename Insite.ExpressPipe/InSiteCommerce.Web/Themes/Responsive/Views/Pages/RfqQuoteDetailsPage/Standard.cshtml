@@ -1,0 +1,26 @@
+﻿@using Insite.Core
+@using Insite.Core.Context
+@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Rfq.Content.RfqQuoteDetailsPage
+
+@if (SiteContext.Current.UserProfile.Salespersons.Count > 0)
+{
+    @section BodyClass { ma-quote-details ma-sales }
+}
+else
+{
+    @section BodyClass { ma-quote-details }
+}
+@section Styles
+{
+    @Html.RequireCss(Url.ThemedContent("/Styles/template/ma-quote-details.css"))
+    @Html.RequireCss("/Scripts/libraries/zurb-responsive-tables/0.0.0/responsive-tables.css")
+}
+
+@Html.RequireScript("/Scripts/libraries/zurb-responsive-tables/0.0.0/responsive-tables.js")
+
+<div class="row main-row">
+    <div class="medium-12 large-12 columns">
+        @Html.Zone(Model, "Content")
+    </div>
+</div>

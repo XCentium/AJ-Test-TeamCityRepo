@@ -1,0 +1,10 @@
+﻿@model RichContent
+
+@if (Model.DisplayInline)
+{
+    <span class="widget-richcontent @Model.CssClass">@Html.Raw(Model.Body)</span>
+}
+else
+{
+    <div class="widget-richcontent @Model.CssClass">@Html.Raw(Model.Body)</div>
+}

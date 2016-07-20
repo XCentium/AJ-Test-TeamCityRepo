@@ -1,0 +1,79 @@
+﻿
+.forgot-password-modal {
+    .modal {
+        padding: 15px 25px;
+        font-family: $header-font-family;
+        font-weight: 600;
+        letter-spacing: .025em;
+        width: 425px;
+    }
+    .forgot-password-modal__help-text {
+        font-family: $header-font-family;
+        font-weight: 600;
+        letter-spacing: .015em;
+    }
+    .forgot-password-modal__buttons-wrapper {
+        padding-top: 0;
+    }
+}
+
+            
+.trademark {
+    position: fixed;
+    bottom: 10px;
+    left: 20px;
+}
+.trademark__copyright {
+    font-size: 12px;
+}
+
+
+.sign-in {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: $type;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.sign-in__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 75px 50px;
+
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url("/Images/signin-background-2.png");
+    background-position: bottom;
+    background-repeat: no-repeat;
+}
+.sign-in__logo {
+    margin-bottom: 50px;
+}
+.sign-in__content {
+    background-color: $white;
+    margin-bottom: 50px;
+    width: 425px;
+    padding: 35px;
+    box-shadow: 0 10px 49.5px 0.5px rgba(0, 0, 0, 0.7);
+    flex: 0 0 auto;
+}
+.sign-in .sign-in__error {
+    margin-top: -10px;
+    margin-bottom: 15px;
+}
+.sign-in__sign-in-button {
+    margin: 1rem 0 0 0;
+}
+
+.sign-in__content input[type="checkbox"] + label {
+    vertical-align: top;
+}

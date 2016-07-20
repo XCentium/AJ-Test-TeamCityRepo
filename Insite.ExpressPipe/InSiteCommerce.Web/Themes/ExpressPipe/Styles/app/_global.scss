@@ -1,0 +1,48 @@
+﻿body {
+    background-color: $darker-gray;
+    
+    &.f-topbar-fixed {
+        padding-top: 0;
+
+        @media #{$medium-up}{
+            padding-top: rem-calc(35) !important;
+        }
+    }
+    
+}
+
+a {
+    color: $link-color;
+}
+a:hover {
+    text-decoration: underline;
+    color: darken($link-color,10%);
+}
+
+
+/* empty column fix */
+.column,
+.columns {
+    min-height: 1px;
+}
+
+
+/* tooltips */
+.has-tip {
+    border-bottom: none;
+}
+
+hr {
+    &.dotted {
+        border-top-style: dotted;
+        border-top-width: 2px;
+    }
+}
+
+.no-margin {
+    margin: 0 !important;
+}
+
+.no-padding {
+    padding: 0 !important;
+}

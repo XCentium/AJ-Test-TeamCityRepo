@@ -1,0 +1,17 @@
+﻿
+/************************************************************
+    Flexbox Layout Classes
+
+    @desc Structure classes to support Flexbox.
+
+    @styleGuide Spinal casing only. Do not write vendor prefixes.
+
+*************************************************************/ 
+
+.flex-auto {
+    flex: 1 1 auto;
+}
+
+.flex-none { 
+    flex: none; 
+}

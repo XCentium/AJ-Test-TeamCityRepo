@@ -1,0 +1,112 @@
+﻿@using Insite.Admin.Extensions
+<div>
+    <div ng-hide="model.fieldType === 'Content' || model.fieldType === 'ApplicationSetting' || model.fieldType === 'Lookup' || model.fieldType === 'ChildCollection' || model.fieldType === 'StaticValue'">
+        @Html.FormControl(@<label>From Property</label>,
+            @<div class="medium">
+                <input kendo-combo-box
+                       ng-model="vm.selectedEntityId"
+                       k-data-source="vm.lookups"
+                       ng-disabled="vm.disabled == 'disabled'"
+                       k-placeholder="'Select Value'"
+                       k-data-text-field="'name'"
+                       k-data-value-field="'id'"
+                       k-auto-bind="false"
+                       k-filter="'contains'" />
+            </div>)
+    </div>
+    <div ng-show="model.fieldType === 'StaticValue'">
+        @Html.FormControl(@<label>Static Value</label>,
+            @<div class="medium">
+                <input type="text" ng-model="vm.selectedEntityId" ng-disabled="vm.disabled == 'disabled'" />
+            </div>)
+    </div>
+    <div ng-show="model.fieldType === 'ApplicationSetting'">
+        @Html.FormControl(@<label>Application Setting</label>,
+            @<div class="medium">
+                <input kendo-combo-box
+                       ng-model="vm.selectedEntityId"
+                       k-data-source="vm.applicationSettingLookups"
+                       ng-disabled="vm.disabled == 'disabled'"
+                       k-placeholder="'Select Value'"
+                       k-data-text-field="'name'"
+                       k-data-value-field="'id'"
+                       k-auto-bind="false"
+                       k-filter="'contains'" />
+            </div>)
+    </div>
+    <div ng-show="model.fieldType === 'Content'">
+        @Html.FormControl(@<label>From Property (Content)</label>,
+            @<div class="medium">
+                <input kendo-combo-box
+                       ng-model="vm.contentEntityId"
+                       k-data-source="vm.contentLookups"
+                       ng-disabled="vm.disabled == 'disabled'"
+                       k-placeholder="'Select Value'"
+                       k-data-text-field="'name'"
+                       k-data-value-field="'id'"
+                       k-auto-bind="false"
+                       k-filter="'contains'" />
+            </div>)
+    </div>
+    <div ng-show="model.fieldType === 'Content'">
+        @Html.FormControl(@<label>Language</label>,
+            @<div class="medium">
+                <input kendo-combo-box
+                       k-ng-model="vm.languageEntityId"
+                       k-value-primitive="vm.languageEntityId"
+                       k-data-source="vm.languageDatasource"
+                       ng-disabled="vm.disabled == 'disabled'"
+                       k-placeholder="'Select Value'"
+                       k-data-text-field="'name'"
+                       k-data-value-field="'id'"
+                       k-auto-bind="true"
+                       k-filter="'contains'" />
+            </div>)
+    </div>
+    <div ng-show="model.fieldType === 'Content'">
+        @Html.FormControl(@<label>Persona</label>,
+            @<div class="medium">
+                <input kendo-combo-box
+                       k-ng-model="vm.personaEntityId"
+                       k-value-primitive="vm.personaEntityId"
+                       k-data-source="vm.personaDatasource"
+                       ng-disabled="vm.disabled == 'disabled'"
+                       k-placeholder="'Select Value'"
+                       k-data-text-field="'name'"
+                       k-data-value-field="'id'"
+                       k-auto-bind="true"
+                       k-filter="'contains'" />
+            </div>)
+    </div>
+    <div ng-show="model.fieldType === 'Content'">
+        @Html.FormControl(@<label>Device</label>,
+            @<div class="medium">
+                <input kendo-combo-box
+                       k-ng-model="vm.deviceEntityId"
+                       k-value-primitive="vm.deviceEntityId"
+                       k-data-source="vm.deviceDatasource"
+                       ng-disabled="vm.disabled == 'disabled'"
+                       k-placeholder="'Select Value'"
+                       k-data-text-field="'name'"
+                       k-data-value-field="'id'"
+                       k-auto-bind="true"
+                       k-filter="'contains'" />
+            </div>)
+    </div>
+    <div ng-repeat="naturalKey in vm.naturalKeys">
+        <div ng-show="model.fieldType === 'Lookup' || model.fieldType === 'ChildCollection'">
+            @Html.FormControl(@<label>{{naturalKey.label === 'From Property' ? naturalKey.label : 'From Property (' + naturalKey.label + ')'}}</label>,
+                @<div class="medium">
+                    <input kendo-combo-box
+                           ng-model="vm.naturalKeyEntityIds[naturalKey.naturalKeySequence]"
+                           k-data-source="vm.lookups"
+                           ng-disabled="vm.disabled == 'disabled'"
+                           k-placeholder="'Select Value'"
+                           k-data-text-field="'name'"
+                           k-data-value-field="'id'"
+                           k-auto-bind="false"
+                           k-filter="'contains'" />
+                </div>)
+        </div>
+    </div>
+</div>

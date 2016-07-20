@@ -1,0 +1,60 @@
+﻿@using Insite.Data.Entities
+@model Insite.Configurator.Models.ConfigurationOptionViewModel
+var configurationOption@(Model.Name) = function() {
+    function scriptPromptWhen() {
+        @if (!Model.ScriptPromptWhen.IsBlank())
+        {
+            @Html.Raw(Model.ScriptPromptWhen)
+        }
+        else
+        {
+            @:return true;
+        }
+    }
+    function scriptOnEntry() {
+        @if (!Model.ScriptOnEntry.IsBlank())
+        {
+            @Html.Raw(Model.ScriptOnEntry)
+        }
+        else
+        {
+            @:return true;
+        }
+    }
+    function scriptOnLeave() {
+        @if (!Model.ScriptOnLeave.IsBlank())
+        {
+            @Html.Raw(Model.ScriptOnLeave)
+        }
+        else
+        {
+            @:return true;
+        }
+    }
+    return {
+        scriptPromptWhen: scriptPromptWhen,
+        scriptOnEntry: scriptOnEntry,
+        scriptOnLeave: scriptOnLeave
+    };
+}();
+    
+@if (Model.Type == ConfigurationOption.OptionType.RadioButtonsType)
+{
+    foreach (var selection in Model.SelectionList)
+    {
+        @:$("#@(Model.Name + "_" + selection.Value)").focus(configurationOption@(Model.Name).scriptOnEntry); 
+        @:$("#@(Model.Name + "_" + selection.Value)").bind("koChange", configurationOption@(Model.Name).scriptOnLeave); 
+    }
+}
+else
+{
+    @:$("#@(Model.Name)").focus(configurationOption@(Model.Name).scriptOnEntry);
+    @:$("#@(Model.Name)").bind("koChange", configurationOption@(Model.Name).scriptOnLeave);
+}  
+  
+//bind all of the prompt whens to run when page entry is triggered
+$(document).bind("pageEntry", function () {
+    if (!configurationOption@(Model.Name).scriptPromptWhen()) {
+        $("#@(Model.Name)").attr("disabled", "disabled");
+    }
+});

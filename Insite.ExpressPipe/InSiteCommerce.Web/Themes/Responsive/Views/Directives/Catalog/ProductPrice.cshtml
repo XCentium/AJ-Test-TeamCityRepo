@@ -1,0 +1,24 @@
+﻿@using Insite.Core.Providers
+
+@*
+    usage example:
+    <isc-product-price product="product" id-key=""></isc-product-price>
+
+    product is of format ProductDto, CartLineModel, or WishListLineModel
+***id-key is required only for table view on product list***
+*@
+
+<div ng-if="product.quoteRequired" class="quote-required" id="displayPrice"> 
+    <span>@T("Requires Quote")</span>
+    <div class="quote-tip">
+        <a id="{{'productPriceQTipButton_' + product.id + '_' + idKey}}" href="#" data-dropdown="{{'qtip-cart-' + product.id + '-' + idKey}}" class="t-dropdown">?</a>
+        <div id="{{'qtip-cart-' + product.id + '-' + idKey}}" class="f-dropdown content" data-dropdown-content>
+            <div class="tt-wrap">@MessageProvider.Current.Rfq_TooltipMessage</div>
+        </div>
+    </div>
+</div>
+
+<span ng-if="!product.quoteRequired && product.pricing" class="price pd-price" id="displayPrice">
+    <span ng-class="{'price-sale' : product.pricing.isOnSale || product.isDiscounted || product.isPromotionItem}" ng-bind="vm.getActualPrice(product)"></span>
+    <span ng-if="product.pricing.isOnSale || product.isDiscounted || product.isPromotionItem" class="price-old" ng-bind="vm.getRegularPrice(product)"></span>
+</span>

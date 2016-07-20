@@ -1,0 +1,32 @@
+﻿@using System
+@using Insite.WebFramework.Mvc.Extensions
+@model Insite.ContentAdmin.Models.ContentItems.AddViewModel
+
+@{
+    Layout = "/Areas/ContentAdmin/Views/Shared/_SlidePanelLayout.cshtml";    
+}
+
+@section Header { Add @(Model.ContentItemModel.GetType().Name.SplitCamelCase() )}
+
+@using (Html.BeginForm("AddContent", "ContentItems", new { Model.Class, Model.Template, Model.IsPage, Model.ParentContentKey, Model.Zone, Model.IsTemplate }))
+{
+    <fieldset>
+        @if (Model.IsPage)
+        {
+            <div class="cms-generalField">
+                <label for="Name">Name<span class="required">(required)</span></label>
+                <span data-valmsg-replace="true" data-valmsg-for="Name"></span>
+                <input id="Name" type="text" name="Name" value="@Model.ContentItemModel.Name" data-val="true" data-val-required="Value is required" />
+            </div>
+        }
+
+        @Html.Partial("ContentVariantFields", Model.ContentItemModel)
+
+        @Html.ValidationSummary()
+        <div class="buttonArea">
+            <button class="cms-button cms-close" type="button">Cancel</button>
+            <button class="cms-button cms-actionButton" type="submit">Save</button>
+        </div>
+    </fieldset>
+}
+@Html.RenderDeferredScripts()

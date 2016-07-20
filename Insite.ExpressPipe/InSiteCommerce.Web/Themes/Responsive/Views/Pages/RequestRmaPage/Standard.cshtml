@@ -1,0 +1,34 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Order.Content.RequestRmaPage
+@section BodyClass { ma-rma }
+@section Styles
+{
+    @Html.RequireCss(Url.ThemedContent("/Styles/template/ma-rma.css"))
+    @Html.RequireCss("/Scripts/libraries/zurb-responsive-tables/0.0.0/responsive-tables.css")
+}
+
+@Html.RequireScript("/Scripts/libraries/zurb-responsive-tables/0.0.0/responsive-tables.js")
+
+<div id="nwrap">
+    <!-- Todo use foundation reveal and call click in controller -->
+    @*@if (Model.SubmissionSuccessful)
+    {
+        @Html.Script(@<script type="text/javascript">
+            $.get("@Html.Raw(Url.Action("GenericPopup", "Shared", new { Title = T("Return Request"), AdditionalContent = T("Your request has been submitted.") }))", function (htmlResult) {
+                insite.core.displayModal(htmlResult);
+            });
+        </script>)
+    }*@
+    <div class="off-canvas panelwrap" role="panel-wrap">
+        <!-- HEADER -->
+        <div class="container" role="main">
+            <!-- NAVIGATION -->
+            <div class="ui-lock"></div>
+            <!-- PAGE CONTENT -->
+            <div class="row main-row">
+                @Html.Zone(Model, "Content")
+            </div>
+            <!-- FOOTER -->
+        </div>
+    </div>
+</div>

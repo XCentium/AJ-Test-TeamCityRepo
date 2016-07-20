@@ -1,0 +1,22 @@
+﻿@model Insite.Configurator.Models.ConfigurationOptionViewModel
+@if (@Model.IsFixedPosition)
+{
+<text>
+    #@(Model.Name)Wrapper {
+        position: absolute;
+        top: @(Model.YPosition)pt;
+        left: @(Model.XPosition)pt;        
+    }          
+</text>
+}
+
+#@(Model.Name) {    
+    @if (Model.Height != 0)
+    {
+        @:height: @(Model.Height)pt;
+    }
+    @if (Model.Width != 0)
+    {
+        @:width: @(Model.Width)pt;
+    }        
+}

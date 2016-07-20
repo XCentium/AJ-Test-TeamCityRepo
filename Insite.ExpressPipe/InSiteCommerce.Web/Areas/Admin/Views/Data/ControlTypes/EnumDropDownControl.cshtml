@@ -1,0 +1,31 @@
+﻿@using Insite.Admin.ControlTypes
+@using Insite.Admin.Models
+@model Insite.Admin.Models.ControlTypeViewModel<EnumDropDownControl>
+
+@if (Model.PropertyDefinition.CanEdit)
+{
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<isa-dropdown angular-controller="EnumDropdownController"
+                                      class="@Model.ControlType.DisplayWidth.ToString().ToLower()"
+                                      label="@Model.Label"
+                                      id="@Model.Id"
+                                      ng-model="@Model.EditPageModelBinding"
+                                      selected-entity-id="@(Model.EditPageModelBinding)"
+                                      sort-list="@Model.ControlType.SortList.ToString().ToLower()"
+                                      @if (Model.PropertyDefinition.IsRequired)
+                                      {
+                                          <text>required="true"</text>
+                                      }
+                                      enum-class-name="@Model.ControlType.EnumClassName"></isa-dropdown>
+    })
+}
+else
+{
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<div class="readonly">{{::@Model.EditPageModelBinding}}</div>
+    })
+}

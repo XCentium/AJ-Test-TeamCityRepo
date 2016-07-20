@@ -1,0 +1,68 @@
+﻿@using Insite.Core
+@using Insite.Core.Context
+<script>
+    @* Any page that has Breadcrumbs *@
+    @if (Model.BreadCrumb != null)
+    {
+        <text>
+        insite.personalization.breadcrumbs = [];
+        </text>
+        
+        foreach (var breadcrumb in Model.BreadCrumb)
+        {
+            <text>
+            insite.personalization.breadcrumbs.push('@breadcrumb.LinkText');
+            </text>
+        }
+    }
+
+    @* CategoryDetail, ProductList and ProductDetail *@
+    @if (Model.Category != null)
+    {
+        <text>
+        insite.personalization.category = '@Model.Category.ShortDescription';
+        </text>
+    }
+
+    @* ProductList and ProductDetail *@
+    @if (Model.ProductDtos != null)
+    {
+        <text>
+        insite.personalization.products = [];
+        </text>
+        
+        foreach (var productDto in Model.ProductDtos)
+        {
+            <text>
+            insite.personalization.products.push('@productDto.ERPNumber');
+            </text>
+        }
+    }
+
+    @* Cart and OrderConfirmation *@
+    @if (Model.Lines != null)
+    {
+        <text>
+        insite.personalization.currencyCode = "@SiteContext.Current.Currency.CurrencyCode";
+        insite.personalization.orderNumber = "@Model.OrderNumber";
+        insite.personalization.orderLines = [];
+        </text>
+
+        foreach (var cartLine in Model.Lines)
+        {
+            <text>
+            insite.personalization.orderLines.push({
+                "erpNumber": "@cartLine.ErpNumber",
+                "qtyOrdered": "@cartLine.Qty",
+                // TODO 3.7.1 Only thing currently available in the viewmodel is price string with currency symbol
+                "unitPrice": "@cartLine.UnitPrice"
+            });
+            </text>
+        }
+    }
+
+    jQuery(function () {
+        insite.personalization.setPageType('@ViewData["PageName"]'); 
+    });
+</script>
+    

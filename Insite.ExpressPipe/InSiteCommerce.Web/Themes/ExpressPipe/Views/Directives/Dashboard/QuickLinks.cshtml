@@ -1,0 +1,39 @@
+﻿@using Insite.Core.Context
+
+<ul class="quick-links">
+    <li class="ql-head">
+        <h3>@T("Quick Links")</h3>
+    </li>
+    @* hard coded for now
+    <li ng-repeat="quickLink in vm.quickLinks | orderBy:'quickLinkOrder'">
+        <a id="quickLinksLink_{{$index}}" href="{{quickLink.url}}">{{quickLink.quickLinkText}}</a>
+    </li>
+    *@
+    <li>
+        <a href="/MyAccount/Rfq/MyQuotes">Quotes</a>
+    </li>
+    <li>
+        <a href="/MyAccount/Orders">Orders</a>
+    </li>
+	@{
+        var hasRole = SiteContext.Current.IsUserInRole("Buyer2");
+        if (!hasRole)
+        {
+			<li>
+				<a href="/MyAccount/Invoices">Invoices</a>
+			</li>
+		}
+	}
+    <li>
+        <a href="/MyAccount/PurchasedProducts/">Purchased Products</a>
+    </li>
+    <li>
+        <a href="/MyAccount/SavedCarts">Saved Carts</a>
+    </li>
+    <li>
+        <a href="/MyAccount/MyLists">My Lists</a>
+    </li>
+    <li>
+        <a href="/Cart">Cart</a>
+    </li>
+</ul>

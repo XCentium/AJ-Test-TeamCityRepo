@@ -1,0 +1,21 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Cart.Content.CartPage
+@section BodyClass { checkout-cart }
+@section Styles
+{
+    @*TODO widgets can we just make everything use ContentPage FullPage? and default the css class in the ContentItemModel? how would we add ThemedContent css then?*@
+    @Html.RequireCss(Url.ThemedContent("/Styles/template/checkout-cart.css"))
+}
+
+@* TODO
+    @Html.ThemedPartial("_PersonalizationJs", Model, new ViewDataDictionary{ {"PageName", "Cart"} })
+    @Html.ThemedPartial("_ReviewsJs", Model)
+*@
+
+<div class="row main-row">
+    <div class="large-12 columns">
+        @Html.Zone(Model, "Content")
+    </div>
+</div>
+
+

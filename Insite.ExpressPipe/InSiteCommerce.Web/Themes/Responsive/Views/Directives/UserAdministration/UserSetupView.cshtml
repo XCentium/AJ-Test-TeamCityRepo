@@ -1,0 +1,113 @@
+﻿@using Insite.Account.Content.UserAdministration
+@using Insite.Common.Dependencies
+@using Insite.Core.Interfaces.Plugins.Security
+@using Insite.Core.Providers
+
+<div ng-cloak>
+    <div class="cm" ng-include="'userSetup_topContent'"></div>
+
+    @{
+        var authenticationService = DependencyLocator.Current.GetInstance<IAuthenticationService>();
+        var minRequiredPasswordLength = authenticationService.MinRequiredPasswordLength();
+    }
+
+    <div ng-show="!vm.retrievalError">
+        <div class="usersetup-form">
+            <div class="required-msg"><span class="redTxt">*</span> @(this.T("Required"))</div>
+            <form id="usersetupform" name="usersetupform" ng-submit="vm.isNewUser ? vm.createUser('@(this.Url.ContentPage<UserListPage>())') : vm.updateUser('@(Url.ContentPage<UserListPage>())')" ng-class="vm.isSubmitted ? 'ng-submitted' : ''" novalidate>
+
+                <div ng-show="(vm.isSubmitted && !usersetupform.$valid) || vm.generalError" ng-cloak>
+                    <span ng-show="usersetupform.userName.$error.required" class="field-validation-error">@MessageProvider.Current.CreateNewAccountInfo_UserName_Required</span>
+                    <span ng-show="usersetupform.password.$error.required" class="field-validation-error">@MessageProvider.Current.CreateNewAccountInfo_Password_Required</span>
+                    <span ng-show="usersetupform.password.$error.minlength" class="field-validation-error">@(string.Format(MessageProvider.Current.ChangePasswordInfo_Password_Too_Short, minRequiredPasswordLength))</span>
+                    <span ng-show="usersetupform.confirmPassword.$error.required" class="field-validation-error">@MessageProvider.Current.CreateNewAccountInfo_ConfirmPassword_Required</span>
+                    <span ng-show="usersetupform.confirmPassword.$error.compareTo" class="field-validation-error">@MessageProvider.Current.CreateNewAccountInfo_PasswordCombination_DoesNotMatch</span>
+                    <span ng-show="usersetupform.firstName.$error.required" class="field-validation-error">@MessageProvider.Current.User_Setup_FirstName_Required</span>
+                    <span ng-show="usersetupform.lastName.$error.required" class="field-validation-error">@MessageProvider.Current.User_Setup_LastName_Required</span>
+                    <span ng-show="usersetupform.emailAddress.$error.required" class="field-validation-error">@MessageProvider.Current.CreateNewAccountInfo_EmailAddress_Required</span>
+                    <span ng-show="usersetupform.emailAddress.$invalid && !usersetupform.emailAddress.$pristine" class="field-validation-error">@MessageProvider.Current.CreateNewAccountInfo_EmailAddress_ValidEmail</span>
+                    <span ng-show="usersetupform.role.$error.required" class="field-validation-error">@MessageProvider.Current.User_Setup_Role_Required</span>
+                    <span ng-show="usersetupform.approver.$error.required" class="field-validation-error">@MessageProvider.Current.User_Setup_ApproverRoleRequired</span>
+                    <span ng-show="vm.generalError" class="field-validation-error">{{vm.generalError}}</span>
+                </div>
+                <div class="usersetup-form-username">
+                    <label>@T("Username")<span class="redTxt" ng-if="vm.isNewUser">*</span></label>
+                    <input id="userSetupViewNewUserNameInput" type="text" ng-if="vm.isNewUser" ng-model="vm.user.userName" name="userName" required />
+                    <div ng-if="!vm.isNewUser">
+                        <input id="userSetupViewUserNameInput" type="text" ng-model="vm.user.userName" readonly="readonly" disabled="disabled" />
+                        @*<span id="username" ng-attr-data-id="{{vm.user.id}}" ng-cloak>{{vm.user.userName}}</span>*@
+                        <input type="hidden" ng-model="vm.user.userName" />
+                    </div>
+                </div>
+                <div ng-if="vm.isNewUser">
+                    <div class="usersetup-form-password">
+                        <label>@T("Password") <span class="redTxt">*</span></label>
+                        <input id="userSetupViewUserPasswordInput" type="password" id="password" ng-model="vm.user.password" name="password" ng-minlength="@minRequiredPasswordLength" required />
+                        <div class="message">@* TODO Identity @string.Format(Model.PasswordLengthMessage, @minRequiredPasswordLength)*@</div>
+                    </div>
+                    <div class="usersetup-form-retype">
+                        <label>@T("Retype Password") <span class="redTxt">*</span></label>
+                        <input id="userSetupViewUserConfirmPasswordInput" type="password" id="confirm" ng-model="vm.user.confirmPassword" name="confirmPassword" isc-compare-to="vm.user.password" required />
+                    </div>
+                </div>
+                <div class="usersetup-form-firstname">
+                    <label>@T("First Name") <span class="redTxt">*</span></label>
+                    <input id="userSetupViewUserFirstNameInput" type="text" ng-model="vm.user.firstName" name="firstName" required />
+                </div>
+                <div class="usersetup-form-lastname">
+                    <label>@T("Last Name") <span class="redTxt">*</span></label>
+                    <input id="userSetupViewUserLastNameInput" type="text" ng-model="vm.user.lastName" name="lastName" required />
+                </div>
+                <div class="usersetup-form-email">
+                    <label>@T("Email Address") <span class="redTxt">*</span></label>
+                    <input id="userSetupViewUserEMailInput" type="email" ng-model="vm.user.email" name="emailAddress" required />
+                </div>
+                <div class="usersetup-form-status">
+                    <input id="userSetupViewUserIsApprovedCheckbox" type="checkbox" ng-model="vm.user.isApproved" />
+                    <label>@T("Active")</label>
+                </div>
+                <div class="usersetup-form-assign">
+                    <a class="btn tertiary btn-assign" ng-if="!vm.isNewUser" href="@(Url.ContentPage<UserSetupShipToPage>())?userId={{vm.user.id}}" id="usershiptoLink">@T("Assign / Edit Ship To(s)")</a>
+                </div>
+                <div class="usersetup-form-userrole">
+                    <label>@T("Assign User Role")<span class="redTxt">*</span></label><a id="userSetupViewUserRolesTipLink" class="btn-tip" data-reveal-id="tipRole">?</a>
+
+                    <div id="tipRole" class="reveal-modal popup-role-tip" data-reveal>
+                        <div class="modal-wrap">
+                            <div class="tip-role">
+                                <div class="cm" ng-include="'userSetup_roleInformation'"></div>
+                            </div>
+                            <a id="userSetupViewUserRolesTipWindowCloseButton" class="close-reveal-modal">&#215;</a>
+                        </div>
+                    </div>
+                    <select id="userSetupViewUserRoleSelector" class="sel" ng-model="vm.user.role" name="role" ng-options="role for role in vm.user.availableRoles track by role" required>
+                        <option value="">@T("Select User Role")</option>
+                    </select>
+                </div>
+                <div class="usersetup-form-approver">
+                    <label>@T("Assign Approver")<span class="redTxt">*</span></label><a id="userSetupViewApproverTipLink" class="btn-tip" data-reveal-id="tipApprover">?</a>
+                    <div id="tipApprover" class="reveal-modal popup-role-tip" data-reveal>
+                        <div class="modal-wrap">
+                            <div class="tip-approval">
+                                <div class="cm" ng-include="'userSetup_assignApproverHelp'"></div>
+                            </div>
+                            <a class="close-reveal-modal">&#215;</a>
+                        </div>
+                    </div>
+                    <select id="userSetupViewUserApproverSelector" class="sel" ng-model="vm.user.approver" name="approver" ng-options="approver for approver in vm.user.availableApprovers track by approver">
+                        <option value="">@T("Select an Approver")</option>
+                    </select>
+                </div>
+                <div class="btns">
+                    <a id="userSetupViewCancelButton" href="@(Url.ContentPage<UserListPage>())" class="btn secondary btn-cancel">@T("Cancel")</a>
+                    <button id="userSetupViewSaveButton" type="submit" class="btn primary btn-save">@T("Save")</button>
+                </div>
+            </form>
+        </div>
+        <div class="message success" style="display: none">@T("User Created/Updated")</div>
+    </div>
+
+    <div ng-show="vm.retrievalError" ng-cloak>
+        <span class="field-validation-error">@T("An error occured, please try again later.")</span>
+    </div>
+</div>

@@ -1,0 +1,59 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Breadcrumb
+
+@*TODO CMS 3.7.1 what if a parent does not have a real page to land on? meaning one of its parents is a primary na*@
+@{
+    var breadcrumbs = new List<string>();
+}
+
+<div class="row hide-for-small-down">
+    <div class="small-8 columns">
+        <ul class="widget-breadcrumb breadcrumbs @Model.CssClass">
+            @{
+        var parents = new List<AbstractPage>();
+        var currentPage = CurrentPage;
+
+        if (currentPage != null)
+        {
+            var parentPage = currentPage;
+            while (parentPage.ParentContentKey != null)
+            {
+                parentPage = Content.GetPage(parentPage.ParentContentKey.Value).Page;
+                parents.Insert(0, parentPage);
+            }
+        }
+
+        var currentLink = 1;
+            }
+
+            @foreach (var page in parents)
+            {
+                breadcrumbs.Add(page.Title);
+                <li class="@(currentLink++ != parents.Count() ? "hide-for-small" : "")">
+                    <a href="@GenerateUrl(page)">
+                        @(page.Title)
+                    </a>
+                </li>
+            }
+            <li class="hide-for-small current">
+                <span>@if (currentPage != null) {@T(currentPage.Title) }</span>
+            </li>
+        </ul>
+    </div>
+    <div class="small-4 columns">
+        <div class="sales-rep medium-text-right hide">
+            <div>Questions? Call your sales rep</div>
+            <div><a href="#">Mark Brown</a> at <strong>1-800-429-4111</strong></div>
+        </div>
+    </div>
+</div>
+
+@Html.Script(@<script>
+    insite.personalization.breadcrumbs = [];
+    @foreach (var breadcrumb in breadcrumbs)
+    {
+        <text>
+    insite.personalization.breadcrumbs.push('@breadcrumb');
+    </text>
+    }
+    </script>)

@@ -1,0 +1,45 @@
+﻿@using Insite.Admin.Models
+@using Insite.Core.ApplicationDictionary.AdminActions
+@using Insite.Data.Entities
+@model EntitiesViewModel
+
+<isa-entities pluralized-entity-name="@Model.EntityDefinition.PluralizedName"
+                form-name="@Model.Form.Name"
+                page-size="@Model.PageSize"
+                properties-to-select="@Model.PropertiesToSelect"
+                default-sort="@Model.Form.DefaultSortProperty"
+                default-sort-ascending="@Model.Form.DefaultSortIsAscending"
+                is-archivable="@Model.EntityDefinition.IsArchivable.ToString().ToLower()"
+                angular-controller="@(string.IsNullOrWhiteSpace(Model.Form.AngularListController) ? "EntitiesController" : Model.Form.AngularListController)"
+                class="grid-block"
+                id="tst-@(Model.Form.Name)-list-page"></isa-entities>
+<script type="text/ng-template" id="entities-@Model.EntityDefinition.PluralizedName">
+    <div ng-cloak class="grid-block">
+        @Html.Partial("EntityList", new EntityListModel
+        {
+            EditIcon = Model.EntityDefinition.CanEdit && (Model.Form.ShowEditButton || !Model.Form.ShowViewButton) ? "icon-edit" : "icon-visibility",
+            FormName = Model.Form.Name,
+            EntitiesViewModel = Model,
+            Buttons = @<text>@Html.Partial("EntitiesButtons")</text>,
+            PrependAdditionalColumns = Model.PrependAdditionalColumns,
+            AdditionalColumnHeaders = Model.AdditionalColumnHeaders,
+            AdditionalColumns = Model.AdditionalColumns,
+            CustomBarContent = Model.CustomBarContent
+        })
+        @Html.Partial("DeleteConfirmation", Model.EntityDefinition)
+        @Html.Partial("EditColumns")
+        @Html.Partial("MultiAssignments")
+    </div>
+</script>
+
+@foreach (var entity in Model.Assignments)
+{
+    if (entity.Name.EqualsIgnoreCase("Categories"))
+    {
+        @Html.Action("CategoryTree", "Data", new { CategoryTreeMode = CategoryTreeMode.MultiAssignCategories, IncludeDirective = false })
+    }
+    else
+    {
+        @Html.Action("AddMultipleAssignmentsTemplate", "Data", new {area = "Admin", entityName = Model.EntityDefinition.Name, assignmentName = entity.Name})
+    }
+}

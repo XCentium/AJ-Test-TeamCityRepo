@@ -1,0 +1,392 @@
+﻿@using Insite.Account.Content
+@using Insite.Common.Extensions
+@using Insite.WebFramework.Mvc.Extensions
+@using Insite.Core.Context
+@model Header
+
+@if (!ExcludeCmsCss)
+{
+    @Html.Raw(Model.Css)
+}
+
+@if (!ExcludeCmsJs)
+{
+    @Html.Script(@<text>@Html.Raw(Model.JavaScript)</text>)
+}
+
+<script type="text/javascript">
+    var insite = insite || {};
+    insite.navAdjustments = [];
+</script>
+
+<div ng-controller="TopNavController as vm">
+    <div class="top-nav-container">
+
+        <isc-updated-quotes-message dashboard-url="@(Url.ContentPage<MyAccountPage>())"></isc-updated-quotes-message>
+
+        <div class="contain-to-grid sticky utility-nav hide-for-print">
+            <nav class="top-bar" data-topbar role="navigation">
+                <form>
+                    <div class="row">
+                        <div class="medium-4 columns utility-nav-left hide-for-small-down">
+                            <span class="utility-nav-account">
+                                <span><a href="@(Url.ContentPage<MyAccountPage>())"><span>@T("My Account")</span></a></span>
+                                <span class="divider hide-for-large-down">|</span>
+                                <span class="hide-for-large-down"><a href="/MyAccount/Rfq/MyQuotes"><span>@T("Quotes")</span></a></span>
+                                <span class="divider">|</span>
+                                <span><a href="/MyAccount/Orders"><span>@T("Orders")</span></a></span>
+
+							    @{
+								    var hasRole = SiteContext.Current.IsUserInRole("Buyer2");
+								    if (!hasRole)
+								    {
+									    <span class="divider hide-for-large-down">|</span>
+									    <span class="hide-for-large-down"><a href="/MyAccount/Invoices"><span>@T("Invoices")</span></a></span>
+								    }
+							    }
+
+                                @*<span class="cust-name" ng-bind="vm.session.userLabel"></span>
+                                    <span class="user-role hide" ng-if="vm.session.userRoles" ng-bind="'(' + vm.session.userRoles + ')'"></span>*@
+                            </span>
+                        </div>
+                        <div class="medium-8 columns utility-nav-right">
+                        
+                            <div class="utility-nav-job-signout ng-cloak" ng-if="vm.session && vm.session.isAuthenticated">
+                                @* this will only show if user has more than 1 account *@
+                                <div class="inf-cust" ng-if="vm.billTos.length > 1">
+                                    <div class="inf-label">@T("Acct"):</div>
+                                    <div class="inf-value" ng-bind="vm.session.billTo.customerName"></div>
+                                </div>
+
+                                <div class="inf-ship" ng-if="vm.billTos.length > 1">
+                                    <div class="inf-label">@T("Job"):</div>
+                                    <div class="inf-value" ng-click="vm.showShipTo()">
+                                        <span ng-if="vm.session.shipTo.customerSequence == ''" ng-bind="vm.session.shipTo.customerNumber"></span>
+                                        <span ng-if="vm.session.shipTo.customerSequence != ''" ng-bind="vm.session.shipTo.customerSequence"></span> -
+                                        <span ng-bind="vm.session.shipTo.companyName"></span>
+                                        <span ng-cloak ng-if="vm.session.shipTo.lastName || vm.session.shipTo.firstName">
+                                            {{vm.session.shipTo.lastName}} {{vm.session.shipTo.firstName}},
+                                        </span>
+                                        <span ng-bind="vm.session.shipTo.fullAddress"></span>
+                                    </div>
+                                </div>
+
+                                <div class="inf-ship with-selector" ng-if="vm.billTos.length === 1">
+                                    <div class="inf-label">@T("Job"):</div>
+                                    <div class="inf-selector">
+                                        <div class="inf-value" ng-click="vm.showShipTo()">
+                                            <span ng-if="vm.session.shipTo.customerSequence == ''" ng-bind="vm.session.shipTo.customerNumber"></span>
+                                            <span ng-if="vm.session.shipTo.customerSequence != ''" ng-bind="vm.session.shipTo.customerSequence"></span> -
+                                            <span ng-bind="vm.session.shipTo.companyName"></span>
+                                            <span ng-cloak ng-if="vm.session.shipTo.lastName || vm.session.shipTo.firstName">
+                                                {{vm.session.shipTo.lastName}} {{vm.session.shipTo.firstName}},
+                                            </span>
+                                            <span ng-bind="vm.session.shipTo.fullAddress"></span>
+                                        </div>
+                                        <ul class="inf-ship-select">
+                                            <li ng-repeat="ship in vm.billTo.shipTos | filter:{ label : '!ISC' }"><a ng-click="vm.selectShipTo(ship)">{{ship.label}}</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                @* this will only show if user has more than 1 account *@
+                                <div class="inf-change" ng-show="vm.billTos.length > 1">
+                                    <a ng-if="vm.session.displayChangeCustomerLink" href="@(Url.ContentPage<ChangeCustomerPage>())">
+                                        @T("Change")
+                                    </a>
+                                </div>
+
+                                <span class="divider">|</span>
+
+                                <a href="/Resources/Help-Center" class="help-center">Help Center</a>
+
+                                <span class="divider help-center-divider">|</span>
+
+                                @helper signOutLink()
+                                {
+                                    <a href="javascript:void(0)" class="sign-out fastClick" ng-click="vm.signOut('@Model.ViewModel.SignOutReturnUrl')">
+                                        @Model.ViewModel.SignOutText <i class="fa fa-sign-out"></i>
+                                    </a>
+                                }
+                                @signOutLink()
+
+                            </div>
+                            <span class="utility-nav-signin" role="sign-in" ng-cloak ng-show="vm.session && !vm.session.isAuthenticated">
+                                <a href="@(Url.ContentPage<SignInPage>())" class="fastClick">
+                                    <span>@T("Sign In")</span>
+                                </a> 
+                                <span class="divider">|</span> 
+                                <a href="@(Url.ContentPage<CreateAccountPage>())" class="fastClick">
+                                <span>@T("Register")</span></a>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </nav>
+        </div>
+
+        <!-- user settings hiding for now -->
+        <div class="hide">
+
+            <span ng-if="vm.languages.length > 1 || vm.currencies.length > 1">
+                <button class="btn tertiary isettings">
+                    <span class="flag-ind" ng-if="vm.session.language">
+                        <img ng-cloak ng-src="{{vm.session.language.imageFilePath}}" alt="{{vm.session.language.description}}" />
+                    </span>
+                    <span class="currency-symbol" ng-if="vm.session.currency" ng-bind="vm.session.currency.currencySymbol"></span>
+                    @T("International Settings")
+                </button>
+            </span>
+
+            <form>
+
+                <span ng-if="vm.languages.length > 1">
+                    <label>
+                        <span>@T("Language")</span>
+                        <img ng-cloak ng-if="vm.session.language" ng-src="{{vm.session.language.imageFilePath}}" alt="{{vm.session.language.description}}" />
+                    </label>
+                    <select id="currentLanguage"
+                            ng-model="vm.session.language"
+                            ng-options="language.description for language in vm.languages"
+                            ng-change="vm.setLanguage()"></select>
+                </span>
+                <span ng-if="vm.currencies.length > 1">
+                    <label>
+                        <span class="currency-symbol" ng-if="vm.session.currency" ng-bind="vm.session.currency.currencySymbol"></span>
+                    </label>
+                    <select id="currentCurrency"
+                            ng-model="vm.session.currency"
+                            ng-options="currency.description for currency in vm.currencies"
+                            ng-change="vm.setCurrency(null)"></select>
+                </span>
+                <span>
+                    <button class="user-button btn secondary isettings-cancel">@T("Cancel")</button>
+                </span>
+
+            </form>
+
+            <!-- i don't know what this is -->
+            <div id="narrowSearch" class="search-container hide"></div>
+        </div>
+
+    </div>
+
+
+    <!-- off canvas -->
+    <aside class="left-off-canvas-menu hide-for-print">
+        <nav role="secondary-nav">
+
+            <ul class="hide" role="user-nav">
+                <li role="sign-in" ng-cloak ng-show="vm.session && !vm.session.isAuthenticated">
+                        @{
+                            var signInUrl = Url.ContentPage<SignInPage>();
+                            var returnUrl = HttpContext.Current.Request.QueryString["returnUrl"] ?? HttpContext.Current.Request.ActualUrl().PathAndQuery;
+                            if (returnUrl != signInUrl && returnUrl != "/")
+                            {
+                                signInUrl += "?returnUrl=" + Url.Encode(returnUrl);
+                            }
+                        }
+                        <a href="@signInUrl" class="btn sign-in fastClick"><span>@T("Sign In")</span></a>
+                </li>
+                <li role="user-options" ng-show="vm.session && vm.session.isAuthenticated">
+                    <a href="#" class="user-button fastClick">
+                        <i ng-cloak class="social foundicon-torso"></i>
+                        <span class="cust-name" ng-bind="vm.session.userLabel"></span>
+                        <span class="user-role" ng-if="vm.session.userRoles" ng-bind="'(' + vm.session.userRoles + ')'"></span>
+                    </a>
+                    <a class="ex fastClick"><i class="foundicon-remove"></i></a>
+                </li>
+                <li role="isettings-btn" ng-show="vm.languages.length > 1 || vm.session.currencies.length > 1">
+                    <button class="btn tertiary isettings fastClick">
+                        <span class="flag-ind" ng-if="vm.session.language">
+                            <img ng-cloak ng-src="{{vm.session.language.imageFilePath}}" alt="{{vm.session.language.description}}" />
+                        </span>
+                        <span class="currency-symbol" ng-if="vm.session.currency" ng-bind="vm.session.currency.currencySymbol"></span>
+                    </button>
+                    <button class="ex fastClick"><i class="foundicon-remove"></i></button>
+                </li>
+            
+                <li role="multi-lang" ng-if="vm.languages.length > 1">
+                    <div class="sn-lang">
+                        <ul>
+                            <li class="has-sub">
+                                <a href="#">
+                                    <img ng-cloak ng-if="vm.session.language.imageFilePath" ng-src="{{vm.session.language.imageFilePath}}"
+                                         alt="{{vm.session.language.description}}" />
+                                    <span ng-bind="vm.session.language.description"></span>
+                                </a>
+                                <ul>
+                                    <li ng-repeat="language in vm.languages" ng-class="{'lang-current': language.id === vm.session.language.id}">
+                                        <a href="" ng-click="vm.setLanguage(language.id)">
+                                            <img ng-cloak ng-if="language.imageFilePath" ng-src="{{language.imageFilePath}}" alt="{{language.description}}" />
+                                            <span ng-bind="language.description"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li role="currency" ng-if="vm.currencies.length > 1">
+                    <div class="sn-currency">
+                        <ul>
+                            <li class="has-sub">
+                                <a href="#">
+                                    <span class="currency-symbol" ng-bind="vm.session.currency.currencySymbol"></span>
+                                    <span class="currency-label" ng-bind="vm.session.currency.description"></span>
+                                </a>
+                                <ul>
+                                    <li ng-repeat="currency in vm.currencies" ng-class="{'currency-current': currency.id === vm.session.currency.id}">
+                                        <a href="" ng-click="vm.setCurrency(currency.id)">
+                                            <span class="currency-symbol" ng-bind="currency.currencySymbol"></span>
+                                            <span class="currency-label" ng-bind="currency.description"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="search-button">
+                    <a class="search fastClick" id="searchButton" href="#search"><i class="foundicon-search"></i><span>@T("Search")</span></a>
+                    <a class="ex fastClick"><i class="foundicon-remove"></i></a>
+                </li>
+            </ul>
+
+            <div class="account-selector ng-cloak" ng-if="vm.session && vm.session.isAuthenticated">
+                <div class="inf-cust">
+                    <div class="inf-label">@T("Account"):</div>
+                    <div class="inf-value" ng-bind="vm.session.billTo.customerName"></div>
+                </div>
+
+                <div class="inf-ship">
+                    <div class="inf-label">@T("Job"):</div>
+                    <div class="inf-value">
+                        <div ng-bind="vm.session.shipTo.company"></div>
+                        <div ng-cloak ng-if="vm.session.shipTo.lastName || vm.session.shipTo.firstName">
+                            {{vm.session.shipTo.lastName}} {{vm.session.shipTo.firstName}},
+                        </div>
+                        <div ng-bind="vm.session.shipTo.fullAddress"></div>
+                    </div>
+                </div>
+
+                <div class="inf-change">
+                    <a class="small button" ng-if="vm.session.displayChangeCustomerLink" href="@(Url.ContentPage<ChangeCustomerPage>())">
+                        @T("Change")
+                    </a>
+                </div>
+
+                <hr />
+
+            </div>
+
+            @Html.Zone(Model, "Off Canvas Nav Top")
+
+            <hr />
+
+            @Html.Zone(Model, "Off Canvas Nav Middle")
+
+            <hr />
+
+            @Html.Zone(Model, "Off Canvas Nav Bottom")
+
+            <hr />
+
+            <ul>
+                <li role="sign-in" ng-cloak ng-show="vm.session && !vm.session.isAuthenticated">
+                    <a href="@(Url.ContentPage<SignInPage>())" class="btn sign-in fastClick"><span>@T("Sign In")</span></a>
+                </li>
+                <li ng-cloak ng-show="vm.session && vm.session.isAuthenticated">
+                    @signOutLink()
+                </li>
+                <li ng-cloak ng-show="vm.session && !vm.session.isAuthenticated">
+                    <a href="@(Url.ContentPage<CreateAccountPage>())" class="fastClick">
+                        <span>@T("Register")</span>
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
+    </aside>
+</div>
+<header id="header" role="masthead" class="use-fastclick sign-in cms-rearrangeable" ng-controller="HeaderController as vm">
+    <div class="row hide-for-small-down">
+        @*//TODO CMS 3.7.1 how do we let someone link to home? send all urls through the prepareurl thing?*@
+        @* Logo *@
+        <div class="medium-3 large-3 xlarge-2 columns">
+            @Html.Zone(Model, "Left")
+        </div>
+        <div class="medium-9 large-9 xlarge-7 columns hide-for-print middle-nav-dropdown">
+            @Html.Zone(Model, "Center")
+        </div>
+        <div class="xlarge-3 hide-for-large-down columns hide-for-print middle-nav-contact">
+            <div><a href="tel:18004294111">1-800-429-4111</a></div>
+            @Html.Zone(Model, "Right")
+        </div>        
+
+        <div class="ui-lock"></div>
+    </div>
+
+    <div class="row hide-for-medium-up mini-header hide-for-print">
+        <div class="logo">
+            @Html.Zone(Model, "Left")
+        </div>
+        <ul class="mini-nav">
+            <li class="mini-account">
+                <a href="@(Url.ContentPage<MyAccountPage>())"><i class="fa fa-lg fa-user"></i></a>
+            </li>
+            <li class="mini-cart">
+                <isc-micro-cart cart="vm.cart"></isc-micro-cart>
+            </li>
+        </ul>
+    </div>
+
+    <div class="contain-to-grid main-nav hide-for-print">
+        <nav class="top-bar" data-topbar role="navigation">
+            <input type="checkbox" name="nav" id="main-nav-check" class="hide" />
+            <section class="top-bar-section" ng-cloak>
+                <ul>
+                    @foreach (var navigationItem in Content.GetChildPages<AbstractPage>(Content.GetPage<HomePage>().Page.ContentKey).Where(o => !o.ExcludeFromNavigation).Where(o => o.Name.Equals("Products")))
+                    {
+                        @Html.ThemedPartial(navigationItem.NavigationView, navigationItem)
+                    }
+                    <li class="has-form">
+                        <isc-product-search></isc-product-search>
+                    </li>
+                    @if (Model.ViewModel.DisplayCart)
+                    {
+                        <li class="right hide-for-small-down">
+                            <isc-micro-cart cart="vm.cart"></isc-micro-cart>
+                        </li>
+                    }
+                    <li class="right hide-for-small-down">
+                        <a href="/MyAccount/MyLists">@T("My Lists")</a>
+                    </li>
+                    <li class="right hide-for-medium-down">
+                        <a href="/FileUpload">@T("File Upload")</a>
+                    </li>
+                    <li class="right hide-for-small-down">
+                        <a href="/QuickOrder">@T("Quick Order")</a>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+        <div class="isc-primary-nav-top hide">
+            @* To Do 3.7.1 - change navigation back function to use below label element *@
+            <label class="toggle isc-primary-nav-back isc-hidden" onclick="insite.nav.goBack()" title="Back">&#9668;</label>
+
+            <label class="toggle close-all" onclick="insite.nav.uncheckBoxes('nav')">&times;</label>
+        </div>
+    </div>
+
+</header>
+<div class="contain-to-grid category-nav hide-for-print">
+    @Html.Zone(Model, "Sub Nav")
+</div>
+<div class="ui-lock"></div>
+
+@* This div is ended in the mainlayout, there wasn't a clean way to do this otherwise *@
+<div class="container">
+    <div class="main" role="main">
+        <div class="ui-lock"></div>
+        @* ignore warning here, we close the div in mainlayout *@

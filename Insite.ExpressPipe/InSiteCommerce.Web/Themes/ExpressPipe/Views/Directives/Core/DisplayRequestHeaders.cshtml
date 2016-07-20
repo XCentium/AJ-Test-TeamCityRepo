@@ -1,0 +1,27 @@
+﻿﻿@using Newtonsoft.Json
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Contents of HttpContext.Current.Request</title>
+    </head>
+    <body>
+        <div>
+            <h3>Headers</h3>
+            @foreach (var key in HttpContext.Current.Request.Headers.AllKeys)
+            {
+                <p>@key : @HttpContext.Current.Request.Headers[key]</p>
+            }
+            <h3>ServerVariables</h3>
+            @foreach (var key in HttpContext.Current.Request.ServerVariables.AllKeys)
+            {
+                <p>@key : @HttpContext.Current.Request.ServerVariables[key]</p>
+            }
+        </div>
+    </body>
+</html>

@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>ETL_ECommerce_DB</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{21ab2709-4e8f-429f-852c-a322bf0e8132}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>ETL_ECommerce_DB</RootNamespace>
+    <AssemblyName>ETL_ECommerce_DB</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Views\" />
+    <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="AD_mfglover\" />
+    <Folder Include="AD_mfglover\Stored Procedures\" />
+    <Folder Include="Security\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\TradeServicesProduct.sql" />
+    <Build Include="dbo\Tables\Category.sql" />
+    <Build Include="dbo\Tables\WebSiteEtlSource.sql" />
+    <Build Include="dbo\Views\vTradeServicesProduct.sql" />
+    <Build Include="dbo\Tables\Product.sql" />
+    <Build Include="dbo\Tables\CategoryProduct.sql" />
+    <Build Include="dbo\Tables\UserProfile.sql" />
+    <Build Include="dbo\Tables\Specification.sql" />
+    <Build Include="dbo\Tables\ProductUnitOfMeasure.sql" />
+    <Build Include="dbo\Tables\ProductSpecification.sql" />
+    <Build Include="dbo\Tables\ProductFile_Sample.sql" />
+    <Build Include="dbo\Tables\ProductAttributeValue.sql" />
+    <Build Include="dbo\Tables\EtlParameter.sql" />
+    <Build Include="dbo\Tables\DocumentManager.sql" />
+    <Build Include="dbo\Tables\Document.sql" />
+    <Build Include="dbo\Tables\ContentManager.sql" />
+    <Build Include="dbo\Tables\Content.sql" />
+    <Build Include="dbo\Tables\CategoryAttributeValue.sql" />
+    <Build Include="dbo\Tables\CategoryAttributeType.sql" />
+    <Build Include="dbo\Tables\AttributeValue.sql" />
+    <Build Include="dbo\Tables\AttributeType.sql" />
+    <Build Include="dbo\Tables\ShipmentPackageLine.sql" />
+    <Build Include="dbo\Tables\ShipmentPackage.sql" />
+    <Build Include="dbo\Tables\Shipment.sql" />
+    <Build Include="dbo\Tables\ProductProperty.sql" />
+    <Build Include="dbo\Tables\OrderHistoryLine.sql" />
+    <Build Include="dbo\Tables\OrderHistory.sql" />
+    <Build Include="dbo\Views\vw_ProductAttributeValues.sql" />
+    <Build Include="dbo\Stored Procedures\sp_UpdateProductWithDocumentManagerID.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateInsiteProduct.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateInsiteDocumentManager.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateInsiteCategory.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLWebSiteEtlSource.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLSpecification.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLProductUnitOfMeasure.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLProductSpecification.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLProductProperty.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLProduct.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLDocumentManager.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLDocument.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLContentManager.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLContent.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLCategoryProduct.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLCategoryAttributeType.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLCategory.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLAttributeValue.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLAttributeType.sql" />
+    <Build Include="dbo\Tables\Warehouse.sql" />
+    <Build Include="dbo\Tables\Country.sql" />
+    <Build Include="dbo\Views\vw_TradeServicesProduct.sql" />
+    <Build Include="dbo\Views\vw_ProductProperty.sql" />
+    <Build Include="dbo\Views\vw_ProductDocument.sql" />
+    <Build Include="dbo\Views\vw_ProductData.sql" />
+    <Build Include="dbo\Views\vw_CategoryProduct.sql" />
+    <Build Include="dbo\Views\vw_Category.sql" />
+    <Build Include="dbo\Functions\fn_WebSiteForEtlSourceID.sql" />
+    <Build Include="dbo\Functions\fn_GetServiceUserName.sql" />
+    <Build Include="AD_mfglover\Stored Procedures\sp_PopulateETLShipmentPackageLine.sql" />
+    <Build Include="Security\AD_mfglover.sql" />
+    <Build Include="dbo\Tables\TradeServicesProduct_Scrub.sql" />
+    <Build Include="dbo\Tables\Salesperson.sql" />
+    <Build Include="dbo\Tables\ProductListType.sql" />
+    <Build Include="dbo\Tables\ProductList.sql" />
+    <Build Include="dbo\Tables\EtlTranslation.sql" />
+    <Build Include="dbo\Tables\ErrorLog_1.sql" />
+    <Build Include="dbo\Tables\Customer.sql" />
+    <Build Include="dbo\Tables\ConsolidatedFile.sql" />
+    <Build Include="dbo\Views\vw_ProductSpecificationData_1.sql" />
+    <Build Include="dbo\Views\vw_ProductCategoryAttributeValues_1.sql" />
+    <Build Include="dbo\Views\vw_NonTSPProductProperty.sql" />
+    <Build Include="dbo\Views\vw_NonTradeServiceProductData.sql" />
+    <Build Include="dbo\Views\vw_InsiteProductAttribute_1.sql" />
+    <Build Include="dbo\Views\vw_InsiteCategoryAttribute_1.sql" />
+    <Build Include="dbo\Views\vw_ErrorLog_1.sql" />
+    <Build Include="Security\InsiteETL_1.sql" />
+    <Build Include="Security\RoleMemberships_1.sql" />
+    <Build Include="Security\RoleMemberships_2.sql" />
+    <Build Include="Security\RoleMemberships_3.sql" />
+    <Build Include="dbo\Functions\fn_UrlEncode.sql" />
+    <Build Include="dbo\Functions\fn_ScrubData2.sql" />
+    <Build Include="dbo\Functions\fn_ScrubData.sql" />
+    <Build Include="dbo\Functions\fn_ScrubCategoryPath.sql" />
+    <Build Include="dbo\Functions\fn_Remove_Duplicate_Characters.sql" />
+    <Build Include="dbo\Functions\fn_GetGenerationOrderId.sql" />
+    <Build Include="dbo\Functions\fn_GetCsvElement.sql" />
+    <Build Include="dbo\Functions\fn_GetCsvCount.sql" />
+    <Build Include="dbo\Functions\fn_GetCategoryFullPathTradeServices_1.sql" />
+    <Build Include="dbo\Functions\fn_GetCategoryFullPathInsite_1.sql" />
+    <Build Include="dbo\Functions\fn_GetCategoryFullPathETL_1.sql" />
+    <Build Include="dbo\Functions\fn_CsvContains.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateTradeServicesProduct_1.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateInsiteWarehouse.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateInsiteProductSpecification_Content.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateInsiteProductList.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateInsiteProductCategoryAttributes.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateInsiteOrderHistory_1.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateInsiteCustomProperty.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateInsiteCustomer_1.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLWarehouse.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLProductList.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLProductDocument_Property_1.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLProductContent_Specfication_1.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLProductCategoryAttributes_1.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLProduct_PUOM_1.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLOrderHistory_1.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLCustomer_1.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLCategory_CategoryProduct_1.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Populate_ALL_Data_In_InsiteDB.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Populate_ALL_Data_In_ETLDB_1.sql" />
+    <Build Include="dbo\Stored Procedures\sp_LogError_1.sql" />
+    <Build Include="Security\Permissions_1.sql" />
+    <Build Include="dbo\Tables\ShipVia_4.sql" />
+    <Build Include="dbo\Tables\InvoiceHistory_4.sql" />
+    <Build Include="dbo\Tables\CustomProperty_4.sql" />
+    <Build Include="dbo\Tables\CustomerProperty_4.sql" />
+    <Build Include="dbo\Tables\CustomerCarrier_4.sql" />
+    <Build Include="dbo\Tables\CategoryProperty_4.sql" />
+    <Build Include="dbo\Tables\CategoryMiscData_Scrub_4.sql" />
+    <Build Include="dbo\Tables\CategoryMiscData_4.sql" />
+    <Build Include="dbo\Tables\CarrierZoneRate_4.sql" />
+    <Build Include="dbo\Tables\CarrierZonePostalCodeRange_4.sql" />
+    <Build Include="dbo\Tables\CarrierZone_4.sql" />
+    <Build Include="dbo\Tables\CarrierPackage_4.sql" />
+    <Build Include="dbo\Tables\Carrier_4.sql" />
+    <Build Include="dbo\Tables\ActivityInstance_4.sql" />
+    <Build Include="dbo\Views\vw_QualifyingShipToCustomers_2.sql" />
+    <Build Include="dbo\Views\vw_QualifyingShipments_2.sql" />
+    <Build Include="dbo\Views\vw_QualifyingShipmentLines_2.sql" />
+    <Build Include="dbo\Views\vw_QualifyingInvoices_4.sql" />
+    <Build Include="dbo\Views\vw_QualifyingCustomers_4.sql" />
+    <Build Include="dbo\Views\vw_QualifyingBillToCustomers_3.sql" />
+    <Build Include="dbo\Views\vw_ProductGenericData_4.sql" />
+    <Build Include="dbo\Views\vw_GetMasterOrdersFromHistory_3.sql" />
+    <Build Include="Security\AD_Insite_Admins_4.sql" />
+    <Build Include="Security\AD_mfglover_5.sql" />
+    <Build Include="Security\AD_vpsankar_6.sql" />
+    <Build Include="Security\XC_morsco_3.sql" />
+    <Build Include="Security\XC-MORSCO-01_Morsco_3.sql" />
+    <Build Include="Security\RoleMemberships_28.sql" />
+    <Build Include="Security\RoleMemberships_29.sql" />
+    <Build Include="Security\RoleMemberships_30.sql" />
+    <Build Include="Security\RoleMemberships_31.sql" />
+    <Build Include="Security\RoleMemberships_32.sql" />
+    <Build Include="Security\RoleMemberships_33.sql" />
+    <Build Include="dbo\Functions\fn_InitialCap_2.sql" />
+    <Build Include="dbo\Functions\fn_GetDelimitedElement_4.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateInsiteInvoiceHistory_4.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLInvoiceHistory_4.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLGenericProducts_4.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateETLCategoryMiscData_4.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Populate__5MiscData_4.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Populate__4OrderHistoryData_4.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Populate__3CustomerData_4.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Populate__2CategoryData_4.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Populate__1ProductData_4.sql" />
+    <Build Include="dbo\Stored Procedures\sp_Populate__0LoadALLData_3.sql" />
+    <Build Include="dbo\Stored Procedures\sp_AddCustomPropertiesToInSite_4.sql" />
+    <Build Include="dbo\Stored Procedures\BackupDbWithTs_4.sql" />
+    <Build Include="Security\AD_vpsankar_7.sql" />
+    <Build Include="dbo\Tables\ValidationItem.sql" />
+    <Build Include="dbo\Tables\GenericProducts_Scrub.sql" />
+    <Build Include="dbo\Tables\GenericProducts.sql" />
+    <Build Include="dbo\Stored Procedures\sp_ValidateSourceData.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateInsiteCustomerProperty.sql" />
+    <Build Include="dbo\Tables\LastUpdate_1.sql" />
+    <Build Include="dbo\Stored Procedures\sp_ValidateTradeServiceProductData.sql" />
+    <Build Include="dbo\Stored Procedures\sp_ValidateProcessedData.sql" />
+    <Build Include="dbo\Stored Procedures\sp_UpdateETLProcessCompletionDateTime_1.sql" />
+    <Build Include="dbo\Stored Procedures\sp_ValidateLastUpdateDateForRefresh.sql" />
+    <Build Include="dbo\Tables\DataRefreshLog.sql" />
+    <Build Include="dbo\Stored Procedures\sp_ValidateLastUpdateDateForRefresh.sql" />
+    <Build Include="dbo\Stored Procedures\sp_AddDataRefreshStatus.sql" />
+    <Build Include="dbo\Tables\OrderHeaderScrub.sql" />
+    <Build Include="dbo\Tables\OrderHeaderLog.sql" />
+    <Build Include="dbo\Tables\OrderDetailScrub.sql" />
+    <Build Include="dbo\Tables\OrderDetailLog.sql" />
+    <Build Include="dbo\Tables\CatalogProduct.sql" />
+    <Build Include="dbo\Stored Procedures\sp_RebuildProductIndex.sql" />
+    <Build Include="dbo\Stored Procedures\sp_PopulateOrderLogData.sql" />
+  </ItemGroup>
+</Project>

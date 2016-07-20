@@ -1,0 +1,46 @@
+﻿<div class="item-block">
+    <div class="item-thumb">
+        <a href="{{product.productDetailUrl}}">
+            <img ng-src="{{product.largeImagePath}}" />
+        </a>
+    </div>
+    <div class="item-details">
+        <div class="item-inf-wrapper">
+            <div class="item-brand">
+                <span ng-bind="product.properties['manufacturerName']"></span>
+            </div>
+            <div class="item-name" ng-init="productName = product.shortDescription !== '' ? product.shortDescription : product.erpDescription">
+                <a href="{{product.productDetailUrl}}">{{productName}}</a>
+            </div>
+            <div class="item-num">
+
+                <span class="item-num-mfg" ng-if="product.properties['genericPartNumber']">
+                    @("Item#") <span class="dark">{{product.properties['genericPartNumber']}}</span>
+                </span>
+                <span class="item-num-mfg" ng-if="!product.properties['genericPartNumber']">
+                    @("MFR#") <span class="dark">{{product.manufacturerItem}}</span>
+                </span>
+            </div>
+            <div class="item-price">
+                <isc-product-price product="product"></isc-product-price>
+            </div>
+        </div>
+
+        <div class="add-to-cart">
+            <div ng-if="product.canEnterQuantity" class="item-qty hide">
+                <label>@T("Qty"):</label>
+                <input id="qty-{{product.id}}" type="number" min="product.properties.minimumSellQty" name="qty"
+                       ng-change="vm.updateQty(product)"
+                       ng-model-options="{ updateOn: 'blur' }"
+                       step="{{product.properties.minimumSellQty}}" class="numerictextbox qty" ng-model="product.qtyOrdered" />
+            </div>
+            <div class="item-buttons">
+                <button id="addToCartid{{product.id}}" ng-click="vm.addToCart(product)"
+                        class="button hide">
+                    @T("Add To Cart")
+                </button>
+                <div class="item-add-to-list"><a ng-if="product.canAddToWishlist && vm.isAuthenticated" ng-click="vm.openWishListPopup(product)" role="button" class="" href="javascript:;">@T("+ Add to List")</a></div>
+            </div>
+        </div>
+    </div>
+</div>

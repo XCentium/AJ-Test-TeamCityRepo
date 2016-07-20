@@ -1,0 +1,214 @@
+﻿@using System.Text.RegularExpressions
+@using System.Web.Mvc.Html
+@using Insite.Admin
+@using Insite.Admin.ControlTypes
+@using Insite.Admin.Providers
+@using Insite.Common.Dependencies
+@using Insite.Core.ApplicationDictionary
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Serialization
+@model Insite.Admin.Models.EntityListModel
+
+<div class="grid-block vertical" st-table="entityListCtrl.entities" st-pipe="entityListCtrl.loadEntities" ng-if="entityListCtrl.isReady">
+    @{ var instructionalText = Model.OverriddenInstructionalText ?? Model.EntitiesViewModel.Form.InstructionalText; }
+    @if (!instructionalText.IsBlank())
+    {
+        <div class="title-bar">
+            <div class="instructions ng-cloak">
+                <span>@instructionalText</span>
+            </div>
+        </div>
+    }
+
+    @if (Model.ShowTitleBar)
+    {
+        <div class="title-bar">
+            <h1 class="title left">
+                <span class="title__label">
+                <span ng-bind="entityListCtrl.itemCount | number:0"></span>
+                <span ng-show="entityListCtrl.itemCount !== 1">@Model.Title</span>
+                <span ng-show="entityListCtrl.itemCount === 1">@Model.SingularTitle</span>
+            </span>
+            </h1>
+            @Model.Buttons(null)
+        </div>
+    }
+
+    <div class="list-action-bar">
+        <div class="sub-content ng-cloak" ng-show="entityListCtrl.selectedIds.length > 0">
+            @if (Model.ShowSelectColumn)
+            {
+                <div class="selection-counter" ng-bind="entityListCtrl.selectedIds.length"></div>
+            }
+            <div class="selection-actions">
+                <span class="selection-actions__label flex-none">Show</span>
+                <select class="no-margin"
+                        ng-model="entityListCtrl.showSelectedOnly"
+                        ng-options="(!item ? 'All' : 'Selected') for item in [false, true]" ng-change="entityListCtrl.changeShowSelectedOnly()">
+                </select>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="archived-actions" ng-if="entityListCtrl.loadedInitialState">
+                @if (Model.EntitiesViewModel.EntityDefinition.IsArchivable)
+                {
+                    <isa-show-archived-switch on-change="entityListCtrl.reloadList()" archive-filter="entityListCtrl.archiveFilter"></isa-show-archived-switch>
+                }
+            </div>
+            <div class="filtering-actions">
+                @{
+                    var quickFilters = JsonConvert.SerializeObject(Model.EntitiesViewModel.QuickFilters, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+                }
+                <isa-quick-filter on-change="entityListCtrl.reloadList()" filters-loaded="entityListCtrl.loadedInitialState" available-quick-filters="@quickFilters" filters-collection="entityListCtrl.filtersCollection"></isa-quick-filter>
+            </div>
+
+            <div class="paging-actions">
+                <span ng-show="entityListCtrl.needsPager()" st-pagination st-page-change="entityListCtrl.pageChanged()" st-items-by-page="entityListCtrl.pageSize" st-template="customPager.html"></span>
+                <span ng-show="entityListCtrl.allowEditColumns">
+                    <a class="button button-icon right paging-actions__edit-columns" ng-click="entityListCtrl.editColumns()"><i class="icon icon-columns"></i></a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.CustomBarContent != null)
+    {
+        <div class="list-action-bar">
+            @Model.CustomBarContent(null)
+        </div>
+    }
+
+    @if (Model.EntitiesViewModel.Form.LeftSidebarContent.IsBlank())
+    {
+        @DrawGrid()
+    }
+    else
+    {
+        <div class="grid-block">
+            <div class="grid-block">
+                <div class="medium-3 grid-block">
+                    @Html.Raw(Model.EntitiesViewModel.Form.LeftSidebarContent)
+                </div>
+                <div class="medium-9 grid-block">
+                    @DrawGrid()
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@helper DrawGrid()
+{
+    <div class="grid-block table-block">
+        <isa-table>
+            <isa-table-header>
+                <table class="table ng-cloak">
+                    <thead>
+                    <tr>
+                        @if (Model.ShowSelectColumn)
+                        {
+                            <th class="text-center column-select">
+                                <input type="checkbox" ng-checked="!entityListCtrl.areNoneSelected()"
+                                       ng-click="entityListCtrl.areNoneSelected() ? entityListCtrl.selectAll() : entityListCtrl.unselectAll()" />
+                            </th>
+                        }
+                        @if (Model.EntitiesViewModel.Form.ShowEditButton || Model.EntitiesViewModel.Form.ShowViewButton)
+                        {
+                            <th class="text-center column-edit">
+                                <div class="column-header">@(Model.EntitiesViewModel.EntityDefinition.CanEdit && (Model.EntitiesViewModel.Form.ShowEditButton || !Model.EntitiesViewModel.Form.ShowViewButton) ? "Edit" : "View")</div>
+                            </th>
+                        }
+                        @if (Model.AdditionalColumnHeaders != null && Model.PrependAdditionalColumns)
+                        {
+                            @Model.AdditionalColumnHeaders(null)
+                        }
+                        @foreach (var column in Model.EntitiesViewModel.Columns)
+                        {
+                            @* TODO 4.2 this is ugly, .Columns could be changed to a collection of ColumnModel, and we could figure this out in the controller instead*@
+                            var sort = column.Name;
+                            if (column.ControlType is LookupDropDownControl)
+                            {
+                                sort = "";
+                                var property = column.Name.Replace("Id", "");
+                                var pluralizedEntityName = (column.ControlType as LookupDropDownControl).GetPluralizedEntityName(column);
+                                var entityDefinitionDto = DependencyLocator.Current.GetInstance<IEntityDefinitionProvider>().GetByPluralizedName(pluralizedEntityName, AdminContext.Current.UserProfile.UserName);
+                                foreach (Match match in Regex.Matches(entityDefinitionDto.DisplayNameFormat, @"{(\w+)}"))
+                                {
+                                    sort += property + "/" + match.Value.Replace("{", "").Replace("}", "") + "-";
+                                }
+                                sort = sort.Substring(0, sort.Length - 1);
+                            }
+
+                            <th class="text-left is-actionable" st-sort="@sort" st-skip-natural="true">
+                                <div class="column-header">@column.Label</div>
+                            </th>
+                        }
+                        @if (Model.AdditionalColumnHeaders != null && !Model.PrependAdditionalColumns)
+                        {
+                            @Model.AdditionalColumnHeaders(null)
+                        }
+                    </tr>
+                    </thead>
+                </table>
+            </isa-table-header>
+
+            <isa-table-content>
+                <table class="table ng-cloak">
+                    <tbody>
+                        <tr ng-repeat="entity in entityListCtrl.entities" ng-show="entityListCtrl.shouldShow(entity.id)" ng-class="entityListCtrl.isSelected(entity.id) ? 'list-row--is-selected' : ''" emit-repeat-finished>
+                            @if (Model.ShowSelectColumn)
+                            {
+                                <td class="text-center column-select">
+                                    <input type="checkbox" ng-checked="entityListCtrl.isSelected(entity.id)"
+                                           ng-click="entityListCtrl.updateSelected($event, entity.id)" ng-disabled="entityListCtrl.isDisabledCheckbox(entity.id)" />
+                                </td>
+                            }
+                            @if (Model.EntitiesViewModel.Form.ShowEditButton || Model.EntitiesViewModel.Form.ShowViewButton)
+                            {
+                                <td class="text-center column-edit">
+                                    <a class="button button-icon" ng-click="entityListCtrl.editSingleRecord($event, entity.id)"
+                                       ng-href="/admin/data/@(Model.FormName != null ? Model.FormName.ToLower() : Model.EntitiesViewModel.EntityDefinition.PluralizedName.ToLower())/{{entity.id}}?{{entityListCtrl.getParentsForUrl()}}">
+                                        <i class="icon @Model.EditIcon"></i>
+                                    </a>
+                                </td>
+                            }
+                            @{
+                                var controlTypeViewModelProvider = DependencyLocator.Current.GetInstance<IControlTypeViewModelProvider>();
+                            }
+                            
+                            @if (Model.AdditionalColumns != null && Model.PrependAdditionalColumns)
+                            {
+                                @Model.AdditionalColumns(null)
+                            }
+
+                            @foreach (var column in Model.EntitiesViewModel.Columns)
+                            {
+                                <td class="text-left">
+                                    <div class="column-content">
+                                        @if (column.ControlType != null)
+                                        {
+                                            @Html.Partial("/Areas/admin/Views/Data/ControlTypes/" + column.ControlType.ViewName + "_Display.cshtml", controlTypeViewModelProvider.GetControlTypeViewModel(column))
+                                        }
+                                    </div>
+                                </td>
+                            }
+                            @if (Model.AdditionalColumns != null && !Model.PrependAdditionalColumns)
+                            {
+                                @Model.AdditionalColumns(null)
+                            }
+                        </tr>
+                        <tr class="text-center" ng-show="entityListCtrl.entities && entityListCtrl.entities.length === 0">
+                            <td>No records to display</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </isa-table-content>
+        </isa-table>
+        <div ng-show="entityListCtrl.showSpinner" class="table-overlay">
+            <div class="loader-bg">
+                <div class="loader loader-content-area"></div>
+            </div>
+        </div>
+    </div>
+}

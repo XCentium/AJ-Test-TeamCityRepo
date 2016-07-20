@@ -1,0 +1,48 @@
+﻿@using Insite.Cart.Content
+@using Insite.JobQuote.Content
+@using Insite.Rfq.Content
+@using Insite.WebFramework.Mvc.Extensions
+
+<div>
+    <isc-quote-detail-header quote="vm.quote"></isc-quote-detail-header>
+
+    <div class="row quote-details">
+        <form novalidate id="quoteDetailsForm" class="custom">
+            <div ng-show="vm.quote.status === 'QuoteProposed' || vm.quote.status === 'AwaitingApproval'">
+                <div class="medium-12 large-12 columns col-items">
+                    <div id="order-grid">
+                        <isc-proposed-details-grid quote="vm.quote"></isc-proposed-details-grid>
+                    </div>
+                </div>
+                <div class="medium-12 large-12 columns btns">
+                    <button id="quoteDetailsViewAcceptQuoteAndCheckOutButton" ng-if="!vm.quote.isJobQuote" ng-disabled="!vm.formValid" ng-click="vm.acceptCheckout('@(Url.ContentPage<CheckoutAddressPage>())?cartId=')" class="btn primary btn-accept-quote-checkout" type="button">@T("Accept Quote & Checkout")</button>
+                    <button id="quoteDetailsViewAcceptJobQuoteButton" ng-if="vm.quote.isJobQuote" ng-disabled="!vm.formValid" ng-click="vm.acceptJobQuote('@(Url.ContentPage<MyJobQuotesPage>())')" class="btn primary btn-accept-quote-checkout" type="button">@T("Accept Job Quote")</button>
+                    <button id="quoteDetailsViewDeclineQuoteButton" ng-if="vm.quote.status === 'QuoteProposed'" ng-click="vm.declineQuote('@(Url.ContentPage<RfqMyQuotesPage>())')" class="btn secondary btn-decline-quote" type="button">{{vm.quote.isJobQuote ? '@T("Decline Job Quote")' : '@T("Decline Quote")'}}</button>
+                    <a id="quoteDetailsViewPrintButton" href="javascript: window.print();" class="hide-for-small btn tertiary btn-print">@T("Print")</a>
+                </div>
+            </div>
+            <div ng-show="vm.quote.status !== 'QuoteProposed' && vm.quote.status !== 'AwaitingApproval'">
+                <div class="medium-12 large-12 columns col-items">
+                    <isc-requested-details-grid quote="vm.quote"></isc-requested-details-grid>
+                </div>
+                <div class="medium-12 large-12 columns btns">
+                    <a id="quoteDetailsViewPrintButton" href="javascript: window.print();" class="hide-for-small btn tertiary btn-print">@T("Print")</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <a ng-show="!vm.isCartEmpty" id="rfqPopupCartNotificationLink" data-reveal-id="rfqPopupCartNotification" href="javascript:void(0);"></a>
+    <div ng-show="!vm.isCartEmpty" id="rfqPopupCartNotification" class="reveal-modal popup-cart-notification" data-reveal data-reveal-init>
+        <div class="modal-wrap">
+            <p id="cartNotificationMessageText" class="messaging">
+                @Html.Message("Rfq_CartNotificationMessage", "Items in your cart will not be added to your quote order. You will be able to continue shopping and purchase these items after accepting your quote.")
+            </p>
+            <div class="btns">
+                <button id="quoteDetailsViewEmptyCartContinueButton" ng-click="vm.continueCheckout('@(Url.ContentPage<CheckoutAddressPage>())?cartId=')" class="btn primary btn-continue" type="button">@T("Continue")</button>
+                <button id="quoteDetailsViewEmptyCartCancelButton" ng-click="vm.closeModal('#rfqPopupCartNotification')" class="btn tertiary btn-cancel" type="button">@T("Cancel")</button>
+            </div>
+            <a id="quoteDetailsViewEmptyCartCloseButton" class="close-reveal-modal">&#215;</a>
+        </div>
+    </div>
+</div>

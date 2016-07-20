@@ -1,0 +1,223 @@
+﻿@import "../_settings.scss";
+
+.topbar {
+    background-color: $brand-dark;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 99;
+
+    .brand-logo {
+        padding: 10px;
+
+        &:hover {
+            background: inherit !important;
+        }
+
+        img {
+            margin-bottom: 0;
+        }
+    }
+
+    .menu-bar {
+        background-color: $brand-dark;
+
+        > li {
+             > a, > div.help-links > a {
+                justify-content: center;
+                height: $topbar-height;
+                color: $white;
+                background-color: $brand-dark;
+                padding: 1em 1.2em;
+                margin: 0;
+
+                > i{
+                    color: $type-light;
+                    font-size: 20px;
+                    transition: .15s ease;
+                }
+
+                > span {
+                    margin-left: 10px;
+                }
+            }
+
+            > a:hover, a.is-active, > div.help-links > a:hover, > div.help-links > a.is-active {
+                background-color: $brand;
+
+                > i {
+                    color: white;
+                }
+            }
+        }
+    }
+}
+
+.menu-bar-debug {
+    .button {
+        background-image: url('/Images/debug_light.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 42%;
+        width: 54px;
+    }
+
+    &:hover .button, .button.is-active {
+        background-image: url('/Images/debug_white.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 42%;
+    }
+}
+
+.debug-menu {
+    .debug-menu__title {
+        color: $gray;
+        font-family: $header-font-family;
+        font-size: 1rem;
+        font-weight: bold;
+        letter-spacing: .05em;
+        line-height: 1.14285rem;
+        margin: 0;
+        padding: 1rem;
+        text-transform: uppercase;
+    }
+}
+
+.help-menu {
+    width: 400px;
+
+    .help-menu__title {
+        color: $gray;
+        font-family: $header-font-family;
+        font-size: 1rem;
+        font-weight: bold;
+        letter-spacing: .05em;
+        line-height: 1.14285rem;
+        margin: 0;
+        padding: 1rem;
+        text-transform: uppercase;
+    }
+}
+
+.site-preview-menu {
+    width: 400px;
+
+    .site-preview-menu__top-wrapper {
+        padding: 1rem;
+    }
+
+    .site-preview-menu__title {
+        color: $gray;
+        font-family: $header-font-family;
+        font-size: 1rem;
+        font-weight: bold;
+        letter-spacing: .05em;
+        line-height: 1.14285rem;
+        text-transform: uppercase;
+    }
+
+    .site-preview-menu__actionables {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+        margin: 15px 0;
+
+        .site-preview-menu__actionables__label {
+            font-family: $header-font-family;
+            font-weight: bold;
+        }
+    }
+
+    .site-preview-menu__help-text {
+        color: $type-help;
+        font-family: $header-font-family;
+    }
+}
+
+.jobs-menu {
+    width: 400px;
+
+    .jobs-menu__view-all {
+        display: inline-block;
+        font-weight: bold;
+        letter-spacing: .025em;
+        padding: 1rem;
+        text-align: right;
+        width: 100%;
+    }
+}
+
+.recent-job-info {
+    display: flex;
+    padding: 1rem;
+
+    &:hover { background-color: $background-gray; }
+
+    .recent-job-info__icon { margin-top: 4px; }
+    .recent-job-info__content { flex: 1 1 auto; }
+    .recent-job-info__status { color: $brand; }
+    .recent-job-info__file-name {  color: $type; }
+
+    .recent-job-info__label {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .recent-job-info__job-name {
+        max-width: 125px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .recent-job-info__download {
+        color: $brand;
+        display: inline-block;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+
+    &.recent-job-info--failure {
+        .recent-job-info__icon { color: $error; }
+        .recent-job-info__status { color: $error; }
+    }
+}
+
+.menu-action-list {
+    list-style: none;
+    margin: 0;
+    max-height: 340px;
+    overflow-y: auto;
+
+    li { 
+        border-top: 1px solid $border-gray; 
+        cursor: pointer;
+    }
+
+    .menu-action-list__action {
+        display: inline-block;
+        padding: 1rem;
+        width: 100%;
+
+        &:hover { background-color: $background-gray; }
+    }
+
+    .menu-action-list__icon {
+        color: $brand;
+        display: inline-block;
+        font-size: 1rem;
+        margin-right: 10px;
+        vertical-align: middle;
+
+        &.menu-action-list__icon--large {
+            font-size: 1.125874rem;
+        }
+    }
+
+    .menu-action-list__label {
+        color: $type;
+        font-weight: bold;
+        vertical-align: middle;
+    }
+}

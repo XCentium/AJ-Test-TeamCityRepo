@@ -1,0 +1,90 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+﻿@using Insite.WebFramework.Mvc.Extensions
+<div id="orderUploadView" ng-cloak>
+
+    <div class="alert-box success" ng-show="vm.uploadCancelled">
+        @Html.Message("OrderUpload_CancellationSuccessful", "Cancellation Successful")
+    </div>
+
+    <div class="row">
+        <div class="medium-6 columns">
+            <p class="instructions">
+                @Html.Message("OrderUpload_Instructions_UploadExcel", "Upload an Excel (.xls or .xlsx) or CSV (Comma-Separated Values) file to quickly add items to your cart.")
+            </p>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="medium-6 large-6 columns order-upload-instructions right">
+            <div class="instructions">
+                <h3 class="no-margin-top">@T("Instructions")</h3>
+                <ol>
+                    <li>
+                        @Html.Message("OrderUpload_Instructions_Line1_Part1", "Create a spreadsheet (or start with our ")<a id="orderUploadTemplateLink" ng-href="/UserFiles/excel/OrderUploadTemplate.xlsx">@T("Order Upload Template")</a>@Html.Message("OrderUpload_Instructions_Line1_Part2", " with the following:")
+                        <ul>
+                            <li>@Html.Message("OrderUpload_Instructions_Line2", "First column - add item #s or customer part #s.")</li>
+                            <li>@Html.Message("OrderUpload_Instructions_Line3", "Second column - add manufacturer name (optional).")</li>
+                            <li>@Html.Message("OrderUpload_Instructions_Line4", "Third column - add description (optional).")</li>
+                            <li>@Html.Message("OrderUpload_Instructions_Line5", "Fourth column - add quantities (optional).")</li>
+                        </ul>
+                    </li>
+                    <li>@Html.Message("OrderUpload_Instructions_Line6", "Column headings can be added in the first row (optional).")</li>
+                    <li>@Html.Message("OrderUpload_Instructions_Line7", "Save the file in XLS, XLSX or CSV format.")</li>
+                    <li>@Html.Message("OrderUpload_Instructions_Line8", "Select the file to upload and click Upload Order.")</li>
+                    <li><b><em>@Html.Message("OrderUpload_Instructions_Line9", "There is a file maximum of 500 rows.")</em></b></li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="medium-6 large-6 columns order-upload-input left">
+
+            <div class="oui-box panel">
+
+                <div class="oui-browse">
+
+                    <div class="text-center" ng-class="!vm.fileName ? '' : 'hide'">
+                        <div class="upload-icon" ng-class="!vm.fileName ? '' : 'hide'">
+                            <i class="fa fa-upload fa-5x light"></i>
+                        </div>
+                        <button id="buttonFileUpload" class="button primary">@T("Choose File to Upload")</button>
+                        <input id="hiddenFileUpload" type="file" onchange="angular.element(this).data('_scope').vm.setFile(this)" class="hide">
+                    </div>
+
+                    <div class="file-chosen" ng-class="!vm.fileName ? 'hide' : ''">
+                        <span id="fileNameTitle" class="file-title" ng-bind="!vm.fileName ? '@T("No file selected.")' : vm.fileName"></span>
+                        <a id="fileChange" ng-click="vm.fileChange()" ng-class="!vm.fileName ? 'primary' : 'secondary'">@T("Change")</a>
+                    </div>
+
+                </div>
+
+                <div class="first-row-option" ng-class="!vm.fileName ? 'hide' : ''">
+                    <input id="firstRowCheckbox" type="checkbox" ng-model="vm.firstRowHeading" /><label for="firstRowCheckbox">@T("First row is column headings")</label>
+                </div>
+
+                <div class="oui-message showing" ng-show="vm.badFile || vm.uploadLimitExceeded">
+                    <div class="alert-box alert" ng-show="vm.badFile">
+                        @Html.Message("OrderUpload_UploadError", "The file could not be uploaded, please review the instructions and file for any issue.")
+                    </div>
+                    <div class="alert-box alert" ng-show="vm.uploadLimitExceeded">
+                        @Html.Message("OrderUpload_RowsLimitExceeded", "The uploaded file exceeds the limit.")
+                    </div>
+                </div>
+                <div class="oui-orders text-right" ng-class="!vm.fileName ? 'hide' : ''">
+                    <button id="orderUploadButton" class="button" ng-click="vm.uploadFile()" ng-disabled="!vm.file || vm.badFile">@T("Upload Order")</button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <isc-order-uploading-popup></isc-order-uploading-popup>
+    <morsco-order-upload-success-popup items-count="{{vm.uploadedItemsCount}}"></morsco-order-upload-success-popup>
+    <isc-order-uploading-issues-popup></isc-order-uploading-issues-popup>
+
+</div>
+
+
+

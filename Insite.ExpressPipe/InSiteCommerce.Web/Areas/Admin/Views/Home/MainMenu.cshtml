@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Insite.Admin.FormBuilder.Layout.MainMenuItem>
+
+<isa-sidebar ng-cloak>
+    <isa-sidebar-item href="/" icon-class="icon-home" title="Dashboard"></isa-sidebar-item>
+    @foreach (var item in Model)
+    {
+        if (item.Href.IsBlank() && (item.SubmenuItems == null || !item.SubmenuItems.Any()))
+        {
+            continue;
+        }
+
+        <isa-sidebar-item icon-class="@item.IconClass" title="@item.Text" href="@item.Href">
+            @if (item.SubmenuItems != null)
+            {
+                foreach (var menuItem in item.SubmenuItems)
+                {
+                    if (menuItem.Href.IsBlank() && (menuItem.SubmenuItems == null || !menuItem.SubmenuItems.Any()))
+                    {
+                        continue;
+                    }
+
+                    <isa-sidebar-item-link title="@menuItem.Text" href="@menuItem.Href">
+                        @if (menuItem.SubmenuItems != null)
+                        {
+                            foreach (var subMenuItem in menuItem.SubmenuItems)
+                            {
+                                <isa-sidebar-item-sublink href="@subMenuItem.Href" title="@subMenuItem.Text">@subMenuItem.Text</isa-sidebar-item-sublink>
+                            }
+                        }
+                    </isa-sidebar-item-link>
+                }
+            }
+        </isa-sidebar-item>
+    }
+</isa-sidebar>

@@ -1,0 +1,44 @@
+﻿<style>
+    pre{font-size:11px;}
+     .string {
+         color: green;
+     }
+
+    .number {
+        color: darkorange;
+    }
+
+    .boolean {
+        color: blue;
+    }
+
+    .null {
+        color: magenta;
+    }
+
+    .key {
+        color: red;
+    }
+
+    .json-wrap {
+        background-color: white;
+        padding: 2.75em 1.25em 1.25em 1.25em;
+        border: solid 1px #ddd;
+        -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+    }
+</style>
+
+<div class="modal-wrap">
+
+    <h3>@T("{{ currentService }}"):</h3>
+    <pre>
+        <span ng-bind-html="selectedItem"></span>
+    </pre>
+    <div class="btns">
+        <a href="javascript:void(0);" class="btn primary btn-done" onclick="javascript: $('#serviceResult').click(); return false;" id="closeServiceResult">@T("Done")</a>
+    </div>
+</div>

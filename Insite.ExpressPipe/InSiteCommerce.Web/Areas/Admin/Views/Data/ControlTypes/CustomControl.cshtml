@@ -1,0 +1,17 @@
+﻿@using Insite.Admin.ControlTypes
+@model Insite.Admin.Models.ControlTypeViewModel<CustomControl>
+
+<isa-custom-control angular-controller="@Model.ControlType.AngularController"
+            template-url="@Model.ControlType.TemplateUrl"
+            model="entityDetailsCtrl.model"
+            form="entityDetailsCtrl.form"
+            selected-entity-id="@(Model.EditPageModelBinding)"
+            label="@Model.Label"
+            name="@Model.Name"
+            key="@Model.Id"
+            @if (!Model.PropertyDefinition.CanEdit)
+            {
+                <text>disabled="disabled"</text>
+            }
+            >
+</isa-custom-control>

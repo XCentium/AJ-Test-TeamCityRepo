@@ -1,0 +1,18 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Account.Content.UserAdministration.UserSetupView
+
+<isc-user-setup-view></isc-user-setup-view>
+
+<script type="text/ng-template" id="userSetup_topContent">
+    @Html.Zone(Model, "TopContent")
+</script>
+<script type="text/ng-template" id="userSetup_roleInformation">
+    @Html.Raw(Model.RoleInformation)
+</script>
+<script type="text/ng-template" id="userSetup_assignApproverHelp">
+    @Html.Raw(Model.AssignApproverHelpMessage)
+</script>
+
+<script type="text/ng-template" id="/Directives/UserAdministration/UserSetupView">
+    @(Html.ThemedPartial("/Views/Directives/UserAdministration/UserSetupView.cshtml"))
+</script>

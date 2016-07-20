@@ -1,0 +1,317 @@
+﻿table {
+    width: 100%;
+
+    thead {
+        background-color: darken($almost-white,10%);
+        border-bottom: 2px solid darken($almost-white,20%);
+
+        tr {
+            th {
+                padding-top: rem-calc(8);
+                padding-bottom: rem-calc(5);
+                font-size: rem-calc(12);
+                font-weight: 400;
+                text-transform: uppercase;
+
+                a {
+                    white-space: nowrap;
+
+                    &.sort-ascending,
+                    &.sort-descending {
+                        font-weight: 600;
+                    }
+                    &.sort:after {
+                        @extend .fa;
+                    }
+                    &.sort-ascending:after {
+                        content: '\f0d8';
+                    }
+                    &.sort-descending:after {
+                        content: '\f0d7';
+                    }
+                }
+            }
+        }
+    }
+
+    tbody {
+        tr {
+
+            td {
+                padding-top: rem-calc(10);
+                padding-bottom: rem-calc(10);
+                border-bottom: none;
+                border-top: 1px solid darken($almost-white,20%);
+                max-width: rem-calc(300px);
+                overflow: hidden;
+
+                a {
+                    font-weight: 500;
+                }
+            }
+
+            &:hover {
+                background-color: $lightest-gray;
+            }
+
+            &.even,
+            &.alt,
+            &:nth-of-type(even) {
+                //background-color: $almost-white;
+                background-color: rgba(0, 0, 0, 0.05);
+
+                &:hover {
+                    background-color: $lightest-gray;
+                }
+            }
+        }
+    }
+
+    tfoot {
+        border-top: 2px solid $gray;
+    }
+
+    /* light theme */
+    &.light {
+        thead {
+            background-color: $lightest-gray;
+            border-bottom-color: darken($almost-white,20%);
+        }
+    }
+
+    &.orders {
+        tbody {
+            tr {
+                &.even,
+                &.alt,
+                &:nth-of-type(even){
+                    background-color: transparent;
+                }
+                
+                &.order {
+                    &.even {
+                        //background-color: $almost-white;
+                        background-color: rgba(0, 0, 0, 0.05);
+                    }
+                }
+
+                &.generation {
+                    td {
+                        border-top: none;
+                        font-size: rem-calc(12);
+                    }
+                    &.even {
+                        //background-color: $almost-white;
+                        background-color: rgba(0, 0, 0, 0.05);
+                    }
+                }
+            }
+        }
+    }
+}
+
+table {
+    thead {
+        .col-availability,
+        .col-date,
+        .col-total {
+            text-align: right;
+        }
+    }
+    tbody {
+        .col-date,
+        .col-duedate {
+            text-align: right;
+        }
+        .col-expand {}
+        //.col-number {}
+        //.col-po {}
+        //.col-date {}
+        //.col-by {}
+        .col-docs {
+            text-align: center;
+        }
+        .col-tot {
+            text-align: right;
+        }
+        .col-status {}
+        .col-total {
+            text-align: right;
+            font-weight: 400;
+
+            em {
+                font-style: normal;
+                font-weight: 500;
+            }
+        }
+        .col-openbal {
+            font-weight: 500;
+        }
+        .col-ordernum {
+        }
+        .col-po,
+        .col-jobname,
+        .col-orderedby {
+        }
+        .col-jobname {
+        }
+        .col-delete {
+            text-align: center;
+
+            span {
+                color: $light-gray;
+                cursor: pointer;
+
+                &:hover,
+                &:focus {
+                    color: $link-color;
+                }
+            }
+        }
+        .col-aging {
+            text-align: right;
+        }
+    }
+}
+
+table.orders,
+table.quotes {
+    .col-toggle {
+        width: 30px;
+        padding-right: 0;
+    }
+    .col-ordernum {
+        width: 120px;
+
+        a {
+            display: inline-block;
+            max-width: 110px;
+            word-wrap: break-word;
+        }
+    }
+    .col-status { width: 120px; }
+    .col-date { width: 110px; }
+    .col-po {
+        width: 120px;
+
+        span {
+            display: inline-block;
+            max-width: 110px;
+            word-wrap: break-word;
+        }
+    }
+    .col-jobname { }
+    .col-orderedby,
+    .col-account { width: 100px; }
+    .col-total { width: 120px; }
+    .col-docs { width: 50px; }
+}
+
+table.product-list {
+    border: none;
+
+    td {
+        vertical-align: top;
+    }
+
+    .col-image {
+        width: rem-calc(100);
+    }
+    .col-info {}
+    .col-mfr {
+        width: rem-calc(100);
+        text-align: center;
+    }
+    .col-qty {
+        width: rem-calc(100);
+        text-align: center;
+    }
+    .col-date {
+        width: rem-calc(120);
+    }
+    .col-price {
+        width: rem-calc(100);
+        text-align: right;
+    }
+    .col-actions {
+        width: rem-calc(200);
+        text-align: right;
+
+        label {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 3px;
+
+        }
+        input {
+            display: inline-block;
+            width: rem-calc(35);
+            margin-bottom: 0;
+        }
+
+        .button {
+            margin-bottom: rem-calc(5);
+        }
+    }
+}
+
+ /*order details*/
+
+
+.panel.bold_headers {
+    h5 {
+        font-weight:800;
+    }
+}
+
+
+.table-responsive-wrapper {
+    overflow: auto;
+
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,ffffff+10,ffffff+50,ffffff+90,000000+100&0.1+0,0.1+100 */
+    background: -moz-linear-gradient(left, rgba(0,0,0,0.1) 0%, rgba(255,255,255,0.1) 10%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.1) 90%, rgba(0,0,0,0.1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(0,0,0,0.1) 0%,rgba(255,255,255,0.1) 10%,rgba(255,255,255,0.1) 50%,rgba(255,255,255,0.1) 90%,rgba(0,0,0,0.1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(0,0,0,0.1) 0%,rgba(255,255,255,0.1) 10%,rgba(255,255,255,0.1) 50%,rgba(255,255,255,0.1) 90%,rgba(0,0,0,0.1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1a000000', endColorstr='#1a000000',GradientType=1 ); /* IE6-9 */
+
+    table {
+        min-width: 500px;
+        background-color: transparent;
+
+        &.product-list {
+            min-width: 768px;
+        }
+    }
+
+    @media #{$small-up} {
+        table {
+            min-width: $xsmall-breakpoint;
+        }
+    }
+
+    @media #{$medium-up} {
+        table {
+            min-width: $medium-breakpoint;
+        }
+    }
+
+    @media #{$large-up} {
+        background: none;
+        filter: unset;
+
+        table {
+            min-width: $medium-breakpoint;
+        }
+    }
+
+    
+}
+
+
+.availability-locations {
+    .col-branch-number {}
+    .col-branch{}
+    .col-availability{
+        text-align: right;
+    }
+}

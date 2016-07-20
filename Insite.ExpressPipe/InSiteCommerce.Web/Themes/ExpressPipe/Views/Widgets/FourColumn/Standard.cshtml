@@ -1,0 +1,18 @@
+﻿@model FourColumn
+
+<div class="@Model.CssClass">
+    <div class="row">
+        <div class="xsmall-6 medium-@Model.LeftColumnSize large-@Model.LeftColumnSize columns">
+            @Html.Zone(Model, "LeftColumn")
+        </div>
+        <div class="xsmall-6 medium-@Model.LeftCenterColumnSize large-@Model.LeftCenterColumnSize columns">
+            @Html.Zone(Model, "LeftCenterColumn")
+        </div>
+        <div class="xsmall-6 medium-@Model.RightCenterColumnSize large-@Model.RightCenterColumnSize columns">
+            @Html.Zone(Model, "RightCenterColumn")
+        </div>
+        <div class="xsmall-6 medium-@Model.RightColumnSize large-@Model.RightColumnSize columns">
+            @Html.Zone(Model, "RightColumn")
+        </div>
+    </div>
+</div>

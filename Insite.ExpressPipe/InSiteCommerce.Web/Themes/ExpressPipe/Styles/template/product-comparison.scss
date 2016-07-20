@@ -1,0 +1,364 @@
+@import '../_settings.scss';
+
+/* need to clean this mess up - ryan */
+ [role="compare-grid"] {
+	 float:left;
+	 clear:both;
+	 width: 100%;
+	 margin-bottom: $padding-single;
+	 position: relative;
+
+    .carousel-wrapper {
+
+        ul.items {
+	        list-style: none;
+	        margin: 0;
+        }
+
+    }
+
+
+
+    .item-availability {
+        margin-bottom: $margin-single;
+    }
+
+    .item-add-to-list {
+        font-size: 0.8em;
+        text-align: right;
+    }
+
+
+
+    
+
+    /* Inner spans of the attribute list use the same styles as the item wraps to maintain consistency*/
+    .item-wrap,
+    .pc-value>span {
+	    position: relative;
+	    margin:0 auto;
+	    display: block;
+	    //border: 2px solid transparent;
+    }
+    .item-wrap,
+    .pc-attr>span,
+    .pc-value>span {
+	    /*Set the padding the for all of the attributes in one place*/
+	    //padding: $padding-single/2;
+    }
+    
+    .pc-value>span {
+	    width:100%;
+    }
+
+    .pc-active>span {
+	    font-weight:bold;
+
+        @media all and (min-width:768px) {
+	        font-weight:normal;
+        }
+    }
+
+    .item-wrap {
+	    padding-bottom: $padding-quadruple;
+
+        @media all and (max-width:767px) {
+		    //padding-left:1.5em;
+		    //padding-right:1.5em;
+        }
+
+        @media all and (min-width:768px) {
+            //padding-bottom:0;
+        }
+
+        .remove {
+            position:absolute;
+	        right:0;
+	        top:0;
+	        margin:0 !important;
+	        background:#fff;
+        }
+
+        .price {
+            //margin-bottom:.5em;
+        }
+
+        .quantity-pricing {
+	        position:relative;
+	        z-index:3;
+        }
+
+        .p-opt {
+	        position:relative;
+	        z-index:2;
+        }
+
+        .add-to-cart {
+        white-space: nowrap;
+    }
+    }
+
+	.carousel-item-equalize {
+        position:relative;
+		//padding-bottom:50px;
+
+        @media all and (min-width:768px) {
+            //padding-bottom:1.5em;
+        }
+	}
+
+    .compare-selection-controls {
+	    float:left;
+	    width:180px;
+	    display: none;
+    }
+
+    .pc-carousel {
+	    position: relative;/* necessary for slider control positioning */
+	    overflow: hidden;
+	    width: 100%;
+	    float:right;
+
+        @media all and (min-width:768px) {
+	        width: 80%;
+        }
+
+        ul.items {
+            width: 20000em;
+	        position: relative;
+	        list-style: none;
+	        margin: 0;
+	        padding: 0;
+	        float: left;
+        }
+
+        &>li {
+            border:1px solid #f6f6f6;
+	        position:relative;
+	        float: left;
+	        text-align: center;
+	        //padding: .8em;
+
+            &:hover {
+                cursor:default;
+	            border-color:#b8b8b8;
+            }
+
+            img {
+                display: inline-block;
+	            max-width: 100%;
+	            height: auto !important;
+	            width: 160px;
+            }
+        }
+
+        [class*="column"] + [class*="column"]:last-child {
+	        float:left;
+        }
+    }
+
+    .pc-attr-carousel-container {
+        @media all and (min-width:768px) {
+	        width: 80%;
+        }
+    }
+
+
+    .item-details {
+	    //padding: 0.5em;
+    }
+
+    .pagination {
+	    display: inline-block;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+	    position:absolute;
+        top: 4em;
+	    width: 30px;
+	    height: 8em;
+	    background:none;
+
+        .fa {
+            position: absolute;
+            top: 50%;
+            margin-top: -50%;
+        }
+        
+        &:hover {
+            text-decoration:none;
+	        background:#f6f6f6;
+        }
+        
+    }
+
+    .carousel-control-prev {
+        left: -10px;
+
+        .fa {
+            left: 10px;
+        }
+    }
+
+    .carousel-control-next {
+        right: -10px;
+
+        .fa {
+            right: 10px;
+        }
+    }
+
+    .pc-controls {
+	    float:left;
+	    width:100%;
+	    padding:.75em;
+	    border:1px solid #e0e7ea;
+	    margin-bottom:1.5em;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+ 
+
+
+
+
+
+
+	 
+	
+
+ 
+
+
+
+
+
+
+
+
+/* Attribute list*/
+.pc-attr-container {
+	float:left;
+	border: 1px solid #e0e7ea;
+	padding: 0.8em;
+	width: 100%;
+	border-collapse: collapse;
+
+    > h3 {
+        margin-top:0;
+    }
+
+    .pc-attr-list {
+	    float:left;
+	    width: 100%;
+        margin: 0;
+        list-style: none;
+	    border: 1px solid #e0e7ea;
+	    border-collapse: collapse;
+
+        .pc-attr {
+	        float: left;
+	        width: 100%;
+	        display:block;
+	        background: #fff;
+	        border-bottom:1px solid #e0e7ea;
+	        transition:all .25s ease;
+
+            > span {
+                display:block;
+	            float: left;
+	            width: 20%;
+                padding: $padding-single/2 $padding-single;
+                font-weight: bold;
+                font-size:.875rem;
+		        line-height:1.25rem;
+            }
+
+            &:nth-of-type(2n) {
+		        background-color:#f6f6f6;
+            }
+
+            &:hover,
+            &:focus {
+                cursor:pointer;
+                background: #e6e6e6;
+            }
+
+
+            @media all and (max-width:767px) {
+            }
+        }
+
+        .pc-value {
+            padding: $padding-single/2 $padding-single;
+
+            > span {
+                font-size:.875rem;
+		        line-height:1.25rem;
+
+                &.documents {
+                    a {
+                        margin-right: 0.5em;
+                    }
+                }
+            }
+            > a {
+                display: inline-block;
+            }
+        }
+    }
+
+    @media all and (min-width:768px) {
+        width: 100%;
+	    padding:0;
+
+        > h3 {
+            display: none;
+        }
+    }
+}
+
+
+
+
+ 
+
+
+
+
+
+
+.pc-attr-carousel-container {
+    overflow:visible;
+	max-height:20000em;
+
+    .pc-attr-carousel {
+        .pc-value {
+            float:left;
+	        clear: none;
+	        width: 100%;
+
+        }
+    }
+}

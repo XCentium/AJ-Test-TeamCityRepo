@@ -1,0 +1,48 @@
+﻿<script type="text/ng-template" id="jobParameters">
+    <div class="grid-block vertical">
+        <div class="grid-block vertical" style="margin-bottom: 20px">
+            <div class="medium-6 grid-block">
+                <label><b>Job Parameters</b></label>
+            </div>
+            <div class="grid-block vertical">
+                <table class="table" style="border-color: lightgray; border-style: solid; border-collapse: collapse; border-width: 0 0 1px 0;">
+                    <thead>
+                        <tr>
+                            <th>Prompt</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="jobDefinitionParameter in vm.jobDefinitionParameters">
+                            <td>{{jobDefinitionParameter.Prompt}}</td>
+                            <td>{{jobDefinitionParameter.Value}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="grid-block vertical" style="margin-bottom: 20px">
+            <div class="medium-6 grid-block">
+                <label><b>Step Parameters</b></label>
+            </div>
+            <div class="grid-block vertical">
+                <table class="table" style="border-color: lightgray; border-style: solid; border-collapse: collapse; border-width: 0 0 1px 0;">
+                    <thead>
+                        <tr>
+                            <th>Step Name</th>
+                            <th>Prompt</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="jobDefinitionStepParameter in vm.jobDefinitionStepParameters">
+                            <td>{{jobDefinitionStepParameter.JobDefinitionStepName}}</td>
+                            <td>{{jobDefinitionStepParameter.Prompt}}</td>
+                            <td>{{jobDefinitionStepParameter.Value}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</script>

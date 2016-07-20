@@ -1,0 +1,121 @@
+﻿@using System.Web.Optimization
+@using Insite.Admin.Controllers
+@using Insite.Common.Dependencies
+@using Insite.Core.Interfaces.Data
+@using Insite.Data.Repositories.Interfaces
+@using Insite.IdentityServer.Options
+@using Insite.WebFramework.Mvc.Extensions
+@using InsiteCommerce.Web
+<!DOCTYPE html>
+<html data-isCustomErrorEnabled="@Html.IsCustomErrorEnabled()">
+<head>
+    <base href="/admin/"/>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    @Html.RequireScript("/Scripts/Libraries/modernizr/2.6.2/custom.modernizr.js", false)
+    @Styles.Render(BundleConfig.AdminGlobalStyleBundlePath)
+    @RenderSection("Styles", false)
+    <script>
+        dataLayer = [];
+        currentVersion = "@(Insite.Common.Helpers.IscVersion.GetVersion())";
+    </script>
+</head>
+<body ng-app="insite-admin" ng-strict-di>
+    @{
+        var unitOfWork = DependencyLocator.Current.GetInstance<IUnitOfWorkFactory>().GetUnitOfWork();
+        var adminAnalyticsEnabled = unitOfWork.GetTypedRepository<IApplicationSettingRepository>().GetOrCreateByName<bool>("Admin_AnalyticsEnabled");
+    }
+    @if (adminAnalyticsEnabled)
+    {
+        <!-- Google Tag Manager -->
+        <noscript>
+            <iframe src="//www.googletagmanager.com/ns.html?id=GTM-K5PKFH" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+        </noscript>
+        <script>
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window, document, 'script', 'dataLayer', 'GTM-K5PKFH');
+        </script>
+        <!-- End Google Tag Manager -->
+    }
+
+    <div class="wrapper" ng-controller="LayoutController as layoutCtrl">
+        <div ng-if="layoutCtrl.isAuthenticated()" ng-include="'/admin/topBar'"></div>
+        <div class="header-height-offset"></div>
+
+        <div ng-if="layoutCtrl.isAuthenticated()" ng-include="'/admin/mainMenu'"></div>
+
+        <section class="grid-block vertical">
+            <div class="flex-none" ng-if="layoutCtrl.isAuthenticated()">
+                <isa-breadcrumbs></isa-breadcrumbs>
+            </div>
+            <div class="notification-area"></div>
+            <div class="content-wrapper grid-block vertical">
+                <div class="grid-block vertical" ng-view>
+                    @RenderBody()
+                </div>
+                <isa-spinner></isa-spinner>
+            </div>
+        </section>
+    </div>
+
+    <script type="text/ng-template" id="isa-spinner">
+        <div ng-show="spinnerCtrl.show" class="loader-overlay">
+            <div class="loader-bg">
+                <div class="loader loader-content-area"></div>
+            </div>
+            <span ng-transclude></span>
+        </div>
+    </script>
+    
+    <script type="text/javascript">
+        CKEDITOR_BASEPATH = "@Url.Content("~/Scripts/Libraries/ckeditor/4.5.6/")";
+        CKFINDER_BASEPATH = "@Url.Content("~/Scripts/Libraries/ckfinder/2.4.1/")";
+    </script>
+
+    @Html.RequireScriptIfItExists("/Scripts/Libraries/ckeditor/4.5.6/ckeditor.js")
+
+    <script src="/Scripts/Libraries/tether/1.1.1/dist/js/tether.min.js"></script>
+    <script src="/Scripts/Libraries/tether-drop/1.2.2/dist/js/drop.min.js"></script>
+    @Scripts.Render(BundleConfig.AdminGlobalScriptBundlePath)
+
+    @Html.RequireScriptIfItExists("/Scripts/Libraries/angular-i18n/angular-locale_en-us.js")
+    @Html.RenderDeferredScripts()
+    @RenderSection("Javascript", false)
+
+    <script src="~/admin/signalr/hubs"></script>
+    <isa-signalr-callbacks></isa-signalr-callbacks>
+
+    <script>
+        var insiteScope = "@SecurityOptions.AdminScope";
+        var insiteBasicAuthHeader = "@Html.Raw(SecurityOptions.AdminClientId + ":" + SecurityOptions.AdminClientSecret)";
+    </script>
+    @if (Request.QueryString["ShowStats"] == "true")
+    {
+        <script>
+            (function () {
+                var a = document.createElement("script");
+                a.src = "https://rawgithub.com/kentcdodds/ng-stats/master/dist/ng-stats.js";
+                a.onload = function () { window.showAngularStats({ position: "bottomright" }) };
+                document.head.appendChild(a);
+            })();
+        </script>
+    }
+    <div zf-modal="changePasswordModal" id="changePasswordModal" class="collapse modal--large modal-changePassword">
+        @Html.Partial("~/Areas/admin/Views/Account/ChangePassword.cshtml")
+    </div>
+    @Html.Partial("EntityListPager")
+    @Html.Partial("SharedDropDown")
+    @Html.Partial("SharedKendoDropDown")
+    @Html.Partial("NotificationTemplates")
+    @Html.Partial("ImagePickerPreview")
+    @Html.Partial("SimpleModalDialog")
+    @Html.Partial("JobParameters")
+    @Html.Partial("HelpMenuLinks")
+    @Html.Partial("AddUserModal")
+</body>
+<!-- @HttpContext.Current.Server.MachineName -->
+<!-- @Html.ProductName() -->
+</html>

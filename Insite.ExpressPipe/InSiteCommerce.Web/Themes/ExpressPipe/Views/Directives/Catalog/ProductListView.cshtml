@@ -1,0 +1,249 @@
+﻿@using Insite.Core.Providers
+@using Insite.WebFramework.Mvc.Extensions
+
+<div class="main-row"
+     ng-class="{
+		 'vm-list': (vm.view == 'list'), 'vm-grid': (vm.view == 'grid'), 'no-results': vm.noResults, 'category-page': (vm.category != null)}"
+     ng-show="vm.ready" ng-cloak>
+    @*<isc-spinner name="productList" show="true"></isc-spinner>*@
+    <div @*ng-if="!(vm.category.subCategories.length > 0)"*@ class="row content-wrapper">
+
+        <isc-breadcrumb breadcrumbs="vm.breadCrumbs" search-query="vm.query"></isc-breadcrumb>
+
+        <div class="product-list">
+
+            <div ng-if="vm.category != null && vm.category.largeImagePath" class="pl4-cm">
+                <img ng-src="{{vm.category.largeImagePath}}" alt="{{vm.category.imageAltText}}" title="{{vm.category.shortDescription}}" />
+            </div>
+
+            <isc-morsco-category-left-nav ng-if="vm.ready && (!vm.noResults || vm.searchWithinTerms.length > 0)" ready="vm.ready"  products="vm.products" attribute-value-ids="vm.attributeValueIds" filter-category="vm.filterCategory"
+                                   price-filter-minimums="vm.priceFilterMinimums" update-product-data="vm.updateProductData()" bread-crumbs="vm.breadCrumbs"
+                                   update-product-data-array="vm.updateProductDataArray(catIds, selectedFacet)" search-within-terms="vm.searchWithinTerms" category="vm.category">
+            </isc-morsco-category-left-nav>
+
+            <div ng-if="vm.isCategoryPage() && vm.attributeValueIds.length == 0" class="large-3 columns">
+                <div class="ln2-wrap">
+                    
+                    <div class="n-filter">
+                        <div class="f-cat f-subcat">
+                            <section class="accordion">
+                                <div class="accordion-navigation">
+                                    <label for="" class="accord-head">
+                                        <input type="checkbox" class="accord-check" />
+                                        {{vm.category.shortDescription}}
+                                    </label>
+                                    <article class="accord-content expanded">
+                                        <div class="f-wrap">
+                                            <ul>
+                                                <li ng-repeat="subCategory in vm.category.subCategories">
+                                                    <a id="productListViewSubcategoryLink_{{subCategory.id}}" href="{{subCategory.path}}">{{subCategory.shortDescription}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </article>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div ng-if="vm.isCategoryPage() && vm.attributeValueIds.length == 0" class="large-9 columns">
+
+                @* Doesn't seem to work *@
+                <div ng-bind-html="vm.category.htmlContent|trusted" class="cm cat-cm"></div>
+
+                <div class="cat-list-images">
+                    <h1>@T("Product Categories")</h1>
+                    <div class="row">
+                        <div ng-repeat="subCategory in vm.category.subCategories" class="xsmall-6 medium-3 columns cat-block" ng-class="{'end':$last}">
+                            @* TODO handle microsites *@
+                            <div class="cat-list-image">
+                                <div>
+                                    <a href="{{subCategory.path}}"><img ng-src="{{subCategory.smallImagePath}}" alt="{{subCategory.imageAltText}}" catimgloaded catimgheight /></a>
+                                </div>
+                                <span><a href="{{subCategory.path}}">{{subCategory.shortDescription}}</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @* removed:  || vm.categoryId.length > 0 *@
+            <div ng-if="!(vm.isCategoryPage()) || vm.hasAttributeValues" class="products-column columns" ng-class="{ 'large-9': !vm.noResults }">
+
+                <div class="row">
+                    <div class="xlarge-6 columns" ng-class="{'end' : vm.noResults}">
+                        <h1 class="results-count" ng-class="{ messaging: vm.noResults }">
+                            @* Category *@
+                            <span ng-if="!vm.query">
+                                {{vm.category.name}}:
+                                <span class=" result-num" ng-if="!vm.noResults">{{vm.products.pagination.totalItemCount}}</span>
+                                <span class="result-lbl" ng-if="!vm.noResults && vm.products">@T("Items_pager").ToLower()</span>
+                            </span>
+
+                            <span ng-if="vm.query && !(vm.searchCategory || vm.filterCategory.categoryId)" class="search-lbl">
+                                <span ng-if="!vm.noResults">
+                                    <strong>{{vm.query}}</strong>:
+                                    {{vm.products.pagination.totalItemCount}} @T("Results Found")
+                                </span>
+                                <span ng-if="vm.noResults">
+                                    We're sorry, your search "{{vm.query}}" returned no results.
+                                </span>
+
+                            </span>
+                            <span ng-if="vm.query && (vm.searchCategory || vm.filterCategory.categoryId)" class="search-lbl">
+                                <strong>{{vm.query}}</strong>: {{vm.products.pagination.totalItemCount}} @T("Results Found") @T("in_category") {{vm.searchCategory.shortDescription || vm.filterCategory.shortDescription}}
+                            </span>
+                        </h1>
+
+						<div class="row collapse" ng-if="vm.noResults">
+							<div class="small-4 column">
+								<a href="#" data-reveal-id="specialOrderForm" class="button tertiary expand">@T("Special Request Form")</a>
+								<p class="small light">Add items you cant find online</p>
+							</div>
+						</div>
+                    </div>
+                    
+                    <div ng-if="!vm.noResults && vm.isAuthenticated" class="xlarge-6 columns xlarge-text-right view-previously-purchased">
+                        <input type="checkbox" id="chkPrevItemsOnly" name="chkPrevItemsOnly" ng-click="vm.setTogglePurchasedProducts()" ng-checked="vm.prevItemsOnly == true" /> @T("View Previously Purchased Items Only")
+                    </div>
+                </div>
+                <div ng-if="vm.products.products.length > 0" class="product-list">
+
+                    <isc-pager pagination="vm.products.pagination" storage-key="vm.paginationStorageKey" update-data="vm.updateProductData()" select-view="vm.selectView(viewName)" custom-context="vm.customPagerContext"></isc-pager>
+
+                    <ul class="item-list cart-items">
+                        <li ng-repeat="product in vm.products.products" data-product="{{product.id}}" ng-class="{'row': (vm.view == 'list')}">
+                            <div class="item-block checkout-item isc-productContainer clearfix loading">
+                                <i class="fa fa-2x fa-spinner fa-spin"></i>
+                                <div class="item-thumb">
+                                    <a id="productListViewProductImageLink_{{product.id}}" ng-href="{{product.productDetailUrl}}">
+                                        <img ng-src="{{product.largeImagePath}}" alt="{{product.altText}}" productlistimageonload />
+                                    </a>
+                                    <div ng-if="vm.settings.enableProductComparisons" class="product-compare-add hide-for-medium-down">
+                                        <a href="javascript:void(0);" data-id="{{product.id}}" class="compare-link" ng-class="{ 'compare-active': product.isBeingCompared }" ng-click="vm.compareProduct(product);">@T("Compare")</a>
+                                    </div>
+                                </div>
+                                <div class="item-details">
+                                    <div class="item-inf-wrapper">
+                                        <div class="item-description">
+
+                                            <div class="item-brand">
+                                                {{product.properties['manufacturerName']}}
+                                            </div>
+                                            <div class="item-name">
+                                                <a id="tst-product-list-description-{{product.id}}" ng-href="{{product.productDetailUrl}}">{{product.shortDescription}}</a>
+                                            </div>
+
+
+                                            <div class="item-num" ng-if="product.properties['genericPartNumber']">
+                                                <span class="item-num-mfg">@("Item#") <span class="dark">{{product.properties['genericPartNumber']}}</span></span>
+                                            </div>
+                                            <div class="item-num" ng-if="!product.properties['genericPartNumber']">
+                                                <span ng-if="product.manufacturerItem" class="item-num-mfg">@("MFR#") <span class="dark">{{product.manufacturerItem}}</span></span>
+                                            </div>
+
+
+                                            <div class="item-env-icons">
+                                                <i ng-if="product.properties['leadFree'] == 'Yes'" class="epicon epicon-lead-free"></i>
+                                                <i ng-if="product.properties['mercuryFree'] == 'Yes'" class="epicon epicon-mercury-free"></i>
+                                                <i ng-if="product.properties['waterSenseSaver'] == 'Yes'" class="epicon epicon-water-saver"></i>
+                                                <i ng-if="product.properties['hazardousMaterial'] == 'Yes'" class="epicon epicon-hazardous-material"></i>
+                                                <i ng-if="product.properties['energyStarRated'] == 'Yes'" class="epicon epicon-energy-saver"></i>
+                                            </div>
+                                            <isc-sorted-attribute-value-list attribute-types="product.attributeTypes" maximum-number="5" class="attribute-list"></isc-sorted-attribute-value-list>
+                                            <a class="item-view-more hide-for-small-down" ng-href="{{product.productDetailUrl}}" ng-show="vm.view == 'list'">@T("view more")</a>
+                                        </div>
+                                        <div id="BVRRInlineRating-{{product.Name}}" class="rating">
+                                            <!-- TODO -->
+                                        </div>
+                                    </div>
+
+
+                                    <div class="item-cta">
+                                        <div class="item-price">
+                                            <isc-product-price product="product"></isc-product-price>
+
+                                            <label ng-if="vm.settings.alternateUnitsOfMeasure && product.productUnitOfMeasures.length > 1">@T("U/M"):</label>                                            
+                                            <label ng-if="vm.settings.alternateUnitsOfMeasure && product.productUnitOfMeasures.length > 1">@T("U/M"):</label>
+                                            <label ng-if="vm.settings.alternateUnitsOfMeasure && product.productUnitOfMeasures.length > 1">@T("U/M"):</label>
+
+											<span ng-if="product.canShowPrice && product.unitOfMeasureDisplay && !product.quoteRequired && product.pricing.actualPriceDisplay !== undefined && product.pricing.actualPriceDisplay != '' && product.pricing.actualPriceDisplay != '$0.00' && product.pricing.actualPriceDisplay" class="um displayUnitOfMeasure isc-uomDisplay">{{product.unitOfMeasureDisplay}}</span>
+
+                                            <div ng-show="product.canShowPrice && !product.quoteRequired">
+                                                <isc-quantity-break-pricing product-id="product.id" break-prices="product.pricing.actualBreakPrices"></isc-quantity-break-pricing>
+                                            </div>
+
+                                            <div><span data-tooltip aria-haspopup="true" class="has-tip" ng-hide="product.properties['catalogWebSite']" title="Add to cart and request a quote to get pricing">@T("Request Quote for Price")</span></div>
+
+                                        </div>
+	                                    
+										<!--<a ng-if="product.canAddToCart" href="javascript:;" class="btn primary add-to-cart panel-trigger">@T("Order_Verb")</a>-->
+                                                       <!--<a ng-if="!product.canAddToCart" id='ViewDetails{{product.id}}' ng-href="{{product.productDetailUrl}}" class="">@T("View Details")</a>-->
+
+                                        <isc-unit-of-measure-select-list product="product" alternate-units-of-measure="{{vm.settings.alternateUnitsOfMeasure}}" change-unit-of-measure="vm.changeUnitOfMeasure(product)" display-pack="true"></isc-unit-of-measure-select-list>
+
+                                        <div ng-if="vm.settings.showInventoryAvailability" class="item-availability" ng-show="vm.view == 'grid'">
+                                            <morsco-cart-availability-message availability="product.availability" warehouses="vm.warehouses" itemline="product">
+                                            </morsco-cart-availability-message>
+                                        </div>
+
+                                        <div class="add-to-cart">
+                                            <div ng-if="product.canEnterQuantity" class="item-qty hide">
+                                                <label>@T("Qty"):</label>
+                                                <input id="qty-{{product.id}}" type="number" min="product.properties.minimumSellQty" name="qty"
+                                                       ng-change="vm.updateQty(product)"
+                                                       ng-model-options="{ updateOn: 'blur' }"
+                                                       step="{{product.properties.minimumSellQty}}" class="numerictextbox qty" ng-model="product.qtyOrdered" />
+                                            </div>
+                                            <div class="item-buttons">
+                                                <button id="addToCart{{product.id}}" ng-click="vm.addToCart(product)"
+                                                        class="button hide">
+                                                    @T("Add To Cart")
+                                                </button>
+                                                <div class="item-add-to-list xsmall-text-right small-text-right"><a ng-if="product.canAddToWishlist && vm.isAuthenticated" ng-click="vm.openWishListPopup(product)" role="button" class="" href="javascript:;">@T("+ Add to List")</a></div>
+                                            </div>
+                                        </div>
+
+                                        <div ng-if="vm.settings.showInventoryAvailability" class="item-availability hide-for-small-down" ng-show="vm.view == 'list'">
+                                            <morsco-cart-availability-message availability="product.availability" warehouses="vm.warehouses" itemline="product">
+                                            </morsco-cart-availability-message>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <isc-pager bottom="true" pagination="vm.products.pagination" storage-key="vm.paginationStorageKey" update-data="vm.updateProductData()" custom-context="vm.customPagerContext"></isc-pager>
+                </div>
+
+                <div class="clr lfl w100" ng-if="vm.products.products && !(vm.products.products.length > 0)">
+                    <div ng-if="!vm.isSearch">
+                        <div ng-include="'productList_noProductsFound'"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <isc-morsco-availability-popup> </isc-morsco-availability-popup>
+
+	<isc-morsco-availability-shipping-tax-content></isc-morsco-availability-shipping-tax-content>
+
+	<morsco-special-order-view cart="cart"></morsco-special-order-view>
+
+<div id="AddToCompareExceedsSixProducts" class="reveal-modal medium" data-reveal data-reveal-init>
+        <div class="modal-wrap compare-wrap">
+            <strong>@Html.Message("ProductionCompare_MaximumItemsReached", "You have reached the maximum number of items (4).")</strong>
+            <p>@Html.Message("ProductionCompare_MaximumItemsReachedSubText", "Please 'Compare' or remove items.")</p>
+            <a class="close-reveal-modal">&#215;</a>
+        </div>
+    </div>
+
+    @Html.Action("GenericPopupPartial", "Shared", new { containerName = "popup-addtocart-noinventory", BodyHtml = MessageProvider.Current.Cart_NotEnoughInventory, Title = @T("Add To Cart") })
+</div>

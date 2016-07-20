@@ -1,0 +1,21 @@
+﻿<script type="text/ng-template" id="sharedKendoDropDown">
+    <div>
+        <input kendo-combo-box
+                   ng-attr-id="{{sharedDropdownCtrl.id}}"
+                   ng-model="sharedDropdownCtrl.selectedEntityIdForDropDown"
+                   k-data-source='itemsDataSource'
+                   ng-disabled="sharedDropdownCtrl.disabled == 'disabled'"
+                   ng-required="sharedDropdownCtrl.required"
+                   k-placeholder="'Select Value'"
+                   k-data-text-field="'name'"
+                   k-data-value-field="'id'"
+                   k-auto-bind="true"
+                   k-filter="'contains'"
+                   k-min-length="1"
+                   k-on-data-bound="sharedDropdownCtrl.dataBound(kendoEvent)" />
+            <div class="error-messages">
+                <span ng-if="!sharedDropdownCtrl.isValid"><i class="icon icon-warning"></i>Value not from the list.</span>
+                <span ng-if="sharedDropdownCtrl.required && !sharedDropdownCtrl.selectedEntityIdForDropDown && (sharedDropdownCtrl.touched || sharedDropdownCtrl.form.$submitted)"><i class="icon icon-warning"></i>{{sharedDropdownCtrl.label}} must have a value!</span>
+            </div>
+    </div>
+</script>

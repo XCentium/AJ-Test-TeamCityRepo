@@ -1,0 +1,14 @@
+﻿#datepicker_timeview {
+    li {
+        cursor: pointer;
+    }
+
+    > .k-state-hover, > .k-state-selected {
+        background-color: $brand;
+        border-color: $brand;
+    }
+
+    > .k-state-selected {
+        font-weight: bold;
+    }
+}

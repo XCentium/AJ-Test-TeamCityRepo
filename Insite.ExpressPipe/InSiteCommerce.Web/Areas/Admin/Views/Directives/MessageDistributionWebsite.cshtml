@@ -1,0 +1,10 @@
+﻿@using Insite.Admin.Extensions
+
+<div>
+    @Html.FormControl(@<label>Websites</label>,
+    @<text>
+    <select ng-model="entityDetailsCtrl.model.websiteId">
+        <option ng-repeat="website in entityDetailsCtrl.messageWebsites" value="{{website.id}}" ng-bind="website.name"></option>
+    </select>
+    </text>)
+</div>

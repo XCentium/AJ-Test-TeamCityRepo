@@ -1,0 +1,19 @@
+﻿.import {
+    max-width: 900px;
+}
+
+.import__section {
+    margin-bottom: 20px;
+    border: 1px solid $border-gray;
+    padding: 20px 30px;
+}
+
+.import__section--dark {
+    background-color: #EEEEEE;
+}
+
+.uploading__text { 
+    margin-left: 60px;
+    line-height: 40px;
+    font-weight: bold;
+}

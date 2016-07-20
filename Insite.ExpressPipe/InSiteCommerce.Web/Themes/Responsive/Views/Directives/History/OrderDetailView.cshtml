@@ -1,0 +1,178 @@
+﻿@using Insite.Data.Entities
+@using Insite.Order.Content
+@using Insite.WebFramework.Mvc.Extensions
+
+<div ng-cloak>
+    <div class="large-12 columns">
+        <div ng-if="vm.validationMessage" ng-cloak>
+            <span class="error">{{vm.validationMessage}}</span>
+        </div>
+        <div ng-if="!vm.validationMessage" ng-cloak>
+            <div class="order-details-top">
+                <div class="row">
+                    <div class="medium-4 large-4 columns od-head">
+                        <h3 class="od-lbl">@T("Order #")</h3>
+                        <h3 class="od-data" ng-bind="vm.order.webOrderNumber"></h3>
+                        <h3 class="od-lbl" ng-if="vm.order.erpOrderNumber">@T("ERP Order #")</h3>
+                        <h3 class="od-data" ng-bind="vm.order.erpOrderNumber"></h3>
+                        <h3 class="od-lbl">@T("Order Date")</h3>
+                        <h3 class="od-data" ng-bind="vm.order.orderDate | date:'shortDate'"></h3>
+                        <h3 class="od-lbl" ng-if="vm.order.customerPO">@T("PO #")</h3>
+                        <h3 class="od-data" ng-bind="vm.order.customerPO"></h3>
+                        <h3 class="od-lbl">@T("Terms")</h3>
+                        <h3 class="od-data" ng-bind="vm.order.terms"></h3>
+                    </div>
+                    <div class="medium-4 large-4 columns bill-info">
+                        <div class="oc-head">
+                            <h3>@T("Billing Information")</h3>
+                        </div>
+                        <ul>
+                            <li ng-bind="vm.order.btCompanyName"></li>
+                            <li ng-bind="vm.order.btAddress1"></li>
+                            <li ng-if="vm.order.btAddress2" ng-bind="vm.order.btAddress2"></li>
+                            <li ng-bind="vm.btFormat"></li>
+                            <li ng-bind="vm.order.btCountry"></li>
+                        </ul>
+                    </div>
+                    <div class="medium-4 large-4 columns ship-info">
+                        <div class="oc-head">
+                            <h3>@T("Shipping Information")</h3>
+                        </div>
+                        <ul>
+                            <li ng-bind="vm.order.stCompanyName"></li>
+                            <li ng-bind="vm.order.stAddress1"></li>
+                            <li ng-if="vm.order.stAddress2" ng-bind="vm.order.stAddress2"></li>
+                            <li ng-bind="vm.stFormat"></li>
+                            <li ng-bind="vm.order.stCountry"></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="order-history-cancelled" ng-show="vm.showCancelationConfirmation">@T("Cancellation Requested")</div>
+
+            <div class="row ship-track" ng-if="vm.order.shipmentPackages.length > 0">
+                <div class="large-12 columns">
+                    <table class="responsive info-tbl">
+                        <thead>
+                        <tr>
+                            <th class="col-date">@T("Ship Date")</th>
+                            <th class="col-carrier">@T("Carrier")</th>
+                            <th class="col-service">@T("Service")</th>
+                            <th class="col-tracking">@T("Tracking #")</th>
+                        </tr>
+                        </thead>
+                        <tbody id="shipmentGrid">
+                        <tr ng-repeat="shipment in vm.order.shipmentPackages">
+                            <td class="col-date">{{ shipment.shipmentDate | date:'shortDate' }}</td>
+                            <td class="col-carrier" ng-bind="shipment.carrier"></td>
+                            <td class="col-service" ng-bind="shipment.shipVia"></td>
+                            <td class="col-tracking" ng-bind-html="shipment.trackingUrl"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row order-details">
+                <ul class="large-12 columns item-list cart-items" ng-repeat="line in vm.order.orderLines">
+                    <li class="row item-block checkout-item">
+                        <div class="small-3 columns item-thumb" ng-if="line.productUri && line.isActiveProduct">
+                            <a id="orderDetailViewProductImgLink_{{line.productId}}" ng-href="{{ line.productUri }}">
+                                <img ng-src="{{ line.mediumImagePath }}" alt="{{ line.altText }}" />
+                            </a>
+                        </div>
+                        <div class="small-9 columns item-details">
+                            <div class="item-name">
+                                <a id="orderDetailViewProductLink_{{line.productId}}" ng-if="line.productUri && line.isActiveProduct" ng-href="{{ line.productUri }}">{{ line.shortDescription }}</a>
+                                <span ng-if="line.sectionOptions" ng-repeat="sectionOption in line.sectionOptions">
+                                    <br /> <span ng-bind="sectionOption.sectionName + ':' + sectionOption.optionName"></span>
+                                </span>
+                                <span ng-if="!line.isActiveProduct" ng-bind="line.shortDescription"></span>
+                                <span ng-if="!line.productUri" ng-bind="line.productErpNumber"></span>
+                            </div>
+                            <div class="item-num">
+                                <span class="item-num-sku" ng-bind="line.productErpNumber"></span>
+                                <span class="item-num-mfg" ng-if="line.product">@T("MFG #"):{{ line.manufacturerItem }}</span>
+                                <span class="item-num-my" ng-if="line.customerProductNumber">@T("My Part #"):{{ line.customerProductNumber }}</span>
+                            </div>
+                            <div ng-if="vm.showInventoryAvailability" class="availability">
+                                <isc-availability-message availability="line.availability"></isc-availability-message>
+                            </div>
+                            <div class="price">
+                                <span class="price-sale" ng-bind="line.unitPriceDisplay"></span>
+                                <span ng-bind="line.unitOfMeasure"></span>
+                            </div>
+                            <div class="item-opt">
+                                <div class="item-qty">
+                                    <strong>@T("QTY_quantity"):</strong>
+                                    <span ng-bind="line.qtyOrdered"></span>
+                                </div>
+                                <div class="item-subtotal" ng-bind="line.lineTotalDisplay"></div>
+                            </div>
+                        </div>
+                        <div class="large-9 columns item-code-notes" ng-if="line.notes">
+                            <div class="row">
+                                <div class="large-6 columns item-notes">
+                                    <strong>@T("Item Notes"):</strong><span ng-bind="line.notes"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="large-9 columns reorder-item hide-for-print" ng-show="vm.canReorderItems && line.canAddToCart">
+                            <a id="orderDetailViewReorderButton_{{line.productId}}" href="#" class="btn primary btn-reorder" ng-click="vm.reorderProduct($event, line)">@T("Reorder")</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="btns reorder-all hide-for-print" ng-show="vm.canReorderItems && vm.order.canAddToCart">
+                <div ng-show="vm.allowCancellationRequest && (vm.order.status == '@CustomerOrder.StatusType.Submitted' || vm.order.status == '@CustomerOrder.StatusType.Review' || vm.order.status == '@CustomerOrder.StatusType.Processing')">
+                    <a id="orderDetailsViewCancelAndReorderButton" href="#" class="btn primary btn-cancel-and-reorder" ng-click="vm.cancelAndReorder($event)">@T("Cancel and Reorder")</a>
+                    <a id="orderDetailsViewCancelButton" href="#" class="btn primary btn-cancel" ng-click="vm.cancelOrder($event)">@T("Cancel")</a>
+                </div>
+                <a id="orderDetailsViewReorderAllButton" href="#" class="btn primary btn-reorder-all" ng-click="vm.reorderAllProducts($event)" ng-bind="vm.order.canAddAllToCart ? '@T("Reorder All")' : '@T("Reorder All Available")'"></a>
+            </div>
+           
+            <div class="order-subtotal">
+                <div class="row">
+                    <div class="small-6 columns sub-label">@T("Subtotal")</div>
+                    <div class="small-6 columns sub-amount" ng-bind="vm.order.productTotalDisplay"></div>
+                </div>
+                <div class="row">
+                    <div class="small-6 columns sub-label">@T("Tax")</div>
+                    <div class="small-6 columns sub-amount" ng-bind="vm.order.taxAmountDisplay"></div>
+                </div>
+                <div class="row">
+                    <div class="small-6 columns sub-label">@T("Shipping Amount")</div>
+                    <div class="small-6 columns sub-amount" ng-bind="vm.order.shippingAndHandlingDisplay"></div>
+                </div>
+                <div class="row promo-applied" ng-repeat="promotion in vm.promotions">
+                    <div class="small-6 columns sub-label">@T("Promotion"): <em><span ng-bind="promotion.name"></span></em></div>
+                    <div class="small-6 columns sub-amount" ng-bind="promotion.amountDisplay"></div>
+                </div>
+                <div class="row order-total">
+                    <div class="small-6 columns sub-label">@T("Total")</div>
+                    <div class="small-6 columns sub-amount" ng-bind="vm.order.orderTotalDisplay"></div>
+                </div>
+            </div>
+            <div class="btns">
+                <a id="orderDetailsViewPrintButton" href="javascript: window.print();" class="hide-for-small btn secondary btn-print">@T("Print")</a>
+                <a id="orderDetailViewReturnRequestButton" href="@(Url.ContentPage<RequestRmaPage>())?orderNumber={{ vm.order.webOrderNumber || vm.order.erpOrderNumber }}" ng-if="vm.allowRma && vm.order.status == '@CustomerOrder.StatusType.Complete'" class="btn secondary btn-delete-saved-order">@T("Return Request (RMA)")</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/ng-template" id="/Directives/Account/AddressDisplay">
+        @Html.ThemedPartial("/Views/Directives/Account/AddressDisplay.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Cart/CartLines">
+        @Html.ThemedPartial("/Views/Directives/Cart/CartLines.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Cart/CartLineNote">
+        @Html.ThemedPartial("/Views/Directives/Cart/CartLineNote.cshtml")
+    </script>
+    <script type="text/ng-template" id="/Directives/Cart/CartTotalDisplay">
+        @Html.ThemedPartial("/Views/Directives/Cart/CartTotalDisplay.cshtml")
+    </script>
+</div>

@@ -1,0 +1,32 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Morsco.Customizations.Lib.ProductList.Models;
+using Insite.Catalog.Services.Results;
+using InSite.Model.Core;
+using Morsco.Customizations.Lib.CreditCardIntegration.Models;
+
+namespace Morsco.Customizations.Lib.CreditCardIntegration.Interfaces
+{
+    public interface ICreditCardService
+    {
+
+		Task<CreditCardsResult> GetUserCardList(CurrentContext currentContext);
+
+		Task<CreditCardInitiateResult> InitiateAddNewCreditCard(CurrentContext currentContext, AddCardRequest addCardRequest, string origin);
+
+		Task<CreditCardsResult> FinalizeNewCreditCard(CurrentContext currentContext, String setupResult);
+
+		Task<CreditCardsResult> DeleteCardFromContact(CurrentContext currentContext, string elementAccountId);
+
+<<<<<<< HEAD
+		Task<Boolean> StoreMostRecentlyUsedCard(CurrentContext currentContext, string elementAccountId);
+=======
+        Task<CreditCardsResult> SetMostRecentlyUsedCard(CurrentContext currentContext, string elementAccountId);
+>>>>>>> develop
+
+    }
+}
+

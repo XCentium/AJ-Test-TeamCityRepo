@@ -1,0 +1,247 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+﻿<div class="large-12 columns" ng-cloak>
+    <div class="checkout-head">
+
+        <ul class="checkout-crumbs">
+            <li><a href="/cart"><i class="fa fa-shopping-cart"></i></a></li>
+            <li class="current"><span class="number">1</span> @T(" Delivery Information")</li>
+
+            <li><span class="number">2</span> @T("Payment and Review Order")</li>
+
+            <li><span class="number">3</span> @T("Confirm Order")</li>
+        </ul>
+
+        <h1 class="checkout-jobname">@T("Job Name"):
+        
+            <span ng-if="vm.cart.shipTo.customerSequence == ''" ng-bind="vm.cart.shipTo.customerNumber"></span>
+            <span ng-if="vm.cart.shipTo.customerSequence != ''" ng-bind="vm.cart.shipTo.customerSequence"></span> -
+            <span ng-bind="vm.cart.shipTo.companyName"></span>
+            <span ng-cloak ng-if="vm.cart.shipTo.lastName || vm.shipTocart.firstName">
+                {{vm.cart.shipTo.lastName}} {{vm.cart.shipTo.firstName}},
+            </span>
+            <span ng-bind="vm.cart.shipTo.fullAddress"></span>
+        </h1>
+
+
+        <div class="inf-value" >
+            
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="xlarge-9 columns">
+            <form id="addressForm" name="addressForm">
+
+                <div class="section-container" data-section data-section-resized="true">
+
+                    <section class="checkout-section hide">
+                        <div class="checkout-section-header">
+                            <h2>@T("Billing Information")</h2>
+                        </div>
+                        <div class="content" data-section-content>
+                            <div class="billing-info">
+								<isc-address-edit prefix="bt" show-email="true" address="vm.cart.billTo" countries="vm.countries"></isc-address-edit>
+                            </div>
+                        </div>
+                    </section>
+
+                    @* IF SHIPPING *@
+                    <section class="checkout-section" ng-if="vm.cart.carrier.id.toString() != '@System.Configuration.ConfigurationManager.AppSettings["WillCallCarrierId"].ToLower()'">
+                        <div class="checkout-section-header">
+                            <h2>@T("Delivery Information")</h2>
+                        </div>
+                        <div class="content" data-section-content>
+                            <div id="shipToAddress" class="shipping-info">
+                                <div class="row ship-to">
+                                    <div class="medium-3 columns"><span>Ship To</span></div>
+                                    <div class="medium-8 columns end">
+                                        <select id="shipTo" name="shipTo" ng-model="vm.selectedShipTo" ng-change="vm.shipToChanged()" ng-options="shipTo.label for shipTo in vm.shipTos"></select>
+                                    </div>
+                                </div>
+								<isc-address-edit prefix="st" show-email="false" address="vm.selectedShipTo" countries="vm.countries" is-read-only="vm.isReadOnly"></isc-address-edit>
+                            </div>
+
+                            <hr />
+
+                            <div class="ship-preference">
+                                <div class="row">
+                                    <div class="medium-3 columns"><span>Preference</span><span class="alert">*</span></div>
+                                    <div class="medium-8 columns end">
+                                        <ul class="no-bullet radios">
+                                            @*<li ng-repeat="item in [{ n: 'Ship when items are available', v: 'available' }, { n: 'Ship complete', v: 'complete' }, { n: 'Ship all items on requested date', v: 'date' }]">
+                                                <label for="ship-pref-{{item.v}}">
+                                                    <input type="radio" name="ship-pref" id="ship-pref-{{item.v}}" value="{{item.v}}" ng-click="vm.changeShipPref($event)" ng-model="vm.shipPref" />
+                                                    {{item.n}}
+                                                </label>
+                                                <div ng-if="item.v == 'date'" class="ship-date">
+                                                    <input id="ship-date" type="text" class="datepicker"
+                                                           min-date="vm.cart.orderDate"
+                                                           ng-model="vm.cart.properties.shipmentRequestedDate"
+                                                           ng-click="vm.updatePreference()"
+                                                           isc-pick-a-date="vm.requestedDate"
+                                                           placeholder="Select Date" />
+                                                    <i class="fa fa-calendar" ng-click="vm.updatePreference()"
+                                                       isc-pick-a-date="vm.requestedDate"></i>
+                                                    <label for="ship-date" class="error">Requested Ship Date is required</label>
+                                                </div>
+                                            </li>*@
+
+											<li>
+												<label for="ship-pref-available">
+													<input type="radio" name="ship-pref" id="ship-pref-available" value="available" ng-click="vm.changeShipPref($event)" ng-model="vm.shipPref" />
+													Deliver as items become available realizing this may result in multiple shipments
+												</label>
+											</li>
+											<li>
+												<label for="ship-pref-complete">
+													<input type="radio" name="ship-pref" id="ship-pref-complete" value="complete" ng-click="vm.changeShipPref($event)" ng-model="vm.shipPref" />
+													Deliver complete when all items are available
+												</label>
+											</li>
+											<li>
+												<label for="ship-pref-date">Requested Delivery Date:</label>
+												<div class="ship-date">
+													<input id="ship-date" type="text" class="datepicker"
+														   min-date="vm.tomorrow"
+														   ng-model="vm.cart.properties.shipmentRequestedDate"
+														   isc-pick-a-date="vm.tomorrow"
+													       placeholder="Select Date"/>
+												    <i class="fa fa-calendar" min-date="vm.tomorrow" isc-pick-a-date="vm.tomorrow"></i>
+													<label for="ship-date" class="error">Requested Delivery Date is required</label>
+												</div>
+											</li>
+											<li>
+												<label for="ship-pref-date">Requested Delivery Time:</label>
+												<div class="ship-date">
+													<select id="RequestedDeliveryTimes" ng-model="vm.selectedDeliveryTime">
+														<option ng-repeat="deliveryTime in vm.checkoutRequestedDeliveryTimes" ng-selected="{{deliveryTime.Default}}" value="{{deliveryTime.Time}}">{{deliveryTime.Time}}</option>
+													</select>
+												</div>
+												<div class="ship-disclaimer">
+													<span ng-bind="vm.cart.properties.checkoutDeliveryCutoffMessaging"></span>
+												</div>
+											</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            <div>
+                                <div class="row">
+                                    <div class="medium-3 columns"><span>Special Shipping or Handling Instructions</span></div>
+                                    <div class="medium-8 columns end">
+                                        <textarea ng-model="vm.cart.properties.specialHandlingInstructions" ng-click="vm.updatePreference()"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <hr />
+
+                        <div>
+                            <span class="alert">*</span>@T("Required")
+                        </div>
+                    </section>
+
+                    @* IF WILL-CALL *@
+                    <section class="checkout-section" ng-if="vm.cart.carrier.id.toString() == '@System.Configuration.ConfigurationManager.AppSettings["WillCallCarrierId"].ToLower()'">
+                        <div class="checkout-section-header">
+                            <h2>@T("Will Call Information")</h2>
+                        </div>
+                        <div class="content" data-section-content>
+                            <div id="shipToAddress" class="shipping-info">
+                                <div class="row">
+                                    <div class="medium-3 columns"><span>Pickup Location</span></div>
+                                    <div class="medium-8 columns end">
+                                        <address>
+                                            <strong>{{vm.cart.properties["willCallPickUpLocation-Name"]}}</strong><br />
+                                            {{vm.cart.properties["willCallPickUpLocation-Address1"]}}<br />
+                                            <span ng-if="vm.cart.properties['willCallPickUpLocation-Address2']"> {{vm.cart.properties["willCallPickUpLocation-Address2"]}}<br /></span>
+                                            {{vm.cart.properties["willCallPickUpLocation-City"]}}, {{vm.cart.properties["willCallPickUpLocation-State"]}} {{vm.cart.properties["willCallPickUpLocation-Zip"]}}<br />
+                                            {{vm.cart.properties["willCallPickUpLocation-Tel"]}}
+                                        </address>
+                                        <p ng-if="vm.cart.type != 'Quote'">Select a different pickup location in <a href="/cart">Your Cart</a></p>
+                                        <p ng-if="vm.cart.type == 'Quote'">Select a different pickup location in <a href="/MyAccount/Rfq/MyQuotes/QuoteDetails?quoteId={{vm.cart.id}}">Your Cart</a></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            <div class="willcall-preference">
+                                <div class="row">
+                                    <div class="medium-3 columns"><span>Preference</span></div>
+                                    <div class="medium-8 columns end">
+                                        <label for="willcall-pref">Pickup items on requested date</label>
+                                        <span class="ship-date">
+                                            <input type="text" class="datepicker" 
+													min-date="vm.tomorrow"
+													ng-model="vm.cart.properties.shipmentRequestedDate"
+													isc-pick-a-date="vm.tomorrow"
+												   placeholder="Select Date" />
+                                            <i class="fa fa-calendar" min-date="vm.tomorrow" isc-pick-a-date="vm.tomorrow"></i>
+											<label for="ship-date" class="error">Requested Pickup Date is required</label>
+                                        </span>
+                                    </div>
+                                </div>
+								<div class="row">
+									<div class="medium-3 columns">&nbsp;</div>
+									<div class="medium-8 columns end">
+										<label for="willcall-pref">Planned Pickup Time:</label>
+										<span class="ship-date">
+											<select id="RequestedDeliveryTimes" ng-model="vm.selectedPickupTime" >
+												<option ng-repeat="pickupTime in vm.checkoutRequestedPickupTimes" ng-selected="{{pickupTime.Default}}" value="{{pickupTime.Time}}">{{pickupTime.Time}}</option>
+											</select>
+										</span>
+										<div class="ship-disclaimer">
+											<span ng-bind="vm.cart.properties.checkoutPickupCutoffMessaging"></span>
+										</div>
+									</div>
+								</div>
+                            </div>
+                            <div>
+                                <div class="row">
+                                    <div class="medium-3 columns"><span>Special Pickup or Handling Instructions</span></div>
+                                    <div class="medium-8 columns end">
+                                        <textarea ng-model="vm.cart.properties.specialHandlingInstructions" ng-click="vm.updatePreference()"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="medium-6 xlarge-3 end columns">
+            <div class="summary">
+                <header class="summary-header">
+                    @T("Order Summary")
+                </header>
+                <div class="summary-content">
+                    <div class="summary-totals">
+                        <div class="row collapse order-total no-border">
+                            <div class="xsmall-6 columns sub-label">@T("Subtotal")<span>({{vm.cart.properties['catalogOrderCount']}})</span></div>
+                            <div class="xsmall-6 columns sub-amount" ng-bind="vm.cart.orderSubTotalDisplay"></div>
+                        </div>
+                    </div>
+                    <div class="summary-primary-cta">
+                        <a href="javascript:;" class="button expand large" ng-click="vm.continueCheckout('@(Url.ContentPage<Insite.Cart.Content.ReviewAndPayPage>())')"
+						ng-disabled="vm.continueCheckoutInProgress">
+                            @T("Continue Checkout")
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

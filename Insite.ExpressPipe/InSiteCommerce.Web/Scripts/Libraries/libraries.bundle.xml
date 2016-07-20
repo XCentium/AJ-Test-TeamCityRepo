@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- Edit this file to change the files included in the libraries.min.js bundle -->
+<files>
+  <file>/Libraries/modernizr/2.6.2/custom.modernizr.js</file>
+  <file>/Libraries/jquery/1.10.2/jquery.min.js</file>
+  <file>/Libraries/foundation/5.4.6/foundation.min.js</file>
+  <file>/Libraries/jquery.validate/1.11.1/jquery.validate.min.js</file>
+  <file>/Libraries/jquery.validate.unobtrusive.min.js</file>
+  <file>/Libraries/foundation/5.4.6/foundation/foundation.topbar.js</file>
+  <file>/Libraries/jquery.fastbutton/1.0.1/jquery.fastbutton.js</file>
+  <file>/Libraries/jquery.placeholder/0.7.0/jquery.placeholder.js</file>
+  <file>/Libraries/jquery.autocomplete/1.2.20/jquery.autocomplete.min.js</file>
+  <file>/libraries/jquery.hammer/1.0.5/hammer.min.js</file>
+  <file>/Libraries/jquery.jcarousel/0.3.0/jCarouselSwipe.min.js</file>
+  <file>/Libraries/jquery.jcarousel/0.3.0/jquery.jcarousel.min.js</file>
+  <file>/Libraries/jquery.formatCurrency/1.4.0/jquery.formatCurrency.min.js</file>
+  <file>/Libraries/FileSaver/FileSaver.min.js</file>
+  <file>/Libraries/pickadate/3.5.0-custom/picker.js</file>
+  <file>/Libraries/pickadate/3.5.0-custom/picker.date.js</file>
+  <file>/Libraries/pickadate/3.5.0-custom/picker.time.mock.js</file>
+  <file>/Libraries/enquire/2.1.2/enquire-min.js</file>
+  <file>/Libraries/easyResponsiveTabs/easyResponsiveTabs.js</file>
+  <file>/Libraries/angular/1.3.15/angular.js</file>
+  <file>/Libraries/angular/1.3.15/angular-sanitize.js</file>
+  <file>/Libraries/angular-cookie/4.1.0/angular-cookie.min.js</file>
+  <file>/Libraries/angular-filter/0.5.4/angular-filter.js</file>
+  <file>/Libraries/angular-utf8-base64/angular-utf8-base64.js</file>
+  <file>/Libraries/ng-map/0.0.0/ng-map.min.js</file>
+  <file>/Libraries/lodash/2.4.1/lodash.min.js</file>
+  <file>/Libraries/flexslider/2.5.0/jquery.flexslider-min.js</file>
+  <file>/Libraries/kendo-ui/v3.1111/js/kendo.core.min.js</file>
+  <file>/Libraries/kendo-ui/v3.1111/js/kendo.angular.min.js</file>
+  <file>/Libraries/kendo-ui/v3.1111/js/kendo.data.min.js</file>
+  <file>/Libraries/kendo-ui/v3.1111/js/kendo.popup.min.js</file>
+  <file>/Libraries/kendo-ui/v3.1111/js/kendo.list.min.js</file>
+  <file>/Libraries/kendo-ui/v3.1111/js/kendo.fx.min.js</file>
+  <file>/Libraries/kendo-ui/v3.1111/js/kendo.autocomplete.min.js</file>
+  <file>/Libraries/porthole/0.0.0/porthole.min.js</file>
+  <file>/Libraries/jquery-ui/1.9.2/jquery-ui.custom.min.js</file>
+  <file>/Libraries/jquery.cookie/1.3.1/jquery.cookie.js</file>
+  <file>/Libraries/sticky/sticky.js</file>
+  <file>/Libraries/slick/slick.js</file>
+  <file>/Libraries/trimimage/trimimage.js</file>
+  <file>/Libraries/equalHeights/equalHeights.js</file>
+  <file>/Libraries/imagesLoaded/imagesLoaded.js</file>
+  <file>/Libraries/jquery.maskedinput/jquery.maskedinput.js</file>
+  <file>/Libraries/dotdotdot/dotdotdot.min.js</file>
+</files>

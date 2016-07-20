@@ -1,0 +1,122 @@
+﻿.recos {
+    width: 100%;
+    margin-top: $margin-single;
+    opacity: 0;
+    
+    @media #{$large-up} {
+        margin-top: $margin-double;
+    }
+
+
+    header {
+        @extend .clearfix;
+        padding: $padding-single;
+        background-color: $lightest-gray;
+
+        h4 {
+            float: left;
+            margin: 0;
+        }
+        .paging-info {
+            float: right;
+        }
+    }
+
+    .item-block {
+        border-bottom: none;
+        padding: $padding-double $padding-single;
+
+        @media (min-width: $medium-breakpoint){
+            padding: $padding-double;
+        }
+
+        .item-inf-wrapper {
+            margin-bottom: $margin-single;
+        }
+
+        .item-thumb {
+            margin-bottom: $margin-single/2;
+            text-align: center;
+
+            > a {
+                /* vertically center image */
+                display: table-cell;
+                vertical-align: middle;
+            }
+
+            img {
+                /* buggy
+                position: relative;
+                top: 50%;
+                transform: translateY(-50%);
+                */
+            }
+        }
+
+        .item-brand {
+            margin-top: $margin-single/2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .item-name {
+            margin-bottom: $margin-single/2;
+            font-size: 1em;
+            font-weight: 400;
+
+            > a {
+                display: inline-block;
+                max-height: 2.2em;
+            }
+        }
+
+        .item-num {
+            line-height: 1.1em;
+            // caused issues on mobile
+            // white-space: nowrap;
+        }
+
+        .add-to-cart {
+            .item-qty {
+                display: inline-block;
+
+                label { display: none; }
+
+                input[type="number"].qty {
+                    display: inline-block;
+                    width: rem-calc(55);
+                    margin-bottom: rem-calc(5);
+                    height: rem-calc(29);
+                    font-size: 0.8em;
+                    text-align: center;
+                }
+            }
+            .item-buttons {
+                display: inline-block;
+                text-align: right;
+
+                .button {
+                    padding-left: $padding-single;
+                    padding-right: $padding-single;
+                }
+            }
+        }
+
+        .item-add-to-list {
+            font-size: 0.8em;
+        }
+    }   
+}
+
+.products-column {
+    .recos {
+        display: none;
+    }
+}
+
+.product-list {
+    .recos {
+        display: none;
+    }
+}

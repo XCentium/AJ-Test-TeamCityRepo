@@ -1,0 +1,35 @@
+﻿@using Insite.Common
+@using Insite.WebFramework.Mvc.Extensions
+@model EmailSubscription
+
+<div class="widget-emailsubscription @Model.CssClass">
+    <form action="@Url.Action("SubscribeToList", "Email")" id="emailSubscription@(Model.ContentKey)">
+        <label for="emailAddress@(Model.ContentKey)">@Model.Instructions</label>
+        <div class="email-subscription-form">
+            <input type="text" class="subscribe-box" name="EmailAddress" id="emailAddress@(Model.ContentKey)" placeholder="@Model.PlaceHolderText"
+                   data-val-required="@Model.EmailIsRequiredErrorMessage" data-val="true"
+                   data-val-regex-pattern="@Html.Raw(RegularExpressionLibrary.EmailAddress)"
+                   data-val-regex="@Model.EmailIsInvalidErrorMessage" />
+            <button id="emailSubscriptionSubscribeButton" class="button tertiary" type="submit">@T("Sign Up")</button>
+        </div>
+        <span data-valmsg-replace="true" data-valmsg-for="EmailAddress"></span>
+        <span class="successMessage" style="display:none;">@Model.SuccessMessage</span>
+    </form>
+</div>
+
+@Html.Script(
+    @<script>
+        jQuery(function($) {
+            $("#emailSubscription@(Model.ContentKey)").submit(function(e) {
+                e.preventDefault();
+                var $form = $(this);
+                if (!$form.valid())
+                    return;
+
+                $form.ajaxPost(function() {
+                    $form.find(".btn-subscribe").hide();
+                    $form.find(".successMessage").show();
+                });
+            });
+        });
+    </script>)

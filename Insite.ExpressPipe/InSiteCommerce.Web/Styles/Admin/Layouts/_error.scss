@@ -1,0 +1,45 @@
+﻿
+.error-page {
+    background-color: $type;
+    color: $white;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding-top: 215px;
+}
+
+.error-page__logo {
+    margin-bottom: 85px;
+}
+
+.error-page__title {
+    font-size: 22px;
+    line-height: 20px;
+    display: block;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.error-page__description {
+    font-size: 16px;
+    margin-bottom: 35px;
+}
+
+.error-modal { 
+    width: 90%;
+    height: 90%;
+    background-color: white;
+    padding: 1.5rem;
+}
+
+.error-modal__close {
+    float: right;
+    font-size: 3rem;
+}
+
+.simplemodal-overlay {
+    background-color: #000;
+}

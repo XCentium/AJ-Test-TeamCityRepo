@@ -1,0 +1,31 @@
+﻿@using Insite.Cart.Content
+@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Cart.Content.ReviewAndPayView
+
+<isc-review-and-pay-view cart-url="@(Url.ContentPage<CartPage>())"></isc-review-and-pay-view>
+
+<script type="text/ng-template" id="reviewAndPay_topContent">
+    @Html.Zone(Model, "TopContent")
+</script>
+
+<script type="text/ng-template" id="/Directives/Account/AddressDisplay">
+    @Html.ThemedPartial("/Views/Directives/Account/AddressDisplay.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Cart/ShippingSelector">
+    @Html.ThemedPartial("/Views/Directives/Cart/ShippingSelector.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Cart/PaymentSelector">
+    @Html.ThemedPartial("/Views/Directives/Cart/PaymentSelector.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Cart/CartLines">
+    @Html.ThemedPartial("/Views/Directives/Cart/CartLines.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Cart/CartLineNote">
+    @Html.ThemedPartial("/Views/Directives/Cart/CartLineNote.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Cart/CartTotalDisplay">
+    @Html.ThemedPartial("/Views/Directives/Cart/CartTotalDisplay.cshtml")
+</script>
+<script type="text/ng-template" id="/Directives/Cart/ReviewAndPayView">
+    @Html.ThemedPartial("/Views/Directives/Cart/ReviewAndPayView.cshtml")
+</script>

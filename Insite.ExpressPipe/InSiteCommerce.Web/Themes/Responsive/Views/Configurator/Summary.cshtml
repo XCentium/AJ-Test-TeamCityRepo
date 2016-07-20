@@ -1,0 +1,64 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Configurator.Models.ConfiguratorSummaryViewModel
+
+@Html.Script(@<script type="text/javascript">
+    jQuery(function () {
+        $("#addToCart").click(function () {
+            $.ajax({ url : '/api/v1/carts/current', type : 'PATCH' }); // invalidate the cart etag
+            $(this).closest("form").submit();
+        });
+    });
+</script>)
+
+@Html.RequireCss(Url.ThemedContent("/Styles/template/configurator.css"))
+<div class="row main-row">
+    <div class="medium-12 large-12 columns">
+        <div class="row pd-grid isc-productContainer">
+            <div>
+                <h1>Product Configurator Summary</h1>
+            </div>
+            <h5>@T("Price as Configured"): @Model.ActualPriceDisplay</h5>
+            @if (!string.IsNullOrEmpty(Model.OrderLineNotes))
+            {
+                <div class="configurator-summary-description">Description: @Html.Raw(Model.OrderLineNotes)</div>
+            }
+            @if (Model.DisplaySummary)
+            {
+                foreach (var configurationPage in Model.ConfigurationOptions.Select(x => x.Item1).Distinct().AsEnumerable())
+                {
+                <div class="configurator-summary-column">
+                    <h2>
+                        @configurationPage</h2>
+                    <div class="configurator-summary-table-wrapper">
+                        <table class="configurator-summary-table">
+                            @{
+                    var page = configurationPage;
+                            }
+                            @foreach (var configurationOption in Model.ConfigurationOptions.Where(x => x.Item1.Equals(page, StringComparison.OrdinalIgnoreCase)))
+                            {
+                                <tr>
+                                    <th>
+                                        @configurationOption.Item2
+                                    </th>
+                                    <td>
+                                        @configurationOption.Item3
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                }
+            }
+            <div style="clear: both;"></div>
+            <div class="configurator-summary-buttons">
+                <form action="/Configuration/AddToCart" method="POST">
+                    <input type="hidden" name="orderLineId" value="@Model.OrderLineId"/>
+                    <a href="javascript:void(0);" id="addToCart" class="btn primary">Add to Cart</a>
+                    <a href="@Model.ReconfigureHref" id="reconfigure" class="btn primary">Reconfigure</a>
+                    <a href="@Model.CancelHref" id="cancel" class="btn secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

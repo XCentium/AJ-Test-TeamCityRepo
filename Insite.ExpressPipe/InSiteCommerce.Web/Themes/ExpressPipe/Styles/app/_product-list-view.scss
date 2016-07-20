@@ -1,0 +1,15 @@
+﻿.no-results-content {
+    display: none;
+}
+
+.no-results ~ .no-results-content {
+    display: block;
+}
+
+.category-page ~ .no-results-content {
+    display: none;
+}
+
+.isc-editing .no-results-content {
+    display: block;
+}

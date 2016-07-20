@@ -1,0 +1,15 @@
+﻿<div id="orderUploadingPopup" class="reveal-modal address-error-popup tiny" data-reveal data-options="close_on_background_click: false;" data-reveal-init>
+    <div class="modal-wrap ou-modal">
+        
+        <h1>{{(!vm.uploadCancelled) ? '@T("Uploading Order")' : '@T("Cancelling Order")'}}</h1>
+        
+        <div class="progress">
+            <span class="meter" style="width: {{(vm.productProcessed/vm.bulkSearch.length)*100}}%;"></span>
+        </div>
+
+        <div class="buttons text-right">
+            <button class="button tertiary" ng-click="vm.cancelUpload()" ng-show="vm.allowCancel" ng-enable="!vm.uploadCancelled">@T("Cancel Upload")</button>
+        </div>
+
+    </div>
+</div>

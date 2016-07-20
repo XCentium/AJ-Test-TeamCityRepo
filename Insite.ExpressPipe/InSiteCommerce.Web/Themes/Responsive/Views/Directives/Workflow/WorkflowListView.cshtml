@@ -1,0 +1,28 @@
+﻿<div>
+    <div class="panel callout radius results-count" style="width: 400px;margin-left:20px;">
+        <span class="result-lbl">
+            <span style="font-weight:bold">{{ workflows.modules.length }}</span> installed modules,
+            <span style="font-weight:bold">{{ noHandlerCount }}</span> modules contain no handlers.
+        </span>
+    </div>
+
+    <ul class="small-block-grid-1 medium-block-grid-3">
+        <li ng-repeat="module in workflows.modules | orderBy:'moduleName' ">
+            @*<ul class="accordion" data-accordion="myAccordionGroup">*@
+            <ul class="accordion no-bullet">
+                <li class="panel callout radius " ng-cloak>
+                    @*<li class="accordion-navigation panel callout radius" ng-cloak>*@
+                    @*<a href="#even{{ evenModules.indexOf(evenModule) }}" style="background-color:#ecfaff; border:none;">*@
+                    <span>{{ module.moduleName }}</span>
+                    @*</a>*@
+                    <div id="module{{$index}}" clas class="content" ng-cloak>
+                        {{ module.services.length }} service(s) found for module.
+                        <div ng-repeat="service in module.services">
+                            <a href="/Workflow/Details?serviceName={{ service.serviceName }}">{{ service.serviceName }}</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

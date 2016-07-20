@@ -1,0 +1,19 @@
+﻿@using Insite.Core.Providers
+
+<div>
+    <div class="large-5 columns">
+        <span ng-bind="fieldLabel"></span>
+        <span class="redTxt" ng-show="isRequired">*</span>
+    </div>
+    <div class="large-7 columns">
+        <input type="text" ng-model="fieldValue" autofocus="autofocus" 
+               id="{{fieldName}}"
+               name="{{fieldName}}"
+               data-rule-required="{{isRequired}}"
+               data-msg-required="{{'@MessageProvider.Current.Field_Required'.replace('{0}', fieldLabel)}}"
+               data-rule-email="{{isEmail}}"
+               data-msg-email="{{'@MessageProvider.Current.Field_Invalid'.replace('{0}', fieldLabel)}}"
+            >
+        <span class="field-validation-valid" data-valmsg-for="{{fieldName}}" data-valmsg-replace="true"></span>
+    </div>
+</div>

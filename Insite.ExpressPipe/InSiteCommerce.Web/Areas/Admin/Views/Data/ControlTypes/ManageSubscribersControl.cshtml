@@ -1,0 +1,89 @@
+﻿@model Insite.Admin.Models.ControlTypeViewModel<Insite.Admin.ControlTypes.ManageSubscribersControl>
+
+<isa-manage-subscribers model="entityDetailsCtrl.model"
+                        form="entityDetailsCtrl.form"
+                        form-name="entityDetailsCtrl.formName"
+                        property-service-uri="entityDetailsCtrl.propertyServiceUri"
+                        read-only="@((!Model.PropertyDefinition.CanEdit).ToString().ToLower())"></isa-manage-subscribers>
+
+<script type="text/ng-template" id="ManageSubscribers">
+    <div>
+        <div class="grid-block">
+            <div class="grid-content medium-6 form-content">
+                <div class="title-bar">
+                    <div class="left">Subscribers</div>
+                </div>
+                <section ng-if="vm.subscribers && vm.subscribers.length > 0" class="table-content">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input ng-click="vm.moveAll('right')" type="checkbox" />
+                                </th>
+                                <th ng-click="vm.changeSort('email', 'column1')" ng-class="{ 
+                                    'is-sorted-asc': vm.sortAsc('email', 'column1'),
+                                    'is-sorted-desc': vm.sortDesc('email', 'column1') }" class="is-actionable">
+                                    <div class="column-header">Email</div>
+                                </th>
+                                <th ng-click="vm.changeSort('createdOn', 'column1')" ng-class="{ 
+                                    'is-sorted-asc': vm.sortAsc('createdOn', 'column1'), 
+                                    'is-sorted-desc': vm.sortDesc('createdOn', 'column1') }" class="is-actionable">
+                                    <div class="column-header">Create Date</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="subscriber in vm.subscribers | orderBy:vm.orderField('column1', 'email'):vm.reverse('column1')">
+                                <td>
+                                    <input ng-click="vm.moveTo(subscriber, 'right')" type="checkbox" />
+                                </td>
+                                <td ng-bind="subscriber.email"></td>
+                                <td ng-bind="subscriber.createdOn"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+            <div class="grid-content medium-6 form-content">
+                <div class="title-bar">
+                    <div class="left">Available Subscribers</div>
+                </div>
+                <section ng-if="vm.availableSubscribers && vm.availableSubscribers.length > 0" class="table-content">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input ng-click="vm.moveAll('left')" type="checkbox" />
+                                </th>
+                                <th ng-click="vm.changeSort('email', 'column2')" ng-class="{ 
+                                    'is-sorted-asc': vm.sortAsc('email', 'column2'),
+                                    'is-sorted-desc': vm.sortDesc('email', 'column2') }" class="is-actionable">
+                                    <div class="column-header">Email</div>
+                                </th>
+                                <th ng-click="vm.changeSort('createdOn', 'column2')" ng-class="{ 
+                                    'is-sorted-asc': vm.sortAsc('createdOn', 'column2'),
+                                    'is-sorted-desc': vm.sortDesc('createdOn', 'column2') }" class="is-actionable">
+                                    <div class="column-header">Create Date</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="subscriber in vm.availableSubscribers | orderBy:vm.orderField('column2', 'email'):vm.reverse('column2')">
+                                <td>
+                                    <input ng-click="vm.moveTo(subscriber, 'left')" type="checkbox" />
+                                </td>
+                                <td ng-bind="subscriber.email"></td>
+                                <td ng-bind="subscriber.createdOn"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+                <div>
+                    <br />
+                    <a class="button" ng-click="vm.sendEmails()" ng-disabled="!vm.model.canSubscribe">Send Email to All Subscribers</a>
+                    <a class="button" ng-click="vm.exportSubscribed()">Export Subscribed Users</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

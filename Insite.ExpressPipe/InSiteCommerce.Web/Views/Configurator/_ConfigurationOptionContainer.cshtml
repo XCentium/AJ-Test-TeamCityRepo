@@ -1,0 +1,12 @@
+﻿@model Insite.Configurator.Models.ConfigurationOptionViewModel
+<div id="@(Model.Name)Wrapper" class="configurator-option-wrapper">
+    @if (Model.ContainerFileType == "Web Link")
+    {
+        <a id="@Model.Name" href="@Model.ContainerFileLocation" title="@Model.ToolTip" class="configurator-option-container configurator-option-container-link">@Model.Name</a>
+    }
+    else
+    {
+        <img id="@Model.Name" src="@Model.ContainerFileLocation" title="@Model.ToolTip" class="configurator-option-container configurator-option-container-image" />  
+    }    
+</div>
+<br />

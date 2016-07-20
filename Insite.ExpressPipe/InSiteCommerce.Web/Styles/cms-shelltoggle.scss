@@ -1,0 +1,191 @@
+﻿@import "_mixins.scss";
+
+.cms-shell-controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9;
+    @include transition(all 140ms ease-in-out);
+}
+
+.cms-shell-controls button + span {
+    vertical-align: top;
+    width: 0;
+    display: inline-block;
+    overflow: hidden;
+    @include transition(all 125ms linear);
+    border-bottom: 1px solid #a9a9a9;
+    margin-left: -1px;
+    z-index: 10;
+    position: relative;
+}
+
+.cms-shell-controls button + span:after {
+    display: inline-block;
+    background: rgba(0, 114, 188, 1);
+    color: #fff;
+    font-size: 11px;
+    text-transform: uppercase;
+    padding: .5em;
+    content: "Show CMS";
+}
+
+.cms-shell-controls button:hover + span {
+    width: auto;
+    border-right: 1px solid #a9a9a9;
+}
+
+.cmsOn .cms-shell-controls button + span {
+}
+
+.cmsOn .cms-shell-controls button + span:after {
+    content: "Hide CMS";
+}
+
+.cms-shell-controls button, .cmsOn .cms-shell-controls button {
+    color: #0072bc;
+    font-size: 11px;
+    text-transform: uppercase;
+    width: 35px;
+    height: 35px;
+    background: none transparent;
+    border: 0;
+    border-radius: 0;
+    outline: none;
+    @include transition(all 200ms ease-in-out);
+    overflow: hidden;
+    position: relative;
+    vertical-align: top;
+    padding: 0;
+}
+
+.cms-shell-controls button:before {
+    content: '';
+    border-top: 30px solid #0072bc;
+    border-right: 30px solid transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.cms-shell-controls button span {
+    position: absolute;
+    display: none;
+    top: 15px;
+    left: 0;
+    width: 50px;
+}
+
+.cms-shell-controls button span:before, .cmsOn .cms-shell-controls button span:before, .cmsOn .cms-shell-controls button span:after {
+    font-family: "GoodOatmealCMS";
+    content: "\e606";
+    font-size: 22px;
+    line-height: 40px;
+    color: #fff;
+    position: absolute;
+    bottom: -25px;
+    right: 15px;
+    @include transition(all 100ms linear);
+}
+
+.cmsOn .cms-shell-controls button span:before {
+    display: none;
+}
+
+.cmsOn .cms-shell-controls button span:after {
+    font-family: "GoodOatmealCMS";
+    content: "\f106";
+    font-size: 40px;
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg) translateZ(0px);
+    transform: rotate(-45deg) translateZ(0px);
+}
+
+.cmsOn .cms-shell-controls button:hover span:before {
+    bottom: -24px;
+    right: 17px;
+    @include transition(0);
+    transition-delay: 2000ms;
+}
+
+.cmsOn .cms-shell-controls button span:after {
+}
+
+.cms-shell-controls button:hover {
+    color: #fff;
+    width: 54px;
+    height: 50px;
+    border-bottom: 1px solid #a9a9a9;
+    border-right: 1px solid #a9a9a9;
+    border-radius: 0 0 5px;
+}
+
+.cms-shell-controls button:hover span {
+    display: block;
+    border-right: 1px solid #a9a9a9;
+}
+
+.cms-shell-controls button:hover:before, .cmsOn .cms-shell-controls button:hover:before {
+    border-top: 100px solid #0072bc;
+    border-right: 100px solid transparent;
+}
+
+.cmsOn .cms-shell-controls {
+    left: 250px;
+    top: 80px;
+}
+
+#cms-shell.hiddenTree .cms-shell-controls {
+    left: 0;
+}
+
+.cmsOn #cms-shell.expandedTree .cms-shell-controls {
+    left: 410px !important;
+}
+
+.cmsOn .cms-shell-controls button:before {
+    border-top: 20px solid #0072bc;
+    border-right: 20px solid transparent;
+}
+
+.cms-shell-controls button:after, .cmsOn .cms-shell-controls button:after {
+    font-family: "GoodOatmealCMS";
+    content: "\f106";
+    font-size: 22px;
+    line-height: 40px;
+    color: #0072bc;
+    position: absolute;
+    bottom: -7px;
+    right: 5px;
+    -moz-transform: rotate(135deg);
+    -ms-transform: rotate(135deg);
+    -o-transform: rotate(135deg);
+    -webkit-transform: rotate(135deg) translateZ(0px);
+    transform: rotate(135deg) translateZ(0px);
+    @include transition(all 50ms linear);
+}
+
+.cmsOn .cms-shell-controls button:after {
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg) translateZ(0px);
+    transform: rotate(-45deg) translateZ(0px);
+    bottom: 0px;
+    right: 10px;
+}
+
+
+.cms-shell-controls button:hover:after, .cmsOn .cms-shell-controls button:hover:after {
+    color: #fff;
+    right: -2px;
+    bottom: -14px;
+}
+
+.cmsOn .cms-shell-controls button:hover:after {
+    color: #fff;
+    right: 17px;
+    bottom: 2px;
+}

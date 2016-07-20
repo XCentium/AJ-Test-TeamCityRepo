@@ -1,0 +1,10 @@
+﻿@model Insite.Admin.Models.ControlTypeViewModel<Insite.Admin.ControlTypes.DynamicDropDownControl>
+
+@{
+    var route = Model.ControlType.Route;
+    var key = Model.ControlType.Key;
+    var filter = Model.ControlType.Filter;
+    var display = Model.ControlType.Display;
+}
+
+<isa-dynamic-display route="@route" key="@key" filter="@filter" display="@display" key-value="{{@(Model.ListPageModelBinding)}}"></isa-dynamic-display>

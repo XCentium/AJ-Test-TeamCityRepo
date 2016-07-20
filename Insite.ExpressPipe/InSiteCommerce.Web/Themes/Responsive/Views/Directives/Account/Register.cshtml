@@ -1,0 +1,9 @@
+﻿@using Insite.Account.Content
+<div class="large-6 columns si-acct">
+    <h3>@T("Create New Account")</h3>
+    <div class="cm" ng-include="'register_createAccountContent'"></div>
+    <div class="btns">
+        <a id="registerCreateAccountButton" class="btn secondary" ng-href="@(Url.ContentPage<CreateAccountPage>())?returnUrl={{vm.returnUrl}}">@T("Create Account")</a>
+        <button id="registerCheckoutAsGuestButton" type="button" class="btn secondary" ng-if="vm.settings.allowGuestCheckout" ng-click="vm.guestCheckout()">@T("Checkout As Guest")</button>
+    </div>
+</div>

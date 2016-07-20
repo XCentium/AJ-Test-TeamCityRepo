@@ -1,0 +1,78 @@
+﻿
+
+<div class="pc-carousel top-carousel isc-carousel">
+    <ul class="items">
+        <li class="columns isc-productContainer" ng-repeat="product in vm.productsToCompare">
+            <div class="item-wrap pc-active-item">
+                <div class="carousel-item-equalize">
+                    <div class="remove">
+                        <a class="btn btn-remove removeProductFromComparison" data-productid="{{product.id}}">
+                            <i class="fa fa-remove"></i>
+                        </a>
+                    </div>
+                    <div class="thumb-wrap">
+                        <div class="item-thumb">
+                            <a ng-href="{{product.productDetailUrl}}">
+                                <img ng-src="{{product.mediumImagePath}}" alt="{{product.altText}}" comparecarouselimageonload />
+                            </a>
+                        </div>
+                    </div>
+                    <div class="item-brand">
+                        {{product.properties['manufacturerName']}}
+                    </div>
+                    <div class="item-name">
+                        <a ng-href="{{product.productDetailUrl}}">{{product.shortDescription}}</a>
+                    </div>
+                    <div class="item-num">
+						<span class="item-num-mfg" ng-if="product.properties['genericPartNumber']">@("Item#") <span class="dark">{{product.properties['genericPartNumber']}}</span></span>
+						<span class="item-num-mfg" ng-if="!product.properties['genericPartNumber'] && product.manufacturerItem">@("MFR#") <span class="dark">{{product.manufacturerItem}}</span></span>
+                    </div>
+                    <div class="item-env-icons">
+                        <i ng-if="product.properties['leadFree'] == 'Yes'" class="epicon epicon-lead-free"></i>
+                        <i ng-if="product.properties['mercuryFree'] == 'Yes'" class="epicon epicon-mercury-free"></i>
+                        <i ng-if="product.properties['waterSenseSaver'] == 'Yes'" class="epicon epicon-water-saver"></i>
+                        <i ng-if="product.properties['hazardousMaterial'] == 'Yes'" class="epicon epicon-hazardous-material"></i>
+                        <i ng-if="product.properties['energyStarRated'] == 'Yes'" class="epicon epicon-energy-saver"></i>
+                    </div>
+                </div>
+                <div class="item-cta">
+                    <div class="item-price" ng-if="product.canShowPrice">
+                        <isc-product-price product="product"></isc-product-price>
+
+                        <label ng-if="vm.settings.alternateUnitsOfMeasure && product.productUnitOfMeasures.length > 1">@T("U/M"):</label>
+                        <label ng-if="vm.settings.alternateUnitsOfMeasure && product.productUnitOfMeasures.length > 1">@T("U/M"):</label>
+                        <label ng-if="vm.settings.alternateUnitsOfMeasure && product.productUnitOfMeasures.length > 1">@T("U/M"):</label>
+
+                        <span ng-if="product.canShowPrice && product.unitOfMeasureDisplay && !product.quoteRequired && product.pricing.actualPriceDisplay !== undefined && product.pricing.actualPriceDisplay != '' && product.pricing.actualPriceDisplay != '$0.00' && product.pricing.actualPriceDisplay" class="um displayUnitOfMeasure isc-uomDisplay">{{product.unitOfMeasureDisplay}}</span>
+
+                        <div ng-show="product.canShowPrice && !product.quoteRequired">
+                            <isc-quantity-break-pricing product-id="product.id" break-prices="product.pricing.actualBreakPrices"></isc-quantity-break-pricing>
+                        </div>
+
+                        <div><span data-tooltip aria-haspopup="true" class="has-tip" ng-hide="product.properties['catalogWebSite']" title="Add to cart and request a quote to get pricing">@T("Request Quote for Price")</span></div>
+                    </div>
+                    <div class="item-availability">
+                        <morsco-cart-availability-message availability="product.availability" warehouses="vm.warehouses" itemline="product">
+                        </morsco-cart-availability-message>
+                    </div>
+                    <div class="add-to-cart">
+                        <div class="item-qty" ng-if="product.canAddToCart">
+                            <label>@T("Qty")</label>
+                            <input id="qty-{{product.id}}" type="number" min="product.properties.minimumSellQty ? product.properties.minimumSellQty : product.qtyOrdered" name="qty"
+                                   ng-change="vm.updateQty(product)"
+                                   ng-model-options="{ updateOn: 'blur' }"
+                                   step="{{product.properties.minimumSellQty}}" class="numerictextbox qty" ng-model="product.qtyOrdered" />
+                        </div>
+
+                        <div class="item-buttons">
+                            <button class="button" ng-click="vm.addToCart({ product: product })" ng-if="product.canAddToCart">@T("Add to Cart")</button>
+                            <div class="item-add-to-list" ng-if="product.canAddToWishlist && vm.isAuthenticated">
+                                <a href="javascript:void(0);" class="btn secondary btn-add-list isc-addToWishlistPopup" ng-click="vm.openWishListPopup({ product: product })" ng-if="product.canAddToWishlist">@T("+ Add to List")</a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </li>
+    </ul>
+</div>

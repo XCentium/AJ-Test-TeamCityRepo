@@ -1,0 +1,11 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Account.Content.AccountSettingsView
+
+<isc-settings-view></isc-settings-view>
+
+@Html.Action("GenericPopupPartial", "Shared", new { containerName = "changePasswordSuccess", BodyHtml = Model.PasswordChangedMessage })
+@Html.Action("GenericPopupPartial", "Shared", new { containerName = "manageSubscriptionSuccess", BodyHtml = Model.SubscriptionChangedMessage })
+
+<script type="text/ng-template" id="/Directives/Account/SettingsView">
+    @Html.ThemedPartial("/Views/Directives/Account/SettingsView.cshtml")
+</script>

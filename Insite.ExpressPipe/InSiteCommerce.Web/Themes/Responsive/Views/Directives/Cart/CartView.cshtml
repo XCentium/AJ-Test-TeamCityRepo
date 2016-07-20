@@ -1,0 +1,16 @@
+﻿@using Insite.Core.Providers
+
+<div ng-cloak ng-show="vm.cart">
+    @helper returnLink()
+    {
+        <div class="hide-for-medium-up return-link">
+            <a ng-show="vm.cart.displayContinueShoppingLink" ng-click="vm.continueShopping($event)" href="@(Url.ContentPage<HomePage>())">@T("Continue Shopping")</a>
+        </div>
+    }
+
+    @returnLink()
+    <isc-cart-summary></isc-cart-summary>
+    @returnLink()
+
+    @Html.Action("GenericPopupPartial", "Shared", new { containerName = "popup-addtocart-noinventory", BodyHtml = MessageProvider.Current.Cart_NotEnoughInventory, Title = @T("Add To Cart") })
+</div>

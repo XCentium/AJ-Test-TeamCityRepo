@@ -1,0 +1,39 @@
+﻿@using System.Reflection
+@using Insite.WebFramework.Content
+@using Insite.WebFramework.Content.Attributes
+
+
+@{
+    Layout = "/Areas/ContentAdmin/Views/Shared/_ModalLayout.cshtml";
+}
+
+@section ClassName { cms-reorderModal }
+@section Header { Reorder Pages }
+
+<ul class="cms-rootReorderList">
+    @helper BuildTree(AbstractPage abstractPage)
+    {
+        var allowedChildrenAttribute = abstractPage.GetType().GetCustomAttribute<AllowedChildrenAttribute>();
+        var allowedChildrenClasses = string.Join(" ", allowedChildrenAttribute != null ? string.Join(" ", allowedChildrenAttribute.AllowedChildren.Select(o => "ac-" + o.Name)) : "ac-Any");
+        var allowedParentsAttribute = abstractPage.GetType().GetCustomAttribute<AllowedParentsAttribute>();
+        var allowedParentsClasses = string.Join(" ", allowedParentsAttribute != null ? string.Join(" ", allowedParentsAttribute.AllowedParents.Select(o => "ap-" + o.Name)) : "ap-Any");
+        <li class="clearfix cms-contentItem @allowedChildrenClasses @allowedParentsClasses" data-sortorder="@abstractPage.SortOrder" data-contentKey="@abstractPage.ContentKey"
+            data-contentType="@abstractPage.GetType().Name">
+            <span>@abstractPage.DisplayName()</span>
+            @{
+                var contentPages = Content.GetChildPages<AbstractPage>(abstractPage.ContentKey).AllPages;
+            }
+            <ul class="cms-reorderList @(contentPages.Any() ? "" : "cms-emptyList")">
+                @foreach (var childPage in contentPages)
+                {
+                    @BuildTree(childPage)
+                }
+            </ul>
+        </li>
+    }
+    @BuildTree(Content.GetPage<HomePage>().Page)
+</ul>
+<div class="buttonArea">
+    <button type="button" class="cms-button cms-close">Cancel</button>
+    <a href="@Url.Action("Reorder", "ContentItems")" class="cms-button cms-actionButton cms-saveButton overlay-on-top">Save</a>
+</div>

@@ -1,0 +1,13 @@
+﻿@model LinkList
+<div class="widget-linklist">
+    <ul class="@(Model.Direction == "Horizontal" ? "list-horizontal clearfix" : "list-vertical")">
+        @foreach (var pageKey in Model.Pages)
+        {
+            var getPageResult = Content.GetPage<AbstractPage>(pageKey);
+            if (getPageResult.Page != null && !getPageResult.Page.IsRetracted && getPageResult.DisplayLink)
+            {
+                <li><a class="cms-linklist-linkitem" href="@GenerateUrl(getPageResult.Page)">@getPageResult.Page.Title</a></li>
+            }
+        }
+    </ul>
+</div>

@@ -1,0 +1,8 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Morsco.Customizations.Lib.Widgets.RequestQuoteWidget
+
+<div class="widget @Model.CssClass">
+    <h3>@Html.Message("Widget.Request_Quote_Title")</h3>
+    <div>@Html.Message("Widget.Request_Quote_Message")</div>
+    <a href='@Html.Message("Widget.Request_Quote_Link")' class='button'>@Html.Message("Widget.Request_Quote_Button_Message")</a>
+</div>

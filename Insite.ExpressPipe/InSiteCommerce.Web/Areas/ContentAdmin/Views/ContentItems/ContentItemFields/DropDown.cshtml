@@ -1,0 +1,18 @@
+﻿@model EditContentFieldModel<DropDownContentFieldAttribute>
+
+<label for="@Model.FieldName">
+    @Model.DisplayName
+    @if (Model.ContentFieldAttribute.IsRequired)
+    {
+        <span class="required">(required)</span>
+    }
+    @Html.Partial("ContentItemFields/_ContextDisplay", Model.ContentItemFieldModel)
+</label>
+<span data-valmsg-replace="true" data-valmsg-for="@(Model.FieldName)"></span>
+<select id="@Model.FieldName" name="@Model.FieldName" @if (Model.ContentFieldAttribute.IsRequired) { <text> data-val="true" data-val-required="Value is required" </text> }>
+    <option value="">Select Value</option>
+    @foreach (var value in Model.ContentFieldAttribute.Options)
+    {
+        <option value="@value.Key" @(Model.GetValue().ToString() == value.Key ? "selected" : "")>@value.Value</option>
+    }
+</select>

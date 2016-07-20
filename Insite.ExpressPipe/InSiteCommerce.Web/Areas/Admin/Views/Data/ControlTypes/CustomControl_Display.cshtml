@@ -1,0 +1,20 @@
+﻿@using Insite.Admin.ControlTypes
+@model Insite.Admin.Models.ControlTypeViewModel<CustomControl>
+
+@if (Model.ControlType.UseControllerToDisplayListValue)
+{
+    <isa-custom-control angular-controller="@Model.ControlType.AngularController"
+                        template-url="@Model.ControlType.TemplateUrl"
+                        model="entity"
+                        selected-entity-id="@(Model.ListPageModelBinding)"
+                        label="@Model.Label"
+                        name="@Model.Name"
+                        key="@Model.Id"
+                        is-display="true">
+    </isa-custom-control>
+}
+else
+{
+    <span>{{::@Model.ListPageModelBinding}}</span>
+}
+

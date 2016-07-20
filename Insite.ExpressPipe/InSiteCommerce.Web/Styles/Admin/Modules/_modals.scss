@@ -1,0 +1,113 @@
+﻿$modal-close-button-color: $brand !default;
+$modal-border-color: $border-gray !default;
+
+.grid-modal {
+    .modal {
+        max-height: 90%;
+    }
+}
+
+.modal {
+    padding: 0;
+    max-height: 90%;
+
+    .modal-header {
+        border-bottom: 1px solid $modal-border-color;
+        padding: 1rem;
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .close-button {
+            color: $modal-close-button-color;
+            font-size: 24px;
+        }
+    }
+
+    .modal-content {
+        padding: 1rem;
+        position: relative;
+    }
+
+    .modal-footer {
+        border-top: 1px solid $modal-border-color;
+        padding: 1rem;
+        text-align: right;
+
+        .button {
+            margin-bottom: 0;
+            margin-right: 0;
+            margin-left: 1rem;
+        }
+
+        .float-left {
+            margin-right: 1rem;
+            margin-left: 0;
+        }
+    }
+
+    .filter {
+        .inline-label {
+            margin-right: 40px;
+            margin-bottom: 0;
+
+            label {
+                font-family: 'Proxima Nova Condensed';
+                font-weight: bold;
+                margin-bottom: 0;
+                padding-right: 10px;
+                line-height: 34px;
+            }
+        }
+
+        .title-bar {
+            border: solid 1px $border-gray;
+        }
+    }
+
+    .small-input {
+        width: 10rem;
+    }
+}
+
+.modal-overlay {
+    &#editColumns {
+        .modal-content > .grid-block {
+            height: calc(100vh - 20vh - 225px);
+        }
+    }
+
+
+    .table-block {
+        height: calc(100vh - 20vh - 125px);
+
+        .grid-block {
+            overflow-y: auto;
+        }
+    }
+}
+
+.errorDialog {
+    .modal-content {
+        max-height: 500px;
+    }
+}
+
+
+#scheduleIntegrationJob {
+    .modal-content {
+        max-height: 500px;
+        overflow: auto;
+    }
+
+    .editable-table tr:hover {
+        background: inherit;
+    }
+
+    .editable-table input {
+        margin: 0;
+    }
+}

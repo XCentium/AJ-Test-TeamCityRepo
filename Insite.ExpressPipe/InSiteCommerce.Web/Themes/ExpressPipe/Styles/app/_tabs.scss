@@ -1,0 +1,30 @@
+﻿.tabs {
+    margin-bottom: $margin-double !important;
+    border-bottom: 1px solid $light-gray;
+
+    .tab-title {
+        margin-right: 1px;
+
+        a {
+            @media (max-width: $small-breakpoint){
+                padding: $padding-single/2 $padding-single;
+                font-size: 0.8em;
+            }
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
+
+        &.active {
+            a {
+                border-left: 1px solid $light-gray;
+                border-top: 1px solid $light-gray;
+                border-right: 1px solid $light-gray;
+                background-color: #fff;
+                color: $darkest-gray;
+                box-shadow: 0 1px 0 0 #fff;
+            }
+        }
+    }
+}

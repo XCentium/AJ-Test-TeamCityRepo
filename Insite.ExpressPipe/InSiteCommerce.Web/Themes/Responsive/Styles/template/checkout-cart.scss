@@ -1,0 +1,135 @@
+body.checkout-cart { }
+
+.checkout-cart .return-link {
+    margin:1.5em 0;
+}
+
+.checkout-cart .cart-left {
+    margin-bottom:1.5em;
+}
+
+/* Clearfix */
+.checkout-cart .cart-left:before,
+.checkout-cart .cart-left:after {
+    content: " ";
+    display: table;}
+.checkout-cart .cart-left:after {
+    clear: both;}
+
+.checkout-cart ul.cart-items {
+    margin:0;
+    list-style:none;
+}
+
+@media all and (min-width: 768px) {
+    .checkout-cart .cart-left {
+        float:left;
+        width:65%;
+    }
+}
+
+.checkout-cart .cart-right {
+    margin-bottom:1.5em;
+}
+
+.checkout-cart .cart-left .btns {
+    margin:1.5em 0;
+}
+
+.checkout-cart .cart-left .btns .btn {
+    width:100%;
+    margin-bottom:1em;
+}
+
+.checkout-cart .cart-right .btns a.btn  {
+    width:100%;
+    margin-bottom:1em;
+}
+
+@media all and (min-width: 768px) {
+    .checkout-cart .cart-right  {
+        float:right;
+        width:30%;
+    }
+}
+
+.checkout-cart .item-details .item-name {
+    padding-right:2.5em;
+}
+
+@media all and (min-width: 768px) {
+
+    .checkout-cart .item-list .item-details {
+        padding-right:1em !important;
+    }
+
+    .checkout-cart .item-details .item-name {
+        padding-right:3.5em;
+    }
+
+    .checkout-cart .item-opt .item-subtotal {
+        float:right;
+        clear: right;
+    }
+
+}
+
+.checkout-cart .item-list .actions-panel .item-actions {
+    text-align:left; }
+
+.checkout-cart .item-list .item-code-notes {
+    padding:0;
+    float:left;
+    width:100%;
+}
+
+.checkout-cart .item-list .item-actions-wrap {
+    padding-left:0;
+    padding-right:0;
+    padding-bottom:0;
+    float:left;
+    width:100%;
+}
+
+.checkout-cart .quote-items-note {
+    background:#fff6c5;
+	border-color:#ffd800;
+}
+
+
+// messaging regarding items changed availability					
+.item-qty-message {
+	line-height: 1.2em;
+	text-align: left;
+    float: right;
+    width: 197px;
+    clear: both;
+    color: red;
+    span.item-qty-message__avail {
+        display: block;
+    }
+}
+
+.item-list .item-block div.item-opt {
+    height: inherit;
+}
+
+.item-opt__changed {
+        border: 2px solid red !important;
+}
+.item-block .item-opt .item-qty.item-qty-unavailable {
+    label, input {
+        display: none;
+    }
+}
+
+@media all and (max-width: 767px) {
+    .item-qty-message {
+        width: 100%;
+        float: none;
+        text-align: right;
+    }
+    .item-opt--changed .item-qty {
+        padding: 10px;
+    }
+}

@@ -1,0 +1,129 @@
+﻿@using Insite.Rfq.Content
+@using Insite.Data.Entities
+@using Insite.WebFramework.Mvc.Extensions
+
+<div>
+    <form novalidate id="myQuotesForm">
+        <section class="accordion search-quotes">
+            <div>
+                <input type="checkbox" id="accord-1" class="accord-check" />
+                <label for="accord-1" class="accord-head">@T("Search Quotes")</label>
+                <article class="accord-content">
+                    <div class="row">
+                        <div class="medium-12 large-4 columns search-col-1">
+                            <div class="search-date search-sub-date">
+                                <label>@T("Requested Date Range")</label>
+                                <div class="row">
+                                    <div class="small-6 columns">
+                                        <em>@T("From")</em>
+                                        <input type="text" name="fromDate" id="fromDate" value="" class="datepicker" isc-pick-a-date="vm.searchFilter.fromDate" />
+                                    </div>
+                                    <div class="small-6 columns">
+                                        <em>@T("To")</em>
+                                        <input type="text" name="toDate" id="toDate" value="" class="datepicker" isc-pick-a-date="vm.searchFilter.toDate" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="search-date search-sub-date">
+                                <label>@T("Expires Date Range")</label>
+                                <div class="row">
+                                    <div class="small-6 columns search-date-from">
+                                        <em>@T("From")</em>
+                                        <input type="text" name="expiresFromDate" id="expiresFromDate" value="" class="datepicker" isc-pick-a-date="vm.searchFilter.expireFromDate" />
+                                    </div>
+                                    <div class="small-6 columns search-date-to">
+                                        <em>@T("To")</em>
+                                        <input type="text" name="expiresToDate" id="expiresToDate" value="" class="datepicker" isc-pick-a-date="vm.searchFilter.expireToDate" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="medium-12 large-4 columns search-col-2">
+                            <div class="search-quote-num">
+                                <label>@T("Quote #")</label>
+                                <input type="text" name="quoteNumber" id="orderNumber" ng-model="vm.searchFilter.quoteNumber"/>
+                            </div>
+                            <div class="search-type" ng-if="vm.quoteSettings.jobQuoteEnabled">
+                                <label>@T("Type")</label>
+                                <select id="Type" ng-model="vm.selectedType">
+                                    <option selected="selected" value="">@T("Select")</option>
+                                    <option value="@CustomerOrder.OrderType.Quote">@T("Sales")</option>
+                                    <option value="@CustomerOrder.OrderType.Job">@T("Job")</option>
+                                </select>
+                            </div>
+                            <div class="search-status">
+                                <label>@T("Status")</label>
+                                <select id="Status" ng-model="vm.selectedStatus">
+                                    <option selected="selected" value="">@T("Select")</option>
+                                    <option value="@CustomerOrder.StatusType.QuoteCreated">@T("Created")</option>
+                                    <option value="@CustomerOrder.StatusType.QuoteRequested">@T("Requested")</option>
+                                    <option value="@CustomerOrder.StatusType.QuoteRejected">@T("Rejected")</option>
+                                    <option value="@CustomerOrder.StatusType.QuoteProposed">@T("Proposed")</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="medium-12 large-4 columns search-col-3">
+                            <div class="search-sales-rep">
+                                <label>@T("Sales Rep")</label>
+                                <select id="myQuoteSalesViewSalesRepSelector" ng-model="vm.selectedSalesRep" ng-options="salesRep.name for salesRep in vm.salesRepList track by salesRep.salespersonNumber">
+                                    <option ng-selected="selected" value="">@T("Select")</option>
+                                </select>
+                            </div>
+                            <div class="search-user">
+                                <label>@T("User")</label>
+                                <select id="myQuoteSalesViewUserSelector" ng-model="vm.selectedUser" ng-options="user.userName for user in vm.userList track by user.id">
+                                    <option ng-selected="selected" value="">@T("Select")</option>
+                                </select>
+                            </div>
+                            <div class="search-customer">
+                                <label>@T("Customer")</label>
+                                <select id="myQuoteSalesViewCustomerSelector" ng-model="vm.selectedCustomer" ng-options="customer as (customer.customerNumber + ' - ' + customer.customerName) for customer in vm.customerList track by customer.id">
+                                    <option ng-selected="selected" value="">@T("Select")</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btns">
+                        <button id="myQuoteSalesViewSearchButton" type="submit" class="btn primary btn-search" ng-click="vm.search()">@T("Search")</button>
+                        <button id="myQuoteSalesViewClearButton" type="submit" class="btn secondary btn-clear" ng-click="vm.clear()">@T("Clear")</button>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </form>
+
+    <p class="error" ng-bind="vm.error"></p>
+    <div ng-show="vm.quotes.length === 0" class="search-no-results"><h3>@Html.Message("Rfq_NoQuotesMessage", "No quotes found.")</h3></div>
+    <div ng-show="vm.quotes.length > 0">
+
+        <h3 class="results-count"><span class="result-num" ng-bind="vm.pagination.totalItemCount"></span> <span class="result-lbl">@T("quotes")</span></h3>
+        <isc-pager pagination="vm.pagination" storage-key="vm.paginationStorageKey" update-data="vm.getQuotes()"></isc-pager>
+        <div class="overflow-table medium">
+            <table class="info-tbl sales-my-quotes">
+                <tbody>
+                <tr>
+                    <th class="col-num"><span class="sticky-first">@T("Quote") #</span></th>
+                    <th class="col-type" ng-if="vm.quoteSettings.jobQuoteEnabled">@T("Type")</th>
+                    <th class="col-status">@T("Status")</th>
+                    <th class="col-submitted">@T("Requested")</th>
+                    <th class="col-exp">@T("Expires")</th>
+                    <th class="col-rep">@T("Sales Rep")</th>
+                    <th class="col-user">@T("User")</th>
+                    <th class="col-cust">@T("Customer")</th>
+                </tr>
+                <tr ng-repeat="quote in vm.quotes">
+                    <td class="col-num"><span class="sticky-first"><a href='@(Url.ContentPage<RfqQuoteDetailsPage>())/?quoteId={{quote.id}}' title="@T("View Quote")" ng-bind="quote.quoteNumber"></a></span></td>
+                    <td class="col-type" ng-if="vm.quoteSettings.jobQuoteEnabled"><span ng-bind="quote.typeDisplay"></span></td>
+                    <td class="col-status"><span ng-bind="quote.statusDisplay"></span></td>
+                    <td class="col-submitted"><span ng-bind="quote.orderDate | date:'shortDate'"></span></td>
+                    <td class="col-exp"><span ng-bind="quote.expirationDate | date:'shortDate'"></span></td>
+                    <td class="col-rep"><span ng-bind="quote.salespersonName"></span></td>
+                    <td class="col-user"><span ng-bind="quote.userName"></span></td>
+                    <td class="col-cust"><span ng-bind="quote.customerNumber + '-' + quote.customerName"></span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <isc-pager bottom="true" pagination="vm.pagination" storage-key="vm.paginationStorageKey" update-data="vm.getQuotes()"></isc-pager>
+    </div>
+</div>

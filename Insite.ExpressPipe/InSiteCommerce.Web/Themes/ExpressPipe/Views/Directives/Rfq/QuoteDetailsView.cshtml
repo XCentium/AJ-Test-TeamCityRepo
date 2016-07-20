@@ -1,0 +1,103 @@
+﻿@using Insite.Cart.Content
+@using Insite.JobQuote.Content
+@using Insite.Rfq.Content
+@using Insite.WebFramework.Mvc.Extensions
+
+<div ng-cloak>
+	<isc-quote-detail-header quote="vm.quote"></isc-quote-detail-header>
+
+    <div class="row">
+        <div class="column medium-9">
+
+            <header class="row">
+                <div class="medium-4 medium-offset-8 end columns medium-text-right">
+                    <ul class="inline-list hide-for-print">
+                        <li><a href="javascript: window.print();"><i class="fa fa-print"></i> Print</a></li>
+                    </ul>
+                </div>
+            </header>
+        </div>
+    </div>
+    <div class="row">
+        <div class="xlarge-9 columns">
+            <morsco-shipping-bar ng-if="vm.quote.quoteLineCollection.length > 0" default-warehouses="vm.defaultWarehouses" cart="vm.quote"></morsco-shipping-bar>
+            @*<div ng-if="vm.quote.quoteLineCollection.length > 0" class="panel delivery-method">
+                <span>Delivery Method:</span>
+                <div class="radios">
+                    <div ng-repeat="carrier in vm.quote.carriers" class="radio">
+                        <label for="delivery-method">
+                            <input type="radio" name="selectedCarrier" id="{{carrier.id}}"
+                                   ng-checked="carrier.id == vm.selectedCarrierId"
+                                   ng-bind="vm.quote.carrier.id" value="{{carrier.id}}"
+                                   ng-click="vm.shippingMethodChange()"/> {{carrier.description}}
+                        </label>
+                    </div>
+                    <div ng-repeat="carrier in vm.quote.carriers" class="radio">
+                        <select ng-hide="vm.selectedCarrierId !== carrier.id.toString()"
+                                id="shippingMethod-{{carrier.id.toString()}}" name="shippingMethod"
+                                data-rule-required="true"
+                                data-msg-required='@T("Shipping Method is required.")'
+                                ng-model="vm.selectedShipViaId1"
+                                ng-change="vm.updateShipVia()">
+                            <option value="">@T("Select Branch")</option>
+                            <option ng-repeat="shipVia in carrier.shipVias" value="{{shipVia.id.toString()}}" ng-selected="vm.selectedShipVia == shipVia.id.toString()">{{shipVia.description}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>*@
+            <div class="quote-details">
+                <form novalidate id="quoteDetailsForm" class="custom">
+
+                    <!-- proposed quote -->
+                    <div ng-show="vm.quote.status === 'QuoteProposed' || vm.quote.status === 'AwaitingApproval'">
+                        <morsco-quote-details-grid quote="vm.quote"
+                                                   removeline="vm.removeLine(quoteline)"
+                                                   notepanelclicked="vm.notePanelClicked(quotelineid)"
+                                                   noteskeypress="vm.notesKeyPress(event,quoteline)"
+                                                   updateline="vm.updateLine(quoteline, refresh)"
+                                                   quantitykeypress="vm.quantityKeyPress(event,quoteline)"
+                                                   warehouses="vm.warehouses">
+                        </morsco-quote-details-grid>
+                    </div>
+
+                    <!-- requested quote -->
+                    <div ng-show="vm.quote.status !== 'QuoteProposed' && vm.quote.status !== 'AwaitingApproval'">
+                        <morsco-quote-details-grid quote="vm.quote"
+                                                   removeline="vm.removeLine(quoteline)"
+                                                   notepanelclicked="vm.notePanelClicked(quotelineid)"
+                                                   noteskeypress="vm.notesKeyPress(event,quoteline)"
+                                                   updateline="vm.updateLine(quoteline, refresh)"
+                                                   quantitykeypress="vm.quantityKeyPress(event,quoteline)"
+                                                   warehouses="vm.warehouses">
+                        </morsco-quote-details-grid>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="column medium-3">
+            <isc-quote-right-column-sidebar quote="vm.quote"
+                                            declinequote="vm.declineThisQuote('@(Url.ContentPage<RfqMyQuotesPage>())')"
+                                            deleteconfirmationpopup="vm.deleteConfirmationPopup()"
+                                            acceptcheckout="vm.acceptCheckout('@(Url.ContentPage<CheckoutAddressPage>())?cartId=')"></isc-quote-right-column-sidebar>
+        </div>
+    </div>
+
+        <a ng-show="!vm.isCartEmpty" id="rfqPopupCartNotificationLink" data-reveal-id="rfqPopupCartNotification" href="javascript:void(0);"></a>
+        <div ng-show="!vm.isCartEmpty" id="rfqPopupCartNotification" class="reveal-modal popup-cart-notification" data-reveal data-reveal-init>
+            <div class="modal-wrap">
+                <p id="cartNotificationMessageText" class="messaging">
+                    @Html.Message("Rfq_CartNotificationMessage", "Items in your cart will not be added to your quote order. You will be able to continue shopping and purchase these items after accepting your quote.")
+                </p>
+                <div class="btns">
+                    <button id="quoteDetailsViewEmptyCartContinueButton" ng-click="vm.continueCheckout('@(Url.ContentPage<CheckoutAddressPage>())?cartId=')" class="btn primary btn-continue" type="button">@T("Continue")</button>
+                    <button id="quoteDetailsViewEmptyCartCancelButton" ng-click="vm.closeModal('#rfqPopupCartNotification')" class="btn tertiary btn-cancel" type="button">@T("Cancel")</button>
+                </div>
+                <a id="quoteDetailsViewEmptyCartCloseButton" class="close-reveal-modal">&#215;</a>
+            </div>
+        </div>
+
+        <isc-morsco-availability-popup> </isc-morsco-availability-popup>
+
+        <isc-morsco-availability-shipping-tax-content></isc-morsco-availability-shipping-tax-content>
+    </div>

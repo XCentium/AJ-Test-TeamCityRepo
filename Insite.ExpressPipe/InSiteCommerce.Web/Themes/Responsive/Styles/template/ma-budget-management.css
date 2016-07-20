@@ -1,0 +1,287 @@
+body.ma-budget-management .col-remdate {
+  width: 1px;
+  padding: 0 0 0 0;
+}
+body.ma-budget-management .col-remdate a.btn.tertiary:link, body.ma-budget-management .col-remdate a.btn.tertiary:visited, body.ma-budget-management .col-remdate button.tertiary, body.ma-budget-management .col-remdate .btn.tertiary, body.ma-budget-management .col-remdate div.remove a.btn {
+  background-color: #dddddd;
+  color: #636363;
+  margin: 1em 0.75em;
+}
+
+fieldset legend {
+  width: 100%;
+}
+
+.ma-budget-management .picker__holder {
+  max-width: 100% !important;
+  width: 350px !important;
+  min-width: 350px !important;
+}
+
+.ma-budget-management .return-link {
+  margin: 1.5em 0;
+}
+
+.ma-budget-management .container input {
+  margin-bottom: 0;
+}
+
+.ma-budget-management .container button.btn {
+  width: 100%;
+}
+
+.ma-budget-management .budget-period-tbl {
+  position: relative;
+}
+
+@media all and (min-width: 768px) {
+  #BudgetPeriodCalendar .col-startdate {
+    position: relative;
+    display: inline-block;
+  }
+  #BudgetPeriodCalendar .col-startdate .picker.picker--opened.picker--focused {
+    position: relative;
+  }
+  #BudgetPeriodCalendar .col-startdate .picker.picker--opened.picker--focused .picker__holder {
+    right: 0;
+  }
+
+  .ma-budget-management .container button.btn {
+    width: auto;
+  }
+
+  .ma-budget-management .budget-period-tbl input {
+    width: 100%;
+  }
+}
+.ma-budget-management .budget-search-fields label {
+  font-weight: bold;
+}
+
+.ma-budget-management .budget-year-lbl {
+  line-height: 2em;
+}
+
+.ma-budget-management .budget-year-ops {
+  line-height: 2em;
+}
+
+.ma-budget-management .enforcement-level-display {
+  margin-bottom: 1.5em;
+}
+
+.ma-budget-management .enf-display-lbl {
+  font-weight: 700;
+  margin-right: .8em;
+}
+
+.ma-budget-management .sub-nav {
+  border-bottom: 2px solid #ddd;
+  margin: 0;
+}
+
+.ma-budget-management .sub-nav dd {
+  font-size: 1.4em;
+  margin: 0 1.5em .25em 0;
+}
+
+.ma-budget-management .sub-nav dd a:hover, .ma-budget-management .sub-nav dd a:focus {
+  color: inherit;
+  background: none;
+}
+
+.sub-nav dt.active a, .sub-nav dd.active a, .sub-nav li.active a {
+  border-radius: 0;
+  background: none;
+  color: #252525;
+  font-weight: bold;
+  padding: 0;
+}
+
+.cost-code-tbl tbody .col-active {
+  text-align: center;
+  min-width: 79px;
+  padding-top: 24px;
+}
+.cost-code-tbl tbody .col-active input {
+  margin: 0;
+  float: left;
+  margin-top: 3px;
+}
+.cost-code-tbl tbody .col-active .bm-cc-active-label {
+  margin: 0 0 0 7px;
+}
+
+.add-cost-code {
+  margin-top: 7px;
+  margin-bottom: 8px;
+}
+.add-cost-code .icon-plus {
+  margin-top: -1px;
+  display: inline-block;
+  float: left;
+}
+
+.budget-year-action {
+  margin-top: 17px;
+}
+
+@media all and (min-width: 768px) {
+  .ma-budget-management .container button.btn {
+    float: right;
+  }
+
+  .ma-budget-management .btn.btn-assign-calendar-months {
+    width: 100%;
+  }
+
+  .bm-maintenance .budget-year, .bm-review .budget-year {
+    width: 100%;
+  }
+
+  .ma-budget-management .budget-year-lbl {
+    width: 30%;
+    max-width: 100px;
+    padding-right: 0;
+  }
+
+  .ma-budget-management.bm-setup .budget-year-lbl {
+    width: auto;
+    max-width: 100%;
+  }
+
+  .ma-budget-management.bm-setup .budget-year-top-filter .budget-year-lbl-1 {
+    width: 25%;
+  }
+  .ma-budget-management.bm-setup .budget-year-top-filter .budget-year-lbl-2 {
+    width: 30%;
+  }
+  .ma-budget-management.bm-setup .budget-year-top-filter .budget-year-lbl label {
+    line-height: 1.2em;
+  }
+  .ma-budget-management.bm-setup .budget-year-top-filter .budget-year-ops {
+    width: 22.5%;
+  }
+  .ma-budget-management.bm-setup .budget-year-top-filter .budget-year-ops .picker__holder {
+    right: 0;
+  }
+
+  .ma-budget-management .budget-year-ops {
+    width: 30%;
+  }
+
+  .ma-budget-management.bm-setup .budget-year-ops {
+    width: auto;
+    max-width: 100%;
+  }
+
+  .ma-budget-management .budget-search-fields {
+    max-width: 50%;
+  }
+
+  .ma-budget-management .budget-year-action {
+    width: 40%;
+  }
+
+  .ma-budget-management.bm-setup .budget-year-action {
+    width: auto;
+    float: right;
+  }
+
+  .ma-budget-management .budget-year-action button.btn {
+    width: 100%;
+    white-space: nowrap;
+  }
+}
+@media all and (min-width: 768px) {
+  .budget-year-action {
+    margin-top: 0;
+  }
+
+  .ma-budget-management section.budget-enforcement-level, .ma-budget-management section.cost-code-setup {
+    width: 40%;
+    float: left;
+    clear: left;
+  }
+
+  .ma-budget-management section.budget-periods-setup {
+    width: 50%;
+    vertical-align: top;
+    float: right;
+  }
+
+  .ma-budget-management .picker {
+    left: inherit;
+  }
+}
+/* Cost Code Table */
+.cost-code-tbl button {
+  margin-bottom: 0;
+  padding: 0  0.5em;
+  height: 2em;
+}
+
+.costcode-active {
+  background: #d8d8d8;
+}
+
+.costcode-active input {
+  border: 2px solid #000;
+}
+
+/* Clearfix */
+.ma-budget-management .promo-code:before,
+.ma-budget-management .promo-code:after {
+  content: " ";
+  display: table;
+}
+
+.ma-budget-management .promo-code:after {
+  clear: both;
+}
+
+.ma-budget-management .promo-code a.btn {
+  float: right;
+}
+
+/* Budget Periods Setup */
+.tbl-shoulder-msg {
+  text-align: right;
+  font-size: .8em;
+}
+
+/* Budget Maintenance */
+.ma-budget-management tr.subtotal-row td {
+  font-weight: bold;
+}
+
+/* Below 550 */
+@media all and (max-width: 550px) {
+  .picker.picker--opened {
+    margin: 0 auto;
+    left: 0;
+    width: 100%;
+    display: inline-block;
+  }
+
+  .ma-budget-management .picker__holder {
+    max-width: inherit !important;
+    width: inherit !important;
+    min-width: inherit !important;
+  }
+}
+.cost-code-tbl {
+  margin-bottom: 5px;
+}
+
+.ma-budget-management .picker {
+  left: 0;
+}
+
+@media all and (min-width: 40.063em) {
+  .cost-code-tbl {
+    margin-bottom: 1.2rem;
+  }
+}
+
+/*# sourceMappingURL=ma-budget-management.css.map */

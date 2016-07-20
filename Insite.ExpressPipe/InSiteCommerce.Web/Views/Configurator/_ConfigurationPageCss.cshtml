@@ -1,0 +1,11 @@
+﻿@model Insite.Configurator.Models.ConfigurationPageViewModel
+<style type="text/css">
+    #configuratorPageWrapper@(Model.ConfigurationPageKey) {
+        @if (Model.MaxHeight > 0)
+        {
+            @:height: @(Model.MaxHeight + 70)pt    
+        }        
+    }
+
+    @Html.Raw(Model.ConfigurationOptionsCssOutput)
+</style>

@@ -1,0 +1,3 @@
+﻿@model Insite.Admin.Models.ControlTypeViewModel<Insite.Admin.ControlTypes.ToggleSwitchControl>
+
+<span>{{@Model.ListPageModelBinding == true  ? '@Model.ControlType.GetTrueLabel()' : '@Model.ControlType.GetFalseLabel()'}}</span>

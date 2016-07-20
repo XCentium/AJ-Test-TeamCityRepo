@@ -1,0 +1,15 @@
+﻿@model EditContentFieldModel<TextContentFieldAttribute>
+
+
+<label for="@Model.FieldName">
+    @Model.DisplayName
+    @Html.Partial("ContentItemFields/_ContextDisplay", Model.ContentItemFieldModel)
+</label>
+<select name="@Model.FieldName">
+    <option value="">Select Email List</option>
+    @*TODO CMS 3.7.1 Come up with a real way of doing this, maybe move it into the attribute? *@
+    @*@foreach (var emailList in DependencyLocator.Current.GetInstance<IUnitOfWorkFactory>().GetUnitOfWork(DataProvider.NHibernate).GetRepository<EmailList>().GetTable().Where(o => o.CanSubscribe).ToList().OrderBy(o => o.Name))
+    {
+        <option value="@emailList.EmailListId" @(emailList.EmailListId == Model.GetValue<Guid>() ? "selected" : "")>@emailList.Name</option>
+    }*@
+</select>

@@ -1,0 +1,7 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+﻿<div class="btns">
+    <label class="input-lbl">
+        <input id="homepageOptionMakeDashboardHomepageCheckbox" type="checkbox" class="isc-dashboardAsHomepage" ng-click="vm.changeDashboardHomepage($event)" ng-checked="vm.dashboardIsHomepage" />
+        @Html.Message("Dashboard_MakeMyHomepage", "Make Dashboard my homepage")
+    </label>
+</div>

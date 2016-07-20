@@ -1,0 +1,16 @@
+﻿@model Insite.Admin.FormBuilder.Elements.AssignmentFormElement
+
+@if (Model.IsEditMode)
+{
+    <div>
+        Assignment: @Model.AssignmentName
+    </div>
+}
+else if (Model.AssignmentName.EqualsIgnoreCase("categories"))
+{
+    @Html.Action("AssignedCategories", "Data")
+}
+else
+{ 
+    @Html.Action("Assignments", "Data", new { area = "Admin", entityName = Model.Form.EntityDefinitionName, assignmentName = Model.AssignmentName, filter = Model.Filter })
+}

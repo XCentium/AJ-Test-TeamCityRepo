@@ -1,0 +1,17 @@
+﻿@using Insite.Admin.Extensions
+<div ng-show="vm.visible">
+    @Html.FormControl(@<label for="{{vm.key}}" ng-bind="vm.label"></label>,
+                    @<text>
+                        <div style="width: 100%;">
+                            <span ng-if="vm.readOnlyValue" ng-bind="vm.readOnlyValue"></span>
+                            <select ng-if="!vm.readOnlyValue" id="{{vm.key}}" name="{{vm.key}}" class="medium"
+                                    ng-model="model[vm.name]" {{ vm.visible ? 'required' : '' }}>
+                                <option ng-if="vm.displayEmptyOption" value="">Select value</option>
+                                <option ng-repeat="option in vm.options" value="{{option.value}}" ng-bind="option.label"></option>
+                            </select>
+                        </div>
+                        <div class="error-messages" ng-show="vm.form[vm.key].$touched" ng-messages="vm.form[vm.key].$error">
+                            <span ng-message="required"><i class="icon icon-warning"></i>{{vm.label}} must have a value!</span>
+                        </div>
+                    </text>)
+</div>

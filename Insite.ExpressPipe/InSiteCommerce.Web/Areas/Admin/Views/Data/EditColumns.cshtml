@@ -1,0 +1,62 @@
+﻿<div class="modal--large modal-overlay" zf-modal zf-closable="modal" id="editColumns">
+    <div ng-controller="EditColumnsController as editColumnsCtrl" ng-cloak>
+        <div class="modal-header">
+            <h4 class="modal-title">Column Display & Order</h4>
+            <a class="close-button" zf-close><i class="icon icon-close"></i></a>
+        </div>
+        <div class="modal-content">
+            <p>Select available information to display. To reorder displayed columns, click and drag columns up or down the list.</p>
+
+            <div class="grid-block">
+                <div class="grid-content columns-leftbar">
+                    <table class="table hover scroll">
+                        <thead>
+                        <tr>
+                            <th width="1%">
+                                <input type="checkbox" ng-checked="true" ng-click="editColumnsCtrl.moveAllToUnselected($event)"/>
+                            </th>
+                            <th class="text-left">Display</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in editColumnsCtrl.lockedProperties" class="disabled">
+                                <td><input type="checkbox" ng-checked="true" disabled="disabled" /></td>
+                                <td>{{item}}</td>
+                            </tr>
+                        </tbody>
+                        <tbody ui-sortable="{  'helper': 'clone' }" ng-model="editColumnsCtrl.selectedProperties">
+                            <tr class="is-actionable" ng-repeat="item in editColumnsCtrl.selectedProperties" ng-click="editColumnsCtrl.move(item,$event)" style="cursor: move">
+                                <td class="text-center"><input type="checkbox" ng-checked="true"/></td>
+                                <td>{{item}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="grid-content columns-rightbar">
+                    <table class="table hover scroll">
+                        <thead>
+                            <tr>
+                                <th width="1%">
+                                    <input type="checkbox" ng-checked="false" ng-click="editColumnsCtrl.moveAllToSelected($event)" />
+                                </th>
+                                <th class="text-left">Available (Hidden)</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-model="editColumnsCtrl.unselectedProperties">
+                            <tr class="is-actionable" ng-repeat="item in editColumnsCtrl.unselectedProperties.sort()" ng-click="editColumnsCtrl.move(item,$event)">
+                                <td class="text-center"><input type="checkbox" ng-checked="false" /></td>
+                                <td>{{item}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="button tertiary" ng-click="editColumnsCtrl.reset()">Reset To Defaults</button>
+            <button class="button secondary" zf-close>Cancel</button>
+            <button class="button" ng-disabled="editColumnsCtrl.selectedProperties.length === 0" ng-click="editColumnsCtrl.save()">Save</button>
+        </div>
+    </div>
+</div>
+

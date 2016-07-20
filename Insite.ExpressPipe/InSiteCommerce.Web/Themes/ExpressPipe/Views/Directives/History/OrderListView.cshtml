@@ -1,0 +1,171 @@
+﻿@using Insite.Data.Entities
+@using Insite.Order.Content
+
+
+<div ng-cloak>
+    
+    <p class="error" ng-if="vm.validationMessage" ng-bind="vm.validationMessage"></p>
+
+    <form>
+
+        <section class="search-panel search-orders">
+            <input type="checkbox" id="search-toggle" class="search-panel-check" checked />
+            <label for="search-toggle" class="search-panel-head">
+                @T("Search Orders")
+            </label>
+            <article id="search-panel" class="search-panel-content">
+                <div class="row">
+                    <div class="medium-4 columns">
+                        <label for="OrderNumber">@T("Search by")</label>
+                        <!-- should be a single field that can search PO#, Order# and Ordered By -->
+                        <!--<input type="text" name="PONumber" id="PONumber" ng-model="vm.searchFilter.ponumber" placeholder="@T("PO #")" />-->
+
+                        <input type="text" name="OrderNumber" id="OrderNumber" ng-model="vm.searchFilter.ordernumber" placeholder="@T("Order #, PO #, Ordered By, Job Name")" />
+                    </div>
+                    <div class="medium-2 columns">
+                        <label>@T("Status")</label>
+                        <select id="Status" name="Status" ng-model="vm.searchFilter.status">
+                            <option value="">@T("Select")</option>
+                            <option value="All">@T("All")</option>
+                            <option value="Open">@T("Open")</option>
+							<option value="Submitted">@T("Submitted")</option>
+                            <option value="Invoiced">@T("Invoiced")</option>
+                        </select>
+                    </div>
+                    <div class="medium-3 columns">
+                        <label for="DateFrom">@T("Date Range")</label>
+                        <div class="row">
+                            <div class="medium-6 columns">
+                                <input type="text" name="DateFrom" id="DateFrom" value="" class="datepicker" isc-pick-a-date="vm.searchFilter.fromDate" placeholder="@T("From")" />
+                            </div>
+                            <div class="medium-6 columns">
+                                <input type="text" value="" class="datepicker" isc-pick-a-date="vm.searchFilter.toDate" placeholder="@T("To_date")" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="medium-2 columns">
+                        &nbsp;<br />
+                        <button type="submit" class="button" ng-click="vm.search()">@T("Search")</button>
+                    </div>
+                    <div class="medium-3 columns"></div>
+                </div>
+            </article>
+
+        </section>
+
+    </form>
+
+    <div class="search-no-results" ng-show="vm.orderHistory.orders.length === 0">
+        <h3>@T("No orders found").</h3>
+    </div>
+
+    <div class="row hide">
+        <div class="medium-12 columns medium-text-right">
+            <ul class="inline-list status-filter" ng-click="vm.changeStatus()">
+                <li>View</li>
+                <li><input type="radio" name="statusFilter" ng-model="vm.searchFilter.status" value="All" checked="checked" ng-checked="true" /> All</li>
+                <li><input type="radio" name="statusFilter" ng-model="vm.searchFilter.status" value="Open" /> Open</li>
+                <li><input type="radio" name="statusFilter" ng-model="vm.searchFilter.status" value="Invoiced" /> Invoiced</li>
+            </ul>
+        </div>
+    </div>
+
+    <div ng-show="vm.orderHistory.orders.length > 0">
+
+        <isc-morsco-pager pagination="vm.pagination" storage-key="vm.paginationStorageKey" update-data="vm.getOrders()" title="Orders"></isc-morsco-pager>
+
+        <div class="table-responsive-wrapper">
+            <table class="orders saved-carts" role="grid">
+                <thead>
+                    <tr>
+                        <th class="col-toggle">&nbsp;</th>
+                        <th class="col-ordernum">
+                            <a href="javascript:void(0)" class="sort"
+                                ng-class="{'sort-ascending': vm.searchFilter.sort === 'ErpOrderNumber', 'sort-descending': vm.searchFilter.sort === 'ErpOrderNumber DESC'}"
+                                ng-click="vm.changeSort('ErpOrderNumber')">
+                                @T("Order #")
+                            </a>
+                        </th>
+                        <th class="col-status">
+                            <a href="javascript:void(0)" class="sort"
+                                ng-class="{'sort-ascending': vm.searchFilter.sort === 'Status', 'sort-descending': vm.searchFilter.sort === 'Status DESC'}"
+                                ng-click="vm.changeSort('Status')">
+                                @T("Status")
+                            </a>
+                        </th>
+                        <th class="col-date">
+                            <a href="javascript:void(0)" class="sort"
+                                ng-class="{'sort-ascending':vm.searchFilter.sort === 'LastShipDate', 'sort-descending': vm.searchFilter.sort === 'LastShipDate DESC'}"
+                                ng-click="vm.changeSort('LastShipDate')">
+                                @T("Ship Date")
+                            </a>
+                        </th>
+                        <th class="col-po">
+                            <a href="javascript:void(0)" class="sort"
+                                ng-class="{'sort-ascending': vm.searchFilter.sort === 'CustomerPO', 'sort-descending': vm.searchFilter.sort === 'CustomerPO DESC'}"
+                                ng-click="vm.changeSort('CustomerPO')">
+                                @T("PO #")
+                            </a>
+                        </th>
+                        <th class="col-btcompanyname">
+                            <a href="javascript:void(0)" class="sort"
+                                ng-class="{'sort-ascending': vm.searchFilter.sort === 'CompanyName', 'sort-descending': vm.searchFilter.sort === 'CompanyName DESC'}"
+                                ng-click="vm.changeSort('CompanyName')">
+                                @T("Job Name")
+                            </a>
+                        </th>
+                        <th class="col-date">
+                            <a href="javascript:void(0)" class="sort"
+                                ng-class="{'sort-ascending': vm.searchFilter.sort === 'OrderDate', 'sort-descending': vm.searchFilter.sort === 'OrderDate DESC'}"
+                                ng-click="vm.changeSort('OrderDate')">
+                                @T("Order Date")
+                            </a>
+                        </th>
+                        <th class="col-erp">
+                            <a href="javascript:void(0)" class="sort"
+                                ng-class="{'sort-ascending':vm.searchFilter.sort === 'OrderedBy', 'sort-descending': vm.searchFilter.sort === 'OrderedBy DESC'}"
+                                ng-click="vm.changeSort('OrderedBy')">
+                                @T("Ordered By")
+                            </a>
+                        </th>
+
+                        <th class="col-total">
+                            <a href="javascript:void(0)" class="sort"
+                                ng-class="{'sort-ascending': vm.searchFilter.sort === 'OrderTotal', 'sort-descending': vm.searchFilter.sort === 'OrderTotal DESC'}"
+                                ng-click="vm.changeSort('OrderTotal')">
+                                @T("Order Total")
+                            </a>
+                        </th>
+
+                        <th class="col-doc">
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="order" ng-repeat="order in vm.orderHistory.orders" ng-class="['even', 'odd'][$index %2]">
+                        <td class="col-toggle"><a class="fi-plus" id="{{order.erpOrderNumber}}" ng-click="vm.getShipments($event)" ng-if="order.properties.generationCount!='1'"></a> </td>
+                        <td class="col-ordernum"><a ng-href="@(Url.ContentPage<OrderDetailPage>())?ordernumber={{ order.webOrderNumber || order.erpOrderNumber }}" ng-click="">{{ vm.fixErpOrderNumber(order.erpOrderNumber, order.status) }}</a></td>
+                        <td class="col-status status" ng-class="order.status | lowercase">{{order.status}}</td>
+                        <td class="col-date" ng-bind="order.properties.lastShipDate | date:'M/d/yyyy'"></td>
+                        <td class="col-po"><span ng-bind="order.customerPO" ng-click="copyToSearch(order.customerPO)"></span></td>
+                        <td class="col-jobname"><span ng-bind="order.properties.companyName" ng-click="copyToSearch(order.properties.companyName)"></span></td>
+                        <td class="col-date">{{ order.orderDate | date:'M/d/yyyy':'UTC' }}</td>
+                        <td class="col-orderedby"><span ng-bind="order.properties.orderedBy"></span></td>
+                        <td class="col-total" ng-bind="order.orderTotalDisplay"></td>
+                        <td class="col-docs">
+                            <a data-tooltip aria-haspopup="true" class="has-tip tip-top" title="@T("Invoice")" href="{{order.properties['invoiceUrl']}}" ng-if="order.properties['invoiceUrl'] && order.properties['orderSalesHistoryType'] != 'SH'" target="_blank"><i class="epicon epicon-invoice"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <isc-morsco-pager pagination="vm.pagination" storage-key="vm.paginationStorageKey" update-data="vm.getOrders()" title="Orders" bottom="true"></isc-morsco-pager>
+
+        @*<isc-pager bottom="true" pagination="vm.pagination" totalitemcount="vm.pagination.totalItemCount" storage-key="vm.paginationStorageKey" update-data="vm.getOrders()"></isc-pager>*@
+
+    </div>
+
+</div>
+

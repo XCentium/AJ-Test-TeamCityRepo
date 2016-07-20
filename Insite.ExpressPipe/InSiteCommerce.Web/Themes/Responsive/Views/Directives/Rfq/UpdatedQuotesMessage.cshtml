@@ -1,0 +1,8 @@
+﻿<div ng-if="vm.session.hasRfqUpdates">
+    <div class="head-msg">
+        <span>@T("You have new quote information.")
+            <a href="{{::vm.dashboardUrl}}">@T("View My Dashboard")</a>
+        </span>
+        <a class="close-msg isc-closemsg" ng-click="vm.closeQuoteInformation()">×</a>
+    </div>
+</div>

@@ -1,0 +1,76 @@
+﻿using System;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.Http.Description;
+using System.Web.Routing;
+using Insite.Core.WebApi;
+using Insite.Core.WebApi.Interfaces;
+using InSite.Model.Managers;
+using Insite.Catalog.Services.Results;
+using Morsco.Customizations.Lib.CreditCardIntegration.Interfaces;
+using Morsco.Customizations.Lib.CreditCardIntegration.Models;
+using Morsco.Customizations.Lib.CreditCardIntegration.Services;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace Morsco.Customizations.Lib.CreditCardIntegration.WebApi
+{
+    [System.Web.Http.RoutePrefix("api/morsco/creditcard")]
+    public class CreditCardController : BaseApiController
+    {
+		private readonly ICreditCardService creditCardService;
+
+		public CreditCardController(IContextUnwrapper contextUnwrapper, ICookieManager cookieManager, ICreditCardService creditCardService) 
+            : base(contextUnwrapper, cookieManager)
+		{
+			this.creditCardService = creditCardService;
+        }
+
+
+		[ResponseType(typeof(CreditCardsResult)), Route("getcards")]
+        public async Task<IHttpActionResult> Get()
+        {
+            var currentContext = base.ContextUnwrapper.UnwrapContext(this.Request);
+			return this.Ok<CreditCardsResult>(await this.creditCardService.GetUserCardList(currentContext));
+        }
+
+		[ResponseType(typeof(CreditCardInitiateResult)), Route("initiatenewcard")]
+		public async Task<IHttpActionResult> Finalize([FromUri] AddCardRequest addCardRequest)
+		{
+			var currentContext = base.ContextUnwrapper.UnwrapContext(this.Request);
+            IEnumerable<string> headerValues;
+            var origin = string.Empty;
+            var keyFound = this.Request.Headers.TryGetValues("Origin", out headerValues);
+            if (keyFound)
+            {
+                origin = headerValues.FirstOrDefault();
+            }    
+			return this.Ok<CreditCardInitiateResult>(await this.creditCardService.InitiateAddNewCreditCard(currentContext, addCardRequest, origin));
+		}
+
+		[ResponseType(typeof(CreditCardsResult)), Route("finalizenewcard")]
+		public async Task<IHttpActionResult> Finalize([FromUri] string setupResult)
+		{
+			var currentContext = base.ContextUnwrapper.UnwrapContext(this.Request);
+			return this.Ok<CreditCardsResult>(await this.creditCardService.FinalizeNewCreditCard(currentContext, setupResult));
+		}
+
+		[ResponseType(typeof(CreditCardsResult)), Route("deletecard")]
+		public async Task<IHttpActionResult> Delete([FromUri] string elementAccountId)
+		{
+			var currentContext = base.ContextUnwrapper.UnwrapContext(this.Request);
+			return this.Ok<CreditCardsResult>(await this.creditCardService.DeleteCardFromContact(currentContext, elementAccountId));
+		}
+
+        [ResponseType(typeof(CreditCardsResult)), Route("selectcard")]
+		public async Task<IHttpActionResult> Select([FromUri] string elementAccountId)
+		{
+			var currentContext = base.ContextUnwrapper.UnwrapContext(this.Request);
+<<<<<<< HEAD
+			return this.Ok<Boolean>(await this.creditCardService.StoreMostRecentlyUsedCard(currentContext, elementAccountId));
+=======
+            return this.Ok<CreditCardsResult>(await this.creditCardService.SetMostRecentlyUsedCard(currentContext, elementAccountId));
+>>>>>>> develop
+		}
+	}
+}

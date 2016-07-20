@@ -1,0 +1,89 @@
+﻿@model Insite.ContentLibrary.PagingInfo
+@if (Model.TotalItemCount > Model.DefaultPageSize || (Model.SortOptions != null && !Model.BottomPager))
+{
+    <div class="uibar tertiary paginator-34 @(Model.BottomPager ? "pbtm" : "ptop")">
+        <ul>
+            @if (!Model.BottomPager)
+            {
+                if (Model.SortOptions != null)
+                {
+                    <li class="sort-list">
+                        <div class="small-4 columns sorting-label">
+                            <label>@T("Sort by"):</label>
+                        </div>
+                        <div class="small-8 columns sorting-select">
+                            <select name="select" onchange="insite.core.changeSortBy(this);">
+                                @foreach (var dto in Model.SortOptions)
+                                {
+                                    if (Model.IsSearchResult || !dto.SearchOnly)
+                                    {
+                                        <option value="@dto.SortType" @(dto.SortType == Model.SortBy ? "selected=\"selected\"" : "")>
+                                            @T(dto.DisplayName)
+                                        </option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </li>
+                }
+                if (Model.ShowNumberPerPage)
+                {
+                    <li class="results-list">
+                        <div class="small-6 columns per-page">
+                            <label>@T("Per page"):</label>
+                        </div>
+                        <div class="small-6 columns per-page-select">
+                            <select name="select" id="select" class="" onchange=" javascript: void @(Model.ChangePageSizeFunction)(this); ">
+                                @for (int i = Model.DefaultPageSize, m = 1; i <= (4*Model.DefaultPageSize); m++, i = m*Model.DefaultPageSize)
+                                {
+                                    <option value="@i" @(i == Model.PageSize ? "selected=\"selected\"" : "") >@i</option>
+                                }
+                            </select>
+                        </div>
+                    </li>
+                }
+            }
+            <li class="pagination">
+                @if (Model.NumberOfPages > 1)
+                {
+                    <div class="arrow page-prev @(Model.CurrentPage > 1 ? "" : "hidden")">
+                        <a href="javascript: void @(Model.ChangePageFunction)(@(Model.CurrentPage - 1))" class="next-prev p-prev"></a>
+                    </div>
+                    <div class="page-current">
+                        <input name="cpage" type="text" pattern="\d*" value="@Model.CurrentPage" class="enter-page"
+                               onkeydown="if (event.keyCode == 13) { event.preventDefault(); @(Model.ChangePageFunction)(Math.abs($(this).val()) > @Model.NumberOfPages ? @Model.NumberOfPages : Math.abs($(this).val()));} "/> @T("of_pager")
+                        <span>@Model.NumberOfPages</span>
+                    </div>
+                    <div class="arrow unavailable page-next @(Model.CurrentPage < Model.NumberOfPages ? "" : "hidden")">
+                        <a href="javascript: void @(Model.ChangePageFunction)(@(Model.CurrentPage + 1))" class="next-prev p-next"></a>
+                    </div>
+                }
+            </li>
+        </ul>
+        @if (!Model.BottomPager && Model.DisplayGridListTable)
+        {
+        <div class="viewmode-selector">
+            <a id="gridView" class="vms-grid" data-view="grid">Grid</a>
+            <a id="listView" class="vms-list" data-view="list">List</a>
+            @if (!Model.IsSearchResult)
+            {
+                <a id="tableView" class="vms-table" data-view="table">Table</a>
+                if (Model.AttributeTypes.Count > 0)
+                {
+                    <button data-dropdown="choosecolumns" aria-controls="choosecolumns" aria-expanded="false" class="btn tertiary btn-columns">Columns</button>
+                    <div id="choosecolumns" data-dropdown-content class="f-dropdown content">
+                        <ul class="column-selection">
+                            @foreach (var a in Model.AttributeTypes)
+                            {
+                                <li>
+                                    <label><input type="checkbox" @(a.IsSelected ? "checked='checked'" : "") data-id="@(a.Id)" />@(a.Name)</label>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+            }
+        </div>
+        }
+    </div>
+}

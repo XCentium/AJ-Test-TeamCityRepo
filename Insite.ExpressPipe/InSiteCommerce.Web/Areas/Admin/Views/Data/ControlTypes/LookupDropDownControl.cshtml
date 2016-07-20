@@ -1,0 +1,37 @@
+﻿@using Insite.Admin.ControlTypes
+@using Insite.Admin.Models
+@model Insite.Admin.Models.ControlTypeViewModel<LookupDropDownControl>
+
+@{
+    var pluralizedEntityName = Model.ControlType.GetPluralizedEntityName(Model.PropertyDefinition);
+}
+
+@if (Model.PropertyDefinition.CanEdit)
+{
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<isa-dropdown angular-controller="LookupDropdownController"
+                                      class="lookup-dropdown @Model.ControlType.DisplayWidth.ToString().ToLower()"
+                                      label="@Model.Label"
+                                      id="@Model.Id"
+                                      ng-model="@Model.EditPageModelBinding"
+                                      selected-entity-id="@(Model.EditPageModelBinding)"
+                                      sort-list="@Model.ControlType.SortList.ToString().ToLower()"
+                                      @if (Model.PropertyDefinition.IsRequired)
+                                      {
+                                          <text>required="true"</text>
+                                      }
+                                      null-option-text="@Model.ControlType.NullOptionText"
+                                      pluralized-entity-name="@pluralizedEntityName"></isa-dropdown>
+    })
+}
+else
+{
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent =@<div class="readonly"><isa-lookup-display pluralized-entity-name="@pluralizedEntityName"
+                                            entity-id="{{@(Model.EditPageModelBinding)}}"></isa-lookup-display></div>
+    })
+}

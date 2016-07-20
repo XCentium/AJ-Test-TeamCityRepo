@@ -1,0 +1,38 @@
+﻿//TODO: STOP USING EEEEEE/CCCCCC/999999/333333
+//      GET RID OF THESE IN ANOTHER ROUND OF CLEAN UP
+.finger-tabs__tabs {
+    background-color: #EEEEEE;
+    min-width: 150px;
+    border-right: 1px solid #CCCCCC;
+}
+
+.finger-tabs__tab {
+    background-color: $white;
+    color: $brand;
+    font-weight: bold;
+    border-bottom: 1px solid #CCCCCC;
+    cursor: pointer;
+    flex: 0 1 auto;
+    line-height: 1;
+    margin: 0;
+    padding: 1rem;
+}
+
+.finger-tabs__tab.disabled {
+    background-color: inherit;
+    font-weight: inherit;
+    cursor: default;
+}
+
+.finger-tabs__tab.is-active {
+    background-color: $brand;
+    color: $white;
+}
+
+.finger-tab-content {
+    display: none;
+}
+
+.finger-tab-content.is-active {
+    display: flex;
+}

@@ -1,0 +1,164 @@
+﻿<div ng-cloak>
+
+    <section role="tabpanel" aria-hidden="true" class="content" id="panel-purchased-products">
+
+        <form>
+            <section class="search-panel">
+                <input type="checkbox" id="search-toggle" class="search-panel-check" checked="checked">
+                <label for="search-toggle" class="search-panel-head">
+                    @T("Search Purchased Products")
+                </label>
+                <article id="search-panel" class="search-panel-content">
+                    <div class="row">
+                        <div class="medium-4 columns">
+                            <div>
+                                <label>@T("Search by:")</label>
+                            </div>
+                            <div>
+                                <!-- should be a single field that can search PO#, Order# and Ordered By -->
+                                <!--<input type="text" name="PONumber" id="PONumber" ng-model="vm.searchFilter.ponumber" placeholder="PO #" />-->
+                                <input type="text" name="ppsearchTerm" ng-model="vm.searchTerm" placeholder="Product Name, Brand, SKU" class="ng-pristine ng-untouched ng-valid search-field">
+                            </div>
+                        </div>
+                        <div class="medium-2 columns end">
+                            &nbsp;<br>
+                            <button type="submit" class="button" ng-click="vm.ppSearch()">Search</button>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </form>
+
+        <div ng-if="vm.productsLoaded">
+
+            <div ng-hide="vm.products.length > 0"><h3>No products found</h3></div>
+
+            <div ng-if="vm.products.length > 0">
+
+                <div class="pager ng-scope ptop" ng-class="{'pbtm' : vm.bottom, 'ptop' : !vm.bottom}">
+                        <ul class="clearfix">
+                            <li class="results-title">
+                                <label><span ng-bind="vm.totalRecords"></span> @T("Products")</label>
+                            </li>
+                            <li class="results-list">
+                                <label>Items per page:</label>
+                                <select name="select" ng-model="vm.perPage" ng-click="vm.triggerGetPurchasedProducts($event)"><option label="8">8</option><option value="16" label="16">16</option><option value="24" label="24">24</option><option value="32" label="32">32</option></select>
+                            </li>
+                            <li class="pages">
+                                <div ng-if="vm.page > 1" class="page-previous">
+                                    <a href="javascript:void(0)" id="lnkPrevPage" ng-click="vm.ppMovePrevious()"><i class="fa fa-lg fa-caret-left"></i></a>
+                                </div>
+                                <div class="page-current">
+                                    <input name="currentPage" 
+										   ng-model="vm.page" type="number" min="1" class="enter-page numerictextbox"
+										   ng-keypress="vm.ppKeyPressChangePage($event)"
+										   ng-blur="vm.ppBlurChangePage()"> <span>of</span>
+                                    <span ng-bind="vm.totalPages" class="total-pages"></span>
+                                </div>
+                                <div ng-if="vm.page < vm.totalPages" class="page-next">
+                                    <a id="page-next" href="javascript:void(0)" ng-click="vm.ppMoveNext()"><i class="fa fa-lg fa-caret-right"></i></a>
+                                </div>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                <div class="table-responsive-wrapper">
+                    <table class="product-list">
+                        <thead>
+                            <tr>
+                                <th class="col-image">&nbsp;</th>
+                                <th class="col-info">
+                                    @T("Product")
+                                </th>
+                                @*<th class="col-mfr">
+                                    @T("SKU")
+                                </th>*@
+                                <th class="col-qty">
+                                    @T("# of Times Ordered")
+                                </th>
+                                <th class="col-date">
+                                    @T("Last Ordered")
+                                </th>
+                                <th class="col-price">
+                                    @T("Price")
+                                </th>
+                                <th class="col-actions">&nbsp;</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="tblPurchasedProducts">
+                            <tr ng-repeat="product in vm.products">
+                                <td class="col-image">
+                                    <div class="item-thumb"> <a href="/product/{{product.erpNumber}}"><img ng-src="{{product.smallImagePath}}"></a></div>
+                                </td>
+                                <td class="col-info">
+									<div class="item-brand" ng-bind="product.properties['customerManufacturerName']"></div>
+									<div class="item-name"><a href="/product/{{product.erpNumber}}" ng-bind="product.shortDescription"></a></div>
+									<div ng-if="product.properties['genericPartNumber']">
+										<div class="item-num">
+											<span class="item-num-mfg">@T("Item#") <span class="dark" ng-bind="product.properties['genericPartNumber']"></span></span>
+										</div>
+									</div>
+									<div ng-if="!product.properties['genericPartNumber']">
+										<div class="item-num">
+											<span class="item-num-mfg" ng-if="product.manufacturerItem">@T("MFR#") <span class="dark" ng-bind="product.manufacturerItem"></span></span>
+										</div>
+									</div>
+								</td>
+                                @*<td class="col-mfr" ng-bind="product.sku"></td>*@
+                                <td class="col-qty"><div class="item-qty" ng-bind="product.properties['purchased']"></div></td>
+                                <td class="col-date"><div class="item-date" ng-bind="product.properties['lastOrderedDate']"></div></td>
+                                <td class="col-price"><div class="item-price" ng-bind="product.pricing.actualPriceDisplay"></div></td>
+                                <td class="col-actions">
+                                    <div class="add-to-cart">
+                                        <div class="item-qty">
+                                            <label for="">@T("Qty"):</label> 
+                                            <input id="inputQty{{product.id}}" type="number" min="product.properties.minimumSellQty" name="qty numerictextbox"
+                                                   ng-change="vm.updateQty(product)"
+                                                   ng-model-options="{ updateOn: 'blur' }"
+                                                   step="{{product.properties.minimumSellQty}}" class="qty numerictextbox" ng-model="product.qtyOrdered" />
+                                        </div>
+                                        <div class="item-buttons">
+                                            <button class="button" ng-click="vm.addToCart(product.id)">@T("ADD TO CART")</button>
+                                            <div class="item-add-to-list xsmall-text-right small-text-right"><a id="addToList" ng-click="vm.openWishListPopup(product.id)">@T("+ Add To List")</a></div>
+                                        </div>
+                                        <morsco-cart-availability-message availability="product.availability" warehouses="vm.warehouses" itemline="product"></morsco-cart-availability-message>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pager ng-scope pbtm">
+                    <ul class="clearfix">
+                        <li class="pages">
+                            <div ng-if="vm.page > 1" class="page-previous">
+                                <a href="javascript:void(0)" id="lnkPrevPage2" ng-click="vm.ppMovePrevious()"><i class="fa fa-lg fa-caret-left"></i></a>
+                            </div>
+                            <div class="page-current">
+                                <input name="currentPage" ng-model="vm.page" 
+									   type="number" min="1" class="enter-page numerictextbox"
+										ng-keypress="vm.ppKeyPressChangePage($event)"
+										ng-blur="vm.ppBlurChangePage()"> <span>of</span>
+                                <span ng-bind="vm.totalPages" class="total-pages"></span>
+                            </div>
+                            <div ng-if="vm.page < vm.totalPages" class="page-next">
+                                <a id="page-next2" href="javascript:void(0)" ng-click="vm.ppMoveNext()"><i class="fa fa-lg fa-caret-right"></i></a>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+	<isc-morsco-availability-popup> </isc-morsco-availability-popup>
+
+	<isc-morsco-availability-shipping-tax-content></isc-morsco-availability-shipping-tax-content>
+
+</div>

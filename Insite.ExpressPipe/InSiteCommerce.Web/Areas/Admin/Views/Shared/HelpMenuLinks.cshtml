@@ -1,0 +1,27 @@
+﻿<script type="text/ng-template" id="helpMenuLinks">
+    <div class="help-links">
+        <a class="button" href="#" zf-popup-toggle="helpPopup" is-popup-click-override ng-class="isActive ? 'is-active' : ''">
+            <i class="icon icon-help"></i>
+        </a>
+        <zf-popup id="helpPopup" class="help-menu popup help-links-popup" pin-at="bottom right" pin-to="top right">
+            <h4 class="help-menu__title" ng-show="helpLinksCtrl.links && helpLinksCtrl.links.length > 0">Help Topics</h4>
+            <ul class="menu-action-list">
+                <li ng-repeat="link in helpLinksCtrl.links">
+                    <a class="menu-action-list__action" ng-href="{{link.url}}" target="_blank">
+                        <i class="menu-action-list__icon menu-action-list__icon--large icon icon-chevron-right"></i> <span class="menu-action-list__label">{{link.name}}</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="menu-action-list__action" href="https://support.insitesoft.com/hc/en-us" target="_blank">
+                        <i class="menu-action-list__icon menu-action-list__icon--large icon icon-help"></i> <span class="menu-action-list__label">Help Center & Documentation</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="menu-action-list__action" href="javascript:void(0)" ng-click="helpLinksCtrl.$scope.$parent.headerCtrl.navigateTo('/about')" zf-popup-toggle="helpPopup">
+                        <i class="menu-action-list__icon menu-action-list__icon--large icon icon-info-wire"></i> <span class="menu-action-list__label">About Insite Commerce</span>
+                    </a>
+                </li>
+            </ul>
+        </zf-popup>
+    </div>
+</script>

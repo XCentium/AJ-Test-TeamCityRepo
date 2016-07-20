@@ -1,0 +1,74 @@
+﻿.si-form {
+    padding-right: 50px;
+}
+
+.si-acct {
+    margin-top: $margin-double;
+    @media (min-width: $small-breakpoint){
+        margin-top: 0;
+        padding-left: 50px;
+        border-left: 1px solid $lightest-gray;
+    }
+}
+
+.form-section {
+    margin-bottom: $margin-double;
+}
+
+ul.check-list {
+    list-style: none;
+    margin-left: 0;
+
+    li:before {
+        margin-right: 0.5em;
+        content: '\f00c';
+        font-family: 'FontAwesome';
+    }
+}
+
+.account-number {
+    margin-left: 1em;
+    margin-bottom: $margin-single;
+
+    input[type="text"] {
+        margin-bottom: 0;
+        max-width: 50%;
+    }
+}
+
+.terms {
+    margin: $margin-double 0;
+    overflow: hidden;
+    zoom: 1;
+
+    > label {
+        display: table-cell;
+        padding-right: $padding-single;
+        vertical-align: top;
+        line-height: 1em;
+    }
+
+    > div {
+        display: table-cell;
+        vertical-align: top;
+        overflow: hidden;
+        zoom: 1;
+        line-height: 1.5em;
+    }
+}
+
+.register {
+    .radios {
+        li {
+            margin-bottom: $margin-single;
+
+            label {
+                line-height: 1.3em;
+
+                input {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}

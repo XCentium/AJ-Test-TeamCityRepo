@@ -1,0 +1,25 @@
+﻿<div class="row">
+    <div class="small-12 columns">
+        <table class="responsive info-tbl budget-period-tbl">
+            <thead>
+                <tr>
+                    <th class="col-period">@T("Period")</th>
+                    <th class="col-enddate">@T("End Date")</th>
+                    <th class="col-budget" ng-bind-template="*@T("Budget") {{currencySymbol}}"></th>
+                </tr>
+            </thead>
+            <tbody id="BudgetMaintenance">
+                <tr ng-repeat="review in maintenanceInfo.budgetLineCollection">
+                    <td class="col-period" ng-bind="review.period"></td>
+                    <td class="col-enddate">
+                        <input ng-attr-id="{{'budgetMaintenanceEndDateInput' + ($index + 1)}}" type="text" class="datepicker txt enddate" disabled="disabled" value="{{ getEndDate({ review: maintenanceInfo.budgetLineCollection[$index + 1] }) | date:'shortDate' }}" />
+                    </td>
+                    <td class="col-budget">
+                        <input ng-attr-id="{{'budgetMaintenanceBudgetInput' + ($index + 1)}}" type="text" ng-model="review.currentFiscalYearBudget" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button id="budgetMaintenanceSaveBtn" ng-click="updateBudgets()" ng-show="maintenanceInfo.budgetLineCollection.length > 0" class="btn secondary btn-save">@T("Save")</button>
+    </div>
+</div>

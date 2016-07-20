@@ -1,0 +1,45 @@
+﻿@using Insite.Core.Providers
+@using Insite.QuickOrder.Content
+@using Insite.WebFramework.Mvc.Extensions
+
+<div>
+    <div class="qo-container" ng-show="vm.canAddToCart">
+        <div class="qo-wrap qo-widget">
+            <h3>@T("Quick Order")</h3>
+            <span class="qo-links">
+                <a id="quickOrderOrderMultipleItemsLink" ng-href="@(Url.ContentPage<QuickOrderPage>())">@T("Order Multiple Items")</a>
+                <a id="quickOrderUploadAnOrderLink" ng-href="@(Url.ContentPage<OrderUploadPage>())" ng-show="vm.orderSettings.canOrderUpload">@T("Upload an Order")</a>
+            </span>
+            <div class="clearfix"></div>
+            <div class="qo-form">
+                <div class="qo-search-box">
+                    <input id="qo-search-widget" type="text" name="textfield" ng-init="vm.autocompleteOptions.placeholder = '@T("Enter keyword or item #")'" class="qo-searchbox"
+                           kendo-auto-complete k-options="vm.autocompleteOptions" ng-model="vm.searchTerm" isc-enter="vm.onEnter(vm.searchTerm)" />
+                    <span class="qo-msg error" ng-show="vm.errorMessage">{{vm.errorMessage}}</span>
+                </div>
+                <div class="qo-qty">
+                    <label for="quickOrderQuantity">@T("QTY_quantity")</label>
+                    <input type="text" name="input2" id="quickOrderQuantity" value="1" class="qty numerictextbox" ng-model="vm.selectedQty" />
+                </div>
+                <div class="qo-um">
+                    <label for="quickOrderUM">@T("U/M")</label>
+                    <select id="quickOrderUnitOfMeasureSelector" ng-model="vm.selectedUnitOfMeasure" ng-change="vm.changeUnitOfMeasure(vm.product)" name="unitOfMeasure" class="uom-selector">
+                        <option ng-if="vm.alternateUnitsOfMeasure && vm.product.productUnitOfMeasures.length > 0" ng-init="vm.selectedUnitOfMeasure = vm.product.selectedUnitOfMeasure" ng-repeat="uom in vm.product.productUnitOfMeasures" value="{{uom.unitOfMeasure}}"
+                                ng-selected="{{vm.product.selectedUnitOfMeasure == uom.unitOfMeasure}}">
+                            {{uom.description ? uom.description : uom.unitOfMeasureDisplay}} {{uom.qtyPerBaseUnitOfMeasure !== 1 ? "/" + uom.qtyPerBaseUnitOfMeasure : ""}}
+                        </option>
+                        <option ng-if="!(vm.alternateUnitsOfMeasure && vm.product.productUnitOfMeasures.length > 0)" ng-init="vm.selectedUnitOfMeasure = 'EA'" value="EA">
+                            @T("EA")
+                        </option>
+                    </select>
+                </div>
+                <button id="quickOrderAddToCartButton" class="btn primary btn-add-cart" ng-click="vm.addToCart(vm.product)" ng-disabled="!vm.selectedQty || vm.selectedQty == 0 || vm.findingProduct">@T("Add to Cart")</button>
+            </div>
+        </div>
+        <input type="hidden" id="messageConfigurableProduct" value="@Html.Message("QuickOrder_CannotOrderConfigurable", "Cannot quick order configurable products")" />
+        <input type="hidden" id="messageStyledProduct" value="@Html.Message("QuickOrder_CannotOrderStyled", "Product requires styling.")" />
+        <input type="hidden" id="messageEnterProduct" value="@Html.Message("QuickOrder_EnterProductName", "Enter a product name.")" />
+        <input type="hidden" id="messageUnavailable" value="@Html.Message("QuickOrder_ProductIsUnavailable", "Product is unavailable.")" />
+        <input type="hidden" id="messageNotFound" value="@MessageProvider.Current.Product_NotFound" />
+    </div>
+</div>

@@ -1,0 +1,71 @@
+﻿@using Insite.Core.Providers
+@using Insite.WebFramework.Mvc.Extensions
+
+@*
+Add this element in any place inside the controller:
+<isc-tell-a-friend-popup> </isc-tell-a-friend-popup>
+*@
+
+<div style="display: none;">
+    <div id="TellAFriendDialogContainer" class="popup-share reveal-modal" data-reveal data-reveal-init>
+        <div class="modal-wrap">
+            <h2>@T("Share with a Friend")</h2>
+            <form novalidate id="tellAFriendForm" class="custom">
+                <div class="row share-name">
+                    <isc-required-field field-label='@T("Friend's Name")'
+                                        field-name="friendsName"
+                                        field-value="vm.shareModel.friendsName"
+                                        is-required="true"
+                                        is-email="false">
+                          </isc-required-field>
+                </div>
+                <div class="row share-email">
+                    <isc-required-field field-label='@T("Friend's Email")'
+                                        field-name="friendsEmail"
+                                        field-value="vm.shareModel.friendsEmail"
+                                        is-required="true"
+                                        is-email="true">
+                    </isc-required-field>
+                </div>
+                <div class="row share-you">
+                    <isc-required-field field-label='@T("Your Name")'
+                                        field-name="yourName"
+                                        field-value="vm.shareModel.yourName"
+                                        is-required="true"
+                                        is-email="false">
+                    </isc-required-field>
+                </div>
+                <div class="row share-youmail">
+                    <isc-required-field field-label='@T("Your Email")'
+                                        field-name="yourEmail"
+                                        field-value="vm.shareModel.yourEmail"
+                                        is-required="true"
+                                        is-email="true">
+                    </isc-required-field>
+                </div>
+                <div class="row share-msg">
+                    <div class="large-5 columns">
+                        <span>@T("Your Message")</span>
+                        <span class="redTxt">*</span>
+                    </div>
+                    <div class="large-7 columns">
+                        <textarea ng-model="vm.shareModel.yourMessage" autofocus="autofocus"
+                                  id="yourMessage"
+                                  name="yourMessage"
+                                  data-rule-required="true"
+                                  data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("Your Message"))"></textarea>
+                        <span class="field-validation-valid" data-valmsg-for="yourMessage" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+                <div class="row btns">
+                    <button id="tellAFriendShareWithFriendButton" ng-click="vm.shareWithFriend()" class="btn primary btn-create-wishlist" type="button">@T("Share")</button>
+                </div>
+            </form>
+            <div class="messaging" id="feedbackResponseContainer" ng-show="vm.isSuccess || vm.isError">
+                <span ng-show="vm.isSuccess">@Html.Message("TellAFriend_Success", "An email was successfully sent.")</span>
+                <span ng-show="vm.isError">@Html.Message("TellAFriend_Error", "Email was not successfully sent, please verify form inputs.")</span>
+            </div>
+            <a id="tellAFriendCloseModalButton" class="close-reveal-modal">&#215;</a>
+        </div>
+    </div>
+</div>

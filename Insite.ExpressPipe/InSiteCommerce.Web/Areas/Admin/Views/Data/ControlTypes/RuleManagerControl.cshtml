@@ -1,0 +1,215 @@
+﻿
+@using Insite.Admin.Extensions
+@using Insite.Core.Interfaces.EnumTypes
+@model Insite.Admin.Models.ControlTypeViewModel<Insite.Admin.ControlTypes.RuleManagerControl>
+
+<isa-rule-manager ng-if="isTabActive === undefined || isTabActive" model="entityDetailsCtrl.model" is-dirty-parameter="entityDetailsCtrl.isModelDirty" entity-definition="entityDetailsCtrl.entityDefinition" form="entityDetailsCtrl.form"
+                  property-service-uri="entityDetailsCtrl.propertyServiceUri" initial-model="entityDetailsCtrl.initialModel"></isa-rule-manager>
+
+<script type="text/ng-template" id="RuleManager">
+    <div class="rule-manager">
+        <div class="rule-manager__header">
+            <span class="title center" ng-if="!vm.hasRules()">There are no rules currently. Begin adding rules below.</span>
+            <span class="clearfix" ng-if="vm.hasRules()">
+                <a class="tertiary float-right no-margin" ng-click="vm.showDeletePopup()">
+                    <i class="icon icon-delete button__icon button__icon--large"></i>All Rules
+                </a>
+            </span>
+        </div>
+
+        <div class="grid-block vertical" ui-sortable="{axis: 'y'}" ng-model="vm.ruleGroups">
+            <div ng-repeat="(groupIndex, group) in vm.ruleGroups" data-id="{{groupIndex}}">
+                <div class="vertical grid-block rule-manager__group">
+                    <div class="grid-block rule-manager__group--header">
+                        <strong class="v-align">Match</strong>
+                        <select class="rule-manager__group--header-condition" ng-model="group.ruleCondition" ng-change="vm.changeRuleCondition(groupIndex)">
+                            <option label="All" value="@RuleClauseConditionOperator.And.ToString()" selected="selected">All</option>
+                            <option label="Any" value="@RuleClauseConditionOperator.Or.ToString()">Any</option>
+                        </select>
+                        <strong class="v-align">of the following rules:</strong>
+                        <div class="rule-manager__group--header-delete">
+                            <a class="button button-icon no-margin" ng-class="vm.getDeleteRuleGroupClass()" title="Delete" ng-click="vm.deleteGroup(groupIndex)">
+                                <i class="icon icon-delete"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div ng-repeat="(ruleIndex, rule) in group.rules">
+                        <div class="vertical grid-block rule-manager__rule">
+                            @Html.FormControl(
+                        @<label>Rule Type</label>,
+                        @<div class="large">
+                            <div class="grid-block noscroll form-control-content">
+                                <select name="ruleType_{{groupIndex}}_{{ruleIndex}}" ng-model="rule.type" ng-options="criteria.ruleTypeOption.description for criteria in vm.criteriatypes" ng-change="vm.changeType(rule)" ng-required="vm.hasRules()">
+                                    <option value="" label="Select Rule" selected="selected">Select Rule</option>
+                                </select>
+
+                                <a class="button button-icon" ng-class="vm.getDeleteRuleClass(groupIndex)" title="Delete" ng-click="vm.deleteRule(groupIndex, ruleIndex)">
+                                    <i class="icon icon-delete"></i>
+                                </a>
+                            </div>
+                        </div>)
+
+                            <div ng-if="rule.type">
+                                <div ng-if="rule.type.requiresCriteriaObject">
+                                    @Html.FormControl(@<label>Source Data Table</label>, @<span class="rule-manager__rule--readyonly" ng-bind="rule.type.ruleTypeOption.criteriaObject"></span>)
+                                </div>
+                                <div ng-if="rule.type.requiresGeocode">
+                                    @Html.FormControl(
+                                @<label>Location Phrase</label>,
+                                @<div class="large">
+                                    <div class="grid-block noscroll form-control-content">
+                                        <input type="text" ng-model="rule.parameters['CriteriaProperty']" />
+                                        <a class="button secondary" ng-click="vm.searchGeocode(rule)" ng-enabled="vm.enableGeocode(rule)">Geocode</a>
+                                    </div>
+                                </div>)
+                                </div>
+                                <div ng-repeat="parameter in rule.type.parameterDescriptions | filter:vm.filterParameters(rule)">
+                                    @Html.FormControl(
+                                @<label ng-bind="parameter.label"></label>,
+                                        @<div class="large">
+                                    <span ng-if="rule.type.lookupObject && rule.pluralizedlookupObject && rule.pluralizedlookupObject !== 'categories'
+                                                  && rule.type.lookupObjectParameterIndex === $index && !vm.hasFilter(rule.type.name)">
+                                        <isa-dropdown angular-controller="LookupDropdownController"
+                                                      class="lookup-dropdown"
+                                                      selected-entity-id="rule.parameters[parameter.name]"
+                                                      pluralized-entity-name="{{rule.pluralizedlookupObject}}"
+                                                      ng-model="rule.parameters[parameter.name]"
+                                                      sort-list=""
+                                                      required></isa-dropdown>
+                                    </span>
+                                    <span ng-if="rule.type.lookupObject && rule.pluralizedlookupObject && rule.pluralizedlookupObject !== 'categories'
+                                                   && rule.type.lookupObjectParameterIndex === $index && vm.hasFilter(rule.type.name)">
+                                        <isa-dropdown angular-controller="DynamicDropdownController"
+                                                      selected-entity-id="rule.parameters[parameter.name]"
+                                                      ng-model="rule.parameters[parameter.name]"
+                                                      route="/api/v1/admin/{{rule.pluralizedlookupObject}}"
+                                                      filter={{vm.filtersDictionary[rule.type.name]}}
+                                                      key="id"
+                                                      display={{vm.getDisplayNameFormat(rule.pluralizedlookupObject)}}
+                                                      value-type="guid"
+                                                      required></isa-dropdown>
+                                    </span>
+                                    <span ng-if="rule.type.lookupObject && rule.pluralizedlookupObject && rule.pluralizedlookupObject === 'categories' && rule.type.lookupObjectParameterIndex === $index">
+                                        <isa-category-lookup entity-id="rule.parameters[parameter.name]"
+                                                             website-id=""
+                                                             allow-website-select="true"></isa-category-lookup>
+                                    </span>
+                                    <span ng-class="{ 'grid-block': !!parameter.toolTip }" ng-if="parameter.name !== 'ComparisonOperator' && rule.type.lookupObjectParameterIndex !== $index">
+                                        <input name="ruleParam_{{groupIndex}}_{{ruleIndex}}_{{$index}}"
+                                               type="text"
+                                               ng-model="rule.parameters[parameter.name]"
+                                               class="{{ parameter.name === 'ValueList' ? 'large' : 'medium' }}"
+                                               parameter-name="{{::parameter.name}}"
+                                               rule-index="{{groupIndex}}_{{ruleIndex}}"
+                                               ng-if="vm.getCriteriaPropertyType(rule) === 'text' && parameter.possibleValues.length === 0 && parameter.name !== 'CriteriaProperty'" required
+                                               isa-rule-parameter-max="{{ parameter.name === 'ValueMinimum' && rule.parameters['ValueMaximum'] ? rule.parameters['ValueMaximum'] : undefined }}"
+                                               isa-rule-parameter-min="{{ parameter.name === 'ValueMaximum' && rule.parameters['ValueMinimum'] ? rule.parameters['ValueMinimum'] : undefined }}" />
+                                        <div ng-if="vm.getCriteriaPropertyType(rule) === 'number' && parameter.possibleValues.length === 0 && parameter.name !== 'CriteriaProperty'">
+                                            <input name="ruleParam_{{groupIndex}}_{{ruleIndex}}_{{$index}}"
+                                                   id="ruleParam_{{groupIndex}}_{{ruleIndex}}_{{$index}}"
+                                                   type="number" step="1"
+                                                   string-to-decimal
+                                                   ng-model="rule.parameters[parameter.name]"
+                                                   class="{{ parameter.name === 'ValueList' ? 'large' : 'medium' }}"
+                                                   parameter-name="{{::parameter.name}}"
+                                                   rule-index="{{groupIndex}}_{{ruleIndex}}"
+                                                   required
+                                                   isa-rule-parameter-max="{{ parameter.name === 'ValueMinimum' && rule.parameters['ValueMaximum'] ? rule.parameters['ValueMaximum'] : undefined }}"
+                                                   isa-rule-parameter-min="{{ parameter.name === 'ValueMaximum' && rule.parameters['ValueMinimum'] ? rule.parameters['ValueMinimum'] : undefined }}" />
+                                            <div class="error-messages"
+                                                 ng-messages="vm.form['ruleParam_' + groupIndex +'_' + ruleIndex + '_' + $index].$error"
+                                                 ng-show="vm.form['ruleParam_' + groupIndex +'_' + ruleIndex + '_' + $index].$touched">
+                                                <span ng-message="number"><i class="icon icon-warning"></i>Number is not valid!</span>
+                                            </div>
+                                        </div>
+                                        <span ng-if="vm.getCriteriaPropertyType(rule) === 'date'">
+                                            <isa-date-time-picker name="ruleParam_{{groupIndex}}_{{ruleIndex}}_{{$index}}"
+                                                                  parameter-name="{{::parameter.name}}"
+                                                                  rule-index="{{groupIndex}}_{{ruleIndex}}"
+                                                                  model="rule.parameters[parameter.name]"
+                                                                  ng-if="parameter.possibleValues.length === 0 && parameter.name !== 'CriteriaProperty'" required
+                                                                  date-format="yyyy-MM-ddTHH:mm:sszzz"
+                                                                  isa-rule-parameter-max="{{ parameter.name === 'ValueMinimum' && rule.parameters['ValueMaximum'] ? rule.parameters['ValueMaximum'] : undefined }}"
+                                                                  isa-rule-parameter-min="{{ parameter.name === 'ValueMaximum' && rule.parameters['ValueMinimum'] ? rule.parameters['ValueMinimum'] : undefined }}">
+                                            </isa-date-time-picker>
+                                        </span>
+                                        <span ng-if="vm.getCriteriaPropertyType(rule) === 'checkbox' && parameter.possibleValues.length === 0 && parameter.name !== 'CriteriaProperty'">
+                                            <div class="flip-switch">
+                                                <input string-to-boolean type="checkbox" ng-model="rule.parameters[parameter.name]" id="ruleParamCheckBox_{{groupIndex}}_{{ruleIndex}}_{{$index}}" />
+                                                <label for="ruleParamCheckBox_{{groupIndex}}_{{ruleIndex}}_{{$index}}">
+                                                    <div class="switch-inner">
+                                                        <span class="switch-on">TRUE <i class="icon icon-check-circle"></i></span>
+                                                        <span class="switch-off"><i class="icon icon-check-circle"></i> FALSE</span>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </span>
+                                        <select name="ruleParam_{{groupIndex}}_{{ruleIndex}}_{{$index}}" ng-model="rule.parameters[parameter.name]"
+                                                ng-if="parameter.possibleValues.length > 0 && parameter.name !== 'CriteriaProperty'" required>
+                                            <option value="" selected="selected">Select Value</option>
+                                            <option ng-repeat="option in parameter.possibleValues" value="{{option}}" ng-bind="option"></option>
+                                        </select>
+                                        <select name="ruleParam_{{groupIndex}}_{{ruleIndex}}_{{$index}}" ng-model="rule.parameters[parameter.name]" ng-disabled="!rule.properties || rule.properties.length === 0"
+                                                ng-if="parameter.name === 'CriteriaProperty'" required>
+                                            <option value="" selected="selected">Select Property</option>
+                                            <option ng-repeat="property in rule.properties" value="{{property.value}}" ng-bind="property.label"></option>
+                                        </select>
+                                        <a href="javascript:void(0)" ng-if="!!parameter.toolTip"
+                                           class="button button-icon"
+                                           isa-tool-tip
+                                           content="{{::parameter.toolTip}}"
+                                           position="top center"
+                                           offset="0 -2px">
+                                            <i class="icon icon-help"></i>
+                                        </a>
+
+                                        <span class="rule-manager-error"
+                                              ng-show="vm.form.ruleParam_{{groupIndex}}_{{ruleIndex}}_{{$index}}.$touched">
+                                            <span class="rule-manager-error__detail" ng-show="vm.form.ruleParam_{{groupIndex}}_{{ruleIndex}}_{{$index}}.$error.required">This is required!</span>
+                                            <span class="rule-manager-error__detail" ng-show="vm.form.ruleParam_{{groupIndex}}_{{ruleIndex}}_{{$index}}.$error.pattern">Invalid value!</span>
+                                        </span>
+                                    </span>
+                                    <span ng-if="parameter.name === 'ComparisonOperator'">
+                                        <select name="ruleComparison_{{groupIndex}}_{{ruleIndex}}" ng-model="rule.parameters[parameter.name]" ng-disabled="parameter.possibleValues.length === 1" required>
+                                            <option value="" ng-if="$filter('filter')(parameter.possibleValues, vm.filterComparisonOperator).length > 1" selected="selected">Select Operator</option>
+                                            <option ng-repeat="option in parameter.possibleValues | filter:vm.filterComparisonOperator(rule)" value="{{option}}" ng-bind="option"></option>
+                                        </select>
+
+                                        <span class="rule-manager-error"
+                                              ng-show="vm.form.ruleComparison_{{groupIndex}}_{{ruleIndex}}.$touched">
+                                            <span class="rule-manager-error__detail" ng-show="vm.form.ruleComparison_{{groupIndex}}_{{ruleIndex}}.$error.required">This is required!</span>
+                                        </span>
+                                    </span>
+                                </div>)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid-block rule-manager__add-rule" ng-if="vm.showAddRule(groupIndex, ruleIndex)">
+                            <a class="grid-block" title="Add" ng-click="vm.expandRule(groupIndex)"><i class="icon icon-plus-solid "></i> Rule</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="grid-block" ng-if="vm.showCondition(groupIndex)">
+                    <select class="rule-manager__select" ng-model="group.groupCondition" ng-change="vm.changeGroupCondition(groupIndex, group.groupCondition)">
+                        <option label="And" value="@RuleClauseConditionOperator.And.ToString()">And</option>
+                        <option label="Or" value="@RuleClauseConditionOperator.Or.ToString()">Or</option>
+                    </select>
+                </div>
+                <div class="grid-block rule-manager__add-group" ng-if="vm.showAddRuleGroup(groupIndex)">
+                    <a class="grid-block title=" Add" ng-click="vm.expandGroup()"><i class="icon icon-plus-solid "></i>Rule Group</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal--medium" zf-modal zf-closable="modal" id="deleteRuleManagerRules">
+            <div class="modal-content">
+                <h4 class="text-center">Are you sure you want to delete every rule for this {{vm.entityDefinition.label}}?</h4>
+            </div>
+            <div class="modal-footer">
+                <button zf-close class="button tertiary float-left">Cancel</button>
+                <button ng-click="vm.removeAllRules()" class="button secondary">Delete</button>
+            </div>
+        </div>
+    </div>
+</script>

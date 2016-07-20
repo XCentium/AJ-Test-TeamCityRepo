@@ -1,0 +1,37 @@
+﻿@using Insite.Admin.ControlTypes
+@using Insite.Admin.DataTypeValidators
+@using Insite.Admin.Models
+@model Insite.Admin.Models.ControlTypeViewModel<DateTimePickerControl>
+
+@if (Model.PropertyDefinition.CanEdit)
+{
+    var validator = Model.DataTypeValidator as DateTimeOffsetValidator;
+    if (validator == null)
+    {
+        throw new ArgumentException("DateTimePickerControl used for a non-datetime property. " + Model.Name);
+    }
+
+    var minValue = validator.MinValue;
+    var maxValue = validator.MaxValue;
+    var required = Model.PropertyDefinition.IsRequired;
+
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<isa-date-time-picker id="@Model.Id"
+                                              name="@Model.Id"
+                                              model="@Model.EditPageModelBinding"
+                                              control-min="@(minValue.HasValue ? minValue.Value.ToString("o") : "")"
+                                              control-max="@(maxValue.HasValue ? maxValue.Value.ToString("o") : "")"
+                                              date-format="yyyy-MM-ddTHH:mm:sszzz"
+                                              @if (required) { <text> required="true" </text> }></isa-date-time-picker>
+    })
+}
+else
+{
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<div class="readonly" ng-bind="@Model.EditPageModelBinding | date: 'short'"></div>
+    })
+}

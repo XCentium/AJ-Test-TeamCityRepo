@@ -1,0 +1,28 @@
+﻿CREATE TABLE [dbo].[OrderDetails_Scrub] (
+    [Id]                 UNIQUEIDENTIFIER DEFAULT (newsequentialid()) NOT NULL,
+    [OrderHeaderId]      UNIQUEIDENTIFIER NULL,
+    [ItemCode]           VARCHAR (1)      NULL,
+    [Description]        VARCHAR (100)    NULL,
+    [LineItemID]         VARCHAR (10)     NULL,
+    [ProductID]          VARCHAR (10)     NULL,
+    [PDWID]              VARCHAR (10)     NULL,
+    [DescAsStored]       VARCHAR (10)     NULL,
+    [UPC]                VARCHAR (20)     NULL,
+    [OrderQty]           INT              NULL,
+    [UnitPrice]          NUMERIC (18, 9)  NULL,
+    [SellUnit]           VARCHAR (10)     NULL,
+    [SellUnitQty]        VARCHAR (10)     NULL,
+    [ItemReleaseNo]      VARCHAR (10)     NULL,
+    [ShipQty]            INT              NULL,
+    [ShipQtyAlpha]       VARCHAR (10)     NULL,
+    [SerialNumbers]      VARCHAR (50)     NULL,
+    [AvailableDate]      DATETIME         NULL,
+    [AvailableQty]       INT              NULL,
+    [SubtotalAmt]        NUMERIC (18, 9)  NULL,
+    [SubtotalLineItemID] VARCHAR (10)     NULL,
+    [OrderNo]            VARCHAR (10)     NULL,
+    [Generation]         VARCHAR (4)      NULL,
+    [ActivityInstanceId] UNIQUEIDENTIFIER NULL,
+    CONSTRAINT [PK_Scrub_OrderDetails] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+

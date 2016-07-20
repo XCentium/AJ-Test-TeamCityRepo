@@ -1,0 +1,55 @@
+﻿@using Insite.Admin.ControlTypes
+@using Insite.Admin.FormBuilder
+@using Insite.Admin.FormBuilder.Elements
+@using Insite.Admin.FormBuilder.Models.FormBuilder
+@using Insite.Admin.Services
+@using Insite.Common.Dependencies
+@using Insite.Data.Entities
+@model FingerTabsFormElement
+
+@{
+    var activeTabs = Model.ChildElements.Where(o => o.WillDisplay()).OrderBy(o => o.SortOrder).OfType<ITabFormElement>().ToList();
+}
+
+@if (Model.IsEditMode)
+{
+    <div>
+        @Html.Partial("Zone", ZoneViewModel.Create(Model, "Tabs"))
+    </div>
+}
+else
+{
+    <form name="entityDetailsCtrl.form" class="grid-block" novalidate>
+        @if (activeTabs.Sum(o => o.GetNumberOfTabs()) > 1)
+        {
+            var tabIndex = 0;
+
+            <div isa-finger-tabs class="grid-block">
+                <div class="grid-block vertical flex-none finger-tabs__tabs">
+                    @foreach (var tab in activeTabs)
+                    {
+                        var labels = tab.GetLabels();
+                        var instructions = tab.GetInstructions();
+                        for (int i = 0; i < labels.Count; ++i)
+                        {
+                            var tabId = "fingerTabs_" + ++tabIndex;
+                            <div id="@tabId" isa-finger-tab class="finger-tabs__tab flex-none" disabled-expr="@tab.GetDisabledExpression()" title="@labels[i]" instructions="@instructions[i]" ng-click="entityDetailsCtrl.changeActiveTab($event, '@tabId', '@labels[i]')">@labels[i]</div>
+                        }
+                    }
+                </div>
+                <div class="grid-block">
+                    @foreach (var activeTab in activeTabs)
+                    {
+                        @Html.Partial("FormElements/" + activeTab.GetType().Name, activeTab)
+                    }
+                </div>
+            </div>
+        }
+        else if (activeTabs.Sum(o => o.GetNumberOfTabs()) == 1)
+        {
+            <div isa-finger-tabs class="grid-block">
+                @Html.Partial("FormElements/" + activeTabs.First().GetType().Name, activeTabs.First())
+            </div>
+        }
+    </form>
+}

@@ -1,0 +1,18 @@
+﻿ul.fancytree-container {
+    border: 0;
+    outline: none;
+
+    .fancytree-title {
+        border: 0;
+        background: transparent;
+    }
+
+    .fancytree-active, .fancytree-selected, .fancytree-focused {
+        .fancytree-title {
+            border: 0;
+            background: transparent;
+            outline: 0;
+            cursor: initial;
+        }
+    }
+}

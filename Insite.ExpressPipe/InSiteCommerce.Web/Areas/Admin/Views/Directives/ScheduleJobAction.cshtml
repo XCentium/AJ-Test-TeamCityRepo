@@ -1,0 +1,131 @@
+﻿<div class="modal--large modal-overlay" zf-modal zf-closable="modal" id="scheduleIntegrationJob">
+    <div class="grid-block vertical">
+        <div class="modal-header">
+            <h4 class="modal-title">Schedule Job</h4>
+            <a zf-close="" class="close-button right"><i class="icon icon-close"></i></a>
+        </div>
+        <div ng-hide="vm.resultMessage" class="modal-content">
+            <div class="grid-block form-control" style="margin-bottom: 20px;">
+                <div class="medium-4 grid-block">
+                    <label for="scheduleDateTime">Schedule Start Date/Time</label>
+                </div>
+                <div class="medium-6 grid-block vertical">
+                    <input id="scheduleDateTime" type="text" kendo-date-time-picker onkeydown="return false;" required="required" k-ng-model="vm.integrationJob.scheduleDateTime">
+                </div>
+            </div>
+
+            <div class="grid-block form-control" style="margin-bottom: 20px">
+                <div class="medium-4 grid-block">
+                    <label for="isRealTime">Real Time Job</label>
+                </div>
+                <div class="medium-6 grid-block vertical">
+                    <div class="flip-switch">
+                        <input type="checkbox" ng-model="vm.integrationJob.isRealTime" id="isRealTime" />
+                        <label for="isRealTime">
+                            <div class="switch-inner">
+                                <span class="switch-on"><i class="icon icon-check-circle"></i> YES</span>
+                                <span class="switch-off">NO <i class="icon icon-check-circle"></i></span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-show="vm.model.linkedJobId" class="grid-block form-control" style="margin-bottom: 20px">
+                <div class="medium-4 grid-block">
+                    <label for="runStandalone">Skip Linked Jobs</label>
+                </div>
+                <div class="medium-6 grid-block vertical">
+                    <div class="flip-switch">
+                        <input type="checkbox" ng-model="vm.integrationJob.runStandalone" id="runStandalone" />
+                        <label for="runStandalone">
+                            <div class="switch-inner">
+                                <span class="switch-on"><i class="icon icon-check-circle"></i> YES</span>
+                                <span class="switch-off">NO <i class="icon icon-check-circle"></i></span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-show="(vm.jobDefinitionParameters | filter: { ValueType: '!ApplicationSetting' }).length > 0" class="grid-block vertical" style="margin-bottom: 20px">
+                <div class="medium-6 grid-block">
+                    <label><b>Job Parameters</b></label>
+                </div>
+                <div class="grid-block vertical editable-table">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Prompt</th>
+                            <th>Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="jobDefinitionParameter in vm.jobDefinitionParameters | filter: { ValueType: '!ApplicationSetting' }" emit-repeat-finished>
+                                <td>{{jobDefinitionParameter.Prompt}}</td>
+                                <td>
+                                    <input ng-if="['Number', 'RelativeDateTime', 'SpecificDateTime', 'Boolean'].indexOf(jobDefinitionParameter.ValueType) === -1" type="text" ng-model="jobDefinitionParameter.Value" />
+                                    <input ng-if="jobDefinitionParameter.ValueType === 'Number' || jobDefinitionParameter.ValueType === 'RelativeDateTime'" type="number" pattern="^[+-]?\d*([\.|,]\d{0,5})?" ng-model="jobDefinitionParameter.Value" />
+                                    <isa-date-time-picker ng-if="jobDefinitionParameter.ValueType === 'SpecificDateTime'" model="jobDefinitionParameter.Value" date-format="yyyy-MM-ddTHH:mm:sszzz"></isa-date-time-picker>
+                                    <div ng-if="jobDefinitionParameter.ValueType === 'Boolean'" class="flip-switch">
+                                        <input type="checkbox" ng-model="jobDefinitionParameter.Value" id="jobDefinitionParameter_switch_{{jobDefinitionParameter.JobDefinitionParameterId}}" />
+                                        <label for="jobDefinitionParameter_switch_{{jobDefinitionParameter.JobDefinitionParameterId}}">
+                                            <div class="switch-inner">
+                                                <span class="switch-on"><i class="icon icon-check-circle"></i> YES</span>
+                                                <span class="switch-off">NO <i class="icon icon-check-circle"></i></span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div ng-show="(vm.jobDefinitionStepParameters | filter: { ValueType: '!ApplicationSetting' }).length > 0" class="grid-block vertical editable-table-container" style="margin-bottom: 20px">
+                <div class="medium-6 grid-block">
+                    <label><b>Step Parameters</b></label>
+                </div>
+                <div class="grid-block vertical editable-table">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Step Name</th>
+                            <th>Prompt</th>
+                            <th>Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="jobDefinitionStepParameter in vm.jobDefinitionStepParameters | filter: { ValueType: '!ApplicationSetting' }" emit-repeat-finished>
+                                <td>{{jobDefinitionStepParameter.JobDefinitionStepSequence}} - {{jobDefinitionStepParameter.JobDefinitionStepName}}</td>
+                                <td>{{jobDefinitionStepParameter.Prompt}}</td>
+                                <td>
+                                    <input ng-if="['Number', 'RelativeDateTime', 'SpecificDateTime', 'Boolean'].indexOf(jobDefinitionStepParameter.ValueType) === -1" type="text" ng-model="jobDefinitionStepParameter.Value" />
+                                    <input ng-if="jobDefinitionStepParameter.ValueType === 'Number' || jobDefinitionStepParameter.ValueType === 'RelativeDateTime'" type="number" pattern="^[+-]?\d*([\.|,]\d{0,5})?" ng-model="jobDefinitionStepParameter.Value" />
+                                    <isa-date-time-picker ng-if="jobDefinitionStepParameter.ValueType === 'SpecificDateTime'" model="jobDefinitionParameter.Value" date-format="yyyy-MM-ddTHH:mm:sszzz"></isa-date-time-picker>
+                                    <div ng-if="jobDefinitionStepParameter.ValueType === 'Boolean'" class="flip-switch">
+                                        <input type="checkbox" ng-model="jobDefinitionStepParameter.Value" id="jobDefinitionStepParameter_switch_{{jobDefinitionStepParameter.JobDefinitionStepParameterId}}" />
+                                        <label for="jobDefinitionStepParameter_switch_{{jobDefinitionStepParameter.JobDefinitionStepParameterId}}">
+                                            <div class="switch-inner">
+                                                <span class="switch-on"><i class="icon icon-check-circle"></i> YES</span>
+                                                <span class="switch-off">NO <i class="icon icon-check-circle"></i></span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-content" ng-show="vm.resultMessage">
+            <h4 class="modal-title">{{vm.resultMessage}}</h4>
+        </div>
+        <div class="modal-footer">
+            <button zf-close class="button tertiary">Cancel</button>
+            <button ng-hide="vm.resultMessage" ng-click="vm.saveIntegrationJob()" class="button secondary">Schedule Job</button>
+        </div>
+    </div>
+</div>

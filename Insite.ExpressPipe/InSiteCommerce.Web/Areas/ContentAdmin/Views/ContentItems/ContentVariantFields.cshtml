@@ -1,0 +1,52 @@
+﻿@using System
+@using Insite.Core.Interfaces.Plugins.DeviceTypeProvider
+@using Insite.Data.Entities
+@using Insite.WebFramework.Content.Services.Interfaces
+@using Insite.Common.Dependencies
+@using Language = Insite.Data.Entities.Language
+@using Persona = Insite.Data.Entities.Persona
+
+@model ContentItemModel
+
+@functions {
+    private bool IsMismatch(ContentItemFieldModel contentItemFieldModel, Language language, Persona persona, string deviceType)
+    {
+        if (contentItemFieldModel.FieldType == FieldType.General)
+            return false;
+        if (contentItemFieldModel.LanguageId != language.Id)
+            return true;
+        if (language.HasPersonaSpecificContent && persona.Id != contentItemFieldModel.PersonaId)
+            return true;
+        if (language.HasDeviceSpecificContent && !(deviceType.EqualsIgnoreCase(contentItemFieldModel.DeviceType.IsBlank() ? DeviceType.Desktop.ToString() : contentItemFieldModel.DeviceType)))
+            return true;
+
+        return false;
+    }
+}
+
+@{
+    var currentLanguage = ContentContextProvider.CurrentLanguage;
+    var currentPersona = ContentContextProvider.CurrentPersona;
+    var currentDeviceType = ContentContextProvider.CurrentDeviceType.ToString();
+    var adminService = DependencyLocator.Current.GetInstance<IAdminService>();
+    var contentItemFields = adminService.GetSortedVariantFields(Model).ToList();
+}
+
+@helper RenderField(ContentItemFieldModel contentItemFieldModel, IAdminService adminService, bool isMismatch)
+{
+    <div class="cms-@(contentItemFieldModel.FieldType == FieldType.General ? "general" : "variant" )Field @(isMismatch ? "cms-variantMismatchField" : "")">
+        @{
+            var contentFieldAttribute = adminService.GetContentFieldAttributeFor(Model, contentItemFieldModel);
+            var template = adminService.GetTemplateFor(Model, contentItemFieldModel);
+            var generic = typeof(EditContentFieldModel<>);
+            var specific = generic.MakeGenericType(contentFieldAttribute.GenericType);
+            var model = specific.GetConstructors().First().Invoke(new object[] { Model, contentItemFieldModel, contentFieldAttribute });
+            Html.RenderPartial("ContentItemFields/" + template, model);   
+        }
+    </div>
+}
+
+@foreach (var contentItemField in contentItemFields)
+{
+    @RenderField(contentItemField, adminService, IsMismatch(contentItemField, currentLanguage, currentPersona, currentDeviceType))
+}

@@ -1,0 +1,42 @@
+﻿
+@using Insite.Admin.Models
+@model OneToManyRelationshipsModel
+
+<div class="grid-modal modal--medium edit-traits-modal" zf-modal overlay-close="false" id="editTraits-@Model.CollectionName-@Model.ChildrenColumn-modal">
+    <isa-edit-traits model="entityDetailsCtrl.entityToEditTraits()"
+                     display-name="entityDetailsCtrl.displayName"
+                     collection-name="@Model.CollectionName"
+                     children-column="@Model.ChildrenColumn"
+                     class="grid-block vertical"></isa-edit-traits>
+</div>
+
+<script type="text/ng-template" id="edit-traits-@Model.CollectionName-@Model.ChildrenColumn">
+    <div class="modal-header">
+        <h4 class="modal-title">Edit Traits for <isa-lookup-display pluralized-entity-name="products" entity-id="{{vm.model.id}}"></isa-lookup-display></h4>
+        <a zf-close="" class="close-button"><i class="icon icon-close"></i></a>
+    </div>
+    <div class="modal-content">
+        <div class="grid-block vertical">
+            <div ng-repeat="trait in vm.styleClass.styleTraits">
+                <div class="grid-block form-control">
+                    <div class="medium-4 grid-block">
+                        <label>{{trait.name}}</label>
+                    </div>
+                    <div class="medium-8 grid-block">
+                        <input kendo-combo-box
+                                ng-model="vm.selectedStyleTrait[trait.name]"
+                                k-data-source='itemsDataSource{{vm.collectionName}}{{vm.childrenColumn}}{{trait.name | spaceless}}'
+                                k-placeholder="'Select Value'"
+                                k-data-text-field="'name'"
+                                k-data-value-field="'id'"
+                                k-auto-bind="true" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer ng-scope">
+        <a href="javascript:void(0);" class="button" ng-click="vm.save();" ng-disabled="!vm.modelIsDirty">Save</a>
+        <a href="javascript:void(0);" class="button" ng-click="vm.reset();" ng-disabled="!vm.modelIsDirty">Reset</a>
+    </div>
+</script>

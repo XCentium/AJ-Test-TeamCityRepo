@@ -1,0 +1,52 @@
+﻿
+<ul class="item-list cart-items">
+
+    <li class="row item-block checkout-item" ng-repeat="quoteLine in quote.quoteLineCollection">
+        <isc-product-thumb product="quoteLine"></isc-product-thumb>
+
+        <div class="small-9 columns item-details">
+
+            <div class="item-name">
+                <a id="requestedDetailsGridShortDescriptionLink_{{quoteLine.id}}" ng-href="{{quoteLine.productUri}}">
+                    <span ng-bind="quoteLine.shortDescription"></span>
+                    <span ng-if="!quoteLine.isFixedConfiguration" ng-repeat="sectionOption in quoteLine.sectionOptions">
+                        <br /> <span ng-bind="sectionOption.sectionName + ':' + sectionOption.optionName"></span>
+                    </span>
+                </a>
+            </div>
+
+            <isc-product-name product="quoteLine" no-link="true"></isc-product-name>
+
+            <div class="price">
+                <isc-product-price product="quoteLine"></isc-product-price>
+
+                <isc-unit-of-measure-display product="quoteLine"></isc-unit-of-measure-display>
+
+                <div class="quantity-pricing">
+                    <isc-quantity-break-pricing product-id="quoteLine.id" break-prices="quoteLine.breakPrices"></isc-quantity-break-pricing>
+                </div>
+            </div>
+
+            <div class="cost-code" ng-if="quote.showCostCode && quoteLine.costCode.length > 0">
+                <strong><span ng-bind="quote.costCodeLabel"></span>:</strong>
+                <span ng-bind="quoteLine.costCode"></span>
+            </div>
+            <div class="item-notes" ng-if="quote.showLineNotes && quoteLine.notes.length > 0">
+                <strong>@T("Item Notes"):</strong>
+                <span ng-bind="quoteLine.notes"></span>
+            </div>
+
+        </div>
+
+        <div class="small-12 columns q-details">
+            <div class="wrap">
+                <div class="item-opt">
+                    <div class="item-qty">
+                        <strong>@T("QTY_quantity"): </strong><span ng-bind="quoteLine.qtyOrdered"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+
+</ul>

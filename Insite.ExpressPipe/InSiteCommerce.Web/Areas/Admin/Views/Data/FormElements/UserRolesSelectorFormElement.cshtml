@@ -1,0 +1,62 @@
+﻿@model Insite.Admin.FormBuilder.Elements.UserRolesSelectorFormElement
+
+<isa-user-roles-selector initial-model="entityDetailsCtrl.initialModel" pluralized-entity-name="entityDetailsCtrl.pluralizedEntityName" model="entityDetailsCtrl.model" style="margin-bottom: 2rem;">
+</isa-user-roles-selector>
+
+<script type="text/ng-template" id="UserRolesSelector">
+    <div class="grid-block vertical">
+        <div class="grid-block form-control" ng-if="vm.showFilterRoles">
+            <div class="medium-1 grid-block">
+                <label>Roles</label>
+            </div>
+            <div class="medium-4 grid-block vertical form-control__control-padding">
+                <div>
+                    <div class="grid-block noscroll form-control-content">
+                        <select class="medium" ng-model="vm.filterRoles" ng-change="vm.changeFilter()">
+                            <option value="all">All Roles</option>
+                            <option value="selected">Selected Roles</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid-block" ng-show="!vm.filterRoles || vm.filterRoles === 'selected'">
+            <div class="grid-content columns-leftbar" style="max-height: none;">
+                <table class="table hover scroll">
+                    <thead>
+                        <tr>
+                            <th width="1%">
+                                <input type="checkbox" ng-checked="true" ng-click="vm.removeAllFromAssigned($event)" />
+                            </th>
+                            <th class="text-left">Assigned Roles</th>
+                        </tr>
+                    </thead>
+                    <tbody ui-sortable ng-model="vm.assignedRoles">
+                        <tr class="is-actionable" ng-repeat="role in vm.assignedRoles" ng-click="role.isReadonly || vm.removeFromAssigned(role)" style="cursor: move">
+                            <td class="text-center"><input type="checkbox" ng-checked="true" ng-disabled="role.isReadonly" /></td>
+                            <td ng-bind="role.roleName"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="grid-content columns-rightbar" style="max-height: none;">
+                <table class="table hover scroll">
+                    <thead>
+                        <tr>
+                            <th width="1%">
+                                <input type="checkbox" ng-checked="false" ng-click="vm.addAllToAssigned($event)" />
+                            </th>
+                            <th class="text-left">Available Roles</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-model="vm.availableRoles">
+                        <tr class="is-actionable" ng-repeat="role in vm.availableRoles" ng-click="role.isReadonly || vm.addToAssigned(role)">
+                            <td class="text-center"><input type="checkbox" ng-checked="false" ng-disabled="role.isReadonly" /></td>
+                            <td ng-bind="role.roleName"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</script>

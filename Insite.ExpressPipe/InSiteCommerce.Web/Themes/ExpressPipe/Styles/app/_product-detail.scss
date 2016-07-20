@@ -1,0 +1,211 @@
+﻿.product-detail {
+    font-size: 1.2em;
+    
+    hr {
+        margin: $margin-double 0;
+    }
+
+    .name-price {
+        margin-bottom: $margin-double;
+    }
+
+    .item-brand {
+
+    }
+
+    .item-name {
+        margin: 3px 0;
+
+        @media (min-width: $medium-breakpoint){
+            font-size: 1.5em;
+        }
+
+        @media (min-width: $large-breakpoint){
+            font-size: 1.8em;
+        }
+    }
+
+    .item-num {
+        font-size: 0.8em;
+
+        @media (min-width: $medium-breakpoint){
+            font-size: 1em;
+        }
+    }
+
+    .item-cta {
+        @media screen and (max-width: $medium-breakpoint){
+            //padding: 0;
+            //background-color: transparent;
+            //border: 0;
+        }
+    }
+
+    .item-price {
+
+        .price {
+            font-size: 1.2em;
+            font-weight: 600;
+
+            @media #{$medium-up} {
+                font-size: 1em;
+            }
+
+            @media #{$large-up} {
+                font-size: 1.2em;
+            }
+        }
+
+    }
+
+    .add-to-cart {
+        @media screen and (max-width: $medium-breakpoint){
+            margin: $margin-double 0;
+        }
+    }
+
+    .item-qty {
+        label {
+            display: block;
+        }
+
+        @media screen and (max-width: $medium-breakpoint){
+            display: block;
+            float: left;
+            width: 50%;
+            padding-right: $padding-single;
+
+            input[type="number"].qty {
+                width: 100% !important;
+            }
+        }
+    }
+
+    .item-buttons {
+        padding-top: 1.25em;
+        
+        .item-add-to-list {
+            font-size: 0.8em;
+            text-align: right;
+        }
+
+        @media screen and (max-width: $medium-breakpoint){
+            display: block;
+            float: left;
+            width: 50%;
+
+            button {
+                width: 100%;
+            }
+        }
+    }
+
+    .item-availability-option {
+        margin-top: $margin-single;
+        margin-bottom: $margin-single;
+
+        > i {
+            float: left;
+            margin-right: $margin-single/2;
+        }
+        > div {
+            overflow: hidden;
+
+            h6 {
+                margin: 0;
+            }
+
+            > div {
+                font-size: 0.8em;
+            }
+        }
+    }
+
+    .pd-item-link {
+        position: relative;
+        display: block;
+        padding: $padding-double;
+        text-align: center;
+
+        .expand {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            padding: 0 $padding-single/2;
+            background-color: $lightest-gray;
+        }
+        canvas {
+            max-height:100%;
+            max-width:100%;
+        }
+    }
+
+    .attribute-list {
+        display: block;
+        padding-top: 0;
+        font-size: 0.8em;
+        color: $darkest-gray;
+
+        @media #{$small-up} {
+            color: $darkest-gray;
+
+            -moz-column-count: 2;
+            -webkit-column-count: 2;
+            -column-count: 2;
+
+            -moz-column-gap: $margin-double;
+            -webkit-column-gap: $margin-double;
+            -moz-column-gap: $margin-double;
+        }
+
+        .attribute-list-item {
+            
+            > div {
+                background-color: $lightest-blue;
+            }
+
+            &:nth-child(even) {
+                > div {
+                    background-color: #fff;
+                    box-shadow: inset 0 0 0 1px $lightest-blue;
+                }
+            }
+
+            .attrib-name {
+                width: 59%;
+                padding: $padding-single;
+
+                @media #{$small-up} {
+                    width: 39%;
+                }
+            }
+            .attrib-value {
+                width: 39%;
+                padding: $padding-single;
+                font-weight: 400;
+
+                @media #{$small-up} {
+                    width: 59%;
+                }
+            }
+        }
+    }
+
+    .documents {
+        .document {
+            max-width: 100px;
+
+            label {
+                font-size: 0.9rem;
+                line-height: 1.1em;
+            }
+        }
+    }
+
+    .additional-info {
+
+        p {
+            font-weight: 300;
+        }
+    }
+}

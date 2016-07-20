@@ -1,0 +1,21 @@
+﻿@using Insite.Data.Entities;
+
+@model Morsco.Customizations.Lib.Widgets.Categories
+
+<div class="with-images @Model.CssClass">
+    <h2>@T("Products")</h2>
+    <ul>
+        @{
+            foreach (Category category in Model.Cats)
+            {
+                if(category.Name != "Default"){
+                    <li>
+                        <a href="/catalog/@category.UrlSegment">
+                            <span class="img"><img src="@(category.SmallImagePath != "" ? category.SmallImagePath : "/UserFiles/Images/Products/SM_NotFound.jpg")" alt="@category.Name" /></span> <span class="txt">@category.Name</span>
+                        </a>
+                    </li>
+                }
+            }
+        }
+    </ul>
+</div>

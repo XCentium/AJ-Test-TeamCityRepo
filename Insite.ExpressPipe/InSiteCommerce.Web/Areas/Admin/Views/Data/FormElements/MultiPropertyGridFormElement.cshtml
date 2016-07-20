@@ -1,0 +1,91 @@
+﻿@model Insite.Admin.FormBuilder.Elements.MultiPropertyGridFormElement
+
+<isa-multi-property-grid
+    model="entityDetailsCtrl.model"
+    entity-definition="entityDetailsCtrl.entityDefinition"
+    label="@Model.Label"
+    property-definition-names="@Model.PropertyDefinitionNames"
+    @Html.Raw(Model.HtmlTagAttributes)>
+</isa-multi-property-grid>
+
+<script type="text/ng-template" id="MultiPropertyGrid">
+    <div class="form-control">
+        <div class="grid-block vertical multi-property-table-container">
+            <div>
+                <label>{{multiPropertyGridCtrl.label}}</label>
+                <span>
+                    <a class="button button-icon" title="Add Record" ng-click="multiPropertyGridCtrl.addRecord()"><i class="icon icon-plus-solid"></i></a>
+                    <a class="button button-icon" title="Delete Record" ng-disabled="multiPropertyGridCtrl.areNoneSelected()" ng-click="multiPropertyGridCtrl.deleteRecord()"><i class="icon icon-delete"></i></a>
+                </span>
+            </div>
+            <div class="grid-block multi-property-table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="text-center column-select">
+                                <input type="checkbox"
+                                       ng-checked="!multiPropertyGridCtrl.areNoneSelected()"
+                                       ng-click="multiPropertyGridCtrl.areNoneSelected() ? multiPropertyGridCtrl.selectAll() : multiPropertyGridCtrl.unselectAll()" />
+                            </th>
+                            <th ng-repeat="propertyLabel in multiPropertyGridCtrl.propertyLabels">{{propertyLabel}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="propertyValue in multiPropertyGridCtrl.propertyValues" emit-repeat-finished>
+                            <td class="text-center column-select">
+                                <input type="checkbox"
+                                       ng-checked="multiPropertyGridCtrl.isSelected($index)"
+                                       ng-click="multiPropertyGridCtrl.updateSelected($event, $index)" />
+                            </td>
+                            <td ng-repeat="columnValue in propertyValue track by $index">
+                                <input type="text" ng-model="columnValue.value" ng-change="multiPropertyGridCtrl.onColumnChange()" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</script>
+
+<style>
+    .multi-property-table-container, .multi-property-table {
+         border-color: lightgray;
+         border-style: solid;
+         border-collapse: collapse;
+     }
+
+    .multi-property-table-container {
+        border-width: 0 0 1px 0;
+    }
+
+    .multi-property-table-container label {
+        float: left;
+    }
+
+    .multi-property-table-container span {
+        float: right;
+    }
+
+    .multi-property-table-container i {
+        font-size: 1.7rem;
+    }
+
+    .multi-property-table {
+        border-width: 0;
+    }
+
+     .multi-property-table td {
+         height: 38px;
+         padding: 5px;
+     }
+
+    .multi-property-table input[type=text], .multi-property-table input[type=text]:focus, .multi-property-table input[type=text]:hover {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        background: inherit;
+        border: 0;
+    }
+</style>

@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="insite.morsco.emailserviceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ProcessedASPNetUsersLogs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LogId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="LogUTC" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TriggeredSendKeyMaps">
+          <Key>
+            <PropertyRef Name="SendId" />
+          </Key>
+          <Property Name="SendId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EmailType" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CustomerKey" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TriggeredSends">
+          <Key>
+            <PropertyRef Name="SendId" />
+          </Key>
+          <Property Name="SendId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerKey" Type="nvarchar(max)" />
+          <Property Name="Recipient" Type="nvarchar(max)" />
+          <Property Name="Attributes" Type="nvarchar(max)" />
+          <Property Name="CreatedUTC" Type="datetime" Nullable="false" />
+          <Property Name="SentUTC" Type="datetime" />
+        </EntityType>
+        <EntityContainer Name="insitemorscoemailserviceModelStoreContainer">
+          <EntitySet Name="ProcessedASPNetUsersLogs" EntityType="Self.ProcessedASPNetUsersLogs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TriggeredSendKeyMaps" EntityType="Self.TriggeredSendKeyMaps" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TriggeredSends" EntityType="Self.TriggeredSends" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="insite.morsco.emailserviceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ProcessedASPNetUsersLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="LogId" Type="Guid" Nullable="false" />
+          <Property Name="LogUTC" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="TriggeredSendKeyMap">
+          <Key>
+            <PropertyRef Name="SendId" />
+          </Key>
+          <Property Name="SendId" Type="Guid" Nullable="false" />
+          <Property Name="EmailType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CustomerKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TriggeredSend">
+          <Key>
+            <PropertyRef Name="SendId" />
+          </Key>
+          <Property Name="SendId" Type="Guid" Nullable="false" />
+          <Property Name="CustomerKey" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Recipient" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Attributes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedUTC" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SentUTC" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="MorscoEmailServiceDatabase" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ProcessedASPNetUsersLogs" EntityType="Self.ProcessedASPNetUsersLog" />
+          <EntitySet Name="TriggeredSendKeyMaps" EntityType="Self.TriggeredSendKeyMap" />
+          <EntitySet Name="TriggeredSends" EntityType="Self.TriggeredSend" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="insitemorscoemailserviceModelStoreContainer" CdmEntityContainer="MorscoEmailServiceDatabase">
+          <EntitySetMapping Name="ProcessedASPNetUsersLogs">
+            <EntityTypeMapping TypeName="insite.morsco.emailserviceModel.ProcessedASPNetUsersLog">
+              <MappingFragment StoreEntitySet="ProcessedASPNetUsersLogs">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LogId" ColumnName="LogId" />
+                <ScalarProperty Name="LogUTC" ColumnName="LogUTC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TriggeredSendKeyMaps">
+            <EntityTypeMapping TypeName="insite.morsco.emailserviceModel.TriggeredSendKeyMap">
+              <MappingFragment StoreEntitySet="TriggeredSendKeyMaps">
+                <ScalarProperty Name="SendId" ColumnName="SendId" />
+                <ScalarProperty Name="EmailType" ColumnName="EmailType" />
+                <ScalarProperty Name="CustomerKey" ColumnName="CustomerKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TriggeredSends">
+            <EntityTypeMapping TypeName="insite.morsco.emailserviceModel.TriggeredSend">
+              <MappingFragment StoreEntitySet="TriggeredSends">
+                <ScalarProperty Name="SendId" ColumnName="SendId" />
+                <ScalarProperty Name="CustomerKey" ColumnName="CustomerKey" />
+                <ScalarProperty Name="Recipient" ColumnName="Recipient" />
+                <ScalarProperty Name="Attributes" ColumnName="Attributes" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="SentUTC" ColumnName="SentUTC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

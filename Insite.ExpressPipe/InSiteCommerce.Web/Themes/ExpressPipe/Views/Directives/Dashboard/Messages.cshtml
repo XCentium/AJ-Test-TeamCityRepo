@@ -1,0 +1,31 @@
+﻿
+<section class="dash-section">
+    <header class="dash-section-header">
+        <h3>@T("Messages")&nbsp;<span class="msg-count" ng-bind-template="({{vm.unreadCount}})"></span></h3>
+    </header>
+    <div class="dash-section-content no-padding">
+        <ul class="messages" ng-class="{ 'show-read': !vm.showRead }" ng-show="vm.unreadCount + vm.readCount > 0">
+            <li ng-repeat="message in vm.messages" class="message" ng-class="{ 'msg-read': message.isRead, 'expanded': message.isExpand, 'expandable': !vm.isBlank(message.body) }">
+                <div class="message-header row collapse">
+                    <div class="small-7 columns">
+                        <a class="message-title" ng-click="vm.toggleMessage($event)">
+                            <span class="msg-subject" ng-bind="message.subject"></span>
+                        </a>
+                    </div>
+                    <div class="small-5 columns text-right">
+                        <span class="msg-date" ng-bind="message.dateToDisplay | date: 'short'"></span>
+                        <button id="messagesMarkAsReadButton_{{message.id}}" class="button tertiary small msg-button" ng-click="vm.switchMessageStatus($event, message)" type="button"
+                                ng-bind="message.isRead ? '@T("Mark as Unread")' : '@T("Mark as Read")'"></button>
+                    </div>
+                </div>
+                <div id="message{{message.id}}" class="message-body" ng-show="!vm.isBlank(message.body)">
+                    <p ng-bind-html="message.body"></p>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <footer class="dash-section-footer text-right">
+        <button id="messagesHideShowReadButton" ng-show="vm.readCount > 0" ng-click="vm.switchShowRead()" class="button small secondary" ng-bind="vm.showRead ? '@T("Show Read")' : '@T("Hide Read")'"></button>
+    </footer>
+</section>
+ 

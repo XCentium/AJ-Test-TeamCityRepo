@@ -1,0 +1,91 @@
+﻿@*
+    example-usage:
+
+    <isc-cross-sell-carousel
+        product="productDto"
+        product-cross-sell="true">
+    </isc-cross-sell-carousel>
+
+    (no parameters will generate web cross sells)
+*@
+<div>
+    @* wrapping div is used due to a get around a bug in angular 1.3 that prevents you from using ng-if on the root node of a template
+        when the directive has replace = true. https://github.com/angular/angular.js/issues/9837 *@
+    <div class="row" role="cross-sells" ng-if="vm.showCrossSellCarousel()" ng-cloak>
+        <div class="medium-12 large-12 columns">
+            <div class="carousel-wrapper">
+                <div class="cs-carousel">
+
+                    <ul class="items">
+                        <li class="medium-3 large-3 columns isc-productContainer" ng-repeat="crossSellProduct in vm.crossSellProducts">
+                            <div class="item-wrap">
+
+                                <div class="carousel-item-equalize">
+                                    <div class="thumb-wrap">
+                                        <div class="item-thumb">
+                                            <a id="{{'crossSellCarouselProductDetailImageLink_' + crossSellProduct.id}}" ng-href="{{crossSellProduct.productDetailUrl}}">
+                                                <img ng-src="{{crossSellProduct.mediumImagePath}}" alt="{{crossSellProduct.altText}}" carouselimageonload/>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="item-name">
+                                        <a id="{{'crossSellCarouselProductDetailLink_' +crossSellProduct.id}}" ng-href="{{crossSellProduct.productDetailUrl}}">{{crossSellProduct.shortDescription}}</a>
+                                    </div>
+
+                                    <div class="item-num">
+                                        <span class="item-num-sku">{{crossSellProduct.erpNumber}}</span>
+                                        <span class="item-num-mfg" ng-if="!!crossSellProduct.manufacturerItem">@("MFG #"): {{crossSellProduct.manufacturerItem}}</span>
+                                        <span class="item-num-my" ng-if="!!crossSellProduct.customerName">@T("My Part #"): {{crossSellProduct.customerName}}</span>
+                                    </div>
+
+                                    <div class="price">
+                                        <isc-product-price product="crossSellProduct" id-key="" ng-if="crossSellProduct.canShowPrice"></isc-product-price>
+                                        <span class="um displayUnitOfMeasure" ng-if="vm.showUnitOfMeasure(crossSellProduct)">/ <span class="isc-uomDisplay">{{crossSellProduct.unitOfMeasureDisplay}}</span></span>
+
+                                        <div ng-if="vm.showQuantityBreakPricing(crossSellProduct)">
+                                            <isc-quantity-break-pricing product-id="crossSellProduct.id" block="crossSell" break-prices="crossSellProduct.pricing.actualBreakPrices"></isc-quantity-break-pricing>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="actions-panel">
+                                    <a id="crossSellCarouselAddToCartBottomButton_{{crossSellProduct.id}}" class="btn primary add-to-cart panel-trigger" href="javascript:void(0);" ng-if="crossSellProduct.canAddToCart">@T("Order_Verb")</a>
+                                    <a id="crossSellCarouselViewDetailsBottomButton_{{crossSellProduct.id}}" class="btn primary btn-view-details" ng-href="{{crossSellProduct.productDetailUrl}}" ng-if="!crossSellProduct.canAddToCart">@T("View Details")</a>
+
+                                    <div class="item-actions">
+                                        <div class="item-actions-wrap">
+
+                                            <div class="um-pack" ng-if="crossSellProduct.canShowUnitOfMeasure">
+                                                <div class="um">
+                                                    <label ng-if="vm.showUnitOfMeasure(crossSellProduct)">@T("U/M"):</label>
+                                                    <isc-unit-of-measure-select-list product="crossSellProduct" alternate-units-of-measure="{{vm.productSettings.alternateUnitsOfMeasure}}" display-pack="true" change-unit-of-measure="vm.changeUnitOfMeasure(crossSellProduct)"></isc-unit-of-measure-select-list>
+                                                </div>
+                                            </div>
+
+                                            <div class="item-qty" ng-if="crossSellProduct.canAddToCart">
+                                                <label>@T("QTY_quantity"):</label>
+                                                <input id="crossSellCarouselQuantityOrdered_{{crossSellProduct.id}}" type="text" ng-model="crossSellProduct.qtyOrdered" ng-init="crossSellProduct.qtyOrdered = 1" class="qty numerictextbox" />
+                                            </div>
+
+                                            <div class="action">
+                                                <button id="crossSellCarouselAddToCartActionButton_{{crossSellProduct.id}}" class="btn primary btn-add-cart" ng-click="vm.addToCart(crossSellProduct)" ng-if="crossSellProduct.canAddToCart" ng-disabled="!crossSellProduct.qtyOrdered || crossSellProduct.qtyOrdered == 0">@T("Add to Cart")</button>
+                                                <a id="crossSellCarouselAddToWishlistActionButton_{{crossSellProduct.id}}" href="javascript:void(0);" class="btn secondary btn-add-list isc-addToWishlistPopup" ng-click="vm.openWishListPopup(crossSellProduct)" ng-if="crossSellProduct.canAddToWishlist">@T("Add to Wishlist")</a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <a id="crossSellCarouselPrevProduct" href="#" class="carousel-control-prev" data-jcarouselcontrol="true"><span></span></a>
+                <a id="crossSellCarouselNextProduct" href="#" class="carousel-control-next" data-jcarouselcontrol="true"><span></span></a>
+            </div>
+
+        </div>
+    </div>
+</div>

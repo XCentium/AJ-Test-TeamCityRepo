@@ -1,0 +1,15 @@
+﻿@using Insite.Cart.Content
+@using Insite.WebFramework.Mvc.Extensions
+
+<div id="rfqPopupCartNotification" class="reveal-modal popup-cart-notification" data-reveal data-reveal-init>
+    <div class="modal-wrap">
+        <p class="messaging">
+            @Html.Message("Rfq_CartNotificationMessage", "Items in your cart will not be added to your quote order. You will be able to continue shopping and purchase these items after accepting your quote.")
+        </p>
+        <div class="btns">
+            <button id="popupCartNotificationContinueButton" ng-click="acceptCheckout('@(Url.ContentPage<CheckoutAddressPage>())?id={{quote.id}}')" class="btn primary btn-continue" type="button">@T("Continue")</button>
+            <button id="popupCartNotificationCancelButton" ng-click="closeModal('#rfqPopupCartNotification')" class="btn tertiary btn-cancel" type="button">@T("Cancel")</button>
+        </div>
+        <a id="popupCartNotificationCloseButton" class="close-reveal-modal">&#215;</a>
+    </div>
+</div>

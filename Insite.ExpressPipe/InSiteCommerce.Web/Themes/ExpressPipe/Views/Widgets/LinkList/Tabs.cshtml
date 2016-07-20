@@ -1,0 +1,13 @@
+﻿@model LinkList
+<div class="widget-linklist clearfix @(Model.Direction == "Horizontal" ? "list-horizontal" : "list-vertical")">
+    <ul class="tabs">
+        @foreach (var pageKey in Model.Pages)
+        {
+            var getPageResult = Content.GetPage<AbstractPage>(pageKey);
+            if (getPageResult.Page != null && !getPageResult.Page.IsRetracted && getPageResult.DisplayLink)
+            {
+                <li class="tab-title@(Request.Url.AbsolutePath.ToLower() == GenerateUrl(getPageResult.Page).ToLower() ? " active" : "")"><a class="cms-linklist-linkitem" href="@GenerateUrl(getPageResult.Page)">@getPageResult.Page.Title</a></li>
+            }
+        }
+    </ul>
+</div>

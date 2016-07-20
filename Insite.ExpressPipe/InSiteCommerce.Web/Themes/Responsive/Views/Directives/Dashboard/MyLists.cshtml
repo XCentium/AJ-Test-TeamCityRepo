@@ -1,0 +1,9 @@
+﻿@using Insite.WishLists.Content
+<ul class="user-lists">
+    <li class="ul-head">
+        <h3>@T("My Lists")</h3>
+    </li>
+    <li class="ul-orders" ng-repeat="wishlist in vm.wishListCollection">
+        <a id="myListsLink_{{$index}}" href="@(Url.ContentPage<WishListPage>())?wishListId={{wishlist.id}}">{{wishlist.name}}</a>
+    </li>
+</ul>

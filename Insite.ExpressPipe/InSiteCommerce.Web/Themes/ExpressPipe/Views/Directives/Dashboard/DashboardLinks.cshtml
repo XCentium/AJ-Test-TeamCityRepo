@@ -1,0 +1,70 @@
+﻿@using Insite.Core.Context
+
+<div>
+    <div class="row dashboard">
+        <div class="small-12 columns left dash-tiles">
+            <ul class="xsmall-block-grid-2 large-block-grid-4 tiles">
+                @*
+                <li ng-repeat="panel in vm.panels" class="tile">
+                    <a id="dashboardLinksPanelLink_{{$index}}" href="{{panel.url}}" class="tile">
+                        <i class="fa fa-lg vm.getCssClass(panel.panelType)"></i>
+                        <span>{{panel.text}}</span>
+                    </a>
+                    <span class="db-counter" ng-bind="panel.count"></span>
+                </li>
+                *@
+                <li class="tile">
+                    <a id="dashboardLinksPanelLink_4" href="/MyAccount/Rfq/MyQuotes" class="">
+                        <i class="fa fa-lg fa-edit"></i>
+                        <span>Quotes</span>
+                    </a>
+                </li>
+                <li class="tile">
+                    <a id="dashboardLinksPanelLink_0" href="/MyAccount/Orders" class="">
+                        <i class="fa fa-lg fa-pencil"></i>
+                        <span>Orders</span>
+                    </a>
+                </li>
+				@{
+                    var hasRole = SiteContext.Current.IsUserInRole("Buyer2");
+                    if (!hasRole)
+                    {
+						<li class="tile">
+							<a id="dashboardLinksPanelLink_0" href="/MyAccount/Invoices" class="">
+								<i class="fa fa-lg fa-file-text-o"></i>
+								<span>Invoices</span>
+							</a>
+						</li>
+					}
+				}
+                <li class="tile">
+                    <a id="dashboardLinksPanelLink_1" href="/MyAccount/PurchasedProducts" class="">
+                        <i class="fa fa-lg fa-cube"></i>
+                        <span>Purchased Products</span>
+                    </a>
+                </li>
+                <li class="tile">
+                    <a id="dashboardLinksPanelLink_2" href="MyAccount/SavedCarts" class="">
+                        <i class="fa fa-lg fa-cart-plus"></i>
+                        <span>Saved Carts</span>
+                    </a>
+                </li>
+                <li class="tile">
+                    <a id="dashboardLinksPanelLink_3" href="/MyAccount/MyLists" class="">
+                        <i class="fa fa-lg fa-list"></i>
+                        <span>My Lists</span>
+                    </a>
+                </li>
+                <li class="tile">
+                    <a id="dashboardLinksPanelLink_2" href="/Cart" class="">
+                        <i class="fa fa-lg fa-shopping-cart"></i>
+                        <span>Cart</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+

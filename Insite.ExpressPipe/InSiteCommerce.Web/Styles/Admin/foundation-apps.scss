@@ -1,0 +1,14 @@
+﻿@charset "UTF-8";
+
+//Settings
+@import "settings.scss"
+, "foundation-apps-settings";
+
+
+@import "../../Scripts/Libraries/foundation-apps/1.2.0/scss/foundation";
+
+
+//Fix Foundation's menu group breaking in IE11+
+.menu-bar > li > a, .menu-bar.horizontal > li > a { 
+    flex: 1 0 auto;
+}

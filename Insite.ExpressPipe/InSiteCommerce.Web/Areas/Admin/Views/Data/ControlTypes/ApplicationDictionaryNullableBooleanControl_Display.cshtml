@@ -1,0 +1,3 @@
+﻿@model Insite.Admin.Models.ControlTypeViewModel<Insite.Admin.ControlTypes.ApplicationDictionaryNullableBooleanControl>
+
+{{@Model.ListPageModelBinding == true  ? '@Model.ControlType.GetTrueLabel()' : (@Model.ListPageModelBinding == false ? '@Model.ControlType.GetFalseLabel()' : '@Model.ControlType.NullLabel')}}

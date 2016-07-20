@@ -1,0 +1,108 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+﻿<div ng-show="vm.ready">
+
+    <isc-breadcrumb ng-show="vm.product" breadcrumbs="vm.breadCrumbs"></isc-breadcrumb>
+
+    <div class="back-btn hide">
+        <a class="btn tertiary btn-return" href="javascript:void(0);" ng-click="vm.goBack()"> @T("Return to previous page")</a>
+    </div>
+
+    <div ng-if="vm.productsToCompare.length == 0">
+        <span>@Html.Message("ProductCompare_NoProducts", "There are no products to compare")</span>
+    </div>
+
+    <div class="row" ng-if="vm.productsToCompare && vm.productsToCompare.length > 0">
+        
+        <div class="medium-6 columns">
+            <h1>@T("Product Comparison")</h1>
+        </div>
+
+        <div class="medium-6 columns text-right">
+            <button class="button" id="removeAllCompareProducts" ng-click="vm.removeAllComparedProducts()">@T("Remove All Items")</button>
+        </div>
+    </div>
+
+    <hr style="margin: 0;" />
+
+    <div role="compare-grid" ng-if="vm.productsToCompare && vm.productsToCompare.length > 0">
+        <div class="carousel-wrapper">
+
+            @* product carousel without attributes *@
+            <morsco-compare-products-carousel ng-cloak add-to-cart="vm.addToCart(product)" remove-compared-product="vm.removeComparedProduct(productId)"
+                                           products-to-compare="vm.productsToCompare" open-wish-list-popup="vm.openWishListPopup(product)"
+                                           product-settings="vm.productSettings" warehouses="vm.warehouses">
+            </morsco-compare-products-carousel>
+            <isc-morsco-availability-popup> </isc-morsco-availability-popup>
+
+            <div class="pc-attr-container hide-for-small isc-large-attr-container" id="docContainer">
+                <ul class="pc-attr-list">
+                    <li class="pc-attr">
+                        <span>Documents</span>
+                        <div class="pc-attr-carousel-container isc-carousel">
+                            <ul class="pc-attr-carousel items">
+								<li class="pc-value columns doc-{{$index}}" ng-repeat="product in vm.productsToCompare">
+									<span class="documents"><a target="_blank" ng-repeat="document in product.documents" id="productDetailViewDocumentLink_{{$index}}" href="{{document.fileUrl}}" title="{{document.documentType}}" ><i class="epicon epicon-{{document.documentType}}"></i><em class="hide">({{document.fileTypeString}})</em></a></span>
+								</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            @* large view only - lower part of carousel shows attribute values *@
+            <div class="pc-attr-container hide-for-small isc-large-attr-container">
+                <ul class="pc-attr-list">
+                    <li class="pc-attr" ng-repeat="attributeType in vm.relevantAttributeTypes">
+                        <span>{{attributeType.label}}</span>
+                        <div class="pc-attr-carousel-container isc-carousel">
+                            <ul class="pc-attr-carousel items">
+                                <li class="pc-value columns" ng-repeat="product in vm.productsToCompare">
+                                    <span ng-bind="vm.getAttributeValuesForProduct(product, attributeType.id).join(', ')" data-productid="{{product.id}}"></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            @* small view only - show expanding list of attributes and products with no carousel *@
+            <div class="pc-attr-container hide isc-small-attr-container">
+                <h3>@T("Select by Attribute")</h3>
+
+                <ul class="pc-attr-list">
+
+                    <li class="pc-attr" ng-repeat="attributeType in vm.relevantAttributeTypes">
+                        <span>{{attributeType.label}}</span>
+                        <div class="pc-attr-carousel-container">
+                            <ul class="pc-attr-carousel">
+                                <li class="pc-value columns" ng-repeat="productAttributeValue in vm.getUniqueAttributeTypeValuesForAllProducts(attributeType.id)">
+                                    <span>{{productAttributeValue}}</span>
+                                    <ul class="item-list">
+                                        <li class="row item-block" ng-repeat="product in vm.getProductsThatContainAttributeTypeIdAndAttributeValue(attributeType.id, productAttributeValue)">
+                                            <div class="item-details" data-productid="{{product.id}}">
+                                                <div class="item-name">
+                                                    <a href="#">{{product.shortDescription}}</a>
+                                                </div>
+                                                <div class="item-num">
+                                                    <span class="item-num-sku">{{product.name}}</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <a href="#" class="carousel-control-prev" data-jcarouselcontrol="true">
+                <i class="fa fa-lg fa-angle-left"></i>
+            </a>
+            <a href="#" class="carousel-control-next" data-jcarouselcontrol="true">
+                <i class="fa fa-lg fa-angle-right"></i>
+            </a>
+        </div>
+    </div>
+    
+    <isc-morsco-availability-shipping-tax-content></isc-morsco-availability-shipping-tax-content>
+</div>

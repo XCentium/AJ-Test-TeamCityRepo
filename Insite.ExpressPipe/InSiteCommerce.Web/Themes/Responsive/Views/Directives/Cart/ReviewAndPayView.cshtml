@@ -1,0 +1,82 @@
+﻿@using Insite.Account.Content
+@using Insite.Cart.Content
+@using Insite.OrderApproval.Content
+
+<div class="large-12 columns">
+    <div class="checkout-head">
+        <h1>@T("Checkout")</h1>
+        <div class="checkout-crumbs">
+            <div>
+                <span>
+                    <a id="reviewAndPayViewBillingAndShippingButton" ng-href="@(Url.ContentPage<CheckoutAddressPage>()){{vm.cartIdParam}}">@T("Billing & Shipping")</a>
+                </span>
+            </div>            
+            <div class="crumb-sep">&gt;</div>
+            <div class="crumb-current">@T("Payment")</div>
+            <div class="crumb-sep">&gt;</div>
+            <div>@T("Confirmation")</div>
+        </div>
+    </div>
+
+    <div class="cm" ng-include="'reviewAndPay_topContent'"></div>
+
+    <form id="reviewAndPayForm">
+        <input name="OrderId" type="hidden" ng-bind="vm.cart.id" />
+        <input name="ispaypal" type="hidden" ng-bind="vm.cart.paymentOptions.isPayPal" />
+        <input name="paypaltoken" type="hidden" ng-bind="vm.cart.paymentOptions.payPalToken" />
+        <input name="paypalpayerid" type="hidden" ng-bind="vm.cart.paymentOptions.payPalPayerId" />            
+        <div class="section-container" data-section data-section-resized="true" style="min-height: 0px;">
+            <section class="bill-ship active">
+                <h3>@T("Billing & Shipping")</h3>
+                <div>
+                    <div class="row order-bill-ship">
+                        <div class="large-4 columns bill-info">
+                            <div class="oc-head">
+                                <h4>@T("Billing Information")</h4>
+                                <span>
+                                    <a id="reviewAndPayViewEditBillingInfoButton" ng-href="@(Url.ContentPage<CheckoutAddressPage>()){{vm.cartIdParam}}" class="edit">
+                                        @T("Edit")
+                                    </a>
+                                </span>
+                            </div>
+                            <isc-address-display prefix="bt" address="vm.cart.billTo" show-email="true"></isc-address-display>
+                        </div>
+                        <div class="large-4 columns ship-info">
+                            <div class="oc-head">
+                                <h4>@T("Shipping Information")</h4>
+                                <span>
+                                    <a id="reviewAndPayViewAddressEditButton" ng-href="@(Url.ContentPage<CheckoutAddressPage>()){{vm.cartIdParam}}" class="edit">@T("Edit")</a>
+                                </span>
+                            </div>
+                            <isc-address-display prefix="st" address="vm.cart.shipTo" show-email="false"></isc-address-display>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="ship-method">
+                <isc-shipping-selector cart="vm.cart" shipping-method-change="vm.updateShipVia()" change-carrier="vm.updateCarrier()"></isc-shipping-selector>
+            </section>
+            <section class="payment-details" ng-hide="vm.cart.requiresApproval">
+                <isc-payment-selector cart="vm.cart" cart-id="vm.cartId" apply-promotion-callback="vm.get()" submit-paypal="vm.submitPaypal(returnUrl, signInUrl)"></isc-payment-selector>
+            </section>
+            <section class="order-summary">
+                <h3>@T("Order Summary")</h3>
+
+                <div>
+                    <div class="row order-details">
+                        <isc-cart-lines cart="vm.cart" include-quote-required="vm.cart.status !== 'Cart'" class="large-12 columns item-list cart-items print-no-float print-overflow-visible"></isc-cart-lines>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="order-summary-2">
+            <isc-cart-total-display cart="vm.cart" promotions="vm.promotions"></isc-cart-total-display>
+            <div class="btns">
+                <a id="reviewAndPayViewSubmitForApprovalButton" href="" class="btn primary btn-submit-for-approval" ng-show="vm.cart.requiresApproval && !vm.submitting" ng-click="vm.submit('@(Url.ContentPage<OrderApprovalDetailPage>())')">@T("Submit for approval")</a>
+                <a id="reviewAndPayViewPlaceOrderButton" href="" class="btn primary btn-place-order" ng-hide="vm.cart.requiresApproval || vm.submitting" ng-click="vm.submit('@(Url.ContentPage<Insite.Cart.Content.OrderConfirmationPage>())', '@(Url.ContentPage<SignInPage>())')">@T("Place Order")</a>
+                <div style="color: red;" ng-bind="vm.submitErrorMessage"></div>
+            </div>
+        </div>
+        <isc-spinner name="checkoutPage" show="true"></isc-spinner>
+    </form>
+</div>

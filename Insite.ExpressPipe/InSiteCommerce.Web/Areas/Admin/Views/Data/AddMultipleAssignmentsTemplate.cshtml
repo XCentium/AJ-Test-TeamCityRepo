@@ -1,0 +1,22 @@
+﻿@using Insite.Admin.Models
+@model AssignmentsViewModel
+
+<script type="text/ng-template" id="addMultipleAssignments-@Model.CollectionName">
+    <div ng-if="entityListCtrl.displayList">
+        @Html.Partial("EntityList", new EntityListModel
+   {
+       EntitiesViewModel = Model,
+       Buttons =@<text>
+            <span class="right">
+                <a class="button secondary" ng-click="entityListCtrl.close()">Done</a>
+                <span ng-if="entityListCtrl.areNoneChanged()">
+                    <a class="button" disabled>Assign</a>
+                </span>
+                <span ng-if="!entityListCtrl.areNoneChanged()">
+                    <a class="button" ng-click="entityListCtrl.assignSelected()">Assign</a>
+                </span>
+            </span>
+    </text>
+   })
+    </div>
+</script>

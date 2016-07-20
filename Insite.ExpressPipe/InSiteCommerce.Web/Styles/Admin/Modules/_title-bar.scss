@@ -1,0 +1,71 @@
+﻿.title-bar {
+    background-color: $white;
+    border-bottom: 1px solid $border-gray;
+    padding: .75rem 1.5rem;
+
+    &.modal {
+        background-color: $type !important;
+        color: $type-light !important;
+
+        &.whitebg {
+            background-color: $white !important;
+        }
+    }
+
+    .title {
+        font-weight: 600;
+        margin: 0;
+        overflow: hidden;
+
+        .title__label {
+            display: inline-block;
+            max-width: 80%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            vertical-align: middle;
+        }
+    }
+
+    .button {
+        margin-bottom: 0;
+        margin-right: 1rem;
+    }
+
+    .datetime {
+        font-weight: normal;
+        padding-left: 10px;
+    }
+
+    span.left {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    span.right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .button-icon .icon {
+        font-size: 1.7rem;
+    }
+
+    .instructions {
+        font-style: italic;
+    }
+}
+
+.title-bar.jobslist {
+    .title {
+        font-weight: 400;
+    }
+
+    .activejobs {
+        font-size: 17px;
+        color: $brand;
+        margin-right: 20px;
+        font-weight: 600;
+    }
+}

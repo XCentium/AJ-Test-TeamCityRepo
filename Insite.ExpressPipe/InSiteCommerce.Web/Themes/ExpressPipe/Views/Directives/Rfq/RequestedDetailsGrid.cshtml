@@ -1,0 +1,121 @@
+﻿
+<div>
+    <div class="cart-grid">
+        <ul class="item-list cart-items">
+            <li class="item-block item-header checkout-item row collapse hide-for-small-down">
+                <div class="small-6 columns col-description">
+                    @T("Description")
+                </div>
+                <div class="small-2 columns col-availability">
+                    @T("Availability")
+                </div>
+                <div class="small-1 columns col-price">
+                    @T("Price")
+                </div>
+                <div class="small-1 columns col-qty">
+                    @T("Qty")
+                </div>
+				<div class="small-2 end columns col-total">
+					@T("Total")
+				</div>
+            </li>
+            <li ng-repeat="quoteLine in quote.quoteLineCollection">
+
+                <div class="item-block checkout-item">
+
+                    <div class="row collapse">
+						@*ng-if="quoteLine.isEditable"*@
+						<a class="remove"  ng-click="vm.removeLine(quoteLine)">
+							<i class="fa fa-lg fa-remove"></i>
+						</a>
+
+                        <div class="col-thumb xsmall-3 medium-1 columns">
+                            <isc-product-thumb product="quoteLine"></isc-product-thumb>
+                        </div>
+
+                        <div class="col-description xsmall-9 medium-5 columns">
+                            <div class="item-brand" ng-if="quoteLine.properties['productType'] == 'catalog'">
+                                <span ng-bind="quoteLine.properties['manufacturerName']"></span>
+                            </div>
+                            <div class="item-brand" ng-if="quoteLine.properties['productType'] != 'catalog'">
+                                <span>@T("Custom Special Order")</span>
+                            </div>
+
+                            <div class="item-name" ng-if="quoteLine.properties['productType'] == 'catalog'">
+                                <a id="requestedDetailsGridShortDescriptionLink_{{quoteLine.id}}" ng-href="{{quoteLine.productUri}}">
+                                    <span ng-bind="quoteLine.shortDescription"></span>
+                                    <span ng-if="!quoteLine.isFixedConfiguration" ng-repeat="sectionOption in quoteLine.sectionOptions">
+                                        <br /><span ng-bind="sectionOption.sectionName + ':' + sectionOption.optionName"></span>
+                                    </span>
+                                </a>
+                            </div>
+
+                            <div class="item-name" ng-if="quoteLine.properties['productType'] != 'catalog'">
+                                <span ng-bind="quoteLine.properties.sopDescription"></span>
+                            </div>
+
+                            <isc-product-name product="quoteLine" no-link="true"></isc-product-name>
+
+                            <div class="item-notes" ng-if="quote.showLineNotes && quoteLine.notes.length > 0">
+                                <strong>@T("Item Notes"):</strong>
+                                <span ng-bind="quoteLine.notes"></span>
+                            </div>
+
+                            <div class="cost-code" ng-if="quote.showCostCode && quoteLine.costCode.length > 0">
+                                <strong><span ng-bind="quote.costCodeLabel"></span>:</strong>
+                                <span ng-bind="quoteLine.costCode"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-availability xsmall-3 medium-2 columns">
+                            <div class="availability" ng-if="quoteLine.properties['productType'] == 'catalog'">
+                                <div ng-bind="quoteLine.properties['qtyonhand']"></div>
+                                <morsco-cart-availability-message availability="quoteLine.availability" warehouses="warehouses" itemline="quoteLine">
+                                </morsco-cart-availability-message>
+                                @*<isc-morsco-availability-message availability="quoteLine.availability"></isc-morsco-availability-message>*@
+                            </div>
+                            <div class="availability" ng-if="quoteLine.properties['productType'] != 'catalog'">&nbsp;</div>
+                        </div>
+
+                        <div class="col-price xsmall-3 medium-1 columns">
+                            <isc-product-price product="quoteLine"></isc-product-price>
+                            <isc-unit-of-measure-display product="quoteLine"></isc-unit-of-measure-display>
+                            <div class="quantity-pricing">
+                                <isc-quantity-break-pricing product-id="quoteLine.id" break-prices="quoteLine.breakPrices"></isc-quantity-break-pricing>
+                            </div>
+                        </div>
+
+                        <div class="col-qty xsmall-3 medium-1 columns">
+							<span ng-if="!quoteLine.isEditable">
+								<span ng-bind="quoteLine.qtyOrdered"></span>
+							</span>
+							<span ng-if="quoteLine.isEditable">
+								<input type="number" class="numerictextbox qty txt" min="1" ng-model="quoteLine.qtyOrdered" ng-disabled="true" />
+							</span>
+                        </div>
+
+                        <div class="col-total xsmall-3 medium-2 columns">
+                            <span ng-bind="quoteLine.pricing.actualPriceDisplay"></span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </li>
+
+        </ul>
+    </div>
+    <div class="order-subtotal-grid">
+        <div class="row">
+            <div class="small-5 small-offset-7 end columns text-right">
+                @T("Subtotal")<ng-pluralize count="quote.totalCountDisplay"
+                                            when="{'0': 'No items',
+                      'one': '(1 item)',
+                      'other': '({} items)'}">
+                </ng-pluralize>:
+                <span id="totalPrice" ng-bind="quote.orderSubTotalDisplay"></span>
+            </div>
+        </div>
+    </div>
+</div>

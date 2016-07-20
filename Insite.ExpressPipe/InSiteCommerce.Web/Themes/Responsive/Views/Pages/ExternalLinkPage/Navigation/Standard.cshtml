@@ -1,0 +1,34 @@
+﻿@model ExternalLinkPage
+@helper Nav(AbstractPage navigationItem)
+{
+    var subItems = Content.GetChildPages<ContentPage>(navigationItem.ContentKey).Where(o => !o.ExcludeFromNavigation).OrderBy(x => x.SortOrder).ToList();
+    var hasSubItems = subItems.Any();
+
+    if (!hasSubItems)
+    {
+        <li>
+            <a href="@GenerateUrl(navigationItem)">@navigationItem.Title</a>
+        </li>
+    }
+    else
+    {
+        <li>
+            <span class="nav-item-container">
+                <a href="@GenerateUrl(navigationItem)">@navigationItem.Title</a>
+                <label for="nav-@navigationItem.ContentKey" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">&#9658;</label>
+            </span>
+            <input type="checkbox" name="nav" id="nav-@navigationItem.ContentKey" class="subnav-check" />
+            <ul id="sub-@navigationItem.ContentKey" class="subnav sub-tier-panel">
+                <li class="sub-heading">@navigationItem.Title</li>
+                @foreach (var subItem in subItems)
+                {
+                    @Nav(subItem)
+                }
+            </ul>
+        </li>
+    }
+}
+
+<li>
+    @Nav(Model)
+</li>

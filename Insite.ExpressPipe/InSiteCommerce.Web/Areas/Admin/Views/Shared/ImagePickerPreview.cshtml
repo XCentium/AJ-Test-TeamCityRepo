@@ -1,0 +1,11 @@
+﻿<div class="modal-overlay modal--medium" zf-modal zf-closable="modal" id="imagePickerPreview">
+    <div ng-controller="ImagePickerPreviewController as vm" ng-clock>
+        <div class="modal-header">
+            <h4 class="modal-title">{{vm.getFileName()}}</h4>
+            <a zf-close="" class="close-button"><i class="icon icon-close"></i></a>
+        </div>
+        <div class="modal-content">
+            <center><img src="@Url.Content("/UserFiles/Images/Products/LG_NotFound.jpg")" ng-src="{{vm.path}}" alt="" /></center>
+        </div>
+    </div>
+</div>

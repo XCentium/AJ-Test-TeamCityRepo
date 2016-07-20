@@ -1,0 +1,113 @@
+﻿.border-radius(@radius: 2px) {
+	-webkit-border-radius: @radius; -moz-border-radius: @radius; border-radius: @radius;
+}
+.border-radius-full(@topright: 0, @bottomright: 0, @bottomleft: 0, @topleft: 0) {
+	-webkit-border-top-right-radius: @topright; -webkit-border-bottom-right-radius: @bottomright; -webkit-border-bottom-left-radius: @bottomleft; -webkit-border-top-left-radius: @topleft; -moz-border-radius-topright: @topright; -moz-border-radius-bottomright: @bottomright; -moz-border-radius-bottomleft: @bottomleft; -moz-border-radius-topleft: @topleft; border-top-right-radius: @topright; border-bottom-right-radius: @bottomright; border-bottom-left-radius: @bottomleft; border-top-left-radius: @topleft;
+}
+.bordered(@top-color: #EEE, @right-color: #EEE, @bottom-color: #EEE, @left-color: #EEE) {
+	border-top: solid 1px @top-color; border-left: solid 1px @left-color; border-right: solid 1px @right-color; border-bottom: solid 1px @bottom-color;
+}
+.box-shadow(@arguments) {
+	-webkit-box-shadow: @arguments; -moz-box-shadow: @arguments; box-shadow: @arguments;
+}
+.box-sizing(@arguments) {
+	-webkit-box-sizing: @arguments; -moz-box-sizing: @arguments; box-sizing: @arguments;
+}
+.bw-gradient(@color: #F5F5F5, @start: 0, @stop: 255) {
+	background: @color; background: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgb(@start,@start,@start)), color-stop(1, rgb(@stop,@stop,@stop))); background: -moz-linear-gradient(center bottom, rgb(@start,@start,@start) 0%, rgb(@stop,@stop,@stop) 100%);
+}
+.columns(@colwidth: 250px, @colcount: 0, @colgap: 50px, @columnRuleColor: #EEE, @columnRuleStyle: solid, @columnRuleWidth: 1px) {
+	-moz-column-width: @colwidth; -moz-column-count: @colcount; -moz-column-gap: @colgap; -moz-column-rule-color: @columnRuleColor; -moz-column-rule-style: @columnRuleStyle; -moz-column-rule-width: @columnRuleWidth; -webkit-column-width: @colwidth; -webkit-column-count: @colcount; -webkit-column-gap: @colgap; -webkit-column-rule-color: @columnRuleColor; -webkit-column-rule-style: @columnRuleStyle; -webkit-column-rule-width: @columnRuleWidth; column-width: @colwidth; column-count: @colcount; column-gap: @colgap; column-rule-color: @columnRuleColor; column-rule-style: @columnRuleStyle; column-rule-width: @columnRuleWidth;
+}
+.drop-shadow(@x-axis: 0, @y-axis: 1px, @blur: 2px, @alpha: 0.1) {
+	-webkit-box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha); -moz-box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha); box-shadow: @x-axis @y-axis @blur rgba(0, 0, 0, @alpha);
+}
+.gradient(@color: #F5F5F5, @start: #EEE, @stop: #FFF) {
+	background: @color; background: -webkit-gradient(linear,left bottom, left top, @start, @stop); background: -moz-linear-gradient(center bottom, @start 0%, @stop 100%);
+}
+.inner-shadow(@horizontal:0, @vertical:1px, @blur:2px, @alpha: 0.4) {
+  -webkit-box-shadow: inset @horizontal @vertical @blur rgba(0, 0, 0, @alpha); -moz-box-shadow: inset @horizontal @vertical @blur rgba(0, 0, 0, @alpha); box-shadow: inset @horizontal @vertical @blur rgba(0, 0, 0, @alpha);
+}
+.opacity(@opacity: 0.5) {
+	-moz-opacity: @opacity; -khtml-opacity: @opacity; -webkit-opacity: @opacity; opacity: @opacity;
+}
+.scale(@ratio:1.5){
+	-webkit-transform:scale(@ratio); -moz-transform:scale(@ratio); transform:scale(@ratio);
+}
+.rotation(@deg:5deg){ 
+  -webkit-transform: rotate(@deg); -moz-transform: rotate(@deg); transform: rotate(@deg);
+}
+.transform(@arguments) { 
+	-moz-transform: @arguments; -webkit-transform: @arguments; -o-transform: @arguments; -ms-transform: @arguments; transform: @arguments;
+}
+.transition(@arguments) {
+  -webkit-transition: @arguments; -moz-transition: @arguments; transition: @arguments;
+}
+.transition(@arguments, @moreArguments) {
+  -webkit-transition: @arguments, @moreArguments; -moz-transition: @arguments, @moreArguments; transition: @arguments, @moreArguments;
+}
+.transition-duration(@duration: 0.2s) {
+	-moz-transition-duration: @duration; -webkit-transition-duration: @duration; transition-duration: @duration;
+}
+
+/* clearfix */
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { zoom: 1; }
+
+#pageOverlay, #simplemodal-overlay { position: absolute; z-index: 1001; zoom: 1; top: 0; left: 0; background-color: #888; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=20)" !important; filter: alpha(opacity=60) !important; opacity: 0.6; }
+#loading { position: absolute; z-index: 1002; width:200px; height: 80px; background-color: #f2f2f2; font-size: 12px; color: #313131; border: solid #cccccc 1px; padding: 10px; text-align: center; .border-radius(5px); .box-shadow(0px 0px 2px 1px rgba(0, 0, 0, 0.5)); }
+#loading img { display: block; margin: 0 auto 10px; width: 32px; height: 32px; }
+
+@font-face {
+	font-family: 'IcoMoon';
+	src: url('fonts/IcoMoon.eot');
+	src: url('fonts/IcoMoon.eot?#iefix') format('embedded-opentype'),
+		url('fonts/IcoMoon.woff') format('woff'),
+		url('fonts/IcoMoon.ttf') format('truetype'),
+		url('fonts/IcoMoon.svg#IcoMoon') format('svg');
+	font-weight: normal; font-style: normal; }
+
+.icon { font-family: 'IcoMoon'; font-weight: normal; text-transform: none; }
+.icon:hover { text-decoration: none; }
+
+.ui-sortable-placeholder { background-color: pink; height: 20px; }
+
+//TODO CMS 3.7.0 this is to deal with the header having a huge z-index 
+.cms-page { padding-top: 70px !important; }
+
+.cms-moveHandle, .cms-saveMove, .cms-cancelMove { display: none; }
+.cms-zone.cms-editMode { border: 1px dashed black; position: relative; min-height: 20px; margin-top: 40px; }
+.cms-zone {
+    .cms-zoneName { position: absolute; top: -20px; right: 0; border: 1px dashed black; padding: 0 3px; background-color: white; }
+    .cms-contentItem { position: relative; min-height: 20px; }
+    .cms-contentItem.cms-editMode { border: 1px solid black; margin: 4px; padding: 4px;
+        .cms-contentItemInfo { border: 1px solid black; position: absolute; right: 0; top: -1px; padding: 0 3px; z-index: 10;
+            .cms-infoPop { display: none; }
+        }
+        .cms-contentItemInfo.cms-showInfoPop {
+            .cms-infoPop { display: block; position: absolute; right: 0; bottom: 100%; border: 1px solid black; background-color: white; width: 300px; z-index: 100;
+                .cms-closeInfo { float: right; }
+                span { display: block;
+                    label { display: inline; }
+                }
+            }
+        }
+    }
+
+        
+    .cms-contentItem.cms-editMode.cms-unpublished { border: 1px solid #ccc;
+        .cms-contentItemInfo { border: 1px solid #ccc; }
+    }
+
+    .cms-contentItem.cms-editMode.cms-mismatch { border: 1px solid red;
+        .cms-contentItemInfo { border: 1px solid red; }
+    }
+
+}
+
+.cms-page.cms-movingItems {
+    .cms-editLayout, .cms-addItem, .cms-editItem, .cms-moveItems, .cms-deleteItem { display: none; }
+    .cms-moveHandle, .cms-saveMove, .cms-cancelMove { display: inline; }
+    .cms-moveHandle { cursor: move; }
+}

@@ -1,0 +1,68 @@
+﻿@using Insite.Account.Content
+@using Insite.Cart.Content
+@using Insite.Core.Providers
+@using Insite.Rfq.Content
+@using Insite.Requisition.Content
+
+@helper CheckoutButtons(string idPrefix)
+{
+    <a id="@(idPrefix)CartCheckoutPunchout" ng-if="vm.cart.properties['isPunchout']" href="/punchout/punchoutsubmitporequisition.isch" class="btn primary btn-checkout">@T("Checkout")</a>
+    <a id="@(idPrefix)CartCheckout" ng-if="vm.cart.canCheckOut && !vm.cart.properties['isPunchout']" class="btn primary btn-checkout"
+       ng-href="{{vm.cart.canBypassCheckoutAddress ? '@(Url.ContentPage<ReviewAndPayPage>())' + vm.cart.cartIdParam : '@(Url.ContentPage<CheckoutAddressPage>())' + vm.cart.cartIdParam}}">@T("Checkout")</a>
+    <a id="@(idPrefix)CartCheckoutDisabled" ng-if="!vm.cart.canCheckOut && !vm.cart.properties['isPunchout'] && !vm.cart.canRequisition" class="btn primary btn-checkout disabled" href="javascript:void(0)">@T("Checkout")</a>
+    <a id="@(idPrefix)CreateQuote" ng-if="vm.cart.canRequestQuote" href="@(Url.ContentPage<RfqRequestQuotePage>())" class="btn primary btn-request-quote" ng-bind="vm.cart.isSalesperson ? '@T("Create a Quote")' : '@T("Request a Quote")'" ng-disabled="vm.cart.isAwaitingApproval"></a>
+    <a id="@(idPrefix)CancelPunchOut" ng-if="vm.cart.properties['isPunchout']" href="/punchout/punchoutsubmitporequisition.isch?operation=cancel" class="btn primary btn-checkout">@T("Cancel PunchOut")</a>
+    <a id="@(idPrefix)SaveOrder" ng-if="vm.cart.canSaveOrder" href="javascript: void(0);" class="btn secondary btn-save-order" ng-click="vm.saveCart('@(Url.ContentPage<SavedOrderDetailPage>())', '@(Url.ContentPage<SignInPage>())')">@T("Save Order")</a>
+    <a id="@(idPrefix)SubmitRequisition" ng-if="vm.cart.canRequisition" href="#" class="btn primary btn-submit-requisition" ng-click="vm.submitRequisition('@(Url.ContentPage<RequisitionConfirmationPage>())')">@T("Submit Requisition")</a>
+    <a id="@(idPrefix)EmptyCart" href="javascript:void(0);" class="btn secondary btn-clear-all" ng-click="vm.emptyCart('@(Url.ContentPage<CartPage>())')">@T("Remove All")</a>
+}
+
+<div>
+    <h3 ng-if="vm.cart.cartLines.length > 0" class="results-count">
+        <span class="result-num" ng-bind="vm.cart.totalCountDisplay"></span> <span class="result-lbl">@T("Items")</span>
+    </h3>
+
+    <div class="cart-left">
+        <div ng-if="vm.cart.cartLines.length == 0" class="cart-empty">
+            <h3>@MessageProvider.Current.Cart_NoOrderLines</h3>
+        </div>
+
+        <div ng-if="vm.cart.cartLines.length > 0">
+            <div ng-if="vm.cart.isAwaitingApproval" class="app-for">
+                <h3>@T("Approving Order For"): <em ng-bind="vm.cart.initiatedByUserName"></em></h3>
+            </div>
+            <div ng-if="vm.cart.quoteRequiredCount > 0" class="quote-items-note messaging">
+                @MessageProvider.Current.Rfq_QuoteRequiredMsg
+            </div>
+
+            <div ng-show="vm.cart.hasInsufficientInventory" class="messaging--error">
+                @MessageProvider.Current.Cart_InsufficientInventoryAtCheckout
+            </div>
+
+            <div class="hide-for-medium-up btns hide-for-print">
+                @CheckoutButtons("hideForMediumUpBtn")
+            </div>
+
+            <div id="cartgrid">
+                <isc-cart-lines cart="vm.cart" editable="true"
+                                include-quote-required="true"
+                                include-inventory="vm.showInventoryAvailability"
+                                inventory-check="true"
+                                class="item-list cart-items">
+                </isc-cart-lines>
+            </div>
+        </div>
+
+        <div class="btns hide-for-small">
+            <a id="continueShopping" href="@(Url.ContentPage<HomePage>())" ng-click="vm.continueShopping($event)" class="btn secondary btn-continue-shopping">@T("Continue Shopping")</a>
+        </div>
+    </div>
+
+    <div ng-if="vm.cart.cartLines.length > 0" class="cart-right">
+        <isc-cart-total-display cart="vm.cart" promotions="vm.promotions" is-cart-page="true"></isc-cart-total-display>
+
+        <div class="btns hide-for-print">
+            @CheckoutButtons("btn")
+        </div>
+    </div>
+</div>

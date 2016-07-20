@@ -1,0 +1,40 @@
+﻿<div class="modal-wrap">
+    <div class="row req-top">
+
+        <h3>@T("Creating a new ResultBase"):</h3>
+        <div>
+            <ul class="item-list" style="border: none;">
+
+                <li class="row item-block" ng-repeat="property in parameterProperties">
+
+                    <div id="{{property.id}}" style="display: inline">
+                        <label for="property_{{ parameterProperties.indexOf(property)">Type</label>
+                        <select id="property_{{ parameterProperties.indexOf(property)" name="type" ng-model="property.type" required>
+                            <option value="">@T("Select")</option>
+                            <option value="System.String">@T("string")</option>
+                            <option value="System.Int32">@T("int")</option>
+                            <option value="System.Boolean">@T("bool")</option>
+                        </select>
+                    </div>
+                    <div style="display: inline">
+                        <label for="name_{{ parameterProperties.indexOf(property) }}">Name</label>
+                        <input id="name_{{ parameterProperties.indexOf(property) }}" type="text" ng-model="property.name" required />
+                    </div>
+                    <span ng-hide="parameterProperties.length == 1">
+                        <a href="javascript:void(0);" ng-click="parameterProperties.splice($index, 1)" style="font-size: 14px;"><i class="icon-close" style="vertical-align: -2px;"></i>@T("Remove property")</a>
+                    </span>
+
+                </li>
+                <li class="row item-block">
+
+                    <a href="javascript:void(0);" ng-click="newParameterProperty($event)" style="font-size: 14px;"><i class="icon-plus" style="vertical-align: -2px;"></i>@T("Add property")</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <p class="error" style="visibility: hidden" id="parameterObjectErrorMessage"></p>
+    <div class="btns">
+        <a href="javascript:void(0);" class="btn primary btn-done" onclick="javascript: $('#createParameter').click(); return false;" id="closeCreateParameter">@T("Done")</a>
+    </div>
+</div>

@@ -1,0 +1,101 @@
+body.ma-order-history {
+}
+
+.ma-order-history .btns {
+    margin-top: .5em;
+    float: left;
+    width: 100%;
+}
+
+.ma-order-history .btns .btn {
+    float: right;
+}
+
+@media all and (max-width: 767px) {
+
+    .ma-order-history .btns .btn {
+        width: 100%;
+        margin-bottom: 1em;
+    }
+
+    .ma-order-history .search-date .small-6 {
+        position: inherit;
+    }
+
+    .ma-order-history .search-open-inv {
+        margin: .5em 0 1em 0;
+    }
+}
+
+
+@media all and (min-width: 768px) {
+
+    .ma-order-history [data-section-content] {
+        display: block !important;
+    }
+
+    .ma-order-history .btns .btn {
+        margin-left: 1em;
+    }
+}
+
+/* MA search */
+
+.search-orders h3 {
+    margin-top: 0;
+}
+
+@media all and (min-width: 768px) {
+
+	.ma-order-history label.accord-head {
+			display:inline-block;
+	}
+
+    .search-orders .search-col-1 {
+        width: 30.333%;
+    }
+
+    .search-orders .search-col-2 {
+        width: 25.333%;
+    }
+
+    .search-orders .search-col-3 {
+        width: 44.333%;
+    }
+
+    .search-orders .search-date em {
+        display: inline-block;
+        float: left;
+        line-height: 38px;
+        margin-right: .75em;
+    }
+
+    .search-orders .search-date input {
+        width: 100px;
+        display: inline-block;
+    }
+
+    .search-orders .search-date .row .small-6 {
+        width: auto;
+    }
+
+    .search-orders .search-date [class*="column"] + [class*="column"]:last-child {
+        float: left;
+        padding: 0;
+    }
+}
+
+/* Date Picker Positioning */
+
+    .ma-order-history .search-date {
+        position:relative;
+    }
+
+    .ma-order-history .picker {
+        right: 0% !important;
+    }
+
+    .ma-order-history .search-date-to .picker__holder {
+        right: 0% !important;
+    }
+

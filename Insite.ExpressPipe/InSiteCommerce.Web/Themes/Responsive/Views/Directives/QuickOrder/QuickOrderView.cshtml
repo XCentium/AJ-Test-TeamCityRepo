@@ -1,0 +1,71 @@
+﻿@using Insite.Cart.Content
+@using Insite.Core.Providers
+@using Insite.QuickOrder.Content
+@using Insite.WebFramework.Mvc.Extensions
+
+<div id="quickOrderView" class="large-12 columns" ng-cloak>
+    <a id="quickOrderViewUploadAnOrderLink" ng-href="@(Url.ContentPage<OrderUploadPage>())" class="page-top-link" ng-show="vm.orderSettings.canOrderUpload">@T("Upload an Order")</a>
+    <div class="clearfix"></div>
+    <div class="qo-top">
+        <div class="qo-search">
+            <p class="qo-search-desc">
+                @Html.Message("Quickorder_Instructions", "To add an item to your quick order form, search by keyword or item # then click on the item.")
+            </p>
+            <div class="qo-search-input">
+                <input id="qo-search-view" type="text" name="textfield" ng-init="vm.autocompleteOptions.placeholder = '@T("Enter keyword or item #")'" class="qo-searchbox"
+                       kendo-auto-complete k-options="vm.autocompleteOptions" ng-model="vm.searchTerm" isc-enter="vm.onEnter(vm.searchTerm)" />
+            </div>
+            <span id="errorMessage" ng-show="vm.errorMessage">{{vm.errorMessage}}</span>
+        </div>
+        <div id="addAllToCart" class="btns" ng-show="vm.products.length > 0">
+            <button id="quickOrderViewAddAllToCartAndCheckOutButton" class="btn primary btn-add-all-checkout" ng-click="vm.addAllToCart('@(Url.ContentPage<CartPage>())')" ng-disabled="!vm.allQtysIsValid()">@T("Add All to Cart & Check Out")</button>
+        </div>
+    </div>
+    <div class="qo-tbl" ng-show="vm.products.length > 0">
+
+        <div class="qo-items" ng-repeat="product in vm.products">
+            <div class="qo-item">
+                <div class="remove">
+                    <a id="quickOrderViewRemoveProduct_{{product.id}}" class="btn btn-remove" ng-click="vm.removeProduct(product)"><i class="foundicon-remove"></i></a>
+                </div>
+                <div class="item-num">
+                    <span class="item-num-sku">{{product.name}}</span>
+                    <span class="item-num-mfg" ng-show="product.manufacturerItem">@T("MFG #"):{{product.manufacturerItem}}</span>
+                    <span class="item-num-my" ng-show="product.customerName">@T("My Part #"):{{product.customerName}}</span>
+                </div>
+                <div class="item-name">
+                    <a id="quickOrderViewProductLink_{{product.id}}" href="{{product.productDetailUrl}}" target="_blank">{{product.shortDescription}}</a>
+                </div>
+                <div class="price">
+                    <isc-product-price product="product"></isc-product-price>
+                    <span class="pack-size">@T("Pack"): {{product.packDescription}}</span>
+                    <div ng-show="product.canShowPrice && !product.quoteRequired">
+                        <isc-quantity-break-pricing data-dropdown product-id="product.uuid" break-prices="product.pricing.actualBreakPrices"></isc-quantity-break-pricing>
+                    </div>
+                </div>
+                <div class="qo-opt">
+                    <div class="um-pack">
+                        <isc-unit-of-measure-select-list product="product"
+                                                         alternate-units-of-measure="{{vm.settings.alternateUnitsOfMeasure}}"
+                                                         show-pack="false"
+                                                         change-unit-of-measure="vm.changeUnitOfMeasure(product)"></isc-unit-of-measure-select-list>
+                    </div>
+                    <div class="qo-qty">
+                        <label>@T("QTY_quantity"):</label>
+                        <input type="text" name="input2" id="input2" value="1" class="qty numerictextbox"
+                               ng-model="product.qtyOrdered" isc-enter="vm.quantityInput(product)" ng-blur="vm.quantityInput(product)" />
+                    </div>
+                    <div ng-show="!product.quoteRequired" class="qo-subtotal">{{product.pricing.extendedActualPriceDisplay}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="qo-total"><span class="tot-lbl">@T("Total"):</span> <span class="tot-amount">{{vm.grandTotal()}}</span></div>
+    </div>
+    <input type="hidden" id="messageConfigurableProduct" value="@Html.Message("QuickOrder_CannotOrderConfigurable", "Cannot quick order configurable products")" />
+    <input type="hidden" id="messageStyledProduct" value="@Html.Message("QuickOrder_CannotOrderStyled", "Product requires styling.")" />
+    <input type="hidden" id="messageUnavailable" value="@Html.Message("QuickOrder_ProductIsUnavailable", "Product is unavailable.")" />
+    <input type="hidden" id="messageNotFound" value="@MessageProvider.Current.Product_NotFound" />
+</div>
+
+
+

@@ -1,0 +1,19 @@
+﻿@model Insite.Catalog.Content.ProductComparisonPage
+@using Insite.WebFramework.Mvc.Extensions
+
+@section BodyClass { product-comparison }
+@{
+    ViewBag.Title = "CompareProducts";
+}
+@section Styles
+{
+    @Html.RequireCss(Url.ThemedContent("/Styles/template/product-comparison.css"))
+}
+
+<div class="row main-row" ng-cloak>
+    <div class="large-12 columns">
+        <div class="content">
+            @Html.Zone(Model, "Content")
+        </div>
+    </div>
+</div>

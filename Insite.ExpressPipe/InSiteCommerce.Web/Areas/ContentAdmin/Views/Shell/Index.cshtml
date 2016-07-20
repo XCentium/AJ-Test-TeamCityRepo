@@ -1,0 +1,166 @@
+﻿@using Insite.Core.Context
+@using Insite.Core.Interfaces.Plugins.Content
+@using Insite.WebFramework.Mvc.Extensions
+@using Newtonsoft.Json
+@model Insite.ContentAdmin.Models.Shell.ShellViewModel
+
+@{
+    Layout = "/Areas/ContentAdmin/Views/Shared/_BaseLayout.cshtml";
+}
+<div id="cms-shell" data-bind="css: { editingMode: $root.CurrentContentMode() == '@ContentMode.Editing', hiddenTree: !ContentTree.Visible(), expandedTree: ContentTree.Expanded(), hiddenPageBar: !CurrentContentItem() }"
+     data-updatecontextaction="@Url.Action("UpdateContext", "Shell")"
+     data-contenttreenodesurl="@Url.Action("ContentTreeNodes", "Tree")"
+     data-filtercontenttreenodesurl="@Url.Action("FilterContentTreeNodes", "Tree")"
+     data-homePage="@Url.Action("Index", "RedirectTo", new { pageType = typeof(HomePage).Name, area = ""})"
+     data-refreshurl="@Url.Action("Index", "Shell")">
+    <div class="cms-shell-controls"><button data-bind="click: $root.ToggleShell"><span class="cms-control-decoration"></span></button><span class="cms-control-label"></span></div>
+    <div class="cms-shellHeader clearfix">
+        <div class="cms-topBar">
+            <button class="cms-button btn-tree" data-bind="css: { selected: ContentTree.Visible() }, click: function() { ContentTree.Visible(!ContentTree.Visible()); }" title="Toggle Content Tree">Tree</button>
+            <a class="cms-button btn-edit" data-bind="css: { selected: CurrentContentMode() == '@ContentMode.Editing' }" href="@Url.Action("SwitchToContentMode", "Shell", new { ContentMode = ContentMode.Editing })" title="Edit">Edit</a>
+            <a class="cms-button btn-review" data-bind="css: { selected: CurrentContentMode() == '@ContentMode.Reviewing' }" href="@Url.Action("SwitchToContentMode", "Shell", new { ContentMode = ContentMode.Reviewing })" title="Review">Preview</a>
+            <div class="cms-user">
+                <div><span data-bind="text: $root.UserProfile.userName"></span></div>
+                <ul>
+                    <li><a class="sign-out" href="#">Sign Out</a></li>
+                </ul>
+            </div>
+            <div class="view-context">
+                <div title="language">
+                    <select class="makeFancy" data-class="sel-lang" data-bind="options: Languages, optionsText: 'Value', optionsValue: 'Key', value: CurrentLanguageId"></select>
+                </div>
+                <div style="display: inline-block" data-bind="visible: Personas().length > 1" title="Persona">
+                    <select class="makeFancy" data-class="sel-persona" data-bind="options: Personas, optionsText: 'Value', optionsValue: 'Key',  value: CurrentPersonaId"></select>
+                </div>
+                <div style="display: inline-block" data-bind="visible: DeviceTypes().length > 1" title="Device">
+                    <select class="makeFancy" data-class="sel-device" data-bind="options: DeviceTypes, value: CurrentDeviceType"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cms-pageBar clearfix" data-bind="with: CurrentContentItem(), visible: CurrentContentItem">
+        <div class="cms-page-variants">
+        <button class="cms-button btn-variants" title="View Variants">Variants</button>
+            <div class="variant-panel">
+                @* TODO 3.7.1 get rid of view for the context you are currently on *@
+                <!-- ko foreach: States -->
+                <div class="vp-variant" data-bind="click: $root.ViewPageWithContext, css: { unpublished: $data.IsUnpublished, future: $data.FuturePublishOn, layout: !$data.Language() }">
+                    <ul class="vp-context-details">
+                        <li data-bind="visible: !$data.Language()"><span>Layout & General Fields</span></li>
+                        <li class="vp-context-language" data-bind="visible: $data.Language"><span data-bind="text: $data.Language"></span></li>
+                        <li class="vp-context-persona" data-bind="visible: $data.HasPersonaSpecificContent"><span data-bind="text: $data.Persona"></span></li>
+                        <li class="vp-context-device" data-bind="visible: $data.HasDeviceSpecificContent"><span data-bind="text: $data.DeviceType"></span></li>
+                    </ul>
+                    <ul class="vp-publish-details">
+                        <li class="vp-publish-on" data-bind="visible: $data.PublishOn" >Published: <span data-bind="text: $data.PublishOn"></span></li>
+                        <li class="vp-publish-future" data-bind="visible: $data.FuturePublishOn">Publishing on <span data-bind="text: $data.FuturePublishOn"></span></li>
+                    </ul>
+                    <ul class="vp-status-indicators">
+                        <li class="vp-status-unpublished" title="Unpublished" data-bind="visible: $data.IsUnpublished"></li>
+                        <li class="vp-status-approval" title="Awaiting Approval" data-bind="visible: $data.IsWaitingForApproval"></li>
+                        <li class="vp-status-linked" title="Linked" data-bind="visible: $data.IsLinked"></li>
+                    </ul>
+                </div>
+                <!-- /ko -->
+            </div>
+        </div>
+        <a class="cms-loadShellModal cms-button btn-publish" data-bind="visible: $root.CurrentContentMode() != '@ContentMode.Viewing' && !$root.RearrangingPage() && AllowPublish() && CanEdit(), attr: { href: '@Url.Action("Publish", "ContentItems")/' + ContentKey() }" title="Publish this page">Publish</a>
+        <a class="cms-loadShellModal cms-button btn-rollback" data-bind="visible: $root.CurrentContentMode() != '@ContentMode.Viewing' && !$root.RearrangingPage() && $root.AllowModification() && AllowPublish() && CanEdit(), attr: { href: '@Url.Action("Rollback", "ContentItems")/' + ContentKey() }" title="Restore this page">Rollback</a>
+        <a class="cms-button btn-rearrangeItems" data-bind="visible: $root.CurrentContentMode() == '@ContentMode.Editing' && $root.AllowModification() && CanEdit(), css: { selected: $root.RearrangingPage() }, attr: { href: '@Url.Action("CheckForFuturePublishDate", "ContentItems", new { actionName = "Rearrange"})&contentKey=' + ContentKey() }" title="Rearrange items on this page">Rearrange</a>
+        <a class="cms-button btn-saveRearrange" href="@Url.Action("UpdateZones", "ContentItems", new {area = "ContentAdmin"})" data-bind="visible: $root.RearrangingPage()" title="Save">Save</a>
+        <a class="cms-button btn-cancelRearrange" data-bind="visible: $root.RearrangingPage()" title="Cancel">Cancel</a>
+        <a class="cms-loadSlidePanel cms-button btn-edit" data-bind="visible: $root.CurrentContentMode() != '@ContentMode.Viewing' && !$root.RearrangingPage() && $root.AllowModification() && CanEdit(), attr: { href: '@Url.Action("Edit", "ContentItems")?contentKey=' + ContentKey() }" title="Edit this page">Edit</a>
+        <span class="page-title" data-bind="text: Title()"></span>
+
+    </div>
+    <div class="cms-contentTreePanel">
+        <div class="cms-contentTree">
+            <div class="cms-buttonPanel">
+                <div>
+                    <input type="text" class="filterAutocomplete" placeholder="Type or click to add filter" data-actionLink="@Url.Action("FilterSearch", "Tree")"/>
+                    <div class="filter-options">
+                        <!-- ko foreach: TreeFilters -->
+                        <div class="cms-filter-group">
+                            <div class="filter-item" data-bind="text: $data.Value, click: $root.RemoveFilter, css: { 'filter-lang': $data.Type == 'Language', 'filter-persona': $data.Type == 'Persona', 'filter-device': $data.Type == 'Device' }">
+                                <div data-bind="text: $data.Value, click: $root.RemoveFilter"></div>
+                            </div>
+                        </div>
+                        <!-- /ko -->
+                        <div class="cms-filter-buttons">
+                            <button title="Clear" class="cms-button btn-filter-clear" data-bind="visible: $root.TreeFilters().length > 1, click: $root.ClearFilters">Clear Filters</button>
+                        </div>
+                    </div>
+
+                    <button class="cms-button btn-collapse-all" data-bind="click: function() { ContentTree.ExpandedNodes.removeAll(); }, visible: ContentTree.ExpandedNodes().length">Collapse All</button>
+                    <button class="cms-collapseTree cms-button icon" data-bind="click: function() { ContentTree.Expanded(false); }" title="Collapse Content Tree">E</button>
+                    <button class="cms-expandTree cms-button icon" data-bind="click: function() { ContentTree.Expanded(true); }" title="Expand Content Tree">H</button>
+                </div>
+            </div>
+            <div class="cms-actionsMenu" data-bind="with: ContentTree.ActiveNode">
+                <!-- ko foreach: MenuUrls() -->
+                <a class="cms-button" data-bind="attr: { href: $data.Url() }, text: $data.Title(), css: { 'cms-loadSlidePanel': !$data.IsModal(), 'cms-loadShellModal': $data.IsModal() }"></a>
+                <!-- /ko -->
+            </div>
+            <div class="fancytree-wrapper">
+                <div class="fancytree-scroll-wrapper">
+                    <ul class="ui-fancytree fancytree-container fancytree-treefocus" data-bind="template: { name: 'pageListTemplate', foreach: ContentTreeNodes }"></ul>
+                </div>
+            </div>
+            <script id="pageListTemplate" type="text/html">
+                <li data-bind="css: $data.BaseCssClass">
+                    <span class="fancytree-node" data-bind="css: $data.GenerateCssClasses()">
+                        <span class="fancytree-expander"></span>
+                        <span class="fancytree-icon"></span>
+                        <span class="fancytree-title" data-bind="text: $data.Title()"></span>
+                        <!-- ko if: $root.CurrentContentMode() == '@ContentMode.Editing' && Title().toLowerCase() == 'home' && $parent == $root -->
+                        <a class="cms-button cms-loadShellModal btn-reorder-pages" href="@Url.Action("Reorder", "ContentItems")">Reorder Pages</a>
+                        <!-- /ko -->
+                        <span class="icon cms-openActionsMenu" data-bind="visible: MenuUrls.length > 0 && $root.CurrentContentMode() != '@ContentMode.Viewing'">K</span>
+                    </span>
+                    <ul data-bind="template: { name: 'pageListTemplate', foreach: Children }, visible: $root.ContentTree.ExpandedNodes().indexOf(Key) >= 0"></ul>
+                </li>
+            </script>
+        </div>
+        <div class="debugPanel">
+            <img src="/Images/debug.png" />
+            <div>
+                <a target="_blank" data-bind="attr: { href: '@Url.Action("RedoPageState", "Shell")?access_token=' + $root.BearerToken() }">Redo Page State</a>
+                <a target="_blank" data-bind="attr: { href: '@Url.Action("ClearCache", "Shell")?access_token=' + $root.BearerToken() }">Clear Cache</a>
+                <a target="_blank" data-bind="attr: { href: '@Url.Action("DisplayCache", "Shell")?access_token=' + $root.BearerToken() }">Display Cache</a>
+            </div>
+        </div>
+
+    </div>
+    <div id="cms-slidePanel"><div class="cms-wrapper"></div></div>
+    <div id="pageOverlay"></div>
+    <div class="siteFrame">
+        <iframe id="siteIFrame" name="siteIFrame"></iframe>
+    </div>
+</div>
+
+@Html.Script(@<script>
+    $(function() {
+        insite.adminBridge.setup();
+        insite.contentAdmin.setup({
+            nodeMenuParameters: @Html.Raw(Json.Encode(new
+                           {
+                               AllowAddLink = SiteContext.Current.Website.ParentWebsiteId != null,
+                               AllowModification = false,
+                               AllowDelete = false,
+                               Url = Url.Action("Item", "Content", new { area = "" }) + "/",
+                               EditUrl = Url.Action("Edit", "ContentItems") + "?contentKey=",
+                               DeleteUrl = Url.Action("Delete", "ContentItems") + "?ContentKey=",
+                               AddUrl = Url.Action("Add", "ContentItems") + "?IsPage=true&ParentContentKey=",
+                               AddLinkUrl = Url.Action("AddLinkedPage", "ContentItems") + "?ParentContentKey=",
+                               UnlinkUrl = Url.Action("Unlink", "ContentItems") + "?ContentKey=",
+                               AddTemplateLink = Url.Action("Add", "ContentItems", new { IsTemplate = true, IsPage = true })
+                           }))
+        });
+
+        insite.contentAdmin.updateShell('@Html.Raw(JsonConvert.SerializeObject(Model).Replace("'", "\\'"))');
+
+        ko.applyBindings(insite.contentAdmin.shellViewModel);
+    });
+
+</script>)
+

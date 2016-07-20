@@ -1,0 +1,169 @@
+﻿{
+    "$type": "Insite.Admin.EntityDefinition, Insite.Admin",
+    "PluralizedName": "contentManagers",
+    "Label": "Content Manager",
+    "PluralizedLabel": "Content Managers",
+    "CanView": true,
+    "CanEdit": true,
+    "CanCreate": true,
+    "CanDelete": true,
+    "IsImmutable": false,
+    "EnforceSingleDefault": false,
+    "EntityType": "Morsco.Customizations.Lib.EntityFramework.Model.UserRecentlyUsedCreditCard, Morsco.Customizations.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+    "Properties": {
+        "$type": "System.Collections.Generic.List`1[[Insite.Admin.PropertyDefinition, Insite.Admin]], mscorlib",
+        "$values": [
+            {
+                "$type": "Insite.Admin.PropertyDefinition, Insite.Admin",
+                "Name": "id",
+                "Label": "Id",
+                "PropertyType": "System.Guid, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "ControlType": {
+                    "$type": "Insite.Admin.ControlTypes.ContentManagerControl, Insite.Admin",
+                    "ViewName": "ContentManagerControl"
+                },
+                "CanView": true,
+                "CanEdit": false,
+                "CanBeDisplayedInGrid": false,
+                "HtmlTagAttributes": {
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String, mscorlib]], mscorlib"
+                }
+            },
+            {
+                "$type": "Insite.Admin.PropertyDefinition, Insite.Admin",
+                "Name": "userId",
+                "Label": "Content Type",
+                "PropertyType": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "DataTypeValidator": {
+                    "$type": "Insite.Admin.DataTypeValidators.StringValidator, Insite.Admin",
+                    "DefaultValue": "",
+                    "MaxLength": 100,
+                    "RegularExpression": ""
+                },
+                "ControlType": {
+                    "$type": "Insite.Admin.ControlTypes.TextFieldControl, Insite.Admin",
+                    "SortOrder": -10,
+                    "DisplayFilter": "",
+                    "DisplayWidth": "Medium",
+                    "ViewName": "TextFieldControl"
+                },
+                "CanView": true,
+                "CanEdit": false,
+                "CanBeDisplayedInGrid": true,
+                "HtmlTagAttributes": {
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String, mscorlib]], mscorlib"
+                }
+            },
+            {
+                "$type": "Insite.Admin.PropertyDefinition, Insite.Admin",
+                "Name": "elementAccountId",
+                "Label": "Content Type",
+                "PropertyType": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "DataTypeValidator": {
+                    "$type": "Insite.Admin.DataTypeValidators.StringValidator, Insite.Admin",
+                    "DefaultValue": "",
+                    "MaxLength": 100,
+                    "RegularExpression": ""
+                },
+                "ControlType": {
+                    "$type": "Insite.Admin.ControlTypes.TextFieldControl, Insite.Admin",
+                    "SortOrder": -10,
+                    "DisplayFilter": "",
+                    "DisplayWidth": "Medium",
+                    "ViewName": "TextFieldControl"
+                },
+                "CanView": true,
+                "CanEdit": false,
+                "CanBeDisplayedInGrid": true,
+                "HtmlTagAttributes": {
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String, mscorlib]], mscorlib"
+                }
+            },
+            {
+                "$type": "Insite.Admin.PropertyDefinition, Insite.Admin",
+                "Name": "billToId",
+                "Label": "Content Type",
+                "PropertyType": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "DataTypeValidator": {
+                    "$type": "Insite.Admin.DataTypeValidators.StringValidator, Insite.Admin",
+                    "DefaultValue": "",
+                    "MaxLength": 100,
+                    "RegularExpression": ""
+                },
+                "ControlType": {
+                    "$type": "Insite.Admin.ControlTypes.TextFieldControl, Insite.Admin",
+                    "SortOrder": -10,
+                    "DisplayFilter": "",
+                    "DisplayWidth": "Medium",
+                    "ViewName": "TextFieldControl"
+                },
+                "CanView": true,
+                "CanEdit": false,
+                "CanBeDisplayedInGrid": true,
+                "HtmlTagAttributes": {
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String, mscorlib]], mscorlib"
+                }
+            },
+
+
+            {
+                "$type": "Insite.Admin.PropertyDefinition, Insite.Admin",
+                "Name": "createdBy",
+                "Label": "Created By",
+                "PropertyType": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "CanView": true,
+                "CanEdit": false,
+                "CanBeDisplayedInGrid": false,
+                "HtmlTagAttributes": {
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String, mscorlib]], mscorlib"
+                },
+                "IsRestricted": true
+            },
+            {
+                "$type": "Insite.Admin.PropertyDefinition, Insite.Admin",
+                "Name": "createdOn",
+                "Label": "Created On",
+                "PropertyType": "System.DateTimeOffset, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "CanView": true,
+                "CanEdit": false,
+                "CanBeDisplayedInGrid": false,
+                "HtmlTagAttributes": {
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String, mscorlib]], mscorlib"
+                },
+                "IsRestricted": true
+            },
+            {
+                "$type": "Insite.Admin.PropertyDefinition, Insite.Admin",
+                "Name": "modifiedBy",
+                "Label": "Modified By",
+                "PropertyType": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "CanView": true,
+                "CanEdit": false,
+                "CanBeDisplayedInGrid": false,
+                "HtmlTagAttributes": {
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String, mscorlib]], mscorlib"
+                },
+                "IsRestricted": true
+            },
+            {
+                "$type": "Insite.Admin.PropertyDefinition, Insite.Admin",
+                "Name": "modifiedOn",
+                "Label": "Modified On",
+                "PropertyType": "System.DateTimeOffset, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
+                "CanView": true,
+                "CanEdit": false,
+                "CanBeDisplayedInGrid": false,
+                "HtmlTagAttributes": {
+                    "$type": "System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String, mscorlib]], mscorlib"
+                },
+                "IsRestricted": true
+            }
+        ]
+    },
+    "DisplayNameFormat": "{name}",
+    "UniqueConstraints": {
+        "$type": "System.Collections.Generic.List`1[[System.String, mscorlib]], mscorlib",
+        "$values": [ ]
+    },
+    "Name": "userRecentlyUsedCreditCard"
+}

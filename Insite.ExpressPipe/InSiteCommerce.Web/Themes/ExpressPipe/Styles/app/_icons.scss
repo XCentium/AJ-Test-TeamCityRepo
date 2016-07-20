@@ -1,0 +1,118 @@
+﻿.epicon {
+    display: inline-block;
+    vertical-align: top;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    text-indent: -9999em;
+    margin-bottom:5px;
+}
+
+@media screen and (max-width:768px) {
+    .epicon-lead-free, .epicon-mercury-free, .epicon-water-saver, .epicon-energy-saver, .epicon-hazardous-material
+    
+      {
+        //bottom:25px;
+        //position:relative;
+      }
+}
+
+
+.epicon-lead-free {
+    width: 36px;
+    height: 34px;
+    background-image: url(/UserFiles/Images/Icons/icon-lead-free.png);
+    background-size: 36px 34px;
+}
+
+.epicon-mercury-free {
+    width: 34px;
+    height: 44px;
+    background-image: url(/UserFiles/Images/Icons/icon-mercury-free.png);
+    background-size: 34px 44px;
+}
+
+.epicon-water-saver {
+    width: 22px;
+    height: 44px;
+    background-image: url(/UserFiles/Images/Icons/icon-water-saver.png);
+    background-size: 22px 44px;
+}
+
+.epicon-hazardous-material {
+    width: 41px;
+    height: 44px;
+    background-image: url(/UserFiles/Images/Icons/icon-hazardous-material.png);
+    background-size: 41px 44px;
+}
+
+.epicon-energy-saver {
+    width: 31px;
+    height: 44px;
+    background-image: url(/UserFiles/Images/Icons/icon-energy-star.png);
+    background-size: 31px 44px;
+}
+
+.epicon-Installation {
+    width: 21px;
+    height: 24px;
+    background-image: url(/UserFiles/Images/Icons/icon-installation.png);
+    background-size: 21px 24px;
+}
+
+.epicon-invoice {
+    width: 21px;
+    height: 24px;
+    background-image: url(/UserFiles/Images/Icons/icon-invoice.png);
+    background-size: 21px 24px;
+}
+
+.epicon-MSDS {
+    width: 21px;
+    height: 24px;
+    background-image: url(/UserFiles/Images/Icons/icon-msds.png);
+    background-size: 21px 24px;
+}
+
+
+.epicon-Parts {
+    width: 21px;
+    height: 24px;
+    background-image: url(/UserFiles/Images/Icons/icon-parts.png);
+    background-size: 21px 24px;
+}
+
+
+.epicon-Specifications {
+    width: 21px;
+    height: 24px;
+    background-image: url(/UserFiles/Images/Icons/icon-specifications.png);
+    background-size: 21px 24px;
+}
+
+.epicon-Catalog {
+    width: 21px;
+    height: 24px;
+    background-image: url(/UserFiles/Images/Icons/icon-catalog.jpg);
+    background-size: 21px 24px;
+}
+
+
+// Credit Card Icons
+.cc-icon {
+    display: inline-block;
+    margin-bottom:5px;
+    width: 30px;
+    height: 18px;
+    vertical-align: top;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: 30px 18px;
+}
+
+.cc-icon.vi {
+    background-image: url(/UserFiles/Images/Icons/icon-cc-vi.png);
+}
+
+.cc-icon.mc {
+    background-image: url(/UserFiles/Images/Icons/icon-cc-mc.png);
+}

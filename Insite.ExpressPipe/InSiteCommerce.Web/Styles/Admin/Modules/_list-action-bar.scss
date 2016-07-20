@@ -1,0 +1,116 @@
+﻿.list-action-bar {
+    border-bottom: 1px solid $border-gray;
+    display: flex;
+    flex: 0 0 auto;
+    padding: .75rem 1.5rem;
+
+
+    .button,
+    .flip-switch { margin: 0; }
+
+
+    .main-content {
+        display: flex;
+        flex: 1 1 auto;
+        align-items: center;
+
+        .archived-actions {
+            align-items: center;
+            display: flex;
+            flex: 1 1 auto;
+            flex-shrink: 0;
+
+            .archived-actions__label {
+                font-weight: bold; 
+                font-family: $header-font-family;
+                margin-right: .5rem;
+            }
+        }
+
+        .filtering-actions {
+            flex: 1 1 auto;
+            
+            select { margin-right: .5rem; }
+            .form-label { background-color: $white; }
+
+            .inline-label {
+                input { border-right-width: 0; }
+
+                .form-label .icon {
+                    font-size: 1.285rem;
+                    color: $type-help;
+                }
+            }
+        }
+
+        .paging-actions {
+            align-items: center;
+            display: flex;
+            flex: 1 1 auto;
+            justify-content: flex-end;
+
+            .list-pager {
+                .button { font-size: 2rem; }
+                input { margin: 0 8px; }
+            }
+            
+            .pager-label {
+                font-family: $header-font-family;
+                font-weight: 600;
+                flex-shrink: 0;
+                margin: 0 5px;
+
+                > span { vertical-align: sub; margin-left: 2.5px; }
+            }
+
+            .paging-actions__edit-columns {
+                font-size: 24px;
+            }
+        }
+    }
+
+
+    .sub-content {
+        align-items: center;
+        display: flex;
+        flex: 0 0 auto;
+        margin-right: 1rem;
+
+        .selection-counter {
+            color: $brand;
+            font-size: 18px;
+            font-family: $header-font-family;
+            font-weight: 600;
+            margin-right: 1.5rem;
+        }
+
+        select { margin: 0; }
+        button { margin-left: .5rem; }
+    }
+
+
+    .show-selected-container,
+    .show-archivedl-container {
+        align-items: center;
+        display: flex;
+        flex-shrink: 0;
+    }
+}
+
+.selection-actions {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+}
+.selection-actions__label {
+    font-weight: bold; 
+    font-family: $header-font-family;
+    margin-right: .5rem;
+}
+
+@media (max-width: 1200px) {
+    .list-action-bar {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+}

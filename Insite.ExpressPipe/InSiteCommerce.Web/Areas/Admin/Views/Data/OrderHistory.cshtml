@@ -1,0 +1,583 @@
+﻿@model Insite.Admin.Models.EntityViewModel
+
+<div class="grid-block vertical" ng-controller="OrderHistoryDetailsController as entityDetailsCtrl"
+     pluralized-entity-name="@Model.EntityDefinition.PluralizedName" entity-id="@Model.Id"
+     potential-properties-for-parent-entity-id="@(Model.EntityDefinition.PotentialPropertiesForParentEntityId)"
+     form-name="@Model.Form.Name" pluralized-names-for-parents="@Model.PluralizedNamesForParents">
+    <div ng-if="entityDetailsCtrl.isReady" class="grid-block vertical">
+        <div class="grid-block vertical">
+            <div class="title-bar">
+                <h1 class="title left">
+                    <span class="title__label">
+                        <span ng-if="!entityDetailsCtrl.isNew" class="ng-binding">Order #{{entityDetailsCtrl.model.erpOrderNumber}} - {{entityDetailsCtrl.model.orderDate | date:'short'}}</span>
+                    </span>
+                    <a class="button button-icon" zf-open="entityInfoModal"><i class="icon icon-info-wire"></i></a>
+                </h1>
+                <span class="right">
+                    <span ng-if="::entityDetailsCtrl.isMultiEditMode" class="multiedit-pager">
+                        <a class="button button-icon" ng-show="entityDetailsCtrl.multiEditIndex > 1" ng-click="entityDetailsCtrl.previousEntity()">
+                            <i class="icon icon-left-arrow-solid-1" title="Previous Record"></i>
+                        </a>
+                        <input type="text" ng-model="entityDetailsCtrl.multiEditIndex" ng-change="entityDetailsCtrl.navigateToEntity()" ng-model-options="{ debounce: 500 }" />
+                        <span>&nbsp;of&nbsp;</span>
+                        <span>{{::entityDetailsCtrl.multiEditIds.length}}</span>
+                        <a class="button button-icon" ng-show="entityDetailsCtrl.multiEditIndex < entityDetailsCtrl.multiEditIds.length" ng-click="entityDetailsCtrl.nextEntity()">
+                            <i class="icon icon-right-arrow-solid-1" title="Next Record"></i>
+                        </a>
+                    </span>
+
+                    <a href="javascript:void(0);" class="button tertiary" ng-click="entityDetailsCtrl.cancel();" ng-if="!entityDetailsCtrl.isMultiEditMode"><i class="icon icon-chevron-left button__icon button__icon--large"></i> Back</a>
+                    <a href="javascript:void(0);" class="button secondary" ng-click="entityDetailsCtrl.cancel();" ng-if="entityDetailsCtrl.isMultiEditMode">Done</a>
+                    <a href="javascript:void(0);" class="button" ng-click="entityDetailsCtrl.resubmitToErp()">Resubmit to ERP</a>
+                    <a href="javascript:void(0);" class="button" ng-if="entityDetailsCtrl.showCancelOrder" ng-click="entityDetailsCtrl.cancelOrder()">Cancel Order</a>
+                </span>
+            </div>
+            <div class="title-bar"><span class="title left"><b>Status:</b>&nbsp;<span ng-bind="entityDetailsCtrl.model.status"></span></span></div>
+            <div class="vertical grid-block form-content finger-tab-content is-active">
+                <fieldset>
+                    <legend>Order Details</legend>
+                    <hr>
+                    <div class="columns">
+                        <div class="columns__column medium-6">
+                            <div class="grid-block form-control">
+                                <div class="medium-4 grid-block">
+                                    <label>Web Order Number</label>
+                                </div>
+                                <div class="medium-6 grid-block vertical">
+                                    <div>
+                                        <div class="large readonly" ng-bind="entityDetailsCtrl.model.webOrderNumber"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns__column medium-6">
+                            <div class="grid-block form-control">
+                                <div class="medium-4 grid-block">
+                                    <label>Order Status</label>
+                                </div>
+                                <div class="medium-6 grid-block vertical">
+                                    <div>
+                                        <div class="large readonly" ng-bind="entityDetailsCtrl.model.status"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="columns__column medium-6">
+                            <div>
+                                <div class="grid-block form-control">
+                                    <div class="medium-4 grid-block">
+                                        <label>ERP Order Number</label>
+                                    </div>
+                                    <div class="medium-6 grid-block vertical">
+                                        <div>
+                                            <div class="large readonly" ng-bind="entityDetailsCtrl.model.erpOrderNumber"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns__column medium-6">
+                            <div>
+                                <div class="grid-block form-control">
+                                    <div class="medium-4 grid-block">
+                                        <label>Order Date</label>
+                                    </div>
+                                    <div class="medium-6 grid-block vertical">
+                                        <div>
+                                            <div class="large readonly" ng-bind="entityDetailsCtrl.model.orderDate | date:'short'"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="columns__column medium-6">
+                            <div>
+                                <div class="grid-block form-control">
+                                    <div class="medium-4 grid-block">
+                                        <label>Customer Number</label>
+                                    </div>
+                                    <div class="medium-6 grid-block vertical">
+                                        <div>
+                                            <div class="large readonly" ng-bind="entityDetailsCtrl.model.customerNumber"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns__column medium-6">
+                            <div>
+                                <div class="grid-block form-control">
+                                    <div class="medium-4 grid-block">
+                                        <label>Payment Terms</label>
+                                    </div>
+                                    <div class="medium-6 grid-block vertical">
+                                        <div>
+                                            <div class="large readonly" ng-bind="entityDetailsCtrl.model.terms"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="columns__column medium-6">
+                            <div>
+                                <div class="grid-block form-control">
+                                    <div class="medium-4 grid-block">
+                                        <label>Order Notes</label>
+                                    </div>
+                                    <div class="medium-6 grid-block vertical">
+                                        <div>
+                                            <div class="large readonly" ng-bind="entityDetailsCtrl.model.notes"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns__column medium-6">
+                            <div>
+                                <div class="grid-block form-control">
+                                    <div class="medium-4 grid-block">
+                                        <label>Purchase Order</label>
+                                    </div>
+                                    <div class="medium-6 grid-block vertical">
+                                        <div>
+                                            <div class="large readonly" ng-bind="entityDetailsCtrl.model.customerPO"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset ng-show="entityDetailsCtrl.model.orderHistoryLines && entityDetailsCtrl.model.orderHistoryLines.length > 0">
+                    <legend>Order Lines</legend>
+                    <hr>
+                    <div class="grid-block">
+                        <div class="grid-block vertical">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left is-actionable" style="width: 100px;">
+                                            <div class="column-header">Product Image</div>
+                                        </th>
+                                        <th class="text-left is-actionable">
+                                            <div class="column-header">Product Number</div>
+                                        </th>
+                                        <th class="text-left is-actionable">
+                                            <div class="column-header">Description</div>
+                                        </th>
+                                        <th class="text-left is-actionable">
+                                            <div class="column-header">Unit Price</div>
+                                        </th>
+                                        <th class="text-left is-actionable">
+                                            <div class="column-header">Qty Ordered</div>
+                                        </th>
+                                        <th class="text-left is-actionable">
+                                            <div class="column-header">Price Adjustments</div>
+                                        </th>
+                                        <th class="text-left is-actionable">
+                                            <div class="column-header">Total Price</div>
+                                        </th>
+                                        <th class="text-left is-actionable">
+                                            <div class="column-header">Qty Shipped</div>
+                                        </th>
+                                        <th class="text-left is-actionable">
+                                            <div class="column-header">Status</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat-start="item in entityDetailsCtrl.model.orderHistoryLines">
+                                        <td style="width: 100px;">
+                                            <div class="productimage" ng-if="item.imagePath || entityDetailsCtrl.imageUrls[item.productErpNumber]">
+                                                <img ng-src="{{ entityDetailsCtrl.imageUrls[item.productErpNumber] ? entityDetailsCtrl.imageUrls[item.productErpNumber] : item.imagePath }}" style="max-width: 45px; max-height: 45px;" />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span ng-bind="item.productErpNumber"></span>
+                                        </td>
+                                        <td>
+                                            <span ng-bind="item.description"></span>
+                                        </td>
+                                        <td>
+                                            <span ng-bind="item.unitPrice.toFixed(2)"></span>
+                                        </td>
+                                        <td>
+                                            <span ng-bind="item.qtyOrdered"></span>
+                                        </td>
+                                        <td>
+                                            <span ng-bind="(item.discountAmount + item.promotionAmountApplied).toFixed(2)"></span>
+                                        </td>
+                                        <td>
+                                            <span ng-bind="item.lineTotal.toFixed(2)"></span>
+                                        </td>
+                                        <td>
+                                            <span ng-bind="item.qtyShipped"></span>
+                                        </td>
+                                        <td>
+                                            <span ng-bind="item.status"></span>
+                                        </td>
+                                    </tr>
+                                    <tr ng-repeat-end ng-if="item.notes || (item.customProperties && item.customProperties.length > 0)">
+                                        <td colspan="9" class="extrainfo">
+                                            <div ng-if="item.notes">
+                                                <b>Line Notes: </b><span ng-bind="item.notes"></span>
+                                            </div>
+                                            <div ng-if="item.customProperties && item.customProperties.length > 0">
+                                                <b>Line Properties: </b>
+                                                <span ng-repeat="cp in item.customProperties">
+                                                    {{cp.name + ($last ? '' : ',')}}
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="grid-block">
+                        <div class="grid-block medium-7"></div>
+                        <div class="align-right grid-block medium-5 vertical">
+                            <div class="grid-block form-control">
+                                <div class="medium-3 grid-block">
+                                    <label>Order Subtotal</label>
+                                </div>
+                                <div class="medium-9 grid-content">
+                                    <div>
+                                        <div class="large readonly" ng-bind="entityDetailsCtrl.model.productTotal.toFixed(2)"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid-block form-control">
+                                <div class="medium-3 grid-block">
+                                    <label>Discounts & Promotions</label>
+                                </div>
+                                <div class="medium-9 grid-content">
+                                    <div>
+                                        <div class="large readonly" ng-bind="entityDetailsCtrl.model.discountAmount.toFixed(2)"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid-block form-control">
+                                <div class="medium-3 grid-block">
+                                    <label>Shipping & Handling</label>
+                                </div>
+                                <div class="medium-9 grid-content">
+                                    <div>
+                                        <div class="large readonly" ng-bind="entityDetailsCtrl.model.shippingAndHandling.toFixed(2)"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid-block form-control">
+                                <div class="medium-3 grid-block">
+                                    <label>Total Tax</label>
+                                </div>
+                                <div class="medium-9 grid-content">
+                                    <div>
+                                        <div class="large readonly" ng-bind="entityDetailsCtrl.model.taxAmount.toFixed(2)"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid-block form-control">
+                                <div class="medium-3 grid-block">
+                                    <label>Order Grand Total</label>
+                                </div>
+                                <div class="medium-9 grid-content">
+                                    <div>
+                                        <div class="large readonly" ng-bind="entityDetailsCtrl.model.orderTotal.toFixed(2)"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset ng-show="entityDetailsCtrl.shipmentPackages && entityDetailsCtrl.shipmentPackages.length > 0">
+                    <legend>Shipping Details</legend><hr>
+                    <div class="grid-block">
+                        <div class="grid-block vertical">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left is-actionable">
+                                            <div class="column-header">Package Number</div>
+                                        </th>
+                                        <th class="text-left is-actionable">
+                                            <div class="column-header">Carrier</div>
+                                        </th>
+                                        <th class="text-left is-actionable">
+                                            <div class="column-header">Shipping Method</div>
+                                        </th>
+                                        <th class="text-left is-actionable">
+                                            <div class="column-header">Shipment Date</div>
+                                        </th>
+                                        <th class="text-left is-actionable">
+                                            <div class="column-header">Tracking Number</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in entityDetailsCtrl.shipmentPackages">
+                                        <td>
+                                            <div ng-bind="item.packageNumber"></div>
+                                        </td>
+                                        <td>
+                                            <div ng-bind="item.carrier"></div>
+                                        </td>
+                                        <td>
+                                            <div ng-bind="item.shipVia"></div>
+                                        </td>
+                                        <td>
+                                            <div ng-bind="item.createdOn"></div>
+                                        </td>
+                                        <td>
+                                            <div ng-bind="item.trackingNumber"></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <br />
+                </fieldset>
+                <fieldset>
+                    <legend>Address Information</legend>
+                    <hr>
+                    <div class="columns">
+                        <div class="columns__column medium-6">
+                            <div class="grid-block form-control">
+                                <div class="medium-4 grid-block">
+                                    <h2>Billing Address:</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns__column medium-6">
+                            <div class="grid-block form-control">
+                                <div class="medium-4 grid-block">
+                                    <h2>Shipping Address:</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="columns__column medium-6">
+                            <div class="grid-block form-control">
+                                <div class="medium-4 grid-block">
+                                    <label>Company Name</label>
+                                </div>
+                                <div class="medium-6 grid-block vertical">
+                                    <div>
+                                        <div class="large readonly" ng-bind="entityDetailsCtrl.model.btCompanyName"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns__column medium-6">
+                            <div class="grid-block form-control">
+                                <div class="medium-4 grid-block">
+                                    <label>Company Name</label>
+                                </div>
+                                <div class="medium-6 grid-block vertical">
+                                    <div>
+                                        <div class="large readonly" ng-bind="entityDetailsCtrl.model.stCompanyName"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="columns__column medium-6">
+                            <div>
+                                <div class="grid-block form-control">
+                                    <div class="medium-4 grid-block">
+                                        <label>Address 1</label>
+                                    </div>
+                                    <div class="medium-6 grid-block vertical">
+                                        <div>
+                                            <div class="large readonly" ng-bind="entityDetailsCtrl.model.btAddress1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns__column medium-6">
+                            <div>
+                                <div class="grid-block form-control">
+                                    <div class="medium-4 grid-block">
+                                        <label>Address 1</label>
+                                    </div>
+                                    <div class="medium-6 grid-block vertical">
+                                        <div>
+                                            <div class="large readonly" ng-bind="entityDetailsCtrl.model.stAddress1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="columns__column medium-6">
+                            <div>
+                                <div class="grid-block form-control">
+                                    <div class="medium-4 grid-block">
+                                        <label>Address 2</label>
+                                    </div>
+                                    <div class="medium-6 grid-block vertical">
+                                        <div>
+                                            <div class="large readonly" ng-bind="entityDetailsCtrl.model.btAddress2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns__column medium-6">
+                            <div>
+                                <div class="grid-block form-control">
+                                    <div class="medium-4 grid-block">
+                                        <label>Address 2</label>
+                                    </div>
+                                    <div class="medium-6 grid-block vertical">
+                                        <div>
+                                            <div class="large readonly" ng-bind="entityDetailsCtrl.model.stAddress2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="columns__column medium-6">
+                            <div>
+                                <div class="grid-block form-control">
+                                    <div class="medium-4 grid-block">
+                                        <label>City</label>
+                                    </div>
+                                    <div class="medium-6 grid-block vertical">
+                                        <div>
+                                            <div class="large readonly" ng-bind="entityDetailsCtrl.model.btCity"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns__column medium-6">
+                            <div>
+                                <div class="grid-block form-control">
+                                    <div class="medium-4 grid-block">
+                                        <label>City</label>
+                                    </div>
+                                    <div class="medium-6 grid-block vertical">
+                                        <div>
+                                            <div class="large readonly" ng-bind="entityDetailsCtrl.model.stCity"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="columns__column medium-6">
+                            <div>
+                                <div class="grid-block form-control">
+                                    <div class="medium-4 grid-block">
+                                        <label>State</label>
+                                    </div>
+                                    <div class="medium-6 grid-block vertical">
+                                        <div>
+                                            <div class="large readonly" ng-bind="entityDetailsCtrl.model.btState"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns__column medium-6">
+                            <div>
+                                <div class="grid-block form-control">
+                                    <div class="medium-4 grid-block">
+                                        <label>State</label>
+                                    </div>
+                                    <div class="medium-6 grid-block vertical">
+                                        <div>
+                                            <div class="large readonly" ng-bind="entityDetailsCtrl.model.stState"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="columns__column medium-6">
+                            <div>
+                                <div class="grid-block form-control">
+                                    <div class="medium-4 grid-block">
+                                        <label>Postal Code</label>
+                                    </div>
+                                    <div class="medium-6 grid-block vertical">
+                                        <div>
+                                            <div class="large readonly" ng-bind="entityDetailsCtrl.model.btPostalCode"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns__column medium-6">
+                            <div>
+                                <div class="grid-block form-control">
+                                    <div class="medium-4 grid-block">
+                                        <label>Postal Code</label>
+                                    </div>
+                                    <div class="medium-6 grid-block vertical">
+                                        <div>
+                                            <div class="large readonly" ng-bind="entityDetailsCtrl.model.stPostalCode"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="columns__column medium-6">
+                            <div>
+                                <div class="grid-block form-control">
+                                    <div class="medium-4 grid-block">
+                                        <label>Country</label>
+                                    </div>
+                                    <div class="medium-6 grid-block vertical">
+                                        <div>
+                                            <div class="large readonly" ng-bind="entityDetailsCtrl.model.btCountry"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="columns__column medium-6">
+                            <div>
+                                <div class="grid-block form-control">
+                                    <div class="medium-4 grid-block">
+                                        <label>Country</label>
+                                    </div>
+                                    <div class="medium-6 grid-block vertical">
+                                        <div>
+                                            <div class="large readonly" ng-bind="entityDetailsCtrl.model.stCountry"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset ng-show="entityDetailsCtrl.orderProperties && entityDetailsCtrl.orderProperties.length > 0">
+                    <legend>Order Properties</legend>
+                    <hr />
+                    <span ng-bind="entityDetailsCtrl.orderProperties.join(',')"></span>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("EntityInfoModal")
+</div>

@@ -1,0 +1,172 @@
+﻿@mixin button-style(
+  $background: $button-primary,
+  $background-hover: scale-color($button-primary, $lightness: -15%),
+  $color: auto,
+  $style: solid,
+  $radius: 0,
+  $btngroup: false
+){
+  @if $style == hollow {
+    border: 1px solid $background;
+    background: transparent;
+    color: $background;
+
+    &:hover, &:focus {
+      border-color: scale-color($background, $lightness: 25%);
+      background: transparent;
+      color: scale-color($background, $lightness: 25%);
+    }
+  }
+  // Solid is the default
+  @else {
+    @if $color == auto {
+      $color: isitlight($background);
+    }
+
+    background: $background;
+    color: $color;
+
+    &:hover, &:focus {
+      @if $background-hover == auto {
+        background: scale-color($background, $lightness: -15%);
+      }
+      @else {
+        background: $background-hover;
+      }
+      color: $color;
+    }
+  }
+
+  @if $btngroup {
+    border-color: $background;
+    &:hover, &:focus {
+      border-color: scale-color($background, $lightness: -25%);
+    }
+  }
+
+  @if using(iconic) {
+    @if $style == hollow {
+      .iconic {
+        @include color-icon($background);
+      }
+      &:hover .iconic {
+        @include color-icon(scale-color($background, $lightness: 25%));
+      }
+    }
+    @else {
+      .iconic {
+        @include color-icon($color);
+      }
+    }
+  }
+}
+
+@mixin color-icon(
+  $fill,
+  $stroke: null,
+  $fillAccent: null,
+  $strokeAccent: null
+) {
+  * {
+    fill: $fill;
+
+    // Use the fill color if no stroke is provided
+    @if hasvalue($stroke) {
+      stroke: $stroke;
+    }
+    @else {
+      stroke: $fill;
+    }
+
+    &.iconic-property-accent {
+      // Use the fill color if no accent is provided
+      @if hasvalue($fillAccent) {
+        fill: $fillAccent;
+      }
+      @else {
+        fill: $fill;
+      }
+
+      // Use the normal stroke color if no accent is provided
+      @if hasvalue($strokeAccent) {
+        stroke: $strokeAccent;
+      }
+      @else {
+        // ...or use the fill if no normal stroke is provided
+        @if hasvalue($stroke) {
+          stroke: $stroke;
+        }
+        @else {
+          stroke: $fill;
+        }
+      }
+    }
+  }
+}
+
+.button {
+  font-weight: 600;
+  font-size: 1rem;
+  transition: .15s ease;
+
+  &.tertiary, &.button-icon {
+    @include button-style($button-tertiary, $style: hollow);
+    transition: border-color .15s ease, color .15s ease;
+
+    &:hover, &:focus {
+      border-color: scale-color($button-primary, $lightness: -15%);
+      background-color: transparent;
+      color: scale-color($button-primary, $lightness: -15%);
+    }
+  }
+
+  &.button-icon {
+    border: none;
+    color: $button-primary;
+    font-size: 18px;
+    padding: 0.25em .5em;
+
+    > i {
+      vertical-align: middle;
+    }
+  }
+
+  .button__icon { 
+      display: inline-block;
+      vertical-align: middle; 
+  }
+  .button__icon--large { 
+      font-size: 1.715rem; 
+      line-height: .75rem; 
+      margin-left: -10px;
+  }
+}
+
+.button[disabled],
+.button.disabled {
+  @include button-style(
+          $background: $background-gray,
+          $background-hover: $background-gray,
+          $color: $type-disabled,
+          $style: solid
+  );
+
+  border: 1px solid $border-gray !important;
+  cursor: not-allowed;
+}
+
+.button.button-icon[disabled],
+.button.button-icon.disabled {
+  border: none !important;
+  background-color: transparent;
+}
+
+a[disabled],
+a.disabled {
+  color: $type-disabled;
+  cursor: not-allowed;
+
+  &:hover {
+    color: $type-disabled;
+  }
+}

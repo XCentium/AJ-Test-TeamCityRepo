@@ -1,0 +1,60 @@
+﻿<div id="searchIndexing" class="grid-block vertical" ng-controller="SearchIndexingController as vm">
+    <div class="title-bar">
+        <div class="instructions">
+            <span>The Indexing page provides a quick glance at the Search ​Indexes, their status, and the option to perform a Quick (Partial) Rebuild or Full Rebuild. A Quick Rebuild will only update products that have changed. Rebuilding an index is necessary any time a change is made to its respective content area.</span>
+        </div>
+    </div>
+    
+    <div class="title-bar">
+        <span class="title left">Indexing</span>
+        <span class="right"><a class="button" title="Rebuild All" ng-disabled="!vm.rebuildAllEnabled || vm.error" ng-click="!vm.rebuildAllEnabled || vm.error || vm.rebuild()">Rebuild All</a></span>
+    </div>
+
+    <div class="grid-block" st-table="vm.displayIndexes" st-safe-src="vm.indexes">
+        <isa-table>
+            <isa-table-header>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="text-left is-actionable" st-sort-default="reverse" st-sort="name">
+                            <div class="column-header">Search Index</div>
+                        </th>
+                        <th class="text-left status-col is-actionable">
+                            <div class="column-header">Status</div>
+                        </th>
+                        <th class="text-left is-actionable">
+
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+            </isa-table-header>
+
+            <isa-table-content>
+                <table class="table">
+                    <tbody>
+                    <tr ng-repeat="index in vm.displayIndexes" emit-repeat-finished>
+                        <td class="text-left">{{::index.name}}</td>
+                        <td class="text-left status-col">
+                            <div class="current-status" ng-class="index.status.toLowerCase()"><i class="icon" ng-class="vm.getClass(index.status)"></i>{{vm.error ? vm.error : vm.indexExists ? index.status : "You must rebuild all before you can rebuild an individual index."}}
+                            </div>
+                            <div class="grid-block">
+                                <div class="medium-6 last-run" ng-show="index.lastRun">
+                                    Last Run: <a href="/admin/data/integrationjobs/{{index.lastRun.integrationJobId}}"><span class="status-label">{{index.lastRun.status}}</span> - {{index.lastRun.startedAt | date : 'short'}} {{index.lastRun.durationDisplay}}</a>
+                                </div>
+                                <div class="medium-6 last-run" ng-show="index.lastSuccessfulRun">
+                                    Last Successful Run: <a href="/admin/data/integrationjobs/{{index.lastSuccessfulRun.integrationJobId}}">{{index.lastSuccessfulRun.startedAt | date : 'short'}} {{index.lastSuccessfulRun.durationDisplay}}</a>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            <a class="button tertiary" title="Quick Rebuild (Partial)" ng-disabled="!index.buttonsEnabled || !vm.indexExists" ng-click="!index.buttonsEnabled || !vm.indexExists && vm.rebuild(index.type, true)" ng-show="index.allowPartialRebuild">Quick Rebuild (Partial)</a>
+                            <a class="button tertiary" title="Full Rebuild" ng-disabled="!index.buttonsEnabled || !vm.indexExists" ng-click="!index.buttonsEnabled || !vm.indexExists || vm.rebuild(index.type)">Full Rebuild</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </isa-table-content>
+        </isa-table>
+    </div>
+</div>

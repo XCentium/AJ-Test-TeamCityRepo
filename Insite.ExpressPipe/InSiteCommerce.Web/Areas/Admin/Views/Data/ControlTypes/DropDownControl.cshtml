@@ -1,0 +1,42 @@
+﻿@using Insite.Admin.DataTypeValidators
+@using Insite.Admin.Models
+@model Insite.Admin.Models.ControlTypeViewModel<Insite.Admin.ControlTypes.DropDownControl>
+
+@{
+    if ((Model.DataTypeValidator as StringValidator) == null)
+    {
+        throw new ArgumentException("DropDownControl used for a non-string property.");
+    }
+
+    var source = Model.ControlType.TimeZoneList
+        ? string.Join("||", TimeZoneInfo.GetSystemTimeZones().Select(o => new { timeZone = o.DisplayName + "|" + o.Id }).Select(o => o.timeZone).ToArray())
+        : string.Join("||", (Model.DataTypeValidator as StringValidator).MultiValueList?.Split(',').Select(o => o.Trim()).Where(o => !o.IsBlank()).ToArray() ?? new string[0]);
+}
+
+@if (Model.PropertyDefinition.CanEdit)
+{
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<isa-dropdown angular-controller="StandardDropdownController"
+                                      class="@Model.ControlType.DisplayWidth.ToString().ToLower()"
+                                      label="@Model.Label"
+                                      id="@Model.Id"
+                                      ng-model="@Model.EditPageModelBinding"
+                                      selected-entity-id="@(Model.EditPageModelBinding)"
+                                      sort-list="@Model.ControlType.SortList.ToString().ToLower()"
+                                      @if (Model.PropertyDefinition.IsRequired) { <text> required="true" </text>  }
+                                      allow-manual-entry="@Model.ControlType.AllowManualEntry.ToString().ToLower()"
+                                      list-options="@source"></isa-dropdown>
+    })
+}
+else
+{
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<div class="readonly">
+                            <isa-standard-display list-options="@source" entity-id="{{@(Model.EditPageModelBinding)}}"></isa-standard-display>
+                        </div>
+    })
+}

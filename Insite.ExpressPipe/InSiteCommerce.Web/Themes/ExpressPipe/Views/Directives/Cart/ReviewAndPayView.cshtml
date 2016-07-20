@@ -1,0 +1,253 @@
+﻿@using Insite.Account.Content
+@using Insite.Cart.Content
+@using Insite.OrderApproval.Content
+
+<div class="large-12 columns">
+
+    <div class="checkout-head">
+
+        <ul class="checkout-crumbs">
+            <li><a href="/cart"><i class="fa fa-shopping-cart"></i></a></li>
+            <li><span class="number">1</span> @T(" Delivery Information")</li>
+
+            <li class="current"><span class="number">2</span> @T("Payment and Review Order")</li>
+
+            <li><span class="number">3</span> @T("Confirm Order")</li>
+        </ul>
+
+        <h1 class="checkout-jobname">@T("Job Name"): 
+			<span ng-bind="vm.cart.shipTo.customerNumber"></span>
+			<span ng-bind="vm.cart.shipTo.customerSequence"></span> -
+			<span class="inf-value" ng-bind="vm.cart.shipTo.customerName"></span>
+			<span ng-bind="vm.cart.shipTo.address1 + ' ' + vm.cart.shipTo.city + (vm.cart.shipTo.city && vm.cart.shipTo.state ? ', ' : '') + vm.cart.shipTo.state.abbreviation + ' ' + vm.cart.shipTo.postalCode"></span>
+		</h1>
+
+    </div>
+
+    <div class="cm" ng-include="'reviewAndPay_topContent'"></div>
+
+    <form id="reviewAndPayForm">
+        <input name="OrderId" type="hidden" ng-bind="vm.cart.id" />
+        <input name="ispaypal" type="hidden" ng-bind="vm.cart.paymentOptions.isPayPal" />
+        <input name="paypaltoken" type="hidden" ng-bind="vm.cart.paymentOptions.payPalToken" />
+        <input name="paypalpayerid" type="hidden" ng-bind="vm.cart.paymentOptions.payPalPayerId" />
+
+        <div class="row">
+
+            <div class="xlarge-9 columns" data-section data-section-resized="true">
+
+                <section class="payment-details" ng-hide="vm.cart.requiresApproval">
+                    <isc-payment-selector cart="vm.cart" cart-id="vm.cartId" apply-promotion-callback="vm.get()" submit-paypal="vm.submitPaypal(returnUrl, signInUrl)"></isc-payment-selector>
+                </section>
+
+                <section class="bill-ship">
+                    <div class="content" data-section-content>
+                        <div class="row order-bill-ship">
+                            <div class="medium-6 columns">
+                                <section class="checkout-section">
+                                    <header class="checkout-section-header">
+                                        <h2>@T("Billing Information")</h2>
+                                        <isc-address-display prefix="bt" address="vm.cart.billTo" show-email="true"></isc-address-display>
+                                    </header>
+                                </section>
+                            </div>
+                            <div class="medium-6 columns">
+                                <section class="checkout-section">
+                                    <header class="checkout-section-header">
+                                        <h2>@T("Delivery Information")</h2>
+                                        <span>
+                                            <a id="reviewAndPayViewAddressEditButton" ng-href="@(Url.ContentPage<CheckoutAddressPage>()){{vm.cartIdParam}}" class="edit button secondary tiny"><i class="fa fa-pencil"></i> @T("Edit")</a>
+                                        </span>
+                                    </header>
+
+                                    @* TODO: Backend dev needs to wire this up *@
+
+                                    @* IF SHIPPING *@
+                                    <div ng-if="vm.cart.properties['shipmethod'] != '@System.Configuration.ConfigurationManager.AppSettings["WillCallCarrierId"].ToLower()'">
+                                        <div class="row">
+                                            <div class="small-6 columns">
+                                                @T("Shipping To")
+                                            </div>
+                                            <div class="small-6 columns">
+                                                <isc-address-display prefix="st" address="vm.cart.shipTo" show-email="false"></isc-address-display>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">
+                                                @T("Ship Via")
+                                            </div>
+                                            <div class="small-6 columns">
+                                                <span ng-bind="vm.cart.carrier.description"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row" ng-if="vm.cart.properties['shipmentRequestedDate']">
+                                            <div class="small-6 columns">
+                                                @T("Requested Delivery Date")
+                                            </div>
+                                            <div class="small-6 columns">
+                                                <span ng-if="vm.cart.properties['shipmentRequestedDate']" ng-bind="vm.formatDate(vm.cart.properties['shipmentRequestedDate']) | date:'MM/dd/yyyy'"></span>
+                                            </div>
+                                        </div>
+
+										<div class="row" ng-if="vm.cart.properties['shipmentRequestedDate']">
+											<div class="small-6 columns">
+												@T("Requested Delivery Time")
+											</div>
+											<div class="small-6 columns">
+												<span ng-if="vm.cart.properties['selectedDeliveryTime']">{{vm.cart.properties['selectedDeliveryTime']}}</span>
+											</div>
+										</div>
+
+                                        <div class="row" ng-if="vm.cart.properties['specialHandlingInstructions'] || vm.cart.properties['specialHandlingInstructions2']">
+                                            <div class="small-6 columns">
+                                                @T("Special Shipping or Handling Instructions")
+                                            </div>
+                                            <div class="small-6 columns">
+                                                <span ng-bind="vm.cart.properties['specialHandlingInstructions']"></span>
+                                                <span ng-bind="vm.cart.properties['specialHandlingInstructions2']"></span>
+                                            </div>
+                                        </div>
+                                        @* END IF SHIPPING *@
+                                    </div>
+
+                                    @* IF WILL-CALL *@
+                                    <div ng-if="vm.cart.properties['shipmethod'] == '@System.Configuration.ConfigurationManager.AppSettings["WillCallCarrierId"].ToLower()'">
+                                        <div class="row">
+                                            <div class="small-6 columns">
+                                                @T("Pickup Location")
+                                            </div>
+                                            <div class="small-6 columns">
+                                                <address>
+                                                    <strong>{{vm.cart.properties["willCallPickUpLocation-Name"]}}</strong><br />
+                                                    {{vm.cart.properties["willCallPickUpLocation-Address1"]}}<br />
+                                                    <span ng-if="vm.cart.properties['willCallPickUpLocation-Address2']">{{vm.cart.properties["willCallPickUpLocation-Address2"]}}<br /></span>
+                                                    {{vm.cart.properties["willCallPickUpLocation-City"]}}, {{vm.cart.properties["willCallPickUpLocation-State"]}} {{vm.cart.properties["willCallPickUpLocation-Zip"]}}<br />
+                                                    {{vm.cart.properties["willCallPickUpLocation-Tel"]}}
+                                                </address>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">
+                                                @T("Ship Via")
+                                            </div>
+                                            <div class="small-6 columns">
+                                                <span ng-bind="vm.cart.carrier.description"></span>
+                                            </div>
+                                        </div>
+                                        <div class="row" ng-if="vm.cart.properties['shipmentRequestedDate']">
+                                            <div class="small-6 columns">
+                                                @T("Requested Pickup Date")
+                                            </div>
+                                            <div class="small-6 columns">
+                                                <span ng-if="vm.cart.properties['shipmentRequestedDate']" ng-bind="vm.formatDate(vm.cart.properties['shipmentRequestedDate']) | date:'MM/dd/yyyy'"></span>
+                                            </div>
+                                        </div>
+
+										<div class="row" ng-if="vm.cart.properties['shipmentRequestedDate']">
+											<div class="small-6 columns">
+												@T("Requested Pickup Time")
+											</div>
+											<div class="small-6 columns">
+												<span ng-if="vm.cart.properties['selectedPickupTime']">{{vm.cart.properties['selectedPickupTime']}}</span>
+											</div>
+										</div>
+
+                                        <div class="row" ng-if="vm.cart.properties['specialHandlingInstructions']">
+                                            <div class="small-6 columns">
+                                                @T("Special Pickup or Handling Instructions")
+                                            </div>
+                                            <div class="small-6 columns">
+                                                <span ng-bind="vm.cart.properties['specialHandlingInstructions']"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @* END IF WILL-CALL *@
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                @* Hiding because this is selected in Cart *@
+                @*<section class="ship-method hide">
+                    <p class="title title-continue hide-for-medium-up" data-section-title><a id="reviewAndPayViewPanel2ContinueButton" href="#panel2" class="btn primary btn-continue">@T("Continue")</a></p>
+                    <isc-shipping-selector cart="vm.cart" shipping-method-change="vm.updateShipVia()" change-carrier="vm.updateCarrier()"></isc-shipping-selector>
+                </section> *@
+
+                <section class="checkout-section">
+                    <header class="checkout-section-header">
+                        <h2>@T("Order Details")</h2>
+                        <a ng-if="vm.cart.type != 'Quote'" class="edit button secondary tiny" href="/cart"><i class="fa fa-pencil"></i> Edit</a>
+                        <a ng-if="vm.cart.type == 'Quote'" class="edit button secondary tiny" href="/MyAccount/Rfq/MyQuotes/QuoteDetails?quoteId={{vm.cart.id}}"><i class="fa fa-pencil"></i> Edit</a>
+                    </header>
+                    <div class="cart-grid review">
+                        <morsco-cart-lines cart="vm.cart" warehouses="vm.warehouses"     editable="false"
+                                           include-quote-required="true"
+                                           include-inventory="vm.showInventoryAvailability"
+                                           inventory-check="true"
+                                           is-cart-page="true"
+                                           is-catalog="true"
+                                           class="item-list cart-items">
+                        </morsco-cart-lines>
+						@*<morsco-cart-lines cart="vm.cart" warehouses="vm.warehouses" is-catalog="true" include-quote-required="vm.cart.status !== 'Cart'" is-cart-page="false" class="item-list cart-items"></morsco-cart-lines>*@
+                    </div>
+                    <div class="review" ng-if="vm.cart.cartLines.length > 0">
+                        <isc-cart-bottom-sub-total-display cart="vm.cart" is-cart-page="true"></isc-cart-bottom-sub-total-display>
+                    </div>
+                </section>
+
+                <hr class="dotted" />
+
+                <section class="checkout-section" ng-if="vm.cart.properties['nonCatalogProductCount'] > 0 && vm.cart.status != 'QuoteProposed'">
+                    <header class="checkout-section-header">
+                        <h2>@T("Items To Be Quoted")</h2>
+                        <a ng-if="vm.cart.type != 'Quote'" class="edit button secondary tiny" href="/cart"><i class="fa fa-pencil"></i> Edit</a>
+                        <a ng-if="vm.cart.type == 'Quote'" class="edit button secondary tiny" href="/MyAccount/Rfq/MyQuotes/QuoteDetails?quoteId={{vm.cart.id}}"><i class="fa fa-pencil"></i> Edit</a>
+                    </header>
+                    <div class="cart-grid review">
+                        <morsco-cart-lines cart="vm.cart" warehouses="vm.warehouses" editable="false"
+                                           include-quote-required="vm.cart.status !== 'Cart'"
+                                           include-inventory="vm.showInventoryAvailability"
+                                           inventory-check="true"
+                                           is-cart-page="true"
+                                           is-catalog="false"
+                                           class="item-list cart-items">
+                        </morsco-cart-lines>
+                        @*<morsco-cart-lines cart="vm.cart" is-catalog="false" include-quote-required="vm.cart.status !== 'Cart'" is-cart-page="false" class="item-list cart-items"></morsco-cart-lines>*@
+                    </div>
+                    <div class="review" ng-if="vm.cart.cartLines.length > 0">
+                        <isc-cart-bottom-sub-total-display cart="vm.cart" is-cart-page="true" is-non-catalog="true"></isc-cart-bottom-sub-total-display>
+                    </div>
+                </section>
+            </div>
+
+            <div class="medium-6 xlarge-3 end columns">
+                <div class="summary">
+                    <header class="summary-header">
+                        @T("Order Summary")
+                    </header>
+                    <div class="summary-content">
+                        <isc-cart-total-display cart="vm.cart" promotions="vm.promotions"></isc-cart-total-display>
+                        <div class="summary-primary-cta">
+                            <a id="reviewAndPayViewSubmitForApprovalButton" href="" class="button expand large" ng-show="vm.cart.requiresApproval && !vm.submitting" ng-click="vm.submit('@(Url.ContentPage<OrderApprovalDetailPage>())')">@T("Submit for approval")</a>
+                            <a id="reviewAndPayViewPlaceOrderButton" href="" class="button expand large" ng-hide="vm.cart.requiresApproval || vm.submitting" ng-click="vm.submit('@(Url.ContentPage<Insite.Cart.Content.OrderConfirmationPage>())')">@T("Submit Order")</a>
+                            <div style="color: red;" ng-bind="vm.submitErrorMessage"></div>
+                        </div>
+
+                        <p class="small light"><em>Additional shipping charges may apply for <strong class="dark">special order products</strong> or <strong class="dark">expedited delivery</strong>.</em></p>
+                    </div>
+                </div>
+                
+            </div>
+
+            <isc-spinner name="checkoutPage" show="true"></isc-spinner>
+
+        </div>
+
+    </form>
+
+    <isc-morsco-availability-popup> </isc-morsco-availability-popup>
+
+    <isc-morsco-availability-shipping-tax-content></isc-morsco-availability-shipping-tax-content>
+
+</div>

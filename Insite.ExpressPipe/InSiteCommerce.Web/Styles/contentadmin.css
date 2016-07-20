@@ -1,0 +1,721 @@
+/*
+	HTML5 Reset :: style.css
+	----------------------------------------------------------
+	We have learned much from/been inspired by/taken code where offered from:
+	
+	Eric Meyer					:: http://meyerweb.com
+	HTML5 Doctor				:: http://html5doctor.com
+	and the HTML5 Boilerplate	:: http://html5boilerplate.com
+	
+-------------------------------------------------------------------------------*/
+/* Let's default this puppy out
+-------------------------------------------------------------------------------*/
+html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, menu, nav, section, time, mark, audio, video, details, summary {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+/* consider resetting the default cursor: https://gist.github.com/murtaugh/5247154 */
+article, aside, figure, footer, header, nav, section, details, summary {
+  display: block;
+}
+
+/* Responsive images and other embedded objects
+   Note: keeping IMG here will cause problems if you're using foreground images as sprites.
+   If this default setting for images is causing issues, you might want to replace it with a .responsive class instead. */
+img,
+object,
+embed {
+  max-width: 100%;
+}
+
+/* force a vertical scrollbar to prevent a jumpy page */
+html {
+  overflow-y: scroll;
+}
+
+/* we use a lot of ULs that aren't bulleted. 
+	don't forget to restore the bullets within content. */
+ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+
+a {
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+del {
+  text-decoration: line-through;
+}
+
+abbr[title], dfn[title] {
+  border-bottom: 1px dotted #000;
+  cursor: help;
+}
+
+/* tables still need cellspacing="0" in the markup */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+th {
+  font-weight: bold;
+  vertical-align: bottom;
+}
+
+td {
+  font-weight: normal;
+  vertical-align: top;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+input, select {
+  vertical-align: middle;
+}
+
+pre {
+  white-space: pre;
+  /* CSS2 */
+  white-space: pre-wrap;
+  /* CSS 2.1 */
+  white-space: pre-line;
+  /* CSS 3 (and 2.1 as well, actually) */
+  word-wrap: break-word;
+  /* IE */
+}
+
+input[type="radio"] {
+  vertical-align: text-bottom;
+}
+
+input[type="checkbox"] {
+  vertical-align: bottom;
+}
+
+.ie7 input[type="checkbox"] {
+  vertical-align: baseline;
+}
+
+.ie6 input {
+  vertical-align: text-bottom;
+}
+
+select, input, textarea {
+  font: 99% sans-serif;
+}
+
+table {
+  font-size: inherit;
+  font: 100%;
+}
+
+small {
+  font-size: 85%;
+}
+
+strong {
+  font-weight: bold;
+}
+
+td, td img {
+  vertical-align: top;
+}
+
+/* Make sure sup and sub don't screw with your line-heights
+	gist.github.com/413930 */
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+}
+
+sup {
+  top: -0.5em;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+/* standardize any monospaced elements */
+pre, code, kbd, samp {
+  font-family: monospace, sans-serif;
+}
+
+/* hand cursor on clickable elements */
+.clickable,
+label,
+input[type=button],
+input[type=submit],
+input[type=file],
+button {
+  cursor: pointer;
+}
+
+/* Webkit browsers add a 2px margin outside the chrome of form elements */
+button, input, select, textarea {
+  margin: 0;
+}
+
+/* make buttons play nice in IE */
+button,
+input[type=button] {
+  width: auto;
+  overflow: visible;
+}
+
+/* scale images in IE7 more attractively */
+.ie7 img {
+  -ms-interpolation-mode: bicubic;
+}
+
+/* prevent BG image flicker upon hover 
+   (commented out as usage is rare, and the filter syntax messes with some pre-processors)
+.ie6 html {filter: expression(document.execCommand("BackgroundImageCache", false, true));}
+*/
+@font-face {
+  font-family: 'IcoMoon';
+  src: url("fonts/IcoMoon.eot");
+  src: url("fonts/IcoMoon.eot?#iefix") format("embedded-opentype"), url("fonts/IcoMoon.woff") format("woff"), url("fonts/IcoMoon.ttf") format("truetype"), url("fonts/IcoMoon.svg#IcoMoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+/* let's clear some floats */
+.clearfix:before, .clearfix:after {
+  content: "\0020";
+  display: block;
+  height: 0;
+  overflow: hidden;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+.clearfix {
+  zoom: 1;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, Sans-serif;
+}
+
+.cke_reset {
+  clear: both;
+}
+
+#container {
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+.icon {
+  font-family: 'IcoMoon';
+  font-weight: normal;
+  text-transform: none;
+}
+
+.cms-button {
+  cursor: pointer;
+  border: 1px solid #dddddd;
+  outline: none;
+  font-weight: bold;
+  padding: 4px 12px;
+  background: #ffffff;
+  text-decoration: none;
+  color: #666666;
+  font-size: 12px;
+}
+
+.cms-button:hover {
+  text-decoration: none;
+  background-color: #ccc;
+}
+
+.cms-actionButton {
+  background-color: blue;
+  color: white;
+}
+
+.error, fieldset .validationWrap .field-validation-error, .validation-summary-errors {
+  font-size: 11px;
+  color: red;
+  font-style: italic;
+}
+
+fieldset {
+  margin: 20px auto;
+}
+fieldset label {
+  color: #333;
+  display: block;
+  margin-bottom: 2px;
+  font-size: 12px;
+}
+fieldset input[type=text], fieldset input[type=password], fieldset textarea, fieldset select {
+  width: 100%;
+  display: block;
+  margin-bottom: 12px;
+  clear: both;
+  padding: 6px 10px;
+}
+fieldset input[type=text], fieldset input[type=password], fieldset textarea {
+  background-color: #f9f9f9;
+  border: 1px solid #f2f2f2;
+}
+fieldset .validationWrap label {
+  float: left;
+}
+fieldset .validationWrap .field-validation-error {
+  float: right;
+}
+
+#pageOverlay, #simplemodal-overlay {
+  position: absolute;
+  z-index: 1001;
+  zoom: 1;
+  top: 0;
+  left: 0;
+  background-color: #888;
+  filter: alpha(opacity=60) !important;
+  opacity: 0.6;
+}
+
+#loading {
+  position: absolute;
+  z-index: 1002;
+  width: 200px;
+  height: 80px;
+  background-color: #f2f2f2;
+  font-size: 12px;
+  color: #313131;
+  border: solid #cccccc 1px;
+  padding: 10px;
+  text-align: center;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.5);
+}
+
+#loading img {
+  display: block;
+  margin: 0 auto 10px;
+  width: 32px;
+  height: 32px;
+}
+
+.cms-modal {
+  background-color: white;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  min-width: 200px;
+  min-height: 100px;
+  -webkit-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+.cms-modal header {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#cms-shell {
+  height: 100%;
+}
+#cms-shell .cms-shellHeader {
+  background-color: lightblue;
+  padding: 10px 10px;
+}
+#cms-shell .cms-shellHeader .cms-button.selected {
+  background-color: #888;
+  color: #fff;
+}
+#cms-shell .cms-shellHeader .switchMode .viewVersions {
+  float: left;
+  font-size: 12px;
+  margin-right: 10px;
+}
+#cms-shell .cms-shellHeader .switchMode .viewVersions div {
+  padding: 2px 0;
+}
+#cms-shell .cms-shellHeader .switchMode .viewVersions h4 {
+  float: left;
+  margin-right: 10px;
+  width: 40px;
+}
+#cms-shell .cms-shellHeader .switchMode .viewVersions label {
+  float: left;
+  margin-right: 4px;
+}
+#cms-shell .cms-shellHeader .switchMode .viewVersions input[type=radio] {
+  float: left;
+  margin-right: 5px;
+}
+#cms-shell .cms-shellHeader .mainLinks a {
+  margin-right: 10px;
+}
+#cms-shell .cms-pageBar {
+  background-color: blue;
+  margin-left: 300px;
+  -webkit-transition: margin-left 0.125s ease-in;
+  -moz-transition: margin-left 0.125s ease-in;
+  -ms-transition: margin-left 0.125s ease-in;
+  -o-transition: margin-left 0.125s ease-in;
+  transition: margin-left 0.125s ease-in;
+}
+#cms-shell .cms-pageBar span {
+  color: white;
+  font-size: 16px;
+  padding: 4px 20px;
+  display: inline-block;
+  font-weight: bold;
+}
+#cms-shell .cms-pageBar .cms-button {
+  float: right;
+}
+#cms-shell .cms-contentTreePanel {
+  position: absolute;
+  z-index: 10;
+  height: -webkit-calc(100% - 40px);
+  height: -o-calc(100% - 40px);
+  height: -moz-calc(100% - 40px);
+  height: calc(100% - 40px);
+}
+#cms-shell .cms-contentTreePanel .cms-collapseTree {
+  display: none;
+  float: right;
+}
+#cms-shell .cms-contentTreePanel .cms-expandTree {
+  float: right;
+}
+#cms-shell .cms-contentTreePanel .cms-contentTree {
+  height: 100%;
+  padding-bottom: 40px;
+}
+#cms-shell .cms-contentTreePanel .cms-contentTree .ui-fancytree {
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+#cms-shell .cms-contentTreePanel .cms-contentTree .cms-openActionsMenu {
+  display: inline-block;
+  color: #888;
+  margin-top: 2px;
+  cursor: pointer;
+}
+#cms-shell .cms-contentTreePanel .cms-contentTree .cms-actionsMenu {
+  display: none;
+  position: fixed;
+  background-color: white;
+  border: 1px solid black;
+  z-index: 100;
+}
+#cms-shell .cms-contentTreePanel .cms-contentTree .cms-actionsMenu a {
+  display: block;
+}
+#cms-shell #cms-slidePanel {
+  -webkit-transition: width 0.125s ease-in;
+  -moz-transition: width 0.125s ease-in;
+  -ms-transition: width 0.125s ease-in;
+  -o-transition: width 0.125s ease-in;
+  transition: width 0.125s ease-in;
+  position: absolute;
+  background-color: lightblue;
+  z-index: 10;
+  width: 0;
+  height: -webkit-calc(100% - 80px);
+  height: -o-calc(100% - 80px);
+  height: -moz-calc(100% - 80px);
+  height: calc(100% - 80px);
+  overflow-y: auto;
+  right: 0;
+  z-index: 2000;
+}
+#cms-shell #cms-slidePanel .cms-wrapper {
+  padding: 20px 20px 100px;
+}
+#cms-shell #cms-slidePanel.open {
+  width: 500px;
+}
+#cms-shell .siteFrame {
+  height: 100%;
+}
+#cms-shell .siteFrame iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.cmsOn .siteFrame {
+  height: -webkit-calc(100% - 80px);
+  height: -o-calc(100% - 80px);
+  height: -moz-calc(100% - 80px);
+  height: calc(100% - 80px);
+}
+
+.cmsOn #cms-shell.hiddenPageBar .siteFrame {
+  height: -webkit-calc(100% - 40px);
+  height: -o-calc(100% - 40px);
+  height: -moz-calc(100% - 40px);
+  height: calc(100% - 40px);
+}
+
+#cms-shell.expandedTree .cms-contentTreePanel {
+  width: 500px;
+}
+#cms-shell.expandedTree .cms-contentTreePanel .cms-expandTree {
+  display: none;
+}
+#cms-shell.expandedTree .cms-contentTreePanel .cms-collapseTree {
+  display: inline;
+}
+#cms-shell.expandedTree .cms-pageBar {
+  margin-left: 500px;
+}
+
+#cms-shell.hiddenTree .cms-contentTreePanel {
+  width: 0 !important;
+  overflow: hidden;
+}
+#cms-shell.hiddenTree .cms-pageBar {
+  margin-left: 0 !important;
+}
+
+.cms-reorderModal {
+  width: 500px;
+}
+.cms-reorderModal .cms-rootReorderList {
+  max-height: 575px;
+  overflow-y: scroll;
+  font-size: 12px;
+}
+.cms-reorderModal .cms-rootReorderList .ui-sortable-placeholder {
+  background-color: pink;
+  height: 20px;
+  margin-left: 20px;
+}
+.cms-reorderModal .cms-rootReorderList li li {
+  padding-left: 20px;
+  cursor: move;
+}
+.cms-reorderModal .cms-rootReorderList li li span {
+  height: 20px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.cms-reorderModal .cms-rootReorderList .cms-emptyList {
+  display: inline-block;
+  font-size: 11px;
+  width: 50px;
+  height: 20px;
+  color: #555;
+}
+.cms-reorderModal .cms-rootReorderList.cms-sortingActive .cms-emptyList {
+  background-color: #ddd;
+}
+.cms-reorderModal .cms-rootReorderList.cms-sortingActive .ui-sortable-helper .cms-emptyList {
+  display: none;
+}
+
+.cms-selectPageWrap .cms-selectPageName {
+  display: inline-block;
+  width: 80%;
+}
+.cms-selectPageWrap .cms-selectPageHolder {
+  display: none;
+  position: absolute;
+  background-color: white;
+  border: 1px solid black;
+  right: 0;
+  top: 200px;
+  padding: 10px;
+  max-height: 300px;
+  overflow-y: scroll;
+  z-index: 2100;
+}
+.cms-selectPageWrap ul {
+  text-align: left;
+  font-size: 14px;
+}
+.cms-selectPageWrap ul ul {
+  margin-left: 12px;
+}
+.cms-selectPageWrap a {
+  display: block;
+  padding: 2px;
+}
+
+.cms-publishModal {
+  min-width: 350px;
+}
+
+.ac_input_container {
+  position: relative;
+  margin-top: 20px;
+}
+.ac_input_container input {
+  display: block;
+  width: 100%;
+}
+
+.ac_filterImage {
+  position: absolute;
+  right: 2px;
+  top: 3px;
+  display: none;
+}
+
+.ac_results {
+  z-index: 2001;
+}
+.ac_results ul {
+  margin: 0;
+  padding: 0;
+  background-color: #fcfcfc;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.ac_results ul li {
+  color: #555555;
+  font-size: 13px;
+  text-align: left;
+  list-style-type: none;
+  cursor: pointer;
+  border-left: solid #e2e3ea 1px;
+  border-right: solid #e2e3ea 1px;
+  border-bottom: solid #e2e3ea 1px;
+  padding: 2px 4px;
+}
+.ac_results ul li div {
+  padding: 6px 8px 6px 26px;
+}
+.ac_results ul li div b {
+  display: block;
+  font-size: 12px;
+}
+.ac_results ul li span.hilight {
+  background-color: #DCF3FF;
+  color: #333;
+}
+.ac_results ul li span.valuetype {
+  clear: both;
+  display: block;
+  font-weight: bold;
+  font-size: 10px;
+  text-align: right;
+  padding: 0 3px 3px 3px;
+}
+.ac_results ul li:nth-child(even) {
+  background-color: #f3f3f3;
+}
+.ac_results ul li.ac_over {
+  background-color: #EDE69C;
+  color: #cc0000;
+}
+.ac_results .notResult {
+  padding: 10px 7px;
+  background-image: none;
+  cursor: default;
+  background-color: #FFB2B2 !important;
+}
+.ac_results .vendorItem {
+  background-image: none;
+  padding-left: 7px;
+}
+
+.debugPanel {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+}
+.debugPanel img {
+  margin: 10px 5px 5px;
+  width: 20px;
+}
+.debugPanel div {
+  max-height: 0;
+  margin-left: 10px;
+  -webkit-transition: max-height 0.3s linear;
+  -moz-transition: max-height 0.3s linear;
+  -ms-transition: max-height 0.3s linear;
+  -o-transition: max-height 0.3s linear;
+  transition: max-height 0.3s linear;
+}
+.debugPanel div a {
+  display: block;
+}
+.debugPanel div a:hover {
+  color: #005B93;
+}
+
+.debugPanel:hover {
+  border-top: 1px solid #404345;
+  background-color: #222;
+}
+.debugPanel:hover div {
+  max-height: 100px;
+}
+
+.cms-classSelectAllContainer {
+  display: none;
+}
+
+.cms-showAllClasses {
+  font-size: smaller;
+  float: left;
+  margin-left: 10px;
+  margin-top: -1px;
+}
+
+/*# sourceMappingURL=contentadmin.css.map */

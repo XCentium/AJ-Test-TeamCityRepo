@@ -1,0 +1,39 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Configurator.Models.ConfigurationOptionViewModel
+@Html.ThemedPartial("_ConfigurationOptionBaseCss", Model)
+
+#@(Model.Name)Wrapper ul
+{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: inline;
+    float: right;
+}
+
+#@(Model.Name)Wrapper ul li {
+    @if (Model.RadioButtonOrientation.ToLower() == "horizontal")
+    {
+        @:display: inline-block;
+        if (Model.Width != 0)
+        {
+            @:width: @(Model.Width/Model.SelectionList.Count)pt;
+        }
+    }
+    else
+    {
+        @:display: block;
+        if (Model.Height != 0)
+        {
+            @:height: @(Model.Height/Model.SelectionList.Count)pt;
+        }
+    }
+}
+
+#@(Model.Name)Wrapper ul li label { 
+    display:inline;
+}
+
+#@(Model.Name)Wrapper ul li input { 
+    vertical-align: baseline;
+}

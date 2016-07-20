@@ -1,0 +1,14 @@
+﻿@model Insite.Admin.FormBuilder.Elements.CustomPropertiesFormElement
+
+
+@if (Model.IsEditMode)
+{
+    <div>Custom Properties!</div>
+}
+else
+{
+    foreach (var propertyFormElement in Model.CustomProperties)
+    {
+        @Html.Partial("~/Areas/admin/Views/Data/PropertyFormField.cshtml", propertyFormElement.GetControlTypeViewModel())
+    }
+}

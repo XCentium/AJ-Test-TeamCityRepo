@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{521E3760-30B2-4DA4-B3A9-77AA97D0DACF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Morsco.PonderosaService</RootNamespace>
+    <AssemblyName>Morsco.PonderosaService</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'dev|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\dev\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Insite.Common">
+      <HintPath>..\Lib\Insite.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Core">
+      <HintPath>..\Lib\Insite.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Core.Interfaces">
+      <HintPath>..\Lib\Insite.Core.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Data">
+      <HintPath>..\Lib\Insite.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Data.Entities">
+      <HintPath>..\Lib\Insite.Data.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="U2Mv">
+      <HintPath>..\Lib\U2Mv\U2Mv.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\DbResultHandler.cs" />
+    <Compile Include="Common\OrderRefreshResultHandler.cs" />
+    <Compile Include="Common\OrderToDictionaryHandler.cs" />
+    <Compile Include="Common\TestResultHandler.cs" />
+    <Compile Include="Common\Utility.cs" />
+    <Compile Include="Constants\ContactConstants.cs" />
+    <Compile Include="Constants\ControlFileConstants.cs" />
+    <Compile Include="Constants\CreditCardConstants.cs" />
+    <Compile Include="Constants\PriceAvailabilityConstants.cs" />
+    <Compile Include="DataRepositories\BaseRepository.cs" />
+    <Compile Include="Entities\ControlFileResponse.cs" />
+    <Compile Include="Entities\OrderDetailScrub.cs" />
+    <Compile Include="Entities\CreditCardEntity.cs" />
+    <Compile Include="Entities\OrderHeaderScrub.cs" />
+    <Compile Include="Entities\PriceAvailability.cs" />
+    <Compile Include="Entities\UpdateDtoBase.cs" />
+    <Compile Include="Entities\UpdateOrderDto.cs" />
+    <Compile Include="Entities\UpdateOrderItemDto.cs" />
+    <Compile Include="Mappers\CustomerOrderToPonderosaOrderMapper.cs" />
+    <Compile Include="Mappers\DictionaryToDtoMapper.cs" />
+    <Compile Include="DataRepositories\DataRepository.cs" />
+    <Compile Include="Mappers\HeaderDetailResultToPonderosaOrderMapper.cs" />
+    <Compile Include="Mappers\PonderosaOrderToBuildOrderRequestMapper.cs" />
+    <Compile Include="Mappers\RowResultToDtoMapper.cs" />
+    <Compile Include="Repositories\BasePonderosaRepository.cs" />
+    <Compile Include="Repositories\ContactRepository.cs" />
+    <Compile Include="Repositories\ControlFileRepository.cs" />
+    <Compile Include="Repositories\CreditCardRepository.cs" />
+    <Compile Include="Repositories\OrderRepository.cs" />
+    <Compile Include="Constants\ServiceConstants.cs" />
+    <Compile Include="Entities\CommentLine.cs" />
+    <Compile Include="Entities\MiscCharge.cs" />
+    <Compile Include="Services\ContactServices.cs" />
+    <Compile Include="Services\ControlFileService.cs" />
+    <Compile Include="Services\CreditCardServices.cs" />
+    <Compile Include="Services\OrderServices.cs" />
+    <Compile Include="Common\DataUtilities.cs" />
+    <Compile Include="Constants\OrderDetailConstants.cs" />
+    <Compile Include="Constants\OrderHeaderConstants.cs" />
+    <Compile Include="Constants\OrderItemConstants.cs" />
+    <Compile Include="Entities\BuildOrderRequest.cs" />
+    <Compile Include="Entities\OrderDetailBase.cs" />
+    <Compile Include="Entities\OrderHeader.cs" />
+    <Compile Include="Entities\OrderItem.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\PonderosaService.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,19 @@
+﻿<div ng-controller="NotificationController as vm">
+    <span kendo-notification="notificationContainer" k-options="notificationOptions"></span>
+    <script id="successNotificationTemplate" type="text/x-kendo-template">
+        <i class="icon icon-done-all"></i>
+        <span>#= message #</span>
+        <i class="icon icon-close" isa-notification></i>
+    </script>
+    <script id="errorNotificationTemplate" type="text/x-kendo-template">
+        <i class="icon icon-warning"></i>
+        <span>#= message #</span>
+        <a class="button" ng-click="vm.viewJob('#= locationPath #')" ng-if="#= isFailureJob #">ViewJob</a>
+        <i class="icon icon-close" isa-notification></i>
+    </script>
+    <script id="canceledNotificationTemplate" type="text/x-kendo-template">
+        <i class="icon icon-alert"></i>
+        <span>#= message #</span>
+        <i class="icon icon-close" isa-notification></i>
+    </script>
+</div>

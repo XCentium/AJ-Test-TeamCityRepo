@@ -1,0 +1,37 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+<div>
+    <div ng-show="NoLocation" ng-cloak>
+        @Html.Message("DealerLocator_NoLocationMessage", "Please enter a location.")
+    </div>
+    <div class="messaging" ng-show="NotFound" ng-cloak>
+        @Html.Message("DealerLocator_NoResultsMessage", "No results found, please search again.")
+    </div>
+    <div class="dealer-loc-map" id="dealer-loc-map">
+        <map name="dealersmap" zoom="11" style="height: 650px;"></map>
+    </div>
+
+    <div class="dealer-deetz" ng-if="vm.dealer" ng-cloak>
+        <div class="dealer-name">
+            <h5 ng-bind="vm.dealer.name"></h5>
+        </div>
+        <div class="dealer-addy" ng-cloak>
+            <span ng-bind="vm.dealer.address1"></span><br />
+            <span ng-if="vm.dealer.address2" ng-bind="vm.dealer.address2"><br /></span>
+            <span ng-bind="vm.dealer.city"></span>, <span ng-bind="vm.dealer.state"></span>, <span ng-bind="vm.dealer.postalCode"></span><br />
+            <span ng-bind="vm.dealer.phone"></span>
+        </div>
+        <div class="dealer-hours-map" ng-if="vm.dealer.htmlContent">
+            <h4>@T("Hours")</h4>
+            <div ng-bind-html="vm.dealer.htmlContent"></div>
+        </div>
+        <div class="dealer-links">
+            <a id="dealerViewDirectionsButton_{{vm.dealer.id}}" href="{{'http://maps.google.com/maps?daddr=' + vm.addressForDirections}}" class="dealer-directions" target="_blank">@T("Directions")</a>
+            <span ng-if="vm.dealer.webSiteUrl" ng-cloak>
+                <a id="dealerViewWebsiteLink_{{vm.dealer.id}}" href="{{vm.dealer.webSiteUrl}}" class="dealer-www" target="_blank">@(T("Website"))</a>
+            </span>
+        </div>
+    </div>
+
+    <div id="directionsPanel" style="margin-right: 10px;" ng-cloak></div>
+    @Html.Action("GenericPopupPartial", "Shared", new { containerName = "geocodeError", BodyHtml = "FIX ME", Title = T("Geocode Error") })
+</div>

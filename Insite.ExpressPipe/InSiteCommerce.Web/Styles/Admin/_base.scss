@@ -1,0 +1,52 @@
+﻿body {
+    letter-spacing: $base-letter-spacing;
+    line-height: $base-line-height;
+}
+
+#{$headers} {
+    font-family: $header-font-family;
+    font-weight: 600;
+    letter-spacing: $header-letter-spacing;
+}
+
+h3 {
+    font-size: 14px;
+    line-height: 18px;
+}
+
+h2 {
+    font-size: 18px;
+    line-height: 24px;
+}
+
+h1 {
+    font-size: 22px;
+    line-height: 28px;
+}
+
+fieldset {
+    border: 0; margin: 0; padding: 0;
+
+    legend {
+        font-size: 18px;
+        font-family: $header-font-family;
+        font-weight: 600;
+        letter-spacing: .05em;
+    }
+
+    hr { margin: .5rem 0 1.25rem 0; }
+}
+
+//Remove IE's clear input "x"
+input::-ms-clear {
+    display: none; 
+    width:0; 
+    height:0;
+}
+
+textarea {
+    height: auto;
+    width: 100%;
+    min-height: $base-line-height;
+    resize: vertical;
+}

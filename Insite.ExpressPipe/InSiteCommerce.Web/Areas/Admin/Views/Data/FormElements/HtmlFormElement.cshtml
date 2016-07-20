@@ -1,0 +1,11 @@
+﻿@using System.Text.RegularExpressions
+@model Insite.Admin.FormBuilder.Elements.HtmlFormElement
+
+@if (Model.Html.Contains("Html.Partial"))
+{
+    @Html.Partial(new Regex(@"(?<="")(?:\\.|[^""\\])*(?="")").Matches(Model.Html)[0].Value);
+}
+else
+{
+    @Html.Raw(Model.Html)
+}

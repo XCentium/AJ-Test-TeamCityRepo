@@ -1,0 +1,11 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+<div class="row">
+    <div class="columns " ng-if="vm.isFromReviewAndPay">
+        <p style="color: red;">@Html.Message("SignIn_SessionExpiredOnCheckout", "Your session has expired, please sign in to submit your order.")</p>
+    </div>
+
+    <isc-username-password></isc-username-password>
+    <isc-register ng-if="vm.settings.allowCreateAccount"></isc-register>
+
+    <isc-external-providers></isc-external-providers>
+</div>

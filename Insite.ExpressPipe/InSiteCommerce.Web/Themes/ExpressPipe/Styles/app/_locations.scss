@@ -1,0 +1,72 @@
+﻿.locations {
+    .orbit-container {
+        .prev,
+        .next {
+            display: inline-block;
+            vertical-align: middle;
+
+            span {
+                @extend .fa;
+                font-size: 2em;
+                margin: 0 rem-calc(5);
+            }
+        }
+        .prev {
+            span {
+                &:before {
+                    content: '\f104';
+                }
+            }
+        }
+        .next {
+            position:absolute;
+            left:75px;
+            span {
+                &:before {
+                    content: '\f105';
+                }
+            }
+        }
+        .orbit-timer { display: none; }
+        .slide-number {
+            width:55px;
+            text-align:center;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        
+
+        .location {
+            .dealer-image {
+                height:185px;
+                width:100%;
+                img {
+                    position: relative;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    max-height:185px;
+                }
+            }
+
+            .dealer-name{
+                margin-top:.25em;
+                font-size:1.25rem;
+            }
+            .dealer-btn {
+                .button {
+                    margin-bottom:.5em;
+                }
+            }
+        }
+        
+    }   
+    .orbit-slides-container {
+        min-height:400px;
+    }
+}
+
+.widget-dealer-carousel {
+    margin-bottom: 1.42857rem;
+}
+

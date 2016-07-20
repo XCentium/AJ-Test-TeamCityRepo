@@ -1,0 +1,7 @@
+﻿@model PageTitle
+
+<div class="row">
+    <div class="small-12 columns">
+        <h1 class="@(Model.CssClass.IsEmpty() ? "" : Model.CssClass)">@CurrentPage.Title</h1>
+    </div>
+</div>

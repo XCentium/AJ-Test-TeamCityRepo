@@ -1,0 +1,737 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2B9BEAF8-3621-4B97-BE80-8D8D001D95A6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Morsco.Customizations.Lib</RootNamespace>
+    <AssemblyName>Morsco.Customizations.Lib</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'dev|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\dev\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\Lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="AuthorizeNet">
+      <HintPath>..\Lib\AuthorizeNet.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper">
+      <HintPath>..\Lib\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="CacheCow.Common">
+      <HintPath>..\Lib\CacheCow.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="CacheCow.Server">
+      <HintPath>..\Lib\CacheCow.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="CacheCow.Server.EntityTagStore.SqlServer">
+      <HintPath>..\Lib\CacheCow.Server.EntityTagStore.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="CKFinder">
+      <HintPath>..\Lib\CKFinder.dll</HintPath>
+    </Reference>
+    <Reference Include="Elasticsearch.Net, Version=1.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Elasticsearch.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah">
+      <HintPath>..\Lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah.Mvc">
+      <HintPath>..\Lib\Elmah.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Enyim.Caching">
+      <HintPath>..\Lib\Enyim.Caching.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation">
+      <HintPath>..\Lib\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation.Mvc">
+      <HintPath>..\Lib\FluentValidation.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections">
+      <HintPath>..\Lib\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageResizer">
+      <HintPath>..\Lib\ImageResizer.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageResizer.Mvc">
+      <HintPath>..\Lib\ImageResizer.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Account, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Account.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Admin">
+      <HintPath>..\Lib\Insite.Admin.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Budget, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Budget.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Cart, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Cart.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Catalog, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Catalog.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Common">
+      <HintPath>..\Lib\Insite.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Configurator, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Configurator.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.ContentAdmin, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.ContentAdmin.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.ContentLibrary, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.ContentLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Core, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Core.Interfaces">
+      <HintPath>..\Lib\Insite.Core.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Customers, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Customers.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Dashboard, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Dashboard.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Data">
+      <HintPath>..\Lib\Insite.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Data.Entities">
+      <HintPath>..\Lib\Insite.Data.Entities.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Data.Providers.EntityFramework">
+      <HintPath>..\Lib\Insite.Data.Providers.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Data.Repositories">
+      <HintPath>..\Lib\Insite.Data.Repositories.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Dealers, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Dealers.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Email, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Email.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.GeocoderProvider.FreeGeoip">
+      <HintPath>..\Lib\Insite.GeocoderProvider.FreeGeoip.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.GeocoderProvider.Google">
+      <HintPath>..\Lib\Insite.GeocoderProvider.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.HelpLinks">
+      <HintPath>..\Lib\Insite.HelpLinks.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.IdentityServer, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.IdentityServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Integration">
+      <HintPath>..\Lib\Insite.Integration.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Integration.WebService, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Integration.WebService.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Invoice, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Invoice.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.IocContainer.Unity, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.IocContainer.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.JobQuote, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.JobQuote.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Message, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Message.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Order, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Order.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.OrderApproval, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.OrderApproval.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.PaymentGateway.AuthorizeDotNet">
+      <HintPath>..\Lib\Insite.PaymentGateway.AuthorizeDotNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.PaymentGateway.CyberSource">
+      <HintPath>..\Lib\Insite.PaymentGateway.CyberSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.PaymentGateway.PayflowPro">
+      <HintPath>..\Lib\Insite.PaymentGateway.PayflowPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Payments, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Payments.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Plugins, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Plugins.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Promotions, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Promotions.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Punchout, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Punchout.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.PunchOut.Legacy, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.PunchOut.Legacy.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.QuickOrder, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.QuickOrder.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.RatingService.FedEx, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.RatingService.FedEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.RatingService.FedEx.XmlSerializers, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.RatingService.FedEx.XmlSerializers.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.RatingService.Ups, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.RatingService.Ups.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Requisition, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Requisition.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Rfq, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Rfq.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Search.Elasticsearch">
+      <HintPath>..\Lib\Insite.Search.Elasticsearch.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.StorageProviders.Amazon">
+      <HintPath>..\Lib\Insite.StorageProviders.Amazon.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.StorageProviders.Azure">
+      <HintPath>..\Lib\Insite.StorageProviders.Azure.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Swagger, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Swagger.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.TaxCalculator.Avalara">
+      <HintPath>..\Lib\Insite.TaxCalculator.Avalara.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.TaxCalculator.CyberSource">
+      <HintPath>..\Lib\Insite.TaxCalculator.CyberSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.TaxCalculator.Sx">
+      <HintPath>..\Lib\Insite.TaxCalculator.Sx.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.TranslationService.Google">
+      <HintPath>..\Lib\Insite.TranslationService.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.UserFiles, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.UserFiles.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.WebFramework, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.WebFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Websites, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Websites.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.WIS.Broker">
+      <HintPath>..\Lib\Insite.WIS.Broker.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.WishLists, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.WishLists.dll</HintPath>
+    </Reference>
+    <Reference Include="Insite.Workflows, Version=4.1.0.21469, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Insite.Workflows.dll</HintPath>
+    </Reference>
+    <Reference Include="LinqKit">
+      <HintPath>..\Lib\LinqKit.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\Lib\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\Lib\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\Lib\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\Lib\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Edm, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Microsoft.Data.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Microsoft.Data.Services.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Protocol.Extensions">
+      <HintPath>..\Lib\Microsoft.IdentityModel.Protocol.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\Lib\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Cors">
+      <HintPath>..\Lib\Microsoft.Owin.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\Lib\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\Lib\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\Lib\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\Lib\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Jwt">
+      <HintPath>..\Lib\Microsoft.Owin.Security.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\Lib\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\Lib\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OpenIdConnect">
+      <HintPath>..\Lib\Microsoft.Owin.Security.OpenIdConnect.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\Lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\Lib\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception">
+      <HintPath>..\Lib\Microsoft.Practices.Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception.Configuration">
+      <HintPath>..\Lib\Microsoft.Practices.Unity.Interception.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention">
+      <HintPath>..\Lib\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="MiniProfiler">
+      <HintPath>..\Lib\MiniProfiler.dll</HintPath>
+    </Reference>
+    <Reference Include="Nest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Nest.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\Lib\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Swashbuckle.Core">
+      <HintPath>..\Lib\Swashbuckle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Services" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt">
+      <HintPath>..\Lib\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Spatial, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Cors">
+      <HintPath>..\Lib\System.Web.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors">
+      <HintPath>..\Lib\System.Web.Http.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Owin">
+      <HintPath>..\Lib\System.Web.Http.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\Lib\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TypeLite">
+      <HintPath>..\Lib\TypeLite.dll</HintPath>
+    </Reference>
+    <Reference Include="TypeLite.Net4">
+      <HintPath>..\Lib\TypeLite.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="U2Mv">
+      <HintPath>..\Lib\U2Mv\U2Mv.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.WebApi">
+      <HintPath>..\Lib\Unity.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx">
+      <HintPath>..\Lib\WebActivatorEx.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <HintPath>..\Lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BillToMin\Models\CustomerMinModel.cs" />
+    <Compile Include="BillToMin\Models\BillToMinResult.cs" />
+    <Compile Include="BillTrust\Helpers\BillTrustHelper.cs" />
+    <Compile Include="BillTrust\Interfaces\IBillTrustService.cs" />
+    <Compile Include="BillTrust\Models\BillTrustSSORequest.cs" />
+    <Compile Include="BillTrust\Models\BillTrustInvoiceRequest.cs" />
+    <Compile Include="BillTrust\Services\BillTrustService.cs" />
+    <Compile Include="BillTrust\WebApi\BillTrustController.cs" />
+    <Compile Include="BulkUpload\Interfaces\IBulkUploadService.cs" />
+    <Compile Include="BulkUpload\Models\BulkUploadRequest.cs" />
+    <Compile Include="BulkUpload\Models\BulkUploadResult.cs" />
+    <Compile Include="BulkUpload\Services\BulkUploadService.cs" />
+    <Compile Include="BulkUpload\WebApi\BulkUploadController.cs" />
+    <Compile Include="Cart\GetCartHandler_Morsco.cs" />
+    <Compile Include="Cart\GetCartHandler_Override.cs" />
+    <Compile Include="Cart\Helper\MorscoCartHelper.cs" />
+    <Compile Include="Common\Helpers.cs" />
+    <Compile Include="Common\ProductListType.cs" />
+    <Compile Include="Controllers\ContactUsController.cs" />
+    <Compile Include="CreditCardIntegration\Interfaces\ICreditCardService.cs" />
+    <Compile Include="CreditCardIntegration\Models\AddCardRequest.cs" />
+    <Compile Include="CreditCardIntegration\Models\CreditCardInitiateResult.cs" />
+    <Compile Include="CreditCardIntegration\Models\CreditCardsResult.cs" />
+    <Compile Include="CreditCardIntegration\Services\CreditCardService.cs" />
+    <Compile Include="CreditCardIntegration\WebApi\CreditCardController.cs" />
+    <Compile Include="EmailService\EmailServiceRepository.cs" />
+    <Compile Include="EmailService\MorscoEmailServiceDatabase.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MorscoEmailServiceDatabase.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmailService\MorscoEmailServiceDatabase.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MorscoEmailServiceDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmailService\MorscoEmailServiceDatabase.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MorscoEmailServiceDatabase.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="EmailService\ProcessedASPNetUsersLog.cs">
+      <DependentUpon>MorscoEmailServiceDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmailService\TriggeredSend.cs">
+      <DependentUpon>MorscoEmailServiceDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EmailService\TriggeredSendDto.cs" />
+    <Compile Include="EmailService\TriggeredSendKeyMap.cs">
+      <DependentUpon>MorscoEmailServiceDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\Infrastructure\EntityDefinitionRepository_Morsco.cs" />
+    <Compile Include="Extensions\QueryableExtensions.cs" />
+    <Compile Include="Handlers\AddAccountHandler_Morsco.cs" />
+    <Compile Include="Handlers\AddCartLineHandler_Morsco.cs" />
+    <Compile Include="Handlers\AddQuoteHandler_Morsco.cs" />
+    <Compile Include="Handlers\AddSessionHandler_Morsco.cs" />
+    <Compile Include="Handlers\GetQuoteCollectionHandler_Morsco.cs" />
+    <Compile Include="Handlers\GetQuoteHandler_Morsco.cs" />
+    <Compile Include="Handlers\GetQuoteLineHandler_Morsco.cs" />
+    <Compile Include="Handlers\GetStoredOrderHandler.cs" />
+    <Compile Include="Handlers\GetDealerCollectionHandler_Morsco.cs" />
+    <Compile Include="Handlers\GetDealerHandler_Morsco.cs" />
+    <Compile Include="Handlers\GetWishlistCollectionHandler_Morsco.cs" />
+    <Compile Include="Handlers\GlobalExceptionHandler_Morsco.cs" />
+    <Compile Include="Handlers\UpdateCartSubmitHandler_Morsco.cs" />
+    <Compile Include="Handlers\UpdateQuoteHandler_Morsco.cs" />
+    <Compile Include="HistoryServices\Models\DownloadInvoicesRequest.cs" />
+    <Compile Include="HistoryServices\Models\GetAgingBucketsRequest.cs" />
+    <Compile Include="HistoryServices\Models\GetOrderHistoryLinesRequest.cs" />
+    <Compile Include="HistoryServices\Models\GetShipmentsRequest.cs" />
+    <Compile Include="HistoryServices\Repository\HistoryRepository.cs" />
+    <Compile Include="HistoryServices\Interfaces\IHistoryRepository.cs" />
+    <Compile Include="HistoryServices\Interfaces\IHistoryService.cs" />
+    <Compile Include="HistoryServices\Services\HistoryService.cs" />
+    <Compile Include="HistoryServices\WebApi\HistoryController.cs" />
+    <Compile Include="Interfaces\IPonderosaOrderRepository.cs" />
+    <Compile Include="Interfaces\IPonderosaOrderUpdateRepository.cs" />
+    <Compile Include="Interfaces\IBulkUploadRepository.cs" />
+    <Compile Include="Interfaces\IBillToMinRepository.cs" />
+    <Compile Include="Interfaces\ISpecialOrderRepository.cs" />
+    <Compile Include="Interfaces\IProductHistoryRepository.cs" />
+    <Compile Include="Interfaces\IRegistrationRepository.cs" />
+    <Compile Include="Interfaces\ICreditCardRepository.cs" />
+    <Compile Include="Common\CurrencyFormatProvider_Morsco.cs" />
+    <Compile Include="Invoice\GetInvoiceCollectionHandler_Morsco.cs" />
+    <Compile Include="Invoice\GetInvoiceCollectionMapper_Morsco.cs" />
+    <Compile Include="Mappers\GetQuoteMapper_Morsco.cs" />
+    <Compile Include="Mappers\GetDealerCollectionMapper_Morsco.cs" />
+    <Compile Include="Mappers\GetDealerMapper_Morsco.cs" />
+    <Compile Include="Mappers\GetQuoteCollectionMapper_Morsco.cs" />
+    <Compile Include="Mappers\PatchCartMapper_Morsco.cs" />
+    <Compile Include="Messages\MorscoMessageProvider.cs" />
+    <Compile Include="EntityFramework\Mapping\UserRecentlyUsedCreditCardMapping.cs" />
+    <Compile Include="EntityFramework\Mapping\ProductListTypeMapping.cs" />
+    <Compile Include="EntityFramework\Mapping\ProductListMapping.cs" />
+    <Compile Include="EntityFramework\Model\UserRecentlyUsedCreditCard.cs" />
+    <Compile Include="EntityFramework\Model\ProductList.cs" />
+    <Compile Include="EntityFramework\Model\ProductListType.cs" />
+    <Compile Include="OrderHistory\GetOrderCollectionMapper_Morsco.cs" />
+    <Compile Include="OrderHistory\GetStoredOrderCollectionHandler.cs" />
+    <Compile Include="PonderosaOrderUpdate\Interfaces\IPonderosaOrderUpdateService.cs" />
+    <Compile Include="PonderosaOrderUpdate\Models\PonderosaOrderUpdateRequest.cs" />
+    <Compile Include="PonderosaOrderUpdate\Models\PonderosaOrderUpdateResult.cs" />
+    <Compile Include="PonderosaOrderUpdate\Services\PonderosaOrderUpdateService.cs" />
+    <Compile Include="PonderosaOrderUpdate\WebApi\PonderosaOrderUpdateController.cs" />
+    <Compile Include="Ponderosa\Interfaces\IPonderosaOrderService.cs" />
+    <Compile Include="Ponderosa\Models\OrderRequest.cs" />
+    <Compile Include="Ponderosa\Models\UpdateQuoteRequest.cs" />
+    <Compile Include="Ponderosa\Services\PonderosaOrderService.cs" />
+    <Compile Include="Ponderosa\WebApi\PonderosaOrderController.cs" />
+    <Compile Include="PricingService\PricingServiceFactoryMorsco.cs" />
+    <Compile Include="PricingService\PricingServiceMorsco.cs" />
+    <Compile Include="BillToMin\Interfaces\IBillToMinService.cs" />
+    <Compile Include="BillToMin\Models\BillToMinRequest.cs" />
+    <Compile Include="BillToMin\Services\BillToMinService.cs" />
+    <Compile Include="BillToMin\WebApi\BillToMinController.cs" />
+    <Compile Include="ProductReindex\Interfaces\IProductReindexService.cs" />
+    <Compile Include="ProductReindex\Models\ProductReindexRequest.cs" />
+    <Compile Include="ProductReindex\Models\ProductReindexResult.cs" />
+    <Compile Include="ProductReindex\Services\ProductReindexService.cs" />
+    <Compile Include="ProductReindex\WebApi\ProductReindexController.cs" />
+    <Compile Include="Products\Search\ElasticSearchQueryBuilder_Morsco.cs" />
+    <Compile Include="Products\GetProductCollectionForPreviouslyPurchasedItemsHandler.cs" />
+    <Compile Include="Products\GetProductCollectionAvailabilityHandler.cs" />
+    <Compile Include="Products\GetProductCollectionHandler.cs" />
+    <Compile Include="Products\GetProductCollectionMapper_Morsco.cs" />
+    <Compile Include="ProductHistory\Interfaces\IProductHistoryService.cs" />
+    <Compile Include="ProductHistory\Models\PurchasedProductsRequest.cs" />
+    <Compile Include="ProductHistory\Models\PurchasedProductsResult.cs" />
+    <Compile Include="ProductHistory\Services\ProductHistoryService.cs" />
+    <Compile Include="ProductHistory\WebApi\ProductHistoryController.cs" />
+    <Compile Include="Products\Search\ProductSearchProviderElasticSearch_Morsco.cs" />
+    <Compile Include="Products\Search\IProductSearchParameterMorsco.cs" />
+    <Compile Include="Products\Search\IProductSearchProviderMorsco.cs" />
+    <Compile Include="Products\Search\ProductSearchParameterMorsco.cs" />
+    <Compile Include="Providers\CartOrderProviderSession.cs" />
+    <Compile Include="Registration\Interfaces\IRegistrationService.cs" />
+    <Compile Include="Registration\Models\GetWarehousesResult.cs" />
+    <Compile Include="Registration\Models\WarehouseDto.cs" />
+    <Compile Include="Registration\Models\SearchCustomerRequest.cs" />
+    <Compile Include="Registration\Models\SearchCustomerResult.cs" />
+    <Compile Include="Registration\Services\RegistrationService.cs" />
+    <Compile Include="Registration\WebApi\RegistrationController.cs" />
+    <Compile Include="ProductList\Interfaces\IProductListService.cs" />
+    <Compile Include="CreditCardIntegration\Models\CreditCardDto.cs" />
+    <Compile Include="ProductList\Models\ProductListItemDto.cs" />
+    <Compile Include="ProductList\Models\ProductListRequest.cs" />
+    <Compile Include="ProductList\Models\ProductListResult.cs" />
+    <Compile Include="ProductList\Models\ProductListType.cs" />
+    <Compile Include="ProductList\Services\ProductListService.cs" />
+    <Compile Include="ProductList\WebApi\ProductListController.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Interfaces\IProductListRepository.cs" />
+    <Compile Include="Repositories\PonderosaOrderRepository.cs" />
+    <Compile Include="Repositories\PonderosaOrderUpdateRepository.cs" />
+    <Compile Include="Repositories\BulkUploadRepository.cs" />
+    <Compile Include="Repositories\BillToMinRepository.cs" />
+    <Compile Include="Repositories\SpecialOrderRepository.cs" />
+    <Compile Include="Repositories\ProductHistoryRepository.cs" />
+    <Compile Include="Repositories\RegistrationRepository.cs" />
+    <Compile Include="Repositories\CreditCardRepository.cs" />
+    <Compile Include="Repositories\ProductListRepository.cs" />
+    <Compile Include="Services\EmailService_Morsco.cs" />
+    <Compile Include="Services\IntegrationJobSchedulingService_Morsco.cs" />
+    <Compile Include="SpecialOrder\Interfaces\ISpecialOrderService.cs" />
+    <Compile Include="SpecialOrder\Models\UpdateQuoteRequest.cs" />
+    <Compile Include="SpecialOrder\Models\SpecialOrderRequest.cs" />
+    <Compile Include="SpecialOrder\Models\SpecialOrderResult.cs" />
+    <Compile Include="SpecialOrder\Services\SpecialOrderService.cs" />
+    <Compile Include="SpecialOrder\WebApi\SpecialOrderController.cs" />
+    <Compile Include="Utils\Converter.cs" />
+    <Compile Include="Utils\ExtensionMethods.cs" />
+    <Compile Include="Utils\PonderosaOrderChangeUtility.cs" />
+    <Compile Include="Widgets\CallUsForm.cs" />
+    <Compile Include="Widgets\CareersForm.cs" />
+    <Compile Include="Widgets\Categories.cs" />
+    <Compile Include="Widgets\EmailUsForm.cs" />
+    <Compile Include="Widgets\MorscoRegistrationConfirmation.cs" />
+    <Compile Include="Widgets\MorscoRegistrationStepOne.cs" />
+    <Compile Include="Widgets\MorscoRegistrationStepThree.cs" />
+    <Compile Include="Widgets\MorscoRegistrationStepTwo.cs" />
+    <Compile Include="Widgets\NoSearchResults.cs" />
+    <Compile Include="Widgets\RecommendedProducts.cs" />
+    <Compile Include="Widgets\RequestQuoteWidget.cs" />
+    <Compile Include="Widgets\Slide.cs" />
+    <Compile Include="Widgets\TopSellingProducts.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Morsco.PonderosaService\Morsco.PonderosaService.csproj">
+      <Project>{521e3760-30b2-4da4-b3a9-77aa97d0dacf}</Project>
+      <Name>Morsco.PonderosaService</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EntityFramework\Json\userRecentlyUsedCreditCard.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <EntityDeploy Include="EmailService\MorscoEmailServiceDatabase.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MorscoEmailServiceDatabase.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="EmailService\MorscoEmailServiceDatabase.edmx.diagram">
+      <DependentUpon>MorscoEmailServiceDatabase.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EmailService\MorscoEmailServiceDatabase.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MorscoEmailServiceDatabase.edmx</DependentUpon>
+      <LastGenOutput>MorscoEmailServiceDatabase.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="EmailService\MorscoEmailServiceDatabase.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MorscoEmailServiceDatabase.edmx</DependentUpon>
+      <LastGenOutput>MorscoEmailServiceDatabase.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

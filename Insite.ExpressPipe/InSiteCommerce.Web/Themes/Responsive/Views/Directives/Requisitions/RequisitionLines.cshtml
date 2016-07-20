@@ -1,0 +1,79 @@
+﻿<div class="modal-wrap">
+    <div class="row req-top" ng-if="vm.requisition">
+        <div class="large-4 columns">
+            <h3>@T("Viewing Requisitions For"):</h3>
+        </div>
+        <div class="large-8 columns">
+            <div class="row order-details">
+                <ul class="large-12 columns item-list cart-items">
+                    <li class="row item-block checkout-item">
+                        <div class="small-3 columns item-thumb">
+                            <a id="requisitionLinesProductLink_{{vm.requisition.productId}}" ng-href="{{ vm.requisition.productUri }}">
+                                <img ng-src="{{ vm.requisition.smallImagePath }}" alt="{{ vm.requisition.altText }}" />
+                            </a>
+                        </div>
+                        <div class="small-9 columns item-details">
+                            <isc-product-name product="vm.requisition"></isc-product-name>
+                            <div class="price">
+                                <isc-product-price product="vm.convertForPrice(vm.requisition)"></isc-product-price>
+                                <isc-unit-of-measure-display product="vm.requisition"> </isc-unit-of-measure-display>
+                                <div class="quantity-pricing">
+                                    <isc-quantity-break-pricing product-id="vm.requisition.id" break-prices="vm.requisition.breakPrices"></isc-quantity-break-pricing>
+                                </div>
+                            </div>
+                            <div class="item-opt">
+                                <div class="item-qty">
+                                    <strong>@T("QTY_quantity"):</strong> <span ng-bind="vm.requisition.qtyOrdered"></span>
+                                </div>
+                                <div class="item-subtotal" ng-bind="vm.requisition.pricing.extendedActualPriceDisplay"></div>
+                            </div>
+                        </div>
+                        <div class="medium-9 large-9 columns item-code-notes" ng-if="vm.requisition.costCode || vm.requisition.notes">
+                            <div class="row">
+                                <div ng-show="vm.requisition.costCode" class="medium-6 large-6 columns cost-code">
+                                    <strong>@T("Cost Code"):</strong>
+                                    <span ng-bind="vm.requisition.costCode"></span>
+                                </div>
+                                <div ng-show="vm.requisition.notes" class="medium-6 large-6 columns item-notes">
+                                    <strong>@T("Item Notes"):</strong>
+                                    <span ng-bind="vm.requisition.notes"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <p id="requisitionErrorMessage" ng-bind="vm.message"></p>
+    <div class="overflow-table large requisition">
+        <table class="info-tbl">
+            <tbody>
+            <tr>
+                <th class="col-qty-remove"><span class="sticky-first">@T("QTY_quantity") / @T("Remove")</span></th>
+                <th class="col-date">@T("Date")</th>
+                <th class="col-cost-code">@T("Cost Code")</th>
+                <th class="col-first-name">@T("First Name")</th>
+                <th class="col-last-name">@T("Last Name")</th>
+                <th class="col-username">@T("Username")</th>
+            </tr>
+            <tr ng-repeat="requisitionLine in vm.requisition.requisitionLineCollection.requisitionLines">
+                <td class="col-qty-remove">
+                    <span class="sticky-first">
+                        <input id="requisitionLinesQuantityOrderedInput_{{requisitionLine.id}}" name="qty" type="text" class="txt numerictextbox" ng-model="requisitionLine.qtyOrdered" ng-blur="vm.patchRequisitionLine(requisitionLine)"/>
+                        <a id="requisitionLinesCloseButton_{{requisitionLine.id}}" class="btn tertiary btn-remove" href="javascript:void(0);" data-removerequisition="true" ng-click="vm.deleteRequisitionLine(requisitionLine)">X</a>
+                    </span>
+                </td>
+                <td class="col-date" ng-bind="requisitionLine.orderDate | date:'shortDate'"></td>
+                <td class="col-cost-code" ng-bind="requisitionLine.costCode"></td>
+                <td class="col-first-name" ng-bind="requisitionLine.firstName"></td>
+                <td class="col-last-name" ng-bind="requisitionLine.lastName"></td>
+                <td class="col-username" ng-bind="requisitionLine.userName"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="btns">
+        <a href="javascript:void(0);" class="btn primary btn-done" onclick="javascript:$('#closeReveal').click(); return false;" id="closeRequisitionLines">@T("Done")</a>
+    </div>
+</div>

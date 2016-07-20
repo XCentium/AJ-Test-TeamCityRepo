@@ -1,0 +1,36 @@
+﻿@using Insite.ContentLibrary
+@using Insite.WebFramework.Mvc
+@using Insite.WebFramework.Mvc.Extensions
+
+@model CatalogNavigationPage
+@helper Nav(NavLinkDto navLink, string suffix, bool includeSubNav = false)
+{
+    var categoryCounter = 1;
+    if (navLink != null)
+    {
+        if (navLink.NavLinks == null || !navLink.NavLinks.Any())
+        {
+            <li>
+                <a id="tst-product-menu-@navLink.CategoryId" href="@Url.Link(navLink)">@navLink.LinkText</a>
+            </li>
+        }
+        else
+        {
+            <li class="has-dropdown hide-for-small-down">
+                <a id="tst-product-menu-@navLink.CategoryId" href="@Url.Link(navLink)" @if (includeSubNav) { <text> onclick="$(this).next().click(); return false;" </text>   }>@navLink.LinkText</a>
+                <label for="nav-@(suffix)" class="toggle-sub" onclick="insite.nav.goToSubnav(this)">&#9658;</label>
+                <input type="checkbox" name="nav" id="nav-@(suffix)" class="hide subnav-check" />
+                <ul id="sub-@(suffix)" class="dropdown">
+                    <li class="sub-heading"><label>@navLink.LinkText</label></li>
+                    @foreach (var subLink in navLink.NavLinks)
+                    {
+                        categoryCounter++;
+                        @Nav(subLink, suffix = suffix + categoryCounter)
+                    }
+                </ul>
+            </li>
+        }
+    }
+}
+
+@Nav(Model.CategoryNavRoot, "cat", true)

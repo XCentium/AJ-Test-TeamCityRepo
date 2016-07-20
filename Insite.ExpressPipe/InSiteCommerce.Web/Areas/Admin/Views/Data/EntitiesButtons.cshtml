@@ -1,0 +1,73 @@
+﻿@using Insite.Core.ApplicationDictionary.AdminActions
+@model Insite.Admin.Models.EntitiesViewModel
+
+<span class="right">
+    @if (Model.Form.AllowRefresh)
+    {
+        @Html.Partial("RefreshButton")
+    }
+    @if (Model.Form.AllowImport && !Model.EntityDefinition.IsImmutable && Model.EntityDefinition.CanEdit && Model.EntityDefinition.CanCreate)
+    {
+        <a class="button button-icon" title="Import" ng-click="entityListCtrl.importRecords()"><i class="icon icon-import"></i></a>
+    }
+    @if (Model.Form.AllowExport)
+    {
+        <a class="button button-icon" title="Export" ng-click="entityListCtrl.exportRecords()"><i class="icon icon-export"></i></a>
+    }
+    @if (Model.Form.AllowDelete && Model.EntityDefinition.CanDelete)
+    {
+        @Html.Partial("DeleteButton")
+    }
+    @if (Model.Form.AllowAssignments && Model.Assignments.Any() && Model.EntityDefinition.CanEdit)
+    {
+        @Html.Partial("AssignmentsActionButton")
+    }
+    @if (Model.Form.AllowMultiEdit)
+    {
+        <a class="button button-icon" title="@(Model.EntityDefinition.CanEdit && (Model.Form.ShowEditButton || !Model.Form.ShowViewButton) ? "Edit" : "View")" ng-disabled="entityListCtrl.areNoneSelected()" ng-click="entityListCtrl.areNoneSelected() || entityListCtrl.editMultipleRecords()">
+            <i class="icon @(Model.EntityDefinition.CanEdit && (Model.Form.ShowEditButton || !Model.Form.ShowViewButton) ? "icon-edit" : "icon-visibility")"></i>
+        </a>
+    }
+    @{ var adminActions = Model.Actions.Where(o => o.PermissionType == AdminActionPermissionType.Allowed && (o.ViewType == AdminActionViewType.ListView || o.ViewType == AdminActionViewType.DetailAndListView)).ToList(); }
+    @if (adminActions.Any() && Model.EntityDefinition.CanEdit)
+    {
+        <a href="javascript:void(0)" class="button button-icon" isa-popup-toggle="moreOptionsPopup-@Model.EntityDefinition.PluralizedName">
+           <i class="icon icon-more-vertical"></i>
+        </a>
+        <isa-popup id="moreOptionsPopup-@Model.EntityDefinition.PluralizedName" target-offset="10px -1px">
+            <ul class="menu-action-list">
+                @foreach (var adminAction in adminActions)
+                {
+                    <li>
+                        @{
+                            var angularFunction = adminAction.AngularDirective.IsBlank() ? "callAction" : "callCustomAction";
+                            angularFunction = "entityListCtrl." + angularFunction + "('" + adminAction.Name + "')";
+                        }
+
+                        <a isa-popup-toggle="moreOptionsPopup" class="menu-action-list__action" href="#" ng-click="@angularFunction">@adminAction.Label</a>
+
+                        @if (!adminAction.ToolTip.IsEmpty())
+                        {
+                            <i class="icon icon-help" title="@adminAction.ToolTip"></i>
+                        }
+                    </li>
+                            }
+            </ul>
+        </isa-popup>
+                            }
+    @if (Model.Form.AllowAdd && Model.EntityDefinition.CanCreate && !Model.EntityDefinition.IsImmutable)
+    {
+        <a class="button flex-none" ng-click="entityListCtrl.createNewRecord()" id="tst-create-new-@Model.Form.Name">
+            <i class="icon icon-plus-solid-2"></i> @Model.EntityDefinition.Label
+        </a>
+    }
+    <input id="hiddenFileUpload" style="display: none" type="file" onchange="angular.element(this).data('_scope').entityListCtrl.setFile(this)">
+    <a id="hiddenFileDownload" download></a>
+</span>
+
+<div>
+    @foreach (var angularDirective in adminActions.Where(o => !o.AngularDirective.IsBlank()).Select(o => o.AngularDirective).Distinct())
+    {
+        @:<@angularDirective></@angularDirective>
+    }
+</div>

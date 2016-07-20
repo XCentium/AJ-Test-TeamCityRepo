@@ -1,0 +1,7 @@
+﻿@model EditContentFieldModel<CheckBoxContentFieldAttribute>
+
+<label>
+    @Html.CheckBox(Model.FieldName, Model.GetValue<bool>())
+    @Model.DisplayName
+    @Html.Partial("ContentItemFields/_ContextDisplay", Model.ContentItemFieldModel)
+</label>

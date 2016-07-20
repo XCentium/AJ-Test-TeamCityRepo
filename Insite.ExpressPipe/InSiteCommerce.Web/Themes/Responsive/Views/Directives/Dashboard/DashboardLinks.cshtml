@@ -1,0 +1,17 @@
+﻿<div>
+    <div class="row dashboard">
+        <div class="small-12 columns left dash-tiles">
+            <ul class="small-block-grid-2 large-block-grid-4 tiles-list">
+                <li ng-repeat="panel in vm.panels" ng-class="vm.getCssClass(panel.panelType)">
+                    <a id="dashboardLinksPanelLink_{{$index}}" href="{{panel.url}}" class="btn primary">
+                        <span>{{panel.text}}</span>
+                    </a>
+                    <span class="db-counter" ng-bind="panel.count"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,237 @@
+﻿.autocomplete-suggestions {
+    background-color: #fff;
+    border: 1px solid $lighter-gray;
+    border-top: none;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    margin-top: -1px;
+    //width: 400px !important;
+
+    .autocomplete-suggestion {
+        padding: $padding-single;
+        border-bottom: 1px solid $lightest-gray;
+        > img {
+            float: left;
+            width: 10%;
+        }
+        > div {
+            float: left;
+            width: 88%;
+            padding-left: $padding-single;
+
+            .shortDescription {
+                display: block;
+            }
+            .name {
+                display: block;
+                font-size: 0.8em;
+                color: $lighter-gray;
+            }
+        }
+
+        &:after {
+            visibility: hidden;
+             display: block;
+             font-size: 0;
+             content: " ";
+             clear: both;
+             height: 0;
+        }
+
+        &:hover {
+            cursor: pointer;
+            background-color: $lightest-gray;
+        }
+    }
+}
+* html .autocomplete-suggestion { height: 1%; }
+.autocomplete-suggestion { display: block; }
+
+
+
+/* Autocomplete */
+
+.k-autocomplete {
+    display: block;
+}
+
+#qo-search-view-list, #qo-search-widget-list, .search-autocomplete-list { 
+    &.k-list-container
+        {
+        border: 1px solid #BBB; 
+        background: #FFF; 
+        cursor: pointer; 
+        overflow: auto;
+        -webkit-box-shadow: 0 0 5px 0 rgba(25,25,25,0.2);
+        box-shadow: 0 0 5px 0 rgba(25,25,25,0.2);
+        color: $link-color;
+        max-width: 640px;
+
+        ul { 
+            margin: 0; 
+            font-size: 14px;
+            
+            li { 
+                list-style: none; 
+                padding: 0;
+
+                &.products li.k-item {
+                    padding: 3px;
+                }
+
+                span.parent-category {
+                    color: #7d7d7d;
+                    padding-left: 4px;
+                    font-style: italic;
+                }
+            }
+        }
+
+        .k-item { 
+            padding: 5px 0; 
+            white-space: normal;
+            overflow: hidden; 
+
+            &:hover {
+                text-decoration: underline;
+            }
+
+            .group-category {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+
+                .group-category__title { 
+                    color: $link-color;
+
+                    &:hover {text-decoration: underline;}
+                }
+            }
+            
+            img { max-width: 45px; max-height: 45px; }
+            .group-product { margin-bottom: 6px; }
+
+            div { 
+                &.image{
+                    display: table-cell;
+                    vertical-align: top;
+                    width: 45px;
+                    padding-right: 10px;
+
+                    + div {
+                        display: table-cell;
+                        vertical-align: top;
+                    }
+                }
+                .shortDescription { 
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+                .name { 
+                    display: inline-block; 
+                    font-style: italic;
+                    padding-right: 5px; 
+
+                    .label {
+                        padding: 0;
+                    }
+                }
+
+                span {
+                    color: #7d7d7d;
+
+                    .label{ background-color: transparent; }
+                }
+            }
+            &.k-state-focused { color: #444; background-color: #F0F0F0; border-color: #F0F0F0; }
+        }
+
+        .header {
+            cursor: default;
+            color: #7d7d7d;
+            font-style: italic;
+            padding: 5px 0;
+        }
+    }
+}
+
+.search-autocomplete-list {
+    @media all and (min-width: 768px) { 
+        &.autocomplete-type-product {
+            ul.k-list {
+                &:after {
+                    content:'';
+                    display:block;
+                    clear: both;
+                }
+
+                & > li {
+                    float: left;
+                    width: 50%;
+                    min-height: 1px;
+                }
+
+                & > li.products--full-width { width: 100%; }
+
+                & > li:nth-child(2) {
+                    border-left: 1px solid #d4d4d3;
+                    padding-left: 15px;
+                }
+            }
+        }
+
+        .header.product {
+            display:none;
+        }
+
+        &.search-autocomplete-list--large {
+            width: 640px !important;
+        }
+    }
+
+    &.autocomplete-type-product {
+        .clear-search-history { display: none; }
+        .search-history-label { display: none; }
+
+        ul.k-list { 
+            padding: 8px 12px; 
+
+            > li:first-child {
+                padding-right: 10px;
+            }
+        }
+    }
+    &.autocomplete-type-searchhistory {
+        .clear-search-history {
+            padding-top: 5px;
+            font-size: 0.8em;
+            border-top: 1px solid #999999;
+        }
+
+        .search-history-label {
+            margin: 0 5px;
+            font-size: 0.8em;
+            text-align: right;
+            font-style: italic;
+            cursor: default;
+            color: black;
+        }
+
+        padding: 8px;
+    }
+}
+
+
+.autocomplete-suggestions { border: 1px solid #BBB; background: #FFF; cursor: pointer; overflow: auto;
+-webkit-box-shadow: 0 0 5px 0 rgba(25,25,25,0.2);
+box-shadow: 0 0 5px 0 rgba(25,25,25,0.2);
+font-size:0.9em; }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-suggestion img { max-width: 45px; max-height: 45px; float: left; margin-right: 4px; }
+.autocomplete-suggestion div { display: inline-block; }
+.autocomplete-suggestion div .shortDescription { line-height: 20px; }
+.autocomplete-suggestion div .name { display: inline-block; font-style: italic; }
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: normal; color: $link-color ; }

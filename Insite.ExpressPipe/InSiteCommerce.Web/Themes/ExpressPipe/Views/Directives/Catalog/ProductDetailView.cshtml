@@ -1,0 +1,331 @@
+﻿<div ng-cloak>
+
+    <isc-breadcrumb ng-show="vm.product" breadcrumbs="vm.breadCrumbs"></isc-breadcrumb>
+
+
+    <div class="product-detail">
+
+        <div ng-if="vm.product.shortDescription">
+            <div class="row detail-info">
+
+                <div class="small-12 columns hide-for-medium-up">
+                    <div class="name-price">
+                        <div class="item-brand">
+                            <span ng-bind="vm.product.properties['manufacturerName']"></span>
+                        </div>
+                        <h1 class="item-name">{{vm.product.shortDescription}}</h1>
+                        <isc-product-name product="vm.product" no-link="true"></isc-product-name>
+                    </div>
+                </div>
+
+                <div class="medium-5 columns detail-image">
+                    <a id="productDetailViewSmallImgZoomButton" class="pd-item-link" data-reveal-id="imgZoom" aria-labelledby="imgZoom" aria-hidden="true" role="dialog">
+                        <img ng-src="{{vm.product.largeImagePath}}" alt="{{vm.product.altText}}">
+                        <div class="expand hide-for-small-down hide-for-print"><i class="fa fa-expand"></i></div>
+                    </a>
+                    <div id="imgZoom" class="reveal-modal modal-zoom" data-reveal>
+                        <div class="modal-wrap text-center">
+                            <img ng-src="{{vm.product.largeImagePath}}" alt="{{vm.product.altText}}">
+                            <a id="productDetailViewSmallZoomWindowCloseButton" class="close-reveal-modal" aria-label="Close">×</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="medium-7 columns">
+
+                    <div class="name-price hide-for-small-down">
+                        <div class="item-brand">
+                            <span ng-bind="vm.product.properties['manufacturerName']"></span>
+                        </div>
+                        <h1 class="item-name">{{vm.product.shortDescription}}</h1>
+                        <isc-product-name product="vm.product" no-link="true"></isc-product-name>
+                    </div>
+
+                    <div class="panel item-cta">
+                        <div class="row">
+
+                            @* Price *@
+                            <div class="medium-5 large-3 columns item-price" ng-if="vm.product.canShowPrice">
+                                <div class="pd-price-um">
+                                    <label>@T("Price")</label>
+                                    <isc-product-price product="vm.product"></isc-product-price>
+                                    <span ng-if="vm.product.unitOfMeasureDisplay && vm.product.pricing.actualPrice != '0'" id="displayUnitOfMeasure" class="um isc-uomDisplay"> {{vm.product.unitOfMeasureDisplay}}</span>
+                                </div>
+                                <span data-tooltip aria-haspopup="true" class="has-tip" ng-hide="vm.product.properties['catalogWebSite']" title="Add to cart and request a quote to get pricing">@T("Request Quote for Price")</span>
+                                <div ng-show="vm.product.canShowPrice && !vm.product.quoteRequired">
+                                    <isc-quantity-break-pricing product-id="vm.product.id" break-prices="vm.product.pricing.actualBreakPrices"></isc-quantity-break-pricing>
+                                </div>
+                                <div class="small-12 fc-um">
+                                    <label ng-if="vm.settings.alternateUnitsOfMeasure && vm.product.productUnitOfMeasures.length > 1" class="small-12">@T("U/M"):</label>
+                                    <isc-unit-of-measure-select-list product="vm.product" alternate-units-of-measure="{{vm.settings.alternateUnitsOfMeasure}}"
+                                                                     display-pack="true" change-unit-of-measure="vm.changeUnitOfMeasure(vm.product)"></isc-unit-of-measure-select-list>
+                                </div>
+                            </div>
+
+                            @* Add to Cart *@
+                            <div class="medium-7 large-5 columns">
+
+                                <div class="add-to-cart clearfix">
+
+                                    <div class="item-qty" ng-if="vm.product.canEnterQuantity || vm.configurationCompleted || vm.styleSelectionCompleted">
+                                        <label>@T("Qty")</label>
+                                        <input id="qty" type="number" min="vm.product.properties.minimumSellQty" name="qty"
+                                                ng-change="vm.updateQty(vm.product)"
+                                                ng-model-options="{ updateOn: 'blur' }"
+                                                step="{{vm.product.properties.minimumSellQty}}" class="qty numerictextbox" ng-model="vm.product.qtyOrdered" />
+                                    </div>
+
+                                    <div class="item-buttons">
+                                        <button ng-show="vm.product.allowedAddToCart && (vm.product.canAddToCart || vm.configurationCompleted || vm.styleSelectionCompleted)"
+                                                id="displayAddToCart" ng-click="vm.addToCart(vm.product)"
+                                                role="button" class="button">
+                                            @T("Add To Cart")
+                                        </button>
+                                        <div class="item-add-to-list">
+                                            <a ng-if="vm.isAuthenticated" ng-click="vm.openWishListPopup(vm.product)" id="displayAddToWishList" role="button"
+                                               class="" href="javascript:;">@T("+ Add to List")</a>
+                                        </div>
+                                    </div>
+
+                                    <div ng-if="vm.product.canConfigure" class="small-12 primary-button">
+                                        <a id="productDetailViewConfigureButton" href="@Url.RouteUrl(null, new {controller = "Configurator", action = "Configure"})/{{vm.product.urlSegment}}"
+                                           role="button" class="btn primary btn-configure">@T("Configure")</a>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            @* Availability *@
+                            <div class="medium-12 large-4 columns">
+                                <div class="">
+                                    <label>@T("Availability") <a href="#" ng-click="vm.openAvailabilityPopup()"><i class="fi-info"></i></a></label>
+                                    <isc-morsco-availability-shipping-tax-content></isc-morsco-availability-shipping-tax-content>
+                                </div>
+
+                                <div class="item-availability-option">
+                                    <i class="fa fa-truck"></i>
+                                    <div>
+                                        <h6>Shipping</h6>
+                                        <div><em ng-bind="(vm.availability.StockQty) ? vm.availability.StockQty : '0'"></em> available in network</div>
+                                    </div>
+                                </div>
+                                <div class="item-availability-option">
+                                    <i class="fa fa-building"></i>
+                                    <div>
+                                        <h6>Will Call</h6>
+                                        <div ng-repeat="warehouse in vm.warehouses | filter:vm.availability.DefaultWarehouse" ng-if="warehouse.Key == vm.availability.DefaultWarehouse">
+                                            <em>{{(vm.availability) ? (vm.availability.StockList[vm.availability.DefaultWarehouse] < 0 ? 0 : vm.availability.StockList[vm.availability.DefaultWarehouse]) : '0'}}</em> available {{(vm.availability) ? 'at ' + warehouse.Value.BranchName : ''}}
+                                        </div>
+
+                                        <div><a href="#" ng-click="vm.showProductAvailabilityPopup(vm.product, vm.warehouses)" xxdata-reveal-id="popup-availability">Check All Locations</a></div>
+                                    </div>
+                                </div>
+                                <isc-morsco-availability-popup> </isc-morsco-availability-popup>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-7 columns" ng-if="vm.product.documents.length > 0">
+                            <h3>Technical Documents</h3>
+                            <ul class="inline-list documents">
+                                <li ng-repeat="document in vm.product.documents" class="document doc-{{$index}}">
+                                    <a id="productDetailViewDocumentLink_{{$index}}" href="{{document.filePath}}" title="{{document.documentType}}" target="_blank">
+                                        <i class="epicon epicon-{{document.documentType}}"></i><em class="hide">({{document.fileTypeString}})</em>
+                                        <label ng-if="document.documentType == 'MSDS'">MSDS Sheet</label>
+                                        <label ng-if="document.documentType == 'Catalog'">MFR Catalog Page</label>
+                                        <label ng-if="document.documentType == 'Specifications'">Technical Specification</label>
+                                        <label ng-if="document.documentType == 'Installation'">Installation Sheet</label>
+                                        <label ng-if="document.documentType == 'Parts'">MFR Item Data</label>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div ng-if="vm.product.properties" class="large-5 columns">
+                            <h3>Environmental</h3>
+                            <div class="environ_icons item-env-icons">
+                                <i ng-if="vm.product.properties['leadFree'] == 'No'" class="epicon epicon-lead-free"></i>
+                                <i ng-if="vm.product.properties['mercuryFree'] == 'Yes'" class="epicon epicon-mercury-free"></i>
+                                <i ng-if="vm.product.properties['waterSenseSaver'] == 'Yes'" class="epicon epicon-water-saver"></i>
+                                <i ng-if="vm.product.properties['hazardousMaterial'] == 'Yes'" class="epicon epicon-hazardous-material"></i>
+                                <i ng-if="vm.product.properties['energyStarRated'] == 'Yes'" class="epicon epicon-energy-saver"></i>
+                                <i ng-if="vm.product.properties['leadFree'] == 'Yes'" class="epicon epicon-lead-free"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <h3>Additional Product Codes</h3>
+                    <table class="light show-for-medium-up">
+                        <thead>
+                            <tr>
+                                <th>@T("UPC #")</th>
+                                <th>@T("UNSPC #")</th>
+                                <th>@T("SERIES/MODEL/FIGURE #")</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{vm.product.upcCode}}</td>
+                                <td>{{vm.product.unspsc}}</td>
+                                <td>{{vm.product.properties.seriesModelFigure}} {{vm.product.modelNumber}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ul class="attribute-list show-for-small-down">
+                        <li class="attribute-list-item">
+                            <div>
+                                <span class="attrib-name">@T("UPC #")</span>
+                                <span class="attrib-value">{{vm.product.upcCode}}</span>
+                            </div>
+                        </li>
+                        <li class="attribute-list-item">
+                            <div>
+                                <span class="attrib-name">@T("UNSPC #")</span>
+                                <span class="attrib-value">{{vm.product.unspsc}}</span>
+                            </div>
+                        </li>
+                        <li class="attribute-list-item">
+                            <div>
+                                <span class="attrib-name">@T("SERIES/MODEL/FIGURE #")</span>
+                                <span class="attrib-value">{{vm.product.properties.seriesModelFigure}} {{vm.product.modelNumber}}</span>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+
+
+                @* Options *@
+                <div class="detail-options">
+                    <div class="panel" ng-show="vm.product.isConfigured && vm.product.configurationDto && !vm.product.configurationDto.isKit || vm.product.styleTraits.length > 0">
+                        <div class="row collapse">
+                            @* Configuration part *@
+                            <div ng-show="vm.product.isConfigured && vm.product.configurationDto != null && !vm.product.configurationDto.isKit">
+                                <div ng-repeat="section in vm.product.configurationDto.sections" class="pd-kit">
+                                    <span>{{section.sectionName}}</span>
+                                    <select ng-model="vm.configurationSelection[$index]" id="{{$index}}" ng-change="vm.configChanged()"
+                                            ng-options="option.description for option in section.options track by option.sectionOptionId">
+                                        <option value="">Select {{section.sectionName}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            @* Style part *@
+                            <div class="small-12 columns pd-style-opt" ng-repeat="styleTrait in vm.styleTraitFiltered | orderBy: 'sortOrder'">
+                                <span>{{styleTrait.nameDisplay}}</span>
+                                <select ng-model="vm.styleSelection[$index]" id="{{$index}}" ng-change="vm.styleChange(vm.styleSelection[$index], {{$index}})"
+                                        ng-options="style.valueDisplay for style in styleTrait.styleValues | orderBy: 'sortOrder' track by style.styleTraitValueId">
+                                    <option value=""> {{styleTrait.unselectedValue ? "" : "Select"}} {{styleTrait.unselectedValue ? styleTrait.unselectedValue : styleTrait.nameDisplay}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="additional-info">
+
+                <hr />
+
+                <h3>@T("Product Overview")</h3>
+                <p>{{vm.product.specifications[0].value}}</p>
+
+                <hr />
+
+                <h3>@T("Features and Benefits")</h3>
+                <p>{{vm.product.specifications[1].value}}</p>
+
+                <hr />
+
+                <h3>@T("Technical Specifications")</h3>
+                <div class="pd-cm-wrap">
+                    <div ng-show="vm.product.isConfigured && vm.product.configurationDto && vm.product.configurationDto.isKit">
+                        <div ng-repeat="section in vm.product.configurationDto.sections" class="pd-kit">
+                            <div ng-show="section.sectionName" class="pd-kit-name">{{section.sectionName}}:</div>
+                            <div ng-repeat="option in section.options | orderBy:'toString()'" class="pd-kit-value">
+                                {{option.description}}
+                            </div>
+                        </div>
+                    </div>
+                    <isc-sorted-attribute-value-list attribute-types="vm.product.attributeTypes" class="attribute-list"></isc-sorted-attribute-value-list>
+                    <div class="product-cm" ng-bind-html="vm.product.htmlContent|trusted"></div>
+                </div>
+
+                <hr />
+
+                <h3>@T("Package Dimensions")</h3>
+                <div>
+                    <ul class="attribute-list">
+                        <li class="attribute-list-item" ng-if="vm.product.shippingWidth>0">
+                            <div>
+                                <span class="attrib-name">Width</span>
+                                <span class="attrib-value">{{vm.product.shippingWidth}}</span>
+                            </div>
+                        </li>
+                        <li class="attribute-list-item" ng-if="vm.product.shippingHeight>0">
+                            <div>
+                                <span class="attrib-name">Height</span>
+                                <span class="attrib-value">{{vm.product.shippingHeight}}</span>
+                            </div>
+                        </li>
+                        <li class="attribute-list-item" ng-if="vm.product.shippingLength>0">
+                            <div>
+                                <span class="attrib-name">Length</span>
+                                <span class="attrib-value">{{vm.product.shippingLength}}</span>
+                            </div>
+                        </li>
+                        <li class="attribute-list-item" ng-if="vm.product.shippingWeight>0">
+                            <div>
+                                <span class="attrib-name">Weight</span>
+                                <span class="attrib-value">{{vm.product.shippingWeight | number:2 }}</span>
+                            </div>
+                        </li>
+                        <li class="attribute-list-item" ng-if="vm.product.properties.packageVolume>0">
+                            <div>
+                                <span class="attrib-name">Volume</span>
+                                <span class="attrib-value">{{vm.product.properties.packageVolume}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <hr />
+
+                <div ng-if="vm.product.properties.indexOf('AdditionalInformation') == -1">
+                    <h3>@T("Additional Information")</h3>
+                    <p>{{vm.product.properties['AdditionalInformation']}}</p>
+                    <hr />
+                </div>
+
+
+                <h3>Reviews</h3>
+                <div class="product-reviews">
+                    <div id="BVRRSummaryContainer">
+                    </div>
+                </div>
+                <div ng-if="vm.settings.thirdPartyReviews == 'BazaarVoice'" id="BVRRContainer">
+
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="loader" ng-if="!vm.product.shortDescription">
+        </div>
+
+    </div>
+    
+    <isc-cross-sell-carousel product="vm.product" product-cross-sell="true" max-tries="2000"></isc-cross-sell-carousel>
+    
+    @* Does not work in 3.7.1. Has to be revisited by BA
+    @Html.Action("GenericPopupPartial", "Shared", new { containerName = "popup-addtocart-noinventory", BodyHtml = MessageProvider.Current.Cart_NotEnoughInventory, Title = @T("Add To Cart") })
+    *@
+
+
+</div>

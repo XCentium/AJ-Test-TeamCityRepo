@@ -1,0 +1,78 @@
+﻿@using Insite.Admin.Models
+@model List<Insite.Data.Entities.Language>
+
+@helper FormRow(string label, Func<object, IHtmlString> fieldContent)
+{
+    <div>
+        @Html.Partial("/Areas/admin/Views/Data/FormControlContainer.cshtml", new FormControlContainerModel
+{
+    LabelContent =@<label>@Html.Raw(label)</label>,
+    FieldContent = fieldContent
+})
+    </div>
+}
+
+<div ng-controller="MyAccountController as vm" class="vertical grid-block" id="tst-my-account-page">
+    <div class="title-bar">
+        <h1 class="title left">
+            <span class="title__label">User Information</span>
+        </h1>
+        
+        <span class="right">
+            <input type="submit" class="button tertiary float-right" value="Cancel" ng-click="vm.resetForm()" ng-disabled="!vm.isUserProfileChanged()" />
+            <input type="submit" class="button float-right" value="Save" ng-click="vm.save()" ng-disabled="!vm.isUserProfileChanged() || !vm.userProfileForm.$valid" />
+        </span>
+    </div>
+    <div class="grid-block" st-table="entityListCtrl.entities" st-pipe="entityListCtrl.loadEntities">
+            <form name="vm.userProfileForm" novalidate novalidate="" class="vertical grid-block form-content">
+                @FormRow("Username", @<span class="formitem fi-locked" ng-bind="vm.user.userName"></span>)
+                @FormRow("User Roles", @<span class="formitem fi-locked" ng-bind="vm.user.roles"></span>)
+                @FormRow("Email <span class='required'>*</span>",
+                @<span style="width:100%">
+                <input type="email" name="email" value="" placeholder="" ng-model="vm.user.email" required isa-valid-email />
+                <span class="formitem fi-invalid">
+                    <span class="formitem-error" style="margin-top: 10px" ng-show="vm.userProfileForm.email.$error.email">Email is wrong.</span>
+                    <span class="formitem-error" style="margin-top: 10px" ng-show="vm.userProfileForm.email.$error.required">Email is required.</span>
+                </span></span>)
+                @FormRow("First Name", @<input type="text" placeholder="" value="" ng-model="vm.user.firstName" />)
+                @FormRow("Last Name", @<input type="text" placeholder="" value="" ng-model="vm.user.lastName" />)
+                @FormRow("Position", @<input type="text" placeholder="" value="" ng-model="vm.user.position" />)
+                @FormRow("Company", @<input type="text" placeholder="" value="" ng-model="vm.user.company" />)
+                @FormRow("Phone", @<input type="tel" placeholder="" value="" ng-model="vm.user.phone" />)
+                @FormRow("Extension", @<input type="text" placeholder="" value="" ng-model="vm.user.extension" />)
+                @FormRow("Fax", @<input type="tel" placeholder="" value="" ng-model="vm.user.fax" />)
+
+                <fieldset class="form-section">
+                    <legend class="form-section__legend">Settings</legend>
+                    @FormRow("Language", @<select ng-model="vm.user.languageId">
+                        <option value="">Not selected</option>
+                        @foreach (var language in Model)
+                        {
+                            <option value="@language.Id">@language.Description</option>
+                        }
+                    </select>)
+                    @FormRow("Change Password", @<text>
+                        <a class="button tertiary" href="javascript:void(0);" zf-open="changePasswordModal" ng-click="vm.resetChangePasswordForm()" id="changePasswordBtn">Change Password</a>
+                        <p class="help-text">The last time the password was changed: {{vm.user.passwordChangedOn}}</p>
+                    </text>)
+                    @FormRow("Clear Cache", @<text>
+                        <a class="button tertiary" href="javascript:void(0);" ng-click="vm.clearCache()">Clear Cache</a>
+                        <p class="help-text">Clearing the cache will reset all view settings to their defaults. This includes, for example, which table columns display within a list.</p>
+                    </text>)
+                </fieldset>  
+            </form>
+    </div>
+    <div zf-modal="changePasswordModal" id="changePasswordModal" class="collapse modal-changepassword modal--large">
+        @Html.Partial("ChangePassword")
+    </div>
+    <div class="modal--medium" zf-modal="userProfileUnsavedModal" id="userProfileUnsavedModal">
+        <div class="modal-content">
+            <h2 class="text-center">You have unsaved changes.</h2>
+        </div>
+        <div class="modal-footer">
+            <button zf-close class="button tertiary float-left">Cancel</button>
+            <button ng-click="vm.saveAndGoAway()" class="button secondary">Save Changes</button>
+            <button ng-click="vm.goAway()" class="button">Discard Changes</button>
+        </div>
+    </div>
+</div>

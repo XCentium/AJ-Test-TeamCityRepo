@@ -1,0 +1,9 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Morsco.Customizations.Lib.Widgets.CallUsForm
+
+
+<div class="widget @Model.CssClass">
+    <h3>@Html.Message("Widget.Call_Us_Title")</h3>
+    <div>@Html.Message("Widget.Call_Us_Message")</div>
+    <a href='tel:@Html.Message("Widget.Call_Us_Phone_Number")'><h3>@Html.Message("Widget.Call_Us_Phone_Number")</h3></a>
+</div>

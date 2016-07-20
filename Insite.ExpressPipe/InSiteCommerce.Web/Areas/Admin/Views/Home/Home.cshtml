@@ -1,0 +1,295 @@
+﻿@using Insite.Data.Entities
+@model Insite.Admin.Models.HomeViewModel
+
+<isa-home></isa-home>
+
+<script type="text/ng-template" id="home-page">
+    <div class="grid-block vertical dashboard" id="tst-home-page">
+        <div class="grid-content">
+            <h1>Quick Links</h1>
+            <p>Jump right in to common tasks and sections.</p>
+        </div>
+        <div class="grid-block wrap">
+            @if (Model.CanViewEntity(nameof(CustomerOrder)) || Model.CanViewEntity(nameof(OrderHistory)))
+            {
+                <div class="small-12 medium-6 grid-block">
+                    <div class="grid-block dashboard-quicklink">
+                        <div class="shrink grid-block dashboard-quicklink__image"></div>
+                        <div class="vertical grid-block">
+                            <h2 class="dashboard-quicklink__title">Orders</h2>
+                            <p class="no-margin">View recent order activity and order details.</p>
+
+                            <div class="dashboard-quicklink__links">
+                                @if (Model.CanViewEntity(nameof(OrderHistory)))
+                                { <a href="data/@Model.GetPluralizedName(nameof(OrderHistory))">Order History</a><span> |</span> }
+                                @if (Model.CanViewEntity(nameof(CustomerOrder)))
+                                { <a href="data/@Model.GetPluralizedName(nameof(CustomerOrder))">Cart History</a> }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="small-12 medium-6 grid-block" ng-if="vm.contentEditorIsEnabled()">
+                <div class="grid-block dashboard-quicklink dashboard-quicklink__link" zf-open="contentEditorModal">
+                    <div class="shrink grid-block dashboard-quicklink__image dashboard-quicklink__image--cms"></div>
+                    <div class="vertical grid-block">
+                        <h2 class="dashboard-quicklink__title">Content Editor (CMS)</h2>
+                        <p class="no-margin">Create, manage and approve website content.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="small-12 medium-6 grid-block">
+                <div class="grid-block dashboard-quicklink dashboard-quicklink__link" ng-click="vm.openImportExportModal()">
+                    <div class="shrink grid-block dashboard-quicklink__image dashboard-quicklink__image--import-export"></div>
+                    <div class="vertical grid-block">
+                        <h2 class="dashboard-quicklink__title">Import / Export</h2>
+                        <p class="no-margin">Import or export data.</p>
+                    </div>
+                </div>
+            </div>
+
+            @if (Model.CanViewEntity(nameof(Website)))
+            {
+                <div class="small-12 medium-6 grid-block">
+                    <div class="grid-block dashboard-quicklink dashboard-quicklink__link" ng-click="vm.openLink('data/@Model.GetPluralizedName(nameof(Website))')">
+                        <div class="shrink grid-block dashboard-quicklink__image dashboard-quicklink__image--websites"></div>
+                        <div class="vertical grid-block">
+                            <h2 class="dashboard-quicklink__title">Websites</h2>
+                            <p class="no-margin">Create and manage websites, microsites and more.</p>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model.CanViewEntity(nameof(Product)))
+            {
+                <div class="small-12 medium-6 grid-block">
+                    <div class="grid-block dashboard-quicklink">
+                        <div class="shrink grid-block dashboard-quicklink__image dashboard-quicklink__image--products"></div>
+                        <div class="vertical grid-block">
+                            <h2 class="dashboard-quicklink__title">Products</h2>
+                            <p class="no-margin">Create and manage the products sold on your websites.</p>
+                            <div class="dashboard-quicklink__links">
+                                <a href="data/@Model.GetPluralizedName(nameof(Product))">View</a> |
+                                @if (Model.CanCreateEntity(nameof(Product)))
+                                { <a href="data/@Model.GetPluralizedName(nameof(Product))/new">Create</a><span> |</span> }
+                                @if (Model.CanEditEntity(nameof(Product)) || Model.CanCreateEntity(nameof(Product)))
+                                { <a href="import/@Model.GetPluralizedName(nameof(Product))">Import</a><span> |</span> }
+                                <a href="export/@Model.GetPluralizedName(nameof(Product))">Export</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model.CanViewEntity(nameof(Promotion)))
+            {
+                <div class="small-12 medium-6 grid-block">
+                    <div class="grid-block dashboard-quicklink">
+                        <div class="shrink grid-block dashboard-quicklink__image dashboard-quicklink__image--promotions"></div>
+                        <div class="vertical grid-block">
+                            <h2 class="dashboard-quicklink__title">Promotions</h2>
+                            <p class="no-margin">Create and manage promotions for your websites.</p>
+                            <div class="dashboard-quicklink__links">
+                                <a href="data/@Model.GetPluralizedName(nameof(Promotion))">View</a>
+                                @if (Model.CanCreateEntity(nameof(Promotion)))
+                                { <span>| </span><a href="data/@Model.GetPluralizedName(nameof(Promotion))/new">Create</a> }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model.CanViewEntity(nameof(Customer)))
+            {
+                <div class="small-12 medium-6 grid-block">
+                    <div class="grid-block dashboard-quicklink">
+                        <div class="shrink grid-block dashboard-quicklink__image dashboard-quicklink__image--customers"></div>
+                        <div class="vertical grid-block">
+                            <h2 class="dashboard-quicklink__title">Customers</h2>
+                            <p class="no-margin">Create and manage customer accounts.</p>
+                            <div class="dashboard-quicklink__links">
+                                <a href="data/@Model.GetPluralizedName(nameof(Customer))">View</a> |
+                                @if (Model.CanCreateEntity(nameof(Customer)))
+                                { <a href="data/@Model.GetPluralizedName(nameof(Customer))/new">Create</a><span> |</span> }
+                                @if (Model.CanEditEntity(nameof(Customer)) || Model.CanCreateEntity(nameof(Customer)))
+                                { <a href="import/@Model.GetPluralizedName(nameof(Customer))">Import</a><span> |</span> }
+                                <a href="export/@Model.GetPluralizedName(nameof(Customer))">Export</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model.CanViewEntity(nameof(UserProfile)))
+            {
+                <div class="small-12 medium-6 grid-block">
+                    <div class="grid-block dashboard-quicklink">
+                        <div class="shrink grid-block dashboard-quicklink__image dashboard-quicklink__image--users"></div>
+                        <div class="vertical grid-block">
+                            <h2 class="dashboard-quicklink__title">Users</h2>
+                            <p class="no-margin">Create and manage website users.</p>
+                            <div class="dashboard-quicklink__links">
+                                <a href="data/@Model.GetPluralizedName(nameof(UserProfile))">View</a> |
+                                @if (Model.CanCreateEntity(nameof(UserProfile)))
+                                { <a ng-click="vm.createNewUser()">Create</a><span> |</span> }
+                                @if (Model.CanEditEntity(nameof(UserProfile)) || Model.CanCreateEntity(nameof(UserProfile)))
+                                { <a href="import/@Model.GetPluralizedName(nameof(UserProfile))">Import</a><span> |</span> }
+                                <a href="export/@Model.GetPluralizedName(nameof(UserProfile))">Export</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="grid-block vertical dashboard-section">
+            <div class="dashboard-section__header dashboard-section__header--support">
+                <h2 class="dashboard-section__title"><a target="_blank" href="https://support.insitesoft.com">InsiteSupport</a></h2>
+                <span>At its core, InsiteSupport provides the help and online documentation<br />needed to create, configure and administer InsiteCommerce.</span>
+            </div>
+            <div class="grid-block dashboard-section__content">
+                <div class="shrink grid-block dashboard-section__image dashboard-section__image--support"></div>
+                <div>
+                    <ul>
+                        <li><a target="_blank" href="https://support.insitesoft.com/hc/en-us/sections/201293105">Support Articles</a></li>
+                        <li><a target="_blank" href="https://support.insitesoft.com/hc/en-us/categories/200417945-Developer">Developer Tools and Resources</a></li>
+                        <li><a target="_blank" href="https://support.insitesoft.com/hc/en-us/categories/200411835-News-and-Updates">Insite Commerce Product News and Updates</a></li>
+                        <li><a target="_blank" href="http://campus.insitesoft.com/">Learn More About Insite Commerce with Insite Campus</a></li>
+                        <li ng-repeat="supportLink in vm.supportLinks">
+                            <a target="_blank" ng-href="{{supportLink.html_url}}" ng-bind="supportLink.title"></a>
+                        </li>
+                    </ul>
+                    <a ng-click="vm.openExternalLink('https://support.insitesoft.com')" class="button tertiary ng-scope">Visit InsiteSupport</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-block vertical dashboard-section">
+            <div class="dashboard-section__header dashboard-section__header--blog">
+                <h2 class="dashboard-section__title"><a target="_blank" href="http://www.insitesoft.com/resources">eCommerce Insights</a></h2>
+                <span>Learn more about how Insite is powering Connected Commerce.</span>
+            </div>
+            <div class="grid-block dashboard-section__content">
+                <div class="shrink grid-block dashboard-section__image dashboard-section__image--blog"></div>
+                <div>
+                    <ul>
+                        <li ng-repeat="insiteLink in vm.insiteLinks | limitTo:5 ">
+                            <a target="_blank" ng-href="{{insiteLink.resourceAsset}}" ng-bind="insiteLink.title"></a>
+                        </li>
+                    </ul>
+                    <a ng-click="vm.openExternalLink('http://www.insitesoft.com/resources')" class="button tertiary ng-scope">Insite's Connected Commerce Resources</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal--medium" zf-modal="" id="contentEditorModal">
+        <div class="grid-block vertical">
+            <div class="modal-header">
+                <h4 class="modal-title">Content Editor CMS</h4>
+                <a zf-close="" class="close-button right"><i class="icon icon-close"></i></a>
+            </div>
+            <div class="grid-block">
+                <div class="grid-block vertical">
+                    <h5>Select Website</h5>
+                    <div class="grid-block">
+                        <ul class="menu-action-list websites-list">
+                            <li ng-repeat="website in vm.websitesList">
+                                <a class="menu-action-list__action" href="javascript:void(0);" ng-click="vm.openWebsite(website)">
+                                    <i class="menu-action-list__icon icon icon-launch"></i> <span class="menu-action-list__label" ng-bind="website.name"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a zf-close class="button float-right">Cancel</a>
+            </div>
+        </div>
+    </div>
+    <div class="modal--medium" zf-modal="" id="importExportModal">
+        <div class="grid-block vertical">
+            <div class="modal-header">
+                <h4 class="modal-title">Import / Export</h4>
+                <a zf-close="" class="close-button right"><i class="icon icon-close"></i></a>
+            </div>
+            <div class="modal grid-block vertical form-content">
+                <div class="grid-block  grid-content">
+                    <span class="importExport__label">What would you like to Import of Export?</span>
+                    <div>
+                        <span class="formitem">
+                            <input type="radio" ng-model="vm.actionName" name="actionName" value="import" class="inline">
+                            <label>Import</label>
+                        </span>
+                        <span class="formitem">
+                            <input type="radio" ng-model="vm.actionName" name="actionName" value="export" class="inline">
+                            <label>Export</label>
+                        </span>
+                    </div><hr />
+                    <div class="grid-block vertical optionslist">
+
+                        <ul style="list-style:none; margin:0;">
+                            @if (Model.CanEditEntity(nameof(Product)) || Model.CanCreateEntity(nameof(Product)))
+                            {
+                                <li>
+                                    <input type="radio" name="definitionName" ng-model="vm.definitionName" value="@Model.GetPluralizedName(nameof(Product))" class="inline">
+                                    <label>Products</label>
+                                </li>
+                            }
+                            @if (Model.CanEditEntity(nameof(Customer)) || Model.CanCreateEntity(nameof(Customer)))
+                            {
+                                <li>
+                                    <input type="radio" name="definitionName" ng-model="vm.definitionName" value="@Model.GetPluralizedName(nameof(Customer))" class="inline">
+                                    <label>Customers</label>
+                                </li>
+                            }
+                            @if (Model.CanEditEntity(nameof(Category)) || Model.CanCreateEntity(nameof(Category)))
+                            {
+                                <li>
+                                    <input type="radio" name="definitionName" ng-model="vm.definitionName" value="@Model.GetPluralizedName(nameof(Category))" class="inline">
+                                    <label>Categories</label>
+                                </li>
+                            }
+                            @if (Model.CanEditEntity(nameof(UserProfile)) || Model.CanCreateEntity(nameof(UserProfile)))
+                            {
+                                <li>
+                                    <input type="radio" name="definitionName" ng-model="vm.definitionName" value="@Model.GetPluralizedName(nameof(UserProfile))" class="inline">
+                                    <label>Users</label>
+                                </li>
+                            }
+                            @if (Model.CanEditEntity(nameof(TranslationDictionary)) || Model.CanCreateEntity(nameof(TranslationDictionary)))
+                            {
+                                <li>
+                                    <input type="radio" name="definitionName" ng-model="vm.definitionName" value="@Model.GetPluralizedName(nameof(TranslationDictionary))" class="inline">
+                                    <label>Translation Dictionary</label>
+                                </li>
+                            }
+                            @if (Model.CanEditEntity(nameof(TranslationProperty)) || Model.CanCreateEntity(nameof(TranslationProperty)))
+                            {
+                                <li>
+                                    <input type="radio" name="definitionName" ng-model="vm.definitionName" value="@Model.GetPluralizedName(nameof(TranslationProperty))" class="inline">
+                                    <label>Field Translations</label>
+                                </li>
+                            }
+                            @if (Model.CanEditEntity(nameof(HtmlRedirect)) || Model.CanCreateEntity(nameof(HtmlRedirect)))
+                            {
+                                <li>
+                                    <input type="radio" name="definitionName" ng-model="vm.definitionName" value="@Model.GetPluralizedName(nameof(HtmlRedirect))" class="inline">
+                                    <label>URL Redirects</label>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="button float-right" value="Continue" ng-click="vm.openLink(vm.actionName+'/'+ vm.definitionName)" />
+                    <a zf-close class="button secondary float-right">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

@@ -1,0 +1,27 @@
+@using Insite.Core.Interfaces.Plugins.Content
+@model RobotsTxt
+@{
+    if (ContentMode == ContentMode.Viewing)
+    {
+        Layout = null;
+    }
+    else
+    {
+        <text>
+            <style>
+                body {
+                    background-color: white;
+                    margin: 20px;
+                    white-space: pre;
+                }
+            </style>
+        </text>
+    }
+    Response.Write(Model.Text);
+}
+
+@foreach (var sitemap in Model.Sitemaps)
+{
+    @* Using Response.Write instead of Razor due to extra whitespace being added if this is not done *@
+    Response.Write("\n\nsitemap: " + sitemap);
+}

@@ -1,0 +1,70 @@
+﻿@using Insite.Admin.ControlTypes
+@using Insite.Admin.DataTypeValidators
+@using Insite.Admin.Models
+@model Insite.Admin.Models.ControlTypeViewModel<RadioButtonControl>
+
+@if (Model.PropertyDefinition.CanEdit)
+{
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent =@<text>
+            @{
+                var validator = Model.DataTypeValidator as StringValidator;
+                if (validator == null)
+                {
+                    throw new ArgumentException("RadioButtonControl used for a non-string property.");
+                }
+                var required = Model.PropertyDefinition.IsRequired;
+            }
+
+            @if (validator.MultiValueList.IsBlank())
+            {
+                <span>No values provided for radio button control.</span>
+            }
+            else
+            {
+                var source = validator.MultiValueList.Split(',').Select(o => o.Trim()).Where(o => !o.IsBlank());
+                <div style="overflow-y: auto; @(Model.ControlType.MaxHeight > 0 ? "max-height: " + Model.ControlType.MaxHeight + "px;" : string.Empty)">
+                    @if (!required)
+                    {
+                        var inputNone = Model.Name + "_" + "none";
+                        <input type="radio" 
+                               id="@inputNone" 
+                               name="@Model.Name" 
+                               value=""
+                               ng-model="@Model.EditPageModelBinding"
+                               /><label for="@inputNone">None</label>
+                        if (Model.ControlType.ColumnLayout == ColumnLayout.Vertical)
+                                   {
+                            <br />
+                        }
+                    }
+                    @foreach (var value in Model.ControlType.SortList ? source.OrderBy(x => x) : source)
+                    {
+                        var inputId = Model.Name + "_" + value;
+                        <input type="radio" 
+                               id="@inputId" 
+                               name="@inputId" 
+                               value="@value" 
+                               ng-model="@(Model.EditPageModelBinding)"
+                               @(required ? "required" : "")
+                               /><label for="@inputId">@value</label>
+                        if (Model.ControlType.ColumnLayout == ColumnLayout.Vertical)
+                        {
+                            <br />
+                        }
+                    }
+                </div>
+            }
+        </text>
+    })
+}
+else
+{
+    @Html.Partial("FormControlContainer", new FormControlContainerModel
+    {
+        ControlTypeViewModel = Model,
+        FieldContent = @<div class="readonly" ng-bind="@Model.EditPageModelBinding"></div>
+    })
+}

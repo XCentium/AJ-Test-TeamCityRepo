@@ -1,0 +1,143 @@
+﻿$topbarHeight: 50px;
+$sidebarWidthOpen: 280px;
+$sidebarWidthClosed: 62px;
+$sidebarWidthCollapsed: 0;
+
+.wrapper {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 100%;
+
+    .header-height-offset {
+        height: $topbarHeight;
+    }
+
+    > section {
+        position: relative;
+        margin-left: $sidebarWidthOpen;
+        transition: .25s;
+        height: calc(100vh - #{$topbarHeight});
+    }
+}
+
+.is-collapsed {
+    .wrapper > section {
+        margin-left: $sidebarWidthClosed;
+    }
+}
+
+dl.inline {
+    padding: 0.5em;
+
+    dt {
+        float: left;
+        clear: left;
+        width: auto;
+        margin-bottom: 0 !important;
+    }
+
+    dd {
+        margin: 0 0 0 110px;
+    }
+}
+
+
+.jobslist {
+
+    td.jobdatetime {
+        font-weight: 300;
+
+        span {
+            font-weight: 600;
+            margin-right: 10px;
+        }
+    }
+
+    .icon {
+        font-size: 20px;
+        margin-top: 5px;
+
+        &.icon-warning {
+            color: $error;
+        }
+
+
+        &.icon-jobs {
+            color: $brand;
+        }
+    }
+
+
+    .jobstatus {
+        span {
+            font-size: 17px;
+        }
+
+        &.jobsuccess-status {
+            color: $brand;
+        }
+
+
+        &.jobfail-status {
+            color: $error;
+        }
+    }
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+.edit-translations-modal-content{
+    height: 405px;
+    overflow: hidden;
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+
+    div {
+        p {
+            display: inline-block;
+        }
+        a {
+            display: inline-block;
+            float: right;
+        }
+    }
+
+    input {
+        margin-bottom: 0;
+    }
+}
+
+.edit-translations-table-content{
+    height: 300px;
+    overflow: auto;
+}
+
+.edit-translations-table-header{
+    padding-right: 16px;
+}
+
+.edit-translations-table-header-top
+{
+    height: 52px;
+    padding-bottom:10px;
+    padding-right: 1em;
+    padding-left: 1em;
+}
+.edit-traits-modal
+{
+    .modal-content {
+        .form-control {
+            padding: 0;
+            margin-bottom: 10px;
+        }
+    }
+}
+
+.seo-settings-inline
+{
+    display: inline-block;
+}
+

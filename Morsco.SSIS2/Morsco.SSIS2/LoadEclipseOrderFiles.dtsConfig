@@ -1,0 +1,14 @@
+<?xml version="1.0"?><DTSConfiguration><DTSConfigurationHeading><DTSConfigurationFileInfo GeneratedBy="XcentiumLaptop\matthew.glover" GeneratedFromPackageName="LoadEclipseOrderFiles" GeneratedFromPackageID="{D4F3B8EE-A604-485F-B6ED-8A4BAEAB10A1}" GeneratedDate="3/17/2016 11:06:39 AM"/></DTSConfigurationHeading>
+<Configuration ConfiguredType="Property" Path="\Package.Variables[User::ParamArchiveFolder].Properties[Value]" ValueType="String">
+<ConfiguredValue>C:\ETL\EclipseOrderRefresh\Copied\Archive\</ConfiguredValue>
+</Configuration>
+<Configuration ConfiguredType="Property" Path="\Package.Variables[User::ParamInputFolder].Properties[Value]" ValueType="String">
+<ConfiguredValue>C:\ETL\EclipseOrderRefresh\Copied\</ConfiguredValue>
+</Configuration>
+<Configuration ConfiguredType="Property" Path="\Package.Variables[User::WebServiceBaseAddress].Properties[Value]" ValueType="String">
+<ConfiguredValue>http://expresspipe.local.com</ConfiguredValue>
+</Configuration>
+<Configuration ConfiguredType="Property" Path="\Package.Variables[User::WebServiceUrlSegment].Properties[Value]" ValueType="String">
+<ConfiguredValue>/api/morsco/ponderosaorderupdate</ConfiguredValue>
+</Configuration>
+</DTSConfiguration>

@@ -1,0 +1,35 @@
+﻿@using System.Web.Optimization
+@using Insite.Core.Plugins.Application
+@using Insite.WebFramework.Mvc.Extensions
+@using Microsoft.Practices.ServiceLocation
+@model Insite.Dealers.Content.DealerPage
+
+@section BodyClass { dealer-locator }
+@section Styles
+{
+    @{
+        var applicationSettingProvider = ServiceLocator.Current.GetInstance<IApplicationSettingProvider>();
+        var googleApiKey = applicationSettingProvider.GetOrCreateByName<string>("GoogleJavaScriptApiKey");
+    }
+    @Html.RequireCss(Url.ThemedContent("/Styles/template/dealer-locator.css"))
+    @Scripts.Render("//maps.googleapis.com/maps/api/js?libraries=weather,visualization&language=en&v=3.24" + (!string.IsNullOrWhiteSpace(googleApiKey) ? "&key=" + googleApiKey : ""))
+    @Html.RequireScript("/Scripts/Libraries/richMarker/0.0.0/richmarker.js")
+    @Html.RequireCss("/Scripts/libraries/zurb-responsive-tables/0.0.0/responsive-tables.css")
+    @Html.RequireScript("/Scripts/libraries/zurb-responsive-tables/0.0.0/responsive-tables.js")
+
+    <style>
+        .adp-placemark {
+            width: 287px;
+        }
+
+        .adp-directions {
+            width: 287px;
+        }
+    </style>
+}
+
+<div class="row main-row">
+    <div class="medium-12 large-12 columns">
+        @Html.Zone(Model, "Content")
+    </div>
+</div>

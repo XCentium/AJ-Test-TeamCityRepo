@@ -1,0 +1,53 @@
+﻿@using System.Globalization
+@using System.Web.Optimization
+@using Insite.IdentityServer.Options
+@using Insite.WebFramework.Mvc.Extensions
+@using InsiteCommerce.Web
+<!DOCTYPE html>
+<html data-isCustomErrorEnabled="@Html.IsCustomErrorEnabled()">
+<head>
+    @Html.RequireScript("/Scripts/Libraries/modernizr/2.6.2/custom.modernizr.js", false)
+    @Html.RequireScript("/Scripts/Libraries/porthole/0.0.0/porthole.min.js", false)
+    @Styles.Render(BundleConfig.ContentAdminGlobalStyleBundlePath)
+
+    @RenderSection("Styles", false)
+</head>
+@* TODO 4.2 make this cmsOn thing based on local storage, and if it isn't in local storage, the default is on. And we really want a way to exist the shell completely too I think. hmmm*@
+<body class="cmsOn">
+    @RenderBody()
+    @Html.RequireScript("/Scripts/Libraries/ckeditor/4.5.6/ckeditor.js", false)
+    @Html.RequireScript("/Scripts/Libraries/ckfinder/2.4.1/ckfinder.js", false)
+    @Scripts.Render(BundleConfig.ContentAdminLibraryScriptBundlePath)
+    @Html.RequireScript("/Scripts/App/jquery.autocomplete.custom.js", false)
+    <script>
+        ko.bindingHandlers.checkedRadioToBool = {
+            init: function (element, valueAccessor, allBindingsAccessor) {
+                var observable = valueAccessor(),
+                    interceptor = ko.computed({
+                        read: function () {
+                            return observable().toString();
+                        },
+                        write: function (newValue) {
+                            observable(newValue === "true");
+                        },
+                        owner: this
+                    });
+                ko.applyBindingsToNode(element, { checked: interceptor });
+            }
+        };
+        angular.module("insite", ["ipCookie", "ab-base64"]);
+    </script>
+    @Scripts.Render(BundleConfig.ContentAdminGlobalScriptBundlePath)
+    <script>
+        insite.core.dateTimeFormat = "@CultureInfo.CurrentCulture.DateTimeFormat.ShortDatePattern";
+        var insiteScope = "@SecurityOptions.AdminScope";
+        var insiteBasicAuthHeader = "@Html.Raw(SecurityOptions.AdminClientId + ":" + SecurityOptions.AdminClientSecret)";
+    </script>
+
+    @Html.RenderDeferredScripts()
+    
+    @RenderSection("Javascript", false)
+</body>
+<!-- @HttpContext.Current.Server.MachineName -->
+<!-- @Html.ProductName() -->
+</html>

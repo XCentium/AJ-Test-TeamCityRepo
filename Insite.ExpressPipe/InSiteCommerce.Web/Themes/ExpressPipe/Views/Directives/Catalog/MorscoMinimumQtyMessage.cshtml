@@ -1,0 +1,19 @@
+﻿<div>
+    <div id="popup-min-qty" class="reveal-modal small popup-min-qty" data-reveal data-reveal-init>
+        <div class="modal-wrap">
+            <h2>@T("Minimum Sell Quantity")</h2>
+            <div class="pop-content">
+                <p>
+                    <span>This product must be ordered in increments of </span><span ng-bind="vm.minQty"></span> <span ng-bind="vm.uom"></span>.
+                    <span>Your order quantity will be adjusted to the following:</span>
+                    
+                </p>
+                <p>
+                    <h1 class="text-center"><span>Order Quantity: </span><span ng-bind="vm.qty"></span></h1>
+                </p>
+                
+            </div>
+            <button ng-click="vm.hideProductAvailabilityPopup()" class="button center ">Ok</button>
+        </div>
+    </div>
+</div>

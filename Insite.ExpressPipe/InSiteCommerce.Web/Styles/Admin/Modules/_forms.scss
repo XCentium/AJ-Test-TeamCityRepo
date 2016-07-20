@@ -1,0 +1,298 @@
+﻿@import "../_settings.scss";
+
+/* Base class for all  the icons*/
+
+//TODO: STOP USING EEEEEE/CCCCCC/999999/333333
+//      GET RID OF THESE IN ANOTHER ROUND OF CLEAN UP
+%icon {
+    font-family: Mobius;
+    speak: none;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+}
+
+.form-heading {
+    margin-right: 1rem;
+}
+
+.form-content {
+    padding: 2rem 3rem;
+    //TODO: Move this out of .form-content? Not sure...
+    //      Maybe code reviewer will have thoughts?
+    .help-block {
+        font-size: 13px;
+        font-style: italic;
+        margin-top: 5px;
+        color: $type-help;
+    }
+
+    .form-row {
+        margin-bottom: 1rem;
+
+        .flip-switch {
+            margin-bottom: 0;
+        }
+    }
+
+    .row label {
+        font-weight: bold;
+    }
+
+    .row label i {
+        font-weight: normal;
+    }
+
+    .grid-block.border,
+    .grid-content.border {
+        border: solid 1px #CCCCCC;
+        padding: 5px;
+    }
+}
+
+.form-section {
+    margin-bottom: 1rem;
+    width: 100%;
+
+    .form-section__legend {
+        border-bottom: 1px solid $border-gray;
+        font-family: $header-font-family;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: .05em;
+        margin-bottom: 1.5rem;
+        padding: 1rem 0;
+        width: 95%;
+    }
+
+}
+
+.grid-tab-content {
+    padding: 0;
+}
+
+.descrbox {
+    background-color: #EEEEEE;
+    min-height: 50px;
+    overflow: auto;
+}
+
+.form-title__back-to-parent {
+    font-size: 2rem;
+    margin-right: 1rem;
+}
+
+//TODO: Refact this thing...
+.form-control {
+    overflow: visible;
+    margin-bottom: 20px;
+    max-width: 900px;
+
+    #{$text-input-selectors},
+    select,
+    .button,
+    .flip-switch {
+        margin: 0;
+    }
+
+    .lookup-dropdown {
+        width: 100%;
+    }
+
+    .inline-label {
+        margin-bottom: 0;
+        width: 100%;
+    }
+    .form-control__control-padding {
+        padding-left: 12px;
+    }
+
+    .grid-block {
+        overflow: visible;
+    }
+
+    label {
+        font-family: 'Proxima Nova Condensed';
+        font-weight: bold;
+        margin-bottom: 0;
+            margin-top: 7px;
+    }
+
+    .help-text {
+        margin-top: .5rem;
+    }
+
+    .readonly {
+        margin-top: 7px;
+        width: 100%;
+        word-wrap: break-word;
+    }
+}
+
+/************************************************************
+    @desc Class associated with the entity control type decimal field control
+
+    @sideNote "input" part of the selector is required to give this rule 
+               higher specificity over Foundation for apps rules that target input
+
+        See Scripts/Libraries/foundation-apps/1.2.0/scss/components/_forms line 87
+************************************************************/
+input.decimal-field-control {
+    box-sizing: content-box;
+    height: 1.66em;
+    line-height: 1.66em;
+    padding: .177em 0;
+    text-indent: .33em;
+}
+
+.required {
+    color: $brand;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 22px;
+    margin: 0 2.5px;
+    vertical-align: text-top;
+}
+
+.help-text {
+    margin-top: -0.5rem;
+    margin-bottom: 0;
+    font-size: 0.8125rem;
+    font-style: italic;
+    color: #333;
+}
+
+.child-form-content {
+    padding: 0;
+
+    .form-control {
+        padding: 2rem 3rem 0 3rem;
+    }
+
+    .rule-manager {
+        margin: 30px;
+
+        .form-control {
+            padding: 0;
+        }
+    }
+}
+/* Set form elements inline */
+select.inline {
+    float: none;
+    margin: 0 5px;
+    display: inline-block;
+}
+
+input[type].inline
+{
+    display: inline-block;
+    width: auto;
+    margin: 0 5px;
+}
+
+
+#{$text-input-selectors} {
+    border: 1px solid $border-gray;
+
+    &:hover, &:focus {
+        border: 1px solid $border-gray;
+    }
+}
+
+select {
+    border: 1px solid $border-gray;
+}
+
+.input-number-positive {
+    color: $success;
+}
+
+.input-number-negative {
+    color: $error;
+}
+// Invalid state
+.ng-submitted select.ng-invalid,
+select.ng-touched.ng-invalid,
+.ng-submitted input.ng-invalid,
+input.ng-touched.ng-invalid,
+.ng-submitted textarea.ng-invalid,
+textarea.ng-touched.ng-invalid {
+    border: 1px solid $error;
+}
+
+.error-messages {
+    > span {
+        color: $error;
+        vertical-align: middle;
+        margin-bottom: .5rem;
+        display: block;
+
+        i {
+            font-size: 1.5rem;
+            vertical-align: text-bottom;
+            display: inline-block;
+        }
+    }
+}
+
+.form-error {
+    color: $error;
+}
+.form-error__details {
+    display: block;
+    white-space: pre-wrap;
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+
+.category-lookup {
+    display: flex;
+
+    > span { 
+        height: 2.4rem;
+        padding: .5rem 0;
+        margin-right: 1rem;
+    }
+    > a {
+        margin: .5rem 1rem 0 0;
+    }
+}
+.category-lookup.is-read-only {
+    > span {
+        cursor: default;
+        background-color: #f2f2f2;
+    }
+}
+.form-control-content {
+    isa-category-lookup { width: 100%; }
+}
+
+.alternate-form {
+    label {
+        margin-bottom: 0;
+        margin-top: 7px;
+    }
+}
+
+.orderTotals__amount,
+    #orderHistory_productTotal .form-control-content div,
+    #orderHistory_discountAmount .form-control-content div,
+    #orderHistory_shippingAndHandling .form-control-content div,
+    #orderHistory_taxAmount .form-control-content div,
+    #orderHistory_orderTotal .form-control-content div { 
+        width: 60px; 
+        text-align: right; 
+    }
+.hidden_autofill_disabler{
+    width: 1px;
+    padding: 0px;
+    margin: 0px;
+    border: none;
+    left: 1px;
+    visibility: hidden;
+    position: absolute;
+}

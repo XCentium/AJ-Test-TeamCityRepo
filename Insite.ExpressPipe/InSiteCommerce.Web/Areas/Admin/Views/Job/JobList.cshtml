@@ -1,0 +1,71 @@
+﻿@using Insite.Integration.Enums
+
+<div ng-controller="JobListController as jobListCtrl">
+    <div class="title-bar jobslist">
+        <span class="left">
+            <span class="title activejobs"><span ng-bind="jobListCtrl.activeJobs">0</span> Active Jobs</span>
+            <span class="title"><b ng-bind="jobListCtrl.totalItems">0</b>  Recent Jobs</span>
+            <span class="title center"><i>(Jobs older than 90 days are no longer available)</i></span>
+        </span>
+    </div>
+    <div class="title-bar jobslist">
+        <span class="center">
+            <span class="quick-filter">
+                <select>
+                    <option value="job" selected="selected">Job</option>
+                </select>
+                <span class="inline-label">
+                    <input type="text" ng-model="jobListCtrl.quickFilterValue" ng-model-options="{ debounce: 500 }" ng-change="jobListCtrl.applyQuickFilter()" />
+                    <span class="form-label"><i class="icon icon-search"></i></span>
+                </span>
+            </span>
+        </span>
+        <span class="right">
+            <isa-job-pager ng-show="jobListCtrl.needsPager()" current-page="jobListCtrl.currentPage" num-pages="jobListCtrl.numPages"></isa-job-pager>
+        </span>
+    </div>
+    <div class="grid-block jobslist">
+        <div class="fixed-table-container">
+            <section class="table-content" style="height: 600px;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 150px;"></th>
+                            <th class="is-actionable" ng-class="{ 'is-sorted-asc': jobListCtrl.sortAsc('startDateTime'), 'is-sorted-desc': jobListCtrl.sortDesc('startDateTime') }"
+                                ng-click="jobListCtrl.sortBy('startDateTime')"><div class="column-header">Started</div></th>
+                            <th class="is-actionable" ng-class="{ 'is-sorted-asc': jobListCtrl.sortAsc('jobNumber'), 'is-sorted-desc': jobListCtrl.sortDesc('jobNumber') }"
+                                ng-click="jobListCtrl.sortBy('jobNumber')"><div class="column-header">Job</div></th>
+                            <th class="is-actionable" ng-class="{ 'is-sorted-asc': jobListCtrl.sortAsc('status'), 'is-sorted-desc': jobListCtrl.sortDesc('status') }"
+                                ng-click="jobListCtrl.sortBy('status')"><div class="column-header">Status</div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in jobListCtrl.jobs" ng-class="{ 'inactive': !item.isActive }">
+                            <td style="width: 150px;">
+                                <div ng-if="item.status === '@IntegrationJobStatus.InProgress'" class="icon validationloader green float-left"></div>
+                                <i ng-if="item.status === '@IntegrationJobStatus.CompletedWithErrors'" class="icon icon-warning  float-left" title="icon-warning"></i>
+                                <i ng-if="item.status === '@IntegrationJobStatus.Success'" class="icon icon-jobs  float-left" title="icon-jobs"></i>
+                                <a class="button float-right tertiary" ng-click="jobListCtrl.viewJob(item)">View</a>
+                            </td>
+                            <td class="jobdatetime"><span ng-bind="item.startDateTime | date: 'short'"></span></td>
+                            <td>
+                                <span ng-bind="item.notes"></span>
+                                <span ng-if="item.notes && item.jobNumber">-</span>
+                                <span ng-bind-template="Job #{{item.jobNumber}}"></span>
+                            </td>
+                            <td class="jobstatus" ng-class="{ 'jobsuccess-status': item.isSuccess, 'jobfail-status': item.isFailure }">
+                                <span ng-bind="item.statusToDisplay">Validating row 3,000 of 10,000</span>
+                                <a ng-if="item.status === '@IntegrationJobStatus.Success' && item.file"
+                                   ng-href="@(Url.Action("GetFile", "Export"))?file={{item.file}}&{{jobListCtrl.getAccessTokenQueryString()}}"
+                                   class="button float-right" ng-click="jobListCtrl.downloadFile(item)">Download file</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+</div>
+
+
+

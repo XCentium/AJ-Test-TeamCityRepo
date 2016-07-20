@@ -1,0 +1,53 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+<div class="large-12 columns">
+    <div class="checkout-head">
+        <h1>@T("Checkout")</h1>
+        <div class="checkout-crumbs">
+            <div class="crumb-current">@T("Billing & Shipping")</div>
+            <div class="crumb-sep">&gt;</div>
+            <div>@T("Payment")</div>
+            <div class="crumb-sep">&gt;</div>
+            <div>@T("Confirmation")</div>
+        </div>
+    </div>
+    <form id="addressForm" name="addressForm">
+        <div class="section-container" data-section data-section-resized="true" style="min-height: 0;">
+            <section class="bill-to">
+                <h3>@T("Billing Information")</h3>
+
+                <div>
+                    <div class="billing-info">
+                        <div class="required-msg" style="height: 53px; margin: 0">
+                            <span class="redTxt">*</span>@T("Required")
+                        </div>
+                        <isc-address-edit prefix="bt" show-email="true" address="vm.cart.billTo" countries="vm.countries"></isc-address-edit>
+                        <div class="newsletter-signup" ng-show="vm.cart.showNewsletterSignup">
+                            <label class="input-lbl">
+                                <input id="checkoutCartIsSubscribed" type="checkbox" ng-model="vm.cart.isSubscribed">
+                                @Html.Message("Address_SignMeUp", "Sure, sign me up for the newsletter and product updates by email.")
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="ship-to">
+                <h3>@T("Shipping Information")</h3>
+                <div>
+                    <div id="shipToAddress" class="shipping-info">
+                        <div class="ship-select">
+                            <select id="shipTo" name="shipTo" ng-model="vm.selectedShipTo" ng-options="shipTo.label for shipTo in vm.shipTos" ng-change="vm.checkSelectedShipTo()"></select>
+                        </div>
+                        <isc-address-edit prefix="st" show-email="false" address="vm.selectedShipTo" countries="vm.countries" is-read-only="vm.isReadOnly"></isc-address-edit>
+                    </div>
+                    <div class="btns">
+                        <button id="continueCheckoutBtn" type="button" class="btn primary btn-continue"
+                                ng-click="vm.continueCheckout('@(Url.ContentPage<Insite.Cart.Content.ReviewAndPayPage>())')" 
+                                ng-disabled="vm.continueCheckoutInProgress">
+                            @T("Continue")
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,23 @@
+﻿<div id="mediaCkFinder"></div>
+
+<script>
+    (function() {
+        var finder = new CKFinder(),
+            contentWrapper = angular.element(".content-wrapper");
+        finder.appendTo("mediaCkFinder", { height: contentWrapper.height() - 5 });
+        var iframe, timeout;
+        angular.element(window).on("resize", function() {
+            clearTimeout(timeout);
+            timeout = setTimeout(function() {
+                if (!iframe) {
+                    iframe = angular.element("iframe");
+                }
+                if (iframe){
+                    iframe.height(contentWrapper.height() - 5);
+                }
+            }, 300);
+        });
+    })();
+</script>
+
+

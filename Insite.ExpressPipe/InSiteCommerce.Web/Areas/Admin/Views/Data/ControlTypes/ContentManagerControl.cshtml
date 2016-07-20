@@ -1,0 +1,70 @@
+﻿@model Insite.Admin.Models.ControlTypeViewModel<Insite.Admin.ControlTypes.ContentManagerControl>
+
+<div class="content-manager">
+    <isa-content-manager ng-init="contentMngrController.init(@(Model.EditPageModelBinding), entityDetailsCtrl)">
+        <div>
+            @Html.Action("ContentEntities", "Data", new { entityName = "contentManager", collectionName = "contents", area = "Admin" })
+            @if (Model.PropertyDefinition.CanEdit)
+            {
+                <div class="menu-group">
+                    <span class="revision-preview-title">Revision Preview</span>
+                    <ul class="menu-bar">
+                        <li><a class="button tertiary" ng-click="contentMngrController.showDeleteRevisionConfirmation()" ng-disabled="!contentMngrController.allowDelete()">Delete Revision</a></li>
+                        <li><a class="button tertiary" ng-click="contentMngrController.createRevision()" ng-disabled="!contentMngrController.allowCreateRevision()">Create Revision</a></li>
+                        <li><a class="button menu-bar__primary-button" ng-click="contentMngrController.publish()" ng-disabled="!contentMngrController.allowPublish()">Publish</a></li>
+                    </ul>
+                </div>
+            }
+            <textarea id="ckeditcontent" ck-editor readonly ng-model="contentMngrController.content.html" ng-change="contentMngrController.doDirtyCheck()"></textarea>
+        </div>
+    </isa-content-manager>
+</div>
+
+<div class="modal-overlay modal--medium" zf-modal zf-closable="modal" id="approveAndPublish">
+    <div ng-controller="PublishController as publishCtrl" ng-cloak>
+        <div class="modal-header">
+            <h4 class="modal-title">Approve and Publish</h4>
+            <a zf-close="" class="close-button"><i class="icon icon-close"></i></a>
+        </div>
+        <div class="modal-content">
+            <p>Publish</p>
+            <div class="formitem" ng-class="{'fi-invalid': publishCtrl.validateDate() === true}">
+                <input type="text" name="date" k-options="publishCtrl.datePickerOptions" kendo-date-time-picker ng-model="publishCtrl.displayDate" k-ng-model="publishCtrl.date" />
+                <span class="formitem-error error-message">Publish date is not valid!</span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button zf-close class="button tertiary">Cancel</button>
+            <button ng-click="publishCtrl.publish()" ng-disabled="publishCtrl.validateDate()" class="button">Publish</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal--medium" zf-modal zf-closable="modal" id="deleteRevisionConfirmation">
+    <div class="modal-header">
+        <h4 class="modal-title">Delete content revision</h4>
+    </div>
+    <div class="modal-content">
+        <p>Are you sure you wish to delete?</p>
+    </div>
+    <div class="modal-footer">
+        <button zf-close class="button tertiary">Cancel</button>
+        <button ng-click="contentMngrController.deleteRevision()" class="button secondary">Delete</button>
+    </div>
+</div>
+
+<div class="modal-overlay modal--large content-manager-create-revision-modal" zf-modal zf-closable="modal" id="createRevision">
+    <div ng-controller="CreateContentRevisionController as vm">
+        <div class="modal-header">
+            <h4 class="modal-title">Create Revision</h4>
+            <a zf-close="" class="close-button"><i class="icon icon-close"></i></a>
+        </div>
+        <div class="modal-content">
+            @Html.Action("CreateContentRevision", "Data", new { area = "Admin" })
+        </div>
+        <div class="modal-footer">
+            <button zf-close class="button tertiary">Cancel</button>
+            <button class="button" ng-click="vm.save()" ng-disabled="!vm.allowSave()">Save</button>
+        </div>
+    </div>
+</div>

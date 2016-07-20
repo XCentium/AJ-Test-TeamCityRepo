@@ -1,0 +1,30 @@
+﻿<div class="row">
+    <div class="large-6 columns si-step-2">
+
+        <div class="select-step select-customer-step">
+            <label for="selectBillTo">@T("Select Bill To")</label>
+            <select class="billto-selector" id="selectBillTo" name="selectedBillTo"
+                    ng-model="vm.billTo" ng-change="vm.changeBillTo()"
+                    ng-options="billTo.label for billTo in vm.billTos">
+                <option value="">@T("Select Bill To")</option>
+            </select>
+        </div>
+
+        <div class="select-step select-ship-step" ng-show="vm.billTo">
+            <label for="selectShipTo">@T("Select Ship To")</label>
+            <select name="selectShipTo" class="shipto-selector" id="selectShipTo"
+                    ng-model="vm.shipTo"
+                    ng-options="shipTo.label for shipTo in vm.billTo.shipTos">
+                <option value="">@T("Select Ship To")</option>
+            </select>
+        </div>
+        <p class="error">
+            <span class="field-validation-error" ng-if="vm.errorMessage">{{vm.errorMessage}}</span>
+        </p>
+        <div class="btns">
+            <a id="cancelSelectCustomer" href="" class="btn secondary btn-cancel" ng-click="vm.cancel()">@("Cancel")</a>
+            <a id="setCustomer" href="" class="btn primary btn-continue" ng-click="vm.setCustomer()">@("Continue")</a>
+        </div>
+
+    </div>
+</div>

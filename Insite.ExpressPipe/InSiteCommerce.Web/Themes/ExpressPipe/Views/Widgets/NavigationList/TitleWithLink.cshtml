@@ -1,0 +1,43 @@
+﻿@using Insite.Core.Interfaces.Plugins.Content
+@model NavigationList
+
+<div class="widget-navlist @Model.CssClass">
+    @{
+        var abstractPage = Content.GetPage<AbstractPage>(Model.RootPageName).Page;
+    }
+    @if (abstractPage == null)
+    {
+        if (ContentMode != ContentMode.Viewing)
+        {
+            <p>There was no page found for the content name '@Model.RootPageName', edit this item to resolve the issue</p>
+        }
+    }
+    else
+    {
+        <h4><a href="@GenerateUrl(abstractPage)">@abstractPage.Title</a></h4>
+        <ul>@foreach (var contentPage in Content.GetChildPages<AbstractPage>(Model.RootPageName).Where(o => !o.ExcludeFromNavigation && !(o is AbstractNavigationPage)))
+            {
+                <li>
+                    @*TODO CMS 3.7.1 how do we deal with abstractpage here?*@
+                    @if (contentPage is ContentPage)
+                    {
+                        <a href="@GenerateUrl(contentPage)" class="@(CurrentPageContentKey == contentPage.ContentKey ? "active" : "") cms-navlist-navitem">@contentPage.Title</a>
+                    }
+                    else
+                    {
+                        <a href="#" class="@(CurrentPageContentKey == contentPage.ContentKey ? "active" : "") cms-navlist-navitem">@contentPage.Title</a>
+                    }
+
+                    @if (CurrentPagePath.Contains(contentPage.ContentKey))
+                    {
+                        <ul>
+                            @foreach (var childPage in Content.GetChildPages<AbstractPage>(contentPage.ContentKey).Where(o => !o.ExcludeFromNavigation && !(o is AbstractNavigationPage)))
+                            {
+                                <li><a id="@(childPage.Name)Page" href="@GenerateUrl(childPage)" class="@(CurrentPageContentKey == childPage.ContentKey ? "active" : "")">@childPage.Title</a></li>
+                            }
+                        </ul>
+                    }
+                </li>
+            }</ul>
+    }
+</div>

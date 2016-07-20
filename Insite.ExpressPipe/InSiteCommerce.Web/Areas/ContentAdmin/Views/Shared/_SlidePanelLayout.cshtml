@@ -1,0 +1,7 @@
+﻿<div class="cms-modal @RenderSection("ClassName", false)">
+    @if (IsSectionDefined("Header"))
+    {
+        <header><em>@RenderSection("Header", false)</em></header>
+    }
+    @RenderBody()
+</div>

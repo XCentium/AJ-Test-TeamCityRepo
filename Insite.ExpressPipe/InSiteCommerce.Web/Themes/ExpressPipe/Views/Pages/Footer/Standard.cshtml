@@ -1,0 +1,31 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Footer
+
+@if (!ExcludeCmsCss)
+{
+    @Html.Raw(Model.Css)
+}
+
+@if (!ExcludeCmsJs)
+{
+    @Html.Script(@<text>@Html.Raw(Model.JavaScript)</text>)
+}
+
+<footer class="cms-rearrangeable hide-for-print" id="footer">
+    <div class="footer-links">
+        <div class="row">
+            @Html.Zone(Model, "Links")
+        </div>
+    </div>
+    <div class="footer-communication">
+        <div class="row">
+            @Html.Zone(Model, "Communication")
+        </div>
+    </div>
+    <div class="footer-terms">
+        <div class="row">
+            @Html.Zone(Model, "Terms")
+        </div>
+    </div>
+    <div class="ui-lock use-fastclick"></div>
+</footer>

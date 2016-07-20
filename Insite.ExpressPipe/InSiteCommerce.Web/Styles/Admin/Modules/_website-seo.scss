@@ -1,0 +1,41 @@
+﻿.websiteSeo-formElement {
+
+    .seo-option-heading {
+        font-weight: bold;
+    }
+
+    .seo-option-sub-heading {
+        font-style: italic;
+    }
+
+    ul.fancytree-container, .websiteSeo-formElement .fancytree-title {
+        font-size: 11px !important;
+    }
+
+    .success-message, .websiteSeo-formElement .change-message {
+        border: 2px solid;
+        font-weight: bold;
+        padding: 2px;
+        margin: 5px;
+    }
+
+    .error-message {
+        border: 2px solid;
+        font-weight: bold;
+        padding: 2px;
+        margin: 5px;
+    }
+
+    .select-all {
+        margin-top: 10px;
+    }
+
+    .select-all a {
+        padding-right: 4px;
+    }
+
+    .select-all a:not(:first-child) {
+        padding: 0 4px;
+        border-left: 1px solid;
+    }
+}

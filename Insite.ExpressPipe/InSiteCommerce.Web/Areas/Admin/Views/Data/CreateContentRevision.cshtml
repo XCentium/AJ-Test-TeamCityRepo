@@ -1,0 +1,44 @@
+﻿@using Insite.Core.Interfaces.Plugins.DeviceTypeProvider
+@model Insite.Admin.Models.CreateContentRevisionViewModel
+
+<div class="grid-block">
+    <div class="grid-block vertical filter">
+        <div class="title-bar whitebg">
+            <span class="left">
+                <span class="inline-label">
+                    <label>Language</label>
+                    @{ var defaultLanguage = Model.Languages.FirstOrDefault(x => x.IsDefault) ?? Model.Languages.FirstOrDefault(); }
+                    <select ng-model="vm.content.languageId" ng-change="vm.updateRevision()" ng-init="vm.content.languageId = '@(defaultLanguage != null ? defaultLanguage.Id.ToString() : string.Empty)'">
+                        @foreach (var language in Model.Languages)
+                        {
+                            <option value="@language.Id">@string.Format("{0} ({1})", language.Description, language.LanguageCode)</option>
+                        }
+                    </select>
+                </span>
+                <span class="inline-label">
+                    <label>Persona</label>
+                    @{ var defaultPersona = Model.Personas.FirstOrDefault(); }
+                    <select ng-model="vm.content.personaId" ng-change="vm.updateRevision()" ng-init="vm.content.personaId = '@(defaultPersona != null ? defaultPersona.Id.ToString() : string.Empty)'">
+                        @foreach (var persona in Model.Personas)
+                        {
+                            <option value="@persona.Id">@persona.Name</option>
+                        }
+                    </select>
+                </span>
+                <span class="inline-label">
+                    <label>Device:</label>
+                    @{ var devices = Enum.GetValues(typeof(DeviceType)); }
+                    <select ng-model="vm.content.deviceType" ng-change="vm.updateRevision()" ng-init="vm.content.deviceType = '@(DeviceType.Desktop)'">
+                        @foreach (var device in devices)
+                        {
+                            <option value="@device">@device</option>
+                        }
+                    </select>
+                </span>
+            </span>
+        </div>
+        <div class="grid-block">
+            <span class="ckeditor-container"><textarea id="ckcreatecontent" ck-editor ng-model="vm.content.html"></textarea></span>
+        </div>
+    </div>
+</div>

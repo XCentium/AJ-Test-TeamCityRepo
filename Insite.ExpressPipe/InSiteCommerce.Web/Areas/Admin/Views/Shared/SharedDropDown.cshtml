@@ -1,0 +1,12 @@
+﻿<script type="text/ng-template" id="sharedDropDown">
+    <div class="medium-6 grid-block">
+        <ui-select ng-model="sharedDropdownCtrl.selectedEntityId" theme="select2" on-select="sharedDropdownCtrl.selectedItem = $item" ng-disabled="sharedDropdownCtrl.disabled == 'disabled'">
+            <ui-select-match placeholder="Select Value">{{sharedDropdownCtrl.selectedItem.name}}</ui-select-match>
+            <ui-select-choices repeat="item.id as item in sharedDropdownCtrl.lookups"
+                               refresh="sharedDropdownCtrl.getLookupsFor($select.search, 50)"
+                               refresh-delay="200">
+                <div>{{item.name}}</div>
+            </ui-select-choices>
+        </ui-select>
+    </div>
+</script>

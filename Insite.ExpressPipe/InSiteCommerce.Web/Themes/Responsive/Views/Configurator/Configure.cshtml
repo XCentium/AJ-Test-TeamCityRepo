@@ -1,0 +1,89 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Configurator.Models.ConfiguratorViewModel
+
+@Html.RequireScript("/Scripts/Libraries/knockout/2.1.0/knockout.min.js")
+@Html.RequireScript("/Scripts/Libraries/knockout.mapping/2.2.4/knockout.mapping.js")
+@Html.RequireScript("/Scripts/Libraries/jquery.blockUI/2.64.0/jquery.blockUI.js")
+@Html.RequireScript("/Scripts/Libraries/jquery.validity/1.1.1/jquery.validity.js")
+@Html.RequireScript("/Scripts/Libraries/jquery.inputmask/0.0.0/jquery.inputmask.js")
+@Html.RequireScript("/Scripts/Libraries/jquery.inputmask/0.0.0/jquery.inputmask.numeric.extensions.js")
+@Html.RequireScript("/Scripts/Libraries/jquery.alphanumeric/0.0.0/jquery.alphanumeric.pack.js")
+@Html.RequireScript(Url.ThemedContent("/Scripts/App/configurator.js"))
+@Html.Script(@<script>
+    @foreach (var configurationStatus in Model.Configuration.ConfigurationStatuses)
+    {
+        <text>    
+    var currentConfiguration@(configurationStatus.ConfigurationKey) = function() {
+        function scriptOnInitialize() {
+                @if (Model.ConfigurationOnInitializeScripts.ContainsKey(configurationStatus.ConfigurationKey)
+                        && !Model.ConfigurationOnInitializeScripts[configurationStatus.ConfigurationKey].IsBlank())
+                {
+                    @Html.Raw(Model.ConfigurationOnInitializeScripts[configurationStatus.ConfigurationKey])
+                }
+                else
+                {
+                    @:return true;
+                }
+            }
+            function scriptOnFinalize() {
+                @if (Model.ConfigurationOnFinalizeScripts.ContainsKey(configurationStatus.ConfigurationKey)
+                        && !Model.ConfigurationOnFinalizeScripts[configurationStatus.ConfigurationKey].IsBlank())
+                {
+                    @Html.Raw(Model.ConfigurationOnFinalizeScripts[configurationStatus.ConfigurationKey])
+                }
+                else
+                {
+                    @:return true;
+                }
+            }
+            return {
+                scriptOnInitialize: scriptOnInitialize,
+                scriptOnFinalize: scriptOnFinalize
+            };
+        }();
+    </text>
+    }
+
+    jQuery(function () {
+        configurator.setPageOutput(@Html.Raw(Json.Encode(Model.ConfigurationPageOutput)));
+        configurator.applyBindings(@Html.Raw(Json.Encode(Model.Configuration)), true);
+        configurator.applyPlugins();
+
+        $("#prevPage").click(function() {
+            if (configurator.validatePage()) {
+                configurator.previousPage(true);
+            }
+        });
+        $("#nextPage").click(function() {
+            if (configurator.validatePage()) {
+                configurator.nextPage(true);
+            }
+        });
+
+        configurator.handlePageEnterEvents(0);
+    });
+</script>)
+
+
+@Html.RequireCss(Url.ThemedContent("/Styles/template/configurator.css"))
+<div class="row main-row">
+    <div class="medium-12 large-12 columns">
+        <div class="row pd-grid isc-productContainer">
+            <div>
+                <h1>Product Configurator</h1>
+            </div>
+            <div class="validity-summary-container" style="display: none;">
+                Please correct the following validation failures:
+                        <ul>
+                        </ul>
+            </div>
+            <h5>Price as Configured: <span id="price-impact"></span></h5>
+            <div id="pageOutput">
+            </div>
+            <div class="configurator-buttons">
+                <a href="javascript:void(0);" id="prevPage" class="btn primary">< Previous</a>
+                <a href="javascript:void(0);" id="nextPage" class="btn primary">Next ></a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,142 @@
+﻿@using Insite.Account.Content
+@using Insite.Cart.Content
+@using Insite.Core.Providers
+@using Insite.Data.Entities
+@using Insite.WebFramework.Mvc.Extensions
+<div>
+    <h3>@T("Payment Details")</h3>
+
+    <div>
+        <span ng-show="vm.cart.paymentOptions.isPayPal">
+            @T("Payment Method: ") @T("PayPal")
+        </span>
+        <div class="pmnt" id="pmnt" ng-hide="vm.cart.paymentOptions.isPayPal">
+            <div class="payment-method" ng-show="vm.cart.showPoNumber && vm.cart.showCreditCard">
+                <label for="paymentMethod">@T("Payment Method")</label>
+                <select id="paymentMethod" name="paymentMethod"
+                        data-rule-required="true" data-msg-required='@T("Payment Method is required.")'
+                        ng-model="vm.cart.paymentMethod"
+                        ng-options="PaymentMethod.description for PaymentMethod in vm.cart.paymentOptions.paymentMethods">
+                    <option value="">@T("Select Payment Method")</option>
+                </select>
+                <span class="field-validation-valid" data-valmsg-for="paymentMethod" data-valmsg-replace="true"></span>
+            </div>
+            <div class="paypal" ng-show="vm.settings.showPayPal">
+                <a href ng-click="vm.submitPaypal({returnUrl: '@(Url.ContentPage<ReviewAndPayPage>())', signInUrl: '@(Url.ContentPage<SignInPage>())'})">
+                    <img src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" alt="Express Checkout" />
+                </a>
+            </div>
+            <div class="po-number" ng-show="vm.cart.showPoNumber">
+                <label for="poNumber">@T("PO Number")</label>
+                <input id="poNumber" name="poNumber" type="text"
+                       data-rule-maxlength="50"
+                       data-msg-maxlength="{{'@MessageProvider.Current.Field_Too_Long'.replace('{0}', '@T("PO Number")').replace('{1}', 50)}}"
+                       data-msg-required='@T("PO Number is required.")'
+                       data-rule-required="{{ vm.cart.requiresPoNumber }}"
+                       ng-model="vm.cart.poNumber">
+                <span class="field-validation-valid" data-valmsg-for="poNumber" data-valmsg-replace="true"></span>
+            </div>
+            <div id="storedProfileRows" ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isPaymentProfile">
+                <div class="security-code">
+                    <label>@T("Security Code")&nbsp;<a href="javascript:void(0);" data-reveal-id="ppWhatsThisPopup">@T("What's This?")</a></label>
+                    <input id="ppSecurityCode" name="ppSecurityCode" type="text" @* minlength="3" maxlength="4" *@
+                           data-rule-required="true" data-msg-required="@T("Security code is required.")"
+                           data-rule-pattern="/(?!000)\d{3,4}$/" data-msg-pattern="@T("Security code is invalid.")"
+                           ng-model="vm.cart.paymentOptions.creditCard.securityCode">
+                    <span class="field-validation-valid" data-valmsg-for="ppSecurityCode" data-valmsg-replace="true"></span>
+                    <div id="ppWhatsThisPopup" class="reveal-modal" data-reveal>
+                        <div class="modal-wrap">
+                            <img src="@Url.ThemedContent("/Images/Default/security_code_sample.jpg")" alt="Security Code Sample" />
+                            <a id="paymentSelectorSecurityWindowCloseButton" class="close-reveal-modal">&#215;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="creditCardRows" ng-show="vm.cart.showCreditCard && vm.cart.paymentMethod.isCreditCard">
+                @* this div is required for javascript to hide the credit card inputs *@
+                <div class="card-type">
+                    <label for="cardType">@T("Card Type")</label>
+                    <select id="cardType" name="cardType"
+                            data-rule-required="true"
+                            data-msg-required='@T("Credit card type is required.")'
+                            ng-model="vm.cart.paymentOptions.creditCard.cardType"
+                            ng-options="cardType.value as cardType.key for cardType in vm.cart.paymentOptions.cardTypes">
+                        <option value="">@T("Select Card")</option>
+                    </select>
+                    <span class="field-validation-valid" data-valmsg-for="cardType" data-valmsg-replace="true"></span>
+                </div>
+                <div class="card-name">
+                    <label for="cardHolderName">@T("Name on Card")</label>
+                    <input id="cardHolderName" name="cardHolderName" type="text"
+                           data-rule-required="true"
+                           data-msg-required='@T("Cardholder name is required.")'
+                           ng-model="vm.cart.paymentOptions.creditCard.cardHolderName">
+                    <span class="field-validation-valid" data-valmsg-for="cardHolderName" data-valmsg-replace="true"></span>
+                </div>
+                <div class="card-num">
+                    <label for="cardNumber">@T("Card Number")</label>
+                    <input id="cardNumber" name="cardNumber" maxlength="16" type="text" style="display: block;"
+                           data-rule-required="true" data-msg-required="@T("Credit card number is required.")"
+                           data-rule-creditcard="true" data-msg-creditcard="@T("Credit card number is invalid.")"
+                           ng-model="vm.cart.paymentOptions.creditCard.cardNumber">
+                    <span class="field-validation-valid" data-valmsg-for="cardNumber" data-valmsg-replace="true"></span>
+                </div>
+                <div class="exp-date">
+                    <label>@T("Expiration Date")</label>
+                    <div class="row">
+                        <div class="small-6 columns exp-month">
+                            <select id="expirationMonth" name="expirationMonth"
+                                    data-rule-required="true" data-msg-min='@T("Card is expired. Please enter a valid expiration date.")' data-msg-required='@T("Expiration month is required.")'
+                                    ng-model="vm.cart.paymentOptions.creditCard.expirationMonth"
+                                    ng-options="month.value as month.key for month in vm.cart.paymentOptions.expirationMonths"></select>
+                            <span class="field-validation-valid" data-valmsg-for="expirationMonth" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="small-6 columns exp-year">
+                            <select id="expirationYear" name="expirationYear"
+                                    data-rule-required="true" data-msg-required='@T("Expiration year is required.")'
+                                    ng-model="vm.cart.paymentOptions.creditCard.expirationYear"
+                                    ng-options="year.value as year.key for year in vm.cart.paymentOptions.expirationYears"></select>
+                            <span class="field-validation-valid" data-valmsg-for="expirationYear" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                    <label for="expirationMonth" class="error"></label>
+                </div>
+                <div class="security-code">
+                    <label>@T("Security Code")&nbsp;<a href="javascript:void(0);" data-reveal-id="whatsThisPopup">@T("What's This?")</a></label>
+                    <input id="securityCode" name="securityCode" type="text" minlength="3" maxlength="4"
+                           data-rule-required="true" data-msg-required="@T("Security code is required.")"
+                           data-rule-digits="true" data-msg-digits="@T("Security code is invalid.")"
+                           ng-model="vm.cart.paymentOptions.creditCard.securityCode">
+                    <span class="field-validation-valid" data-valmsg-for="securityCode" data-valmsg-replace="true"></span>
+                    <div id="whatsThisPopup" class="reveal-modal" data-reveal>
+                        <div class="modal-wrap">
+                            <img src="@Url.ThemedContent("/Images/Default/security_code_sample.jpg")" alt="Security Code Sample" />
+                            <a id="paymentSelectorSecurityWindow2CloseButton" class="close-reveal-modal">&#215;</a>
+                        </div>
+                    </div>
+                </div>
+                @* TODO Put this back in after 4.0, taken out because we don't have time to properly document it
+                    <div ng-show="vm.cart.paymentOptions.canStorePaymentProfile">
+                        <label for="savePaymentInfo">@T("Save Payment Info")</label>
+                        <input type="checkbox" ng-model="vm.cart.paymentOptions.storePaymentProfile" />
+                    </div>
+                *@
+                <div style="color: red;" ng-bind="vm.submitErrorMessage"></div>
+            </div>
+        </div>
+        <div class="promo-code" ng-hide="vm.cart.paymentOptions.isPayPal || vm.cart.type == '@CustomerOrder.OrderType.Quote'">
+            <label>@T("Have a Promotion Code?")</label>
+            <input id="promotxt" name="PromoCode" type="text" ng-model="vm.promotionCode" />
+            <span class="field-validation-error" ng-if="vm.promotionErrorMessage" ng-bind="vm.promotionErrorMessage"></span>
+            <span class="field-validation-valid" ng-if="vm.promotionAppliedMessage" ng-bind="vm.promotionAppliedMessage"></span>
+            <a id="paymentSelectorApplyPromotionButton" href="" class="btn secondary btn-apply" ng-click="vm.applyPromotion()">@T("Apply_promotion")</a>
+            <a id="select_promo_product-link" href="javascript:void(0);" data-reveal-id="addProductPromoPopup"></a>
+            <div id="addProductPromoPopup" class="reveal-modal" data-reveal>
+                <div class="modal-wrap">
+                    <div id="select_promo_product"></div>
+                    <a id="paymentSelectorPromoCloseButton" class="close-reveal-modal">&#215;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

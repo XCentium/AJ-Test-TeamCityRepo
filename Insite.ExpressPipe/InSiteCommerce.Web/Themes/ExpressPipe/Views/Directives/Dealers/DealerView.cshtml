@@ -1,0 +1,71 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+<div>
+    <div ng-show="NoLocation" ng-cloak>
+        @Html.Message("DealerLocator_NoLocationMessage", "Please enter a location.")
+    </div>
+    <div class="messaging" ng-show="NotFound" ng-cloak>
+        @Html.Message("DealerLocator_NoResultsMessage", "No results found, please search again.")
+    </div>
+    <div class="dealer-loc-map" id="dealer-loc-map">
+        <map name="dealersmap" zoom="15"></map>
+    </div>
+
+    <div class="dealer-deetz" ng-if="vm.dealer" ng-cloak>
+        <div class="dealer-name">
+            <h3 ng-bind="vm.dealer.name"></h3>
+        </div>
+        <div class="dealer-addy" ng-cloak>
+            <span ng-bind="vm.dealer.address1"></span>&nbsp;<span ng-if="vm.dealer.address2" ng-bind="vm.dealer.address2"></span>,
+            <span ng-bind="vm.dealer.city"></span>, <span ng-bind="vm.dealer.state"></span> <span ng-bind="vm.dealer.postalCode"></span><br />
+            <div ng-if="vm.dealer.phone" class="dealer-phone">
+                @T("Tel:")  <a href="tel:{{vm.dealer.phone}}"><span ng-bind="vm.dealer.phone"></span></a>
+                <span ng-if="vm.dealer.properties['dealer.Fax']">@T("| Fax:")  {{vm.dealer.properties['dealer.Fax']}}</span>
+            </div>
+        </div>
+        <div class="dealer-hours-map" ng-if="vm.dealer.properties.hours">
+            <h4>@T("Hours")</h4>
+            <div ng-bind-html="vm.dealer.properties.hours"></div>
+        </div>
+        <div ng-if="vm.dealer.properties.manager">
+            <h4>@T("Branch Manager")</h4>
+            <div ng-bind-html="vm.dealer.properties.manager"></div>
+            <a ng-if="vm.dealer.properties.managerEmail" href="mailto:{{vm.dealer.properties.managerEmail}}">{{vm.dealer.properties.managerEmail}}</a>
+        </div>
+        <div class="category-icons" ng-if="vm.dealer.properties.productCategories">
+            <h4>@T("Services")</h4>
+            <div ng-repeat="category in vm.locationTypes" ng-if="vm.dealer.productCategories.indexOf(category) > -1" class="dealer-view-icon"> <img ng-src="~/Images/Dealer/ICO-{{category | createLabel | removeSpaces}}.png" alt="{{category | createLabel}}" title="{{category | createLabel}}" /><span class="dealer-ico-desc">{{category | createLabel}}</span></div>
+        </div>
+        <div class="dealer-links">
+            <a id="dealerViewDirectionsButton_{{vm.dealer.id}}" href="{{'http://maps.google.com/maps?daddr=' + vm.addressForDirections}}" class="button" target="_blank">@T("Get Directions")</a>
+            <span ng-if="vm.dealer.webSiteUrl" ng-cloak>
+                <a id="dealerViewWebsiteLink_{{vm.dealer.id}}" href="{{vm.dealer.webSiteUrl}}" class="dealer-www" target="_blank">@(T("Website"))</a>
+            </span>
+        </div>
+        <div class="dealer-images medium-4 large-4 columns" ng-if="vm.dealer['images'].length > 1">
+            <h4>@T("Location Images")</h4>
+            <div ng-if="vm.dealer['images'].length > 1" class="dealer-image-slider">
+                <div ng-repeat="image in vm.dealer['images']"><img ng-src="{{image}}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="directionsPanel" style="margin-right: 10px;" ng-cloak></div>
+    @Html.Action("GenericPopupPartial", "Shared", new { containerName = "geocodeError", BodyHtml = "FIX ME", Title = T("Geocode Error") })
+</div>
+
+@Html.Script(
+    @<script>
+        jQuery(function ($) {
+            setTimeout(function () {
+                $(".dealer-image-slider").slick({
+                    infinit: true,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    prevArrow: '<i class="fa fa-lg fa-angle-left"></i>',
+                    nextArrow: '<i class="fa fa-lg fa-angle-right"></i>',
+                    accessibility: false
+                });
+            }, 1000);
+        })
+    </script>)

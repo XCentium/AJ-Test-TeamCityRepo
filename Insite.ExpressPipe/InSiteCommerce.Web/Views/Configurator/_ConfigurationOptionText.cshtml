@@ -1,0 +1,57 @@
+﻿@model Insite.Configurator.Models.ConfigurationOptionViewModel
+<div id="@(Model.Name)Wrapper" class="configurator-option-wrapper">
+    <label for="@Model.Name" class="configurator-option-label">@Model.LabelValue</label>
+    @{
+        var attributes = new Dictionary<string, object>
+            {
+                {"class", "configurator-option-input configurator-text"}, 
+                {"title", Model.ToolTip}, 
+                {"data-field-label", Model.LabelValue},
+                {"data-field-type", Model.Type},
+                {"data-field-required", Model.IsRequired ? "1" : "0"},
+                {"data-bind", "event:{ change: onChange }, value: " + Model.Name}
+            };  
+            
+        if (Model.NumberMinValue != 0)
+        {
+            attributes.Add("data-field-min-value", Model.NumberMinValue);
+        }
+        if (Model.NumberMaxValue != 0)
+        {
+            attributes.Add("data-field-max-value", Model.NumberMaxValue);
+        }
+        if (Model.TextMinLength != 0)
+        {
+            attributes.Add("data-field-min-length", Model.TextMinLength);
+        }
+        if (Model.NumberDecimals != 0)
+        {
+            attributes.Add("data-field-number-decimals", Model.NumberDecimals);
+        }
+        if (Model.TextMaxLength != 0)
+        {
+            attributes.Add("data-field-max-length", Model.TextMaxLength);
+        }
+        if (!Model.TextCharacterType.IsBlank())
+        {
+            attributes.Add("data-field-char-type", Model.TextCharacterType);
+        }
+        if (!Model.TextValidEntryList.IsBlank())
+        {
+            attributes.Add("data-field-valid-entries", Model.TextValidEntryList);
+        }
+        if (Model.DateCheckRange)
+        {
+            if (Model.DateMaxDaysBack != 0)
+            {
+                attributes.Add("data-field-max-days-back", Model.DateMaxDaysBack);
+            }
+            if (Model.DateMaxDaysForward != 0)
+            {
+                attributes.Add("data-field-max-days-forward", Model.DateMaxDaysForward);
+            }
+        }        
+    }        
+    @(Model.TextIsMultiline ? Html.TextArea(Model.Name, Model.Value, attributes) : Html.TextBox(Model.Name, Model.Value, attributes))    
+</div>
+<br />

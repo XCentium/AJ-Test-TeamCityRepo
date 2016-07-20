@@ -1,0 +1,233 @@
+@import '../settings';
+
+/* Compare Hopper */
+
+.compare-hopper {
+    position: fixed;
+    width: 320px;
+    right: 50%;
+    bottom:0;
+    background:#fff;
+    margin-right: -160px;
+    -webkit-box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 5px 30px 0 rgba(0, 0, 0, 0.3);
+    z-index: 8000;
+}
+
+.compare-header {
+    padding: $padding-single;
+    background-color: $lightest-gray;
+}
+
+.compare-item {
+    border:1px solid #fff;
+    position:relative;
+    display:inline-block;
+    text-align: center;
+    padding: .5em;
+    width:100%;
+}
+
+.compare-item:hover {
+    cursor:pointer;
+    border-color:#b8b8b8;
+}
+
+.compare-item>* {
+  vertical-align:top;
+}
+
+.compare-item .item-name {
+    display:inline-block;
+    padding-left:1em;
+    width:60%;
+}
+
+.compare-item img {
+   display:inline-block;
+   width: 15%;
+}
+
+@media all and (min-width:768px) {
+ .compare-item img {
+   display:inline-block;
+   width: 50px;
+   max-height: 100%;
+}
+}
+
+a.compare-remove {
+     position:absolute;
+     top:0;
+     right:0;
+}
+
+a.compare-remove:before {
+    content: "\e000";
+    font-size:0.7em;
+    font-family: 'good-oatmeal-v2';
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    display: inline;
+    display: none;
+    width: auto;
+    height: auto;
+    line-height: inherit;
+    vertical-align: baseline;
+    background-image: none;
+    background-position: 0 0;
+    background-repeat: repeat;
+    text-indent:0;
+    position:absolute;
+    width:100%;
+    top:0;
+    left:0;
+}
+
+.compare-tray {
+    background:#e0e0e0;
+    float:left;
+    clear:both;
+    width:100%;
+    padding: .5em;
+    font-weight:bold;
+    margin-bottom:.5em;
+    border:2px solid transparent;
+}
+
+.compare-tray:hover, .compare-tray:focus {
+  background:#e5e5e5;
+  border-color:#d8d8d8;
+}
+
+.compare-container {
+    padding: $padding-single;
+}
+
+.compare-items {
+   display:none;
+}
+
+    .compare-hopper.showtray .compare-items{
+        display:inline-block;
+
+     }
+
+     @media all and (max-width:768px) {
+      .compare-hopper .compare-items{
+         width: 100%;
+      }
+
+     }
+
+.compare-items div.compare-item:first-child {
+  margin-left:0
+}
+
+.compare-buttons {
+    float: right;
+    width:30%;
+    text-align:center;
+    padding: 0 1%;
+}
+
+.modal-wrap .compare-buttons {
+  text-align:center
+;
+}
+.modal-wrap.compare-wrap{
+  text-align:center
+}
+
+.compare-buttons .btn-compare, .compare-buttons .btn-clear {
+    font-size: .875em;
+    padding: .5em .75em;
+    position:relative;
+    display:inline-block;
+    text-decoration:none;
+    /* color: #fff; */
+    width: 48%;
+    height:30px;
+}
+.compare-buttons .btn-clear {
+  line-height:1em;
+  padding:.25em 0;
+}
+
+.compare-buttons .btn-compare:before {
+    content:"\e60b";
+    font-family: 'good-oatmeal-v2';
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1rem;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    width: auto;
+    height: auto;
+    vertical-align: sub;
+    background-image: none;
+    background-position: 0 0;
+    background-repeat: repeat;
+    padding-right:.5em;
+    font-size:1rem;
+}
+
+@media all and (min-width: 768px) {
+
+    .compare-hopper {
+        bottom:0;
+        width: 60%;
+        margin-right: -225px;
+        background: #fff;
+        max-width: 450px;
+        white-space:nowrap;
+    }
+
+  .compare-items, .compare-buttons{
+    display:inline-block;
+    vertical-align: top;
+  }
+
+    .compare-tray {
+        display:none;
+    }
+
+  .compare-items {
+     width: 70%;
+     float: left;
+     white-space: nowrap;
+     vertical-align: top;
+}
+
+    .compare-item {
+        width: 25%;
+
+        padding: .25em;
+}
+    .compare-item .item-name {
+        display:none;
+    }
+
+     a.compare-remove {
+       width: 1em;
+       height: 1em;
+       line-height: 1em;
+     }
+
+ }
+
+.modal-wrap .compare-buttons .btn-compare{
+  text-align:center;
+  float:none;
+  max-width:200px;
+  min-width:100px;
+}

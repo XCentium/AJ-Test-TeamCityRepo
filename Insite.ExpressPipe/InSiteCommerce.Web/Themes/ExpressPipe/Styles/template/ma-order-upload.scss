@@ -1,0 +1,62 @@
+﻿.oui-box {
+    
+}
+
+.upload-icon {
+    margin: 20px 0;
+    color: #808080;
+}
+
+
+.file-chosen {
+    position: relative;
+    padding: 5px 10px;
+    background-color: #fff;
+
+    .file-title {
+        display: inline-block;    
+        font-size: 1.2em;
+    }
+
+    a {
+        display: inline-block;
+        position: absolute;
+        right: 10px;
+        line-height: 1.8em;
+    }
+}
+
+.first-row-option {
+    margin-top: 5px;
+}
+
+.oui-orders {
+    margin-top: 20px;
+}
+
+
+#orderUploadingPopup {
+    .progress {
+        .meter {
+            width: 0%;
+        }
+    }
+
+    &.open {
+        .progress {
+            .meter {
+                -moz-transition: width 0.5s;
+                -o-transition: width 0.5s;
+                -webkit-transition: width 0.5s;
+                transition: width 0.5s;
+
+                &.delay {
+                    -moz-transition: width 5s;
+                    -o-transition: width 5s;
+                    -webkit-transition: width 5s;
+                    transition: width 5s;
+                }
+            }
+        }
+    }
+}

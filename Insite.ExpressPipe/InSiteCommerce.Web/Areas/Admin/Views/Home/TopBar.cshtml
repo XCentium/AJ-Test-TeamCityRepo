@@ -1,0 +1,136 @@
+﻿@using Insite.Integration.Enums
+<header class="topbar" ng-cloak ng-controller="HeaderController as headerCtrl">
+    <nav role="navigation">
+        <div class="menu-group secondary">
+            <div class="menu-group-left">
+                <ul class="menu-bar">
+                    <li style="border-right: 0;">
+                        <a class="button" href="#" toggle-sidebar>
+                            <i class="icon icon-menu" style="font-size: 28px;"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="brand-logo" href="/admin">
+                            <img src="/Images/insite_logo.png" />
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="menu-group-right">
+                <ul class="menu-bar icon-left">
+                    <li class="menu-bar-debug" ng-if="headerCtrl.debugMenuIsEnabled()">
+                        <a class="button" href="#" zf-popup-toggle="debugPopup" is-popup-click-override ng-class="isActive ? 'is-active' : ''"></a>
+                        <zf-popup id="debugPopup" class="debug-menu popup" pin-at="bottom right" pin-to="top right">
+                            <h4 class="debug-menu__title">Debug Tools</h4>
+                            <ul class="menu-action-list">
+                                <li>
+                                    <a class="menu-action-list__action" href="javascript:void(0)" ng-click="headerCtrl.clearCache()" zf-popup-toggle="debugPopup">
+                                        <i class="menu-action-list__icon menu-action-list__icon--large icon icon-chevron-right"></i> <span class="menu-action-list__label">Clear Cache</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="menu-action-list__action" href="javascript:void(0)" ng-click="headerCtrl.clearLocalStorage()" zf-popup-toggle="debugPopup">
+                                        <i class="menu-action-list__icon menu-action-list__icon--large icon icon-chevron-right"></i> <span class="menu-action-list__label">Clear Local Storage</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="menu-action-list__action" href="javascript:void(0)" ng-click="headerCtrl.navigateTo('/debug/apitester')" zf-popup-toggle="debugPopup">
+                                        <i class="menu-action-list__icon menu-action-list__icon--large icon icon-chevron-right"></i> <span class="menu-action-list__label">Api Tester</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="menu-action-list__action" href="javascript:void(0)" ng-click="headerCtrl.navigateTo('/debug/plugins')" zf-popup-toggle="debugPopup">
+                                        <i class="menu-action-list__icon menu-action-list__icon--large icon icon-chevron-right"></i> <span class="menu-action-list__label">Plugin Information</span>
+                                    </a>
+                                </li>
+                                <li ng-if="!headerCtrl.masterEditModeIsEnabled">
+                                    <a class="menu-action-list__action" href="javascript:void(0)" ng-click="headerCtrl.enableMasterEditMode()" zf-popup-toggle="debugPopup">
+                                        <i class="menu-action-list__icon menu-action-list__icon--large icon icon-chevron-right"></i> <span class="menu-action-list__label">Enable Master Edit Mode</span>
+                                    </a>
+                                </li>
+                                <li ng-if="headerCtrl.masterEditModeIsEnabled">
+                                    <a class="menu-action-list__action" href="javascript:void(0)" ng-click="headerCtrl.disableMasterEditMode()" zf-popup-toggle="debugPopup">
+                                        <i class="menu-action-list__icon menu-action-list__icon--large icon icon-chevron-right"></i> <span class="menu-action-list__label">Disable Master Edit Mode</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </zf-popup>
+                    </li>
+                    <li>
+                        <isa-help-links />
+                    </li>
+                    <li>
+                        <a class="button" href="#" zf-popup-toggle="sitePreviewPopup" id="sitePreviewPopupLauncher" is-popup-click-override ng-class="isActive ? 'is-active' : ''">
+                            <i class="icon icon-launch"></i>
+                        </a>
+                        <zf-popup id="sitePreviewPopup" class="site-preview-menu popup" pin-at="bottom right" pin-to="top right" target="sitePreviewPopupLauncher">
+                            <div class="site-preview-menu__top-wrapper">
+                                <h4 class="site-preview-menu__title">View Website</h4>
+                                <div class="site-preview-menu__actionables" ng-show="headerCtrl.contentEditorIsEnabled()">
+                                    <span class="site-preview-menu__actionables__label">Content Editor</span>
+                                    <div class="flip-switch">
+                                        <input type="checkbox" id="isContentEditor" ng-model="headerCtrl.isContentEditor">
+                                        <label for="isContentEditor">
+                                            <div class="switch-inner">
+                                                <span class="switch-on"><i class="icon icon-check-circle"></i> ON</span>
+                                                <span class="switch-off"><i class="icon icon-check-circle"></i> OFF</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="site-preview-menu__help-text" ng-show="headerCtrl.contentEditorIsEnabled()">
+                                    <i>This will enable the Content Editor for managing website content.</i>
+                                </div>
+                                <br />
+                            </div>
+                            <ul class="menu-action-list">
+                                <li ng-repeat="website in headerCtrl.websitesList">
+                                    <a class="menu-action-list__action" href="javascript:void(0);" ng-click="headerCtrl.openWebsite(website)">
+                                        <i class="menu-action-list__icon icon icon-launch"></i> <span class="menu-action-list__label" ng-bind="website.name"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </zf-popup>
+                    </li>
+                    <li>
+                        <a class="button" href="#" zf-popup-toggle="jobsPopup" is-popup-click-override ng-class="isActive ? 'is-active' : ''">
+                            <i class="icon icon-jobs"></i> <span ng-bind="headerCtrl.activeJobsNumber"></span>
+                        </a>
+                        <zf-popup id="jobsPopup" class="jobs-menu popup" pin-at="bottom right" pin-to="top right">
+                            <a class="jobs-menu__view-all" href="javascript:void(0);" ng-click="headerCtrl.navigateTo('/joblist')" zf-popup-toggle="jobsPopup">View All</a>
+                            <ul class="menu-action-list">
+                                <li ng-repeat="job in headerCtrl.jobsList">
+                                    <div class="recent-job-info" href="javascript:void(0);"
+                                         ng-click="headerCtrl.openJob(job)"
+                                         ng-class="{ 'recent-job-info--failure': job.isFailure }">
+                                        <i class="recent-job-info__icon menu-action-list__icon menu-action-list__icon--large icon icon-jobs"></i>
+                                        <div class="recent-job-info__content">
+                                            <div class="menu-action-list__label recent-job-info__label">
+                                                <span class="recent-job-info__job-name" ng-bind-template="{{job.isExport ? 'Export ' : job.isImport ? 'Import ' : ''}}{{job.exportObject}} - Job #{{job.jobNumber}}"></span> <span class="recent-job-info__status" ng-bind="job.statusToDisplay"></span>
+                                            </div>
+                                            <div class="recent-job-info__file-name" ng-bind="job.file"></div>
+                                            <a class="recent-job-info__download"
+                                               ng-if="job.status === '@IntegrationJobStatus.Success' && job.file"
+                                               ng-href="@(Url.Action("GetFile", "Import"))?file={{this.job.file}}&{{headerCtrl.getAccessTokenQueryString()}}"
+                                               ng-click="headerCtrl.downloadJobFile(job, $event)" target="_blank">Download File</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </zf-popup>
+                    </li>
+                    <li>
+                        <a class="button" href="/admin/account">
+                            <i class="icon icon-user"></i> <span ng-bind="headerCtrl.user"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="button" href="#" ng-click="headerCtrl.signOut()">
+                            <i class="icon icon-sign-out"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

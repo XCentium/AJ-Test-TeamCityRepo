@@ -1,0 +1,15 @@
+﻿@model Image
+<div class="@Model.CssClass">
+    @helper Image()
+    {
+        <img src="@Model.ImageUrl" alt="@Model.AltText" style="@(Model.Height.HasValue ? "height: " + Model.Height + "px;" : "") @(Model.Width.HasValue ? "width: " + Model.Width + "px;" : "")" />
+    }
+    @if (!Model.Link.IsBlank())
+    {
+        <a class="cms-imageLink" href="@Model.Link">@Image()</a>
+    }
+    else
+    {
+        @Image()
+    }
+</div>

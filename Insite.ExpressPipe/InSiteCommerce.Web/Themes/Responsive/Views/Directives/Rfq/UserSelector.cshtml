@@ -1,0 +1,20 @@
+﻿@using Insite.Core.Providers
+@*
+    usage example:
+    <isc-user-selector users=users> </isc-user-selector> 
+*@
+
+
+
+<div>
+    <div class="medium-12 large-12 columns">
+        <label>@T("Creating quote for") <em class="redTxt">(@T("required"))</em>:</label>
+    </div>
+    <select ng-model="vm.selectedUser" class="uom-selector billto-selector" name="users" id="users" autocomplete="off"
+            data-rule-required="true" data-msg-required="@MessageProvider.Current.Rfq_UserIsRequired">
+        <option value="" ng-selected="selected">@T("Select a User")</option>
+        <option ng-repeat="user in vm.users" value="{{user.id}}" ng-bind="user.userName"></option>
+    </select>
+    <span class="field-validation-valid" data-valmsg-for="users" data-valmsg-replace="true"></span>
+</div>
+

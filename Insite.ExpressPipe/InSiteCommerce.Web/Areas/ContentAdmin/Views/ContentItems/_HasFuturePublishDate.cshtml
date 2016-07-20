@@ -1,0 +1,17 @@
+﻿@model Insite.ContentAdmin.Models.ContentItems.HasFuturePublishDateModel
+
+@{
+    Layout = "/Areas/ContentAdmin/Views/Shared/_ModalLayout.cshtml";
+}
+
+@section Header { @Model.Title }
+
+<div>
+    <p>
+        This page is set up to publish on @Model.PublishDate.LocalDateTime.ToShortDateString() at @Model.PublishDate.LocalDateTime.ToShortTimeString().
+        That future publish date must be cleared before the page may be modified.
+    </p>
+    <div class="buttonArea">
+        <button class="cms-close cms-button" type="button">Close</button>
+    </div>
+</div>

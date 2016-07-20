@@ -1,0 +1,13 @@
+﻿@using Insite.Core.Providers
+@using Insite.WebFramework.Mvc.Extensions
+
+<div id="popup-productaddedtocart" class="reveal-modal pop-allpurpose" data-reveal data-reveal-init>
+    <div class="modal-wrap ">
+        <div ng-show="vm.productSettings.showAddToCartConfirmationDialog">
+            <h4><span ng-bind="vm.isAddAll ? '@T("Add All to Cart")' : '@T("Add to Cart")'"></span></h4>
+            <span ng-bind="vm.isAddAll ? '@MessageProvider.Current.Cart_AllProductsAddedToCart' : '@MessageProvider.Current.Cart_ProductAddedToCart'"></span>
+        </div>
+        <div ng-show="vm.isQtyAdjusted"><b>@Html.Message("Cart_QuantityAdjusted", "The quantity added to the cart was changed due to rounding or minimum quantity rules.")</b></div>
+        <a id="genericPopupCloseButton" class="close-reveal-modal">&#215;</a>
+    </div>
+</div>

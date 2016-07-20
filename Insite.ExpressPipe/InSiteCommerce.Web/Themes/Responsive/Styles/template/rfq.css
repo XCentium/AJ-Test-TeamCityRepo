@@ -1,0 +1,226 @@
+/* RFQ Create Account / Sign In */
+.rfq-account-si .btns a.btn {
+  margin-bottom: 1em;
+}
+
+@media all and (max-width: 767px) {
+  .rfq-account-si .btns a.btn {
+    width: 100%;
+  }
+}
+@media all and (min-width: 768px) {
+  .rfq-account-si .btns {
+    text-align: right;
+  }
+
+  .rfq-account-si .ca-form {
+    width: 55%;
+  }
+
+  .rfq-account-si .si-acct {
+    width: 35%;
+  }
+
+  .rfq-account-si .si-acct .btn {
+    float: left;
+    margin-bottom: 1em;
+  }
+
+  .rfq-account-si .si-acct h3 {
+    margin-top: 0;
+  }
+}
+.rfq-account-si .tiny-lnk {
+  font-size: 0.875em;
+  margin: 0.25em 0;
+}
+
+.rfq-account-si .required-msg {
+  margin-bottom: 1em;
+}
+
+.rfq-account-si .newsletter {
+  margin-top: 1em;
+}
+
+.rfq-account-si .btns {
+  margin-top: 1em;
+  margin-bottom: 1.5em;
+  text-align: right;
+}
+
+.rfq-account-si .pw-note {
+  font-size: 0.875em;
+  line-height: 1.5em;
+}
+
+.rfq-account-si .account-msg {
+  background: #fff6c5;
+  border-color: #ffd800;
+  margin-top: 0;
+}
+
+/* RFQ Form */
+.rfq-form .col-notes label {
+  margin-bottom: .5em;
+}
+
+.rfq-form .col-notes .create-for {
+  margin-bottom: 1em;
+}
+
+.rfq-form .col-notes textarea {
+  min-height: 200px;
+}
+
+.rfq-form .btns {
+  margin-top: 1em;
+}
+
+.rfq-form .item-opt .item-subtotal {
+  display: none;
+}
+
+@media all and (max-width: 767px) {
+  .rfq-form .btns a {
+    width: 100%;
+  }
+}
+.rfq-form .item-details .item-name {
+  padding-right: 2.5em;
+}
+
+@media all and (min-width: 768px) {
+  .rfq-form .item-list .item-details {
+    padding-right: 1em !important;
+  }
+
+  .rfq-form .item-details .item-name {
+    padding-right: 3.5em;
+  }
+}
+.rfq-form .item-list .actions-panel .item-actions {
+  text-align: left;
+}
+
+.rfq-form .item-list .item-code-notes {
+  padding: 0;
+  float: left;
+  width: 100%;
+}
+
+.rfq-form .item-list .item-actions-wrap {
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  float: left;
+  width: 100%;
+}
+
+/* RFQ Confirmation */
+.rfq-confirmation .btns {
+  text-align: left;
+  margin-bottom: 1.5em;
+  width: 100%;
+}
+
+.rfq-confirmation .btns .btn + .btn {
+  margin-left: 1em;
+}
+
+.rfq-confirmation .btns .btn-print {
+  float: right;
+}
+
+.rfq-confirmation .col-details h2 {
+  font-size: 1em;
+  margin-top: 0;
+}
+
+.rfq-confirmation .col-details h2 span {
+  font-weight: normal;
+}
+
+@media all and (min-width: 768px) {
+  .rfq-confirmation .item-details {
+    padding-right: 1em !important;
+  }
+
+  .rfq-confirmation .item-details .item-name {
+    padding-right: 3.5em;
+  }
+}
+.rfq-confirmation .item-opt .item-subtotal {
+  display: none;
+}
+
+.rfq-confirmation .actions-panel .item-actions {
+  text-align: left;
+}
+
+.rfq-confirmation .item-code-notes {
+  padding: 0;
+  float: left;
+  width: 74.5%;
+}
+
+.rfq-confirmation .item-actions-wrap {
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  float: left;
+  width: 100%;
+}
+
+@media all and (min-width: 768px) {
+  .rfq-confirmation .item-details div.price,
+  .rfq-confirmation .item-details div.item-opt {
+    display: inline-block;
+    width: auto;
+    line-height: 1em;
+    height: auto;
+  }
+
+  .rfq-confirmation .item-details,
+  .rfq-confirmation .item-code-notes {
+    padding-right: 1em !important;
+  }
+
+  .rfq-confirmation .item-code-notes {
+    width: 79.5%;
+  }
+}
+.rfq-confirmation .item-code-notes .cost-code,
+.rfq-confirmation .item-code-notes .item-notes {
+  width: 100%;
+  margin-bottom: 0.25em;
+}
+
+.rfq-confirmation .item-code-notes .cost-code strong,
+.rfq-confirmation .item-code-notes .item-notes strong {
+  margin-right: 0.5em;
+}
+
+.rfq-confirmation .item-list .item-block .item-opt {
+  margin-top: .3em;
+}
+
+.rfq-confirmation .btns.show-for-small {
+  margin-top: 1em;
+}
+
+.rfq-confirmation .btns.show-for-small .btn {
+  width: 100%;
+  margin: 0 0 1em 0;
+}
+
+/* Tooltips */
+@media all and (max-width: 767px) {
+  .rfq-form .quote-required .f-dropdown.content,
+  .rfq-confirmation .quote-required .f-dropdown.content {
+    min-width: 235px !important;
+    margin-left: -120px;
+  }
+}
+
+/*# sourceMappingURL=rfq.css.map */

@@ -1,0 +1,17 @@
+﻿@using Insite.Core.Providers
+
+<div class="medium-6 large-6 columns col-communication">
+    <h3><span>{{quote.isSalesperson ? '@T("Communicate with customer")' : '@T("Communicate with sales")'}}:</span></h3>
+    <div class="quote-communication">
+        <div id="isc-rfqMessages">
+            <isc-rfq-message-list></isc-rfq-message-list>
+        </div>
+        <form novalidate id="rfqSendMessageForm">
+            @Html.AntiForgeryToken()
+            <div class="send-msg">
+                <textarea placeholder="@MessageProvider.Current.Rfq_GhostMessage" ng-model="vm.rfqMessage" id="isc-messageEdit" name="message"></textarea>
+                <button id="rfqMessagesSendMessageButton" ng-disabled="!vm.rfqMessage || vm.rfqMessage.trim() === ''" ng-click="vm.sendMessage()" class="btn tertiary btn-send-message isc-btnSendMessage" type="button">@T("Send Message")</button>
+            </div>
+        </form>
+    </div>
+</div>

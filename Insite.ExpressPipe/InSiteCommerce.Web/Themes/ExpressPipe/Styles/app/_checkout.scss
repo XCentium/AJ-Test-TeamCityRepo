@@ -1,0 +1,219 @@
+﻿.checkout-head {
+
+}
+
+    .checkout-crumbs {
+        list-style: none;
+        margin: $margin-double 0;
+        border-radius: 100px;
+
+        @media (min-width: $medium-breakpoint){
+            padding: $padding-single $padding-double;
+            background-color: $lightest-blue;
+        }
+
+        li {
+            display: none;
+            @media (min-width: $small-breakpoint){
+                display: inline-block;
+            }
+            margin-right: 1em;
+            color: $lighter-gray;
+            vertical-align: middle;
+
+            a {
+                color: $lighter-gray;
+
+                .fa {
+                    font-size: 2em;
+                }
+            }
+
+            .number {
+                display: inline-block;
+                width: 2em;
+                height: 2em;
+                line-height: 2em;
+                border-radius: 5em;
+                background-color: $lighter-gray;
+                color: #fff;
+                text-align: center;
+            }
+
+            &.current {
+                display: inline-block;
+                font-size: 1.3em;
+                color: $green;
+
+                .number {
+                    background-color: $green;
+                    color: $almost-white;
+                }
+            }
+        }
+    }
+
+    .checkout-jobname {
+        margin: $margin-double 0 $margin-quadruple 0;
+        border-bottom: 2px solid $gray;
+    }
+
+.checkout-section {
+    margin: 0 0 $margin-double 0;
+
+    @media #{$large-up} {
+        margin: 0 0 $margin-quadruple*2 0;
+    }
+
+    .checkout-section-header {
+        position: relative;
+        margin-bottom: $margin-single;
+            
+        h2 {
+            border-bottom: 1px solid $light-gray;
+
+            @media #{$medium-up} {
+                margin-bottom: $margin-double;
+            }
+        }
+        .edit,
+        .print {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    }
+
+}
+
+.ship-to {
+    margin-bottom: $margin-double !important;
+}
+
+.ship-preference,
+.willcall-preference {
+
+    li {
+        margin-bottom: $margin-single/2;
+        min-height: rem-calc(31px);
+    }
+
+    label {
+        display: inline-block;
+        margin-right: $margin-single;
+        min-width: 160px;
+        vertical-align: baseline;
+        line-height: 2.2em;
+
+        input[type="radio"] {
+            vertical-align: baseline;
+            margin-bottom: 0;
+        }
+    }
+
+    .ship-date {
+        display: inline-block;
+        vertical-align: top;
+        margin-bottom: $margin-single;
+        min-width: 150px;
+
+        label.error {
+            display: none;
+            font-size: 0.9em;
+        }
+
+        select {
+            width: rem-calc(120);
+            margin-bottom: 0;
+            padding-right: $padding-double;
+        }
+
+        .fa {
+            margin-left: -25px;
+            margin-right: 10px;
+            margin-top: 0.6em;
+        }
+    }
+
+    @media (max-width: $large-breakpoint){
+        .ship-date {
+            display: block;
+        }
+    }
+
+    .datepicker {
+        display: inline-block;
+        margin-bottom: 0;
+        width: rem-calc(120);
+        vertical-align: top;
+    }
+
+    .date {
+        position: relative;
+    }
+
+    .ship-disclaimer {
+        font-size: 0.9em;
+        font-style: italic;
+        line-height: 1.3em;
+    }
+}
+
+.willcall-preference {
+    margin-bottom: $margin-single;
+
+    label {
+        min-width: 210px;
+    }
+}
+
+.credit-card-list {
+    list-style: none;
+    margin: 0;
+
+    > li {
+        margin-bottom: $margin-single;
+
+        input[type="radio"] {
+            margin: 0 0 0 $margin-single/2;
+            vertical-align: middle;
+        }
+        span {
+            margin-right: $margin-single/2;
+        }
+    }
+
+    .cc-number {
+        font-weight: 600;
+    }
+
+    .fa-remove {
+        color: $light-gray;
+    }
+}
+
+.non-catalog {
+    margin-top: $margin-quadruple;
+}
+
+@media (max-width: $small-breakpoint){
+    .order-info-col {
+        margin-bottom: $margin-double;
+    }
+}
+
+.order-subtotal-grid {
+    .summary-totals {
+        .sub-total {
+            font-weight: 500;
+        }
+        
+        .order-total {
+            margin-top: 0.35714rem !important;
+            padding-top: 0.35714rem;
+            border-top: 1px solid #999999;
+            font-size: 1.2em;
+            font-weight: 500;
+        }
+    }
+}

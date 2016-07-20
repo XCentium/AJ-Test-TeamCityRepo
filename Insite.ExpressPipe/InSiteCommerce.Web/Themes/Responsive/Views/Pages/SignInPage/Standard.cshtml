@@ -1,0 +1,14 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Account.Content.SignInPage
+@section BodyClass { sign-in }
+@section Styles
+{
+    @Html.RequireCss(Url.ThemedContent("/Styles/template/sign-in.css"))
+    @Html.RequireCss(Url.ThemedContent("/Styles/template/change-cust-ship-to.css"))
+}
+
+<div class="row main-row">
+    <div class="large-12 columns">
+        @(Html.Zone(Model, "Content"))
+    </div>
+</div>

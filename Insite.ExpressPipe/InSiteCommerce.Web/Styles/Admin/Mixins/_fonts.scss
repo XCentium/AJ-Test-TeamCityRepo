@@ -1,0 +1,40 @@
+﻿$font-folder-path: '/Styles/Fonts';
+
+@mixin proximanova-variant($font-weight, $font-style, $folder-name, $file-name) {
+  @font-face {
+    font-family: 'Proxima Nova';
+    src: url('#{$font-folder-path}/proximanova/#{$folder-name}/#{$file-name}.eot');
+    src: url('#{$font-folder-path}/proximanova/#{$folder-name}/#{$file-name}.eot?#iefix') format('embedded-opentype'),
+    url('#{$font-folder-path}/proximanova/#{$folder-name}/#{$file-name}.woff') format('woff'),
+    url('#{$font-folder-path}/proximanova/#{$folder-name}/#{$file-name}.ttf') format('truetype'),
+    url('#{$font-folder-path}/proximanova/#{$folder-name}/#{$file-name}.svg#ProximaNovaRegular') format('svg');
+    font-weight: $font-weight;
+    font-style: $font-style;
+  }
+}
+
+@mixin proximanova-condensed-variant($font-weight, $font-style, $folder-name, $file-name) {
+  @font-face {
+    font-family: 'Proxima Nova Condensed';
+    src: url('#{$font-folder-path}/proximanova/#{$folder-name}/#{$file-name}.eot');
+    src: url('#{$font-folder-path}/proximanova/#{$folder-name}/#{$file-name}.eot?#iefix') format('embedded-opentype'),
+    url('#{$font-folder-path}/proximanova/#{$folder-name}/#{$file-name}.woff') format('woff'),
+    url('#{$font-folder-path}/proximanova/#{$folder-name}/#{$file-name}.ttf') format('truetype'),
+    url('#{$font-folder-path}/proximanova/#{$folder-name}/#{$file-name}.svg#ProximaNovaRegular') format('svg');
+    font-weight: $font-weight;
+    font-style: $font-style;
+  }
+}
+
+@mixin mobius-base() {
+  @font-face {
+    font-family: 'Mobius';
+    src: url('#{$font-folder-path}/mobius/Mobius.eot?uxno7l');
+    src: url('#{$font-folder-path}/mobius/Mobius.eot?uxno7l#iefix') format('embedded-opentype'),
+    url('#{$font-folder-path}/mobius/Mobius.ttf?uxno7l') format('truetype'),
+    url('#{$font-folder-path}/mobius/Mobius.woff?uxno7l') format('woff'),
+    url('#{$font-folder-path}/mobius/Mobius.svg?uxno7l#Mobius') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+}

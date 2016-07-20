@@ -1,0 +1,46 @@
+﻿<div class="modal-wrap">
+    <div class="row req-top">
+
+        <h3>@T("Creating a new ResultBase"):</h3>
+        <div>
+            <form data-abide>
+                <ul class="item-list" style="border: none;">
+                    <li class="row item-block" ng-repeat="property in resultProperties">
+                        <div id="{{property.id}}" style="display: inline">
+                            <label for="property_{{ resultProperties.indexOf(property) }}">Type</label>
+                            <select id="property_{{ resultProperties.indexOf(property) }}" name="type" ng-model="property.type" required>
+                                <option value="">@T("Select")</option>
+                                <option value="System.String">@T("string")</option>
+                                <option value="System.Int32">@T("int")</option>
+                                <option value="System.Boolean">@T("bool")</option>
+                            </select>
+                            @*<input id="property_{{ resultProperties.indexOf(property) }}" type="text" ng-model="property.type" required />*@
+                        </div>
+                        <div style="display: inline">
+                            <label for="name_{{ resultProperties.indexOf(property) }}">Name</label>
+                            <input id="name_{{ resultProperties.indexOf(property) }}" type="text" ng-model="property.name" required/>
+                            <small class="error">An email address is required.</small>
+                        </div>
+
+                        @*<span>
+                        <input ng-click="inlinef($event, property.id)" type="checkbox" ng-model="property.inline" placeholder="Answer" required>inline<br />
+                    </span>*@
+
+                        <span ng-hide="property.length == 1">
+                            <a href="javascript:void(0);" ng-click="resultProperties.splice($index, 1)">remove</a>
+                        </span>
+
+                    </li>
+                    <li class="row item-block">
+                        <a href="javascript:void(0);" ng-click="newResultProperty($event)">Add property</a>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>
+
+    <p class="error" style="visibility: hidden" id="resultObjectErrorMessage"></p>
+    <div class="btns">
+        <a href="javascript:void(0);" class="btn primary btn-done" onclick="javascript: $('#createResult').click(); return false;" id="closeCreateResult">@T("Done")</a>
+    </div>
+</div>

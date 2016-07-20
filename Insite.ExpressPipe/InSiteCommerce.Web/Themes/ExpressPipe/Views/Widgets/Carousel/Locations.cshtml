@@ -1,0 +1,9 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Carousel
+
+@Html.RequireScript("//maps.googleapis.com/maps/api/js?v=3.22")
+
+<div class="widget-carousel widget-dealer-carousel locations slideshow-wrapper ng-cloak @Model.CssClass">
+    <h3>@T("Find a Location")</h3>
+    <isc-dealer-widget-view data-options="animation:@Model.AnimationType.ToLower(); animation_speed:@Model.AnimationSpeed; timer_speed:@Model.TimerSpeed; navigation_arrows:@Model.DisplayArrows; slide_number:@Model.DisplaySlideNumbers; bullets: @Model.DisplayBullets; next_class: next; prev_class: prev; slide_number_class: slide-number"></isc-dealer-widget-view>
+</div>

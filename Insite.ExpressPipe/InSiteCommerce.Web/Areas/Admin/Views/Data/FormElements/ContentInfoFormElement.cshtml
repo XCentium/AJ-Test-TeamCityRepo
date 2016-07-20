@@ -1,0 +1,32 @@
+﻿@using Insite.Admin.Extensions
+@model Insite.Admin.FormBuilder.Elements.ContentInfoFormElement
+
+@if (Model.IsEditMode)
+{
+    <div>
+        <span>Content Info</span>
+    </div>
+}
+else
+{
+    <isa-content-info model="entityDetailsCtrl.model"></isa-content-info>
+
+    <script type="text/ng-template" id="ContentInfoFormElement">
+        <div>
+            <div ng-show="vm.nameValue !== ''" class="grid-block">
+                @Html.FormControl(@<label>{{vm.nameLabel}}</label>,
+                    @<input type="text" ng-model="vm.nameValue" disabled />)
+            </div>
+
+            <div ng-show="vm.additionalInfo !== ''" class="grid-block">
+                @Html.FormControl(@<label>Additional Info</label>,
+                    @<input type="text" ng-model="vm.additionalInfo" disabled />)
+            </div>
+
+            <div ng-show="vm.siteUrl !== ''" class="grid-block">
+                @Html.FormControl(@<label>Site Url</label>,
+                    @<a target="_blank" ng-href="{{vm.siteUrl}}">{{vm.siteUrl}}</a>)
+            </div>
+        </div>
+    </script>
+}

@@ -1,0 +1,72 @@
+﻿@using System
+@using Insite.WebFramework.Mvc.Extensions
+@model NewsList
+
+@Html.RequireCss(Url.ThemedContent("/Styles/template/news-list.css"))
+@Html.RequireScript("/Scripts/App/insite.itemlist.js")
+
+<div class="row main-row news-list">
+    <script>
+        var insite = insite || {};
+        insite.itemlist_@(Model.ViewModel.NewsListId) = function() {
+            "use strict";
+            var that = {};
+
+            that.changePage = function(page) {
+                insite.itemlist.changePage(page, '@Model.ViewModel.NewsListId');
+            };
+
+            that.changePageSize = function(obj) {
+                insite.itemlist.changePageSize(obj, '@Model.ViewModel.NewsListId');
+            };
+
+            return that;
+        }();
+    </script>
+    <div class="medium-12 large-12 columns">
+        <div class="row">
+            <div class="medium-12 large-12 columns">
+                <div class="news-list-header">
+                    @Html.Zone(Model, "News Header")
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="medium-12 large-12 columns two-col-format">
+                <div class="medium-3 large-3 columns">
+                    <div>
+                        @Html.Zone(Model, "Left Navigation")
+                    </div>
+                </div>
+                <div class="medium-9 large-9 columns">
+                    <div>
+                        @Html.Zone(Model, "Above News Content")
+                    </div>
+                    <div class="news-listings">
+                        @foreach (var newsPage in Model.ViewModel.NewsPages)
+                        {
+                            <div class="news-list-page">
+                                <h2 class="news-heading"><a href="@GenerateUrl(newsPage)">@newsPage.Title</a></h2>
+                                <div class="news-publish-info"><strong>@newsPage.Author</strong> <em>@(newsPage.PublishDate.HasValue ? newsPage.PublishDate.Value.Date.ToShortDateString() : "")</em></div>
+                                <div class="news-page-summary">
+                                    @Html.Raw(newsPage.Summary.IsBlank() ? newsPage.NewsContents.Substring(0, newsPage.NewsContents.Length > 500 ? 500 : newsPage.NewsContents.Length) + "..." : newsPage.Summary)
+                                    <div><a href="@GenerateUrl(newsPage)">Read More</a></div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="newslist-paging">
+                        <form id="@Model.ViewModel.NewsListId" action="@Html.ViewContext.HttpContext.Request.RawUrl" method="get" style="display: none;">
+                            <input name="@(Model.ViewModel.NewsListId)_page" class="page" type="hidden" value="@Model.ViewModel.PagingInfo.CurrentPage" />
+                            <input name="@(Model.ViewModel.NewsListId)_pageSize" class="pageSize" type="hidden" value="@Model.ViewModel.PagingInfo.PageSize" />
+                        </form>
+                        @Html.ThemedPartial("_Pager", Model.ViewModel.PagingInfo)
+                    </div>
+                    <div class="news-list-footer">
+                        @Html.Zone(Model, "News Footer")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

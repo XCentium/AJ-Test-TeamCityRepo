@@ -1,0 +1,10 @@
+﻿@model Insite.Admin.Models.ControlTypeViewModel<Insite.Admin.ControlTypes.TextFieldControl>
+
+@if (Model.ControlType.IsPassword)
+{
+    @:**************
+}
+else
+{
+    @:{{::@Model.ListPageModelBinding @Html.Raw(Model.ControlType.DisplayFilter != "" ? "| " + Model.ControlType.DisplayFilter : "")}}
+}

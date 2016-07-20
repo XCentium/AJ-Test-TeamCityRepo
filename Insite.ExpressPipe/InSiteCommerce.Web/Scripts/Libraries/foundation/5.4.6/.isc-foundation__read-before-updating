@@ -1,0 +1,11 @@
+Note about foundation.min.js - 5.4.6
+
+Line 1974 was changed form:
+self.S(this).trigger('closed').trigger('closed.fndtn.dropdown', [dropdown]);
+
+to:
+self.S(this).trigger('closed.fndtn.dropdown', [dropdown]);
+
+This was done to solve an issue with dropdowns in reveal modals (OAM-448 - see: https://github.com/zurb/foundation/issues/4576 )If you update / change this file please note this.
+
+This was changed in the latest version of foundation (as of today), so if this is updated to the latest version please disregard this notice.

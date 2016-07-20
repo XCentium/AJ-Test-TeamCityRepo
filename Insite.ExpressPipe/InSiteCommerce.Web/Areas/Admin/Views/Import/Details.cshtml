@@ -1,0 +1,86 @@
+﻿<isa-import-details pluralized-entity-name="@ViewBag.PluralizedName" pluralized-entity-label="@ViewBag.PluralizedLabel" job-id="@ViewBag.JobId"></isa-import-details>
+
+<script type="text/ng-template" id="importDetails">
+    <div class="title-bar">
+        <span class="title left">
+            Import {{vm.pluralizedEntityLabel}} - Job #{{vm.job.jobNumber}}
+            <i class="datetime" ng-show="!vm.job.isStarted">In queue</i>
+            <i class="datetime" ng-show="vm.job.isStarted">Started: {{vm.job.jobStartTime | date:'short'}} </i>
+        </span>
+        <span class="right">
+            <a class="button tertiary" ng-click="vm.navigateToAllJobs()">View All Jobs</a>
+            <a class="button tertiary" ng-click="vm.return()">Return to {{vm.pluralizedEntityLabel}}</a>
+            <a class="button" href="javascript:void();" ng-click="vm.cancel()" ng-disabled="vm.job.isBeingCancelled" ng-show="vm.job.isStarted && !vm.job.isFinished && !vm.job.isCanceled">Cancel Import</a>
+        </span>
+    </div>
+    <div class="small-12 medium-8 grid-content form-content">
+        @*<div class="grid-block row  border descrbox form-content">
+            <div class="grid-content ">
+                <p class="text-center">Form field help text on asynchronous process, leaving page and how to check in on progress.</p>
+            </div>
+        </div>*@
+        <br />
+        <div class="grid-block vertical import-status" ng-show="vm.job.isStarted">
+            <div class="grid-block row border">
+                <div class="title-bar">
+                    <div class="title" ng-show="vm.job.isStarted && !vm.job.isFinished && !vm.job.isCanceled"><div class="validationloader green"></div> {{ vm.job.isValidation ? 'Validating' : 'Importing' }} row {{vm.job.jobRecordsImported}} of {{vm.job.jobRecordsCount}}</div>
+                    <div class="title" ng-show="vm.job.isFinished && !vm.job.isCanceled && !vm.job.hasErrors">{{ vm.job.isValidation ? 'Validation' : 'Import' }} Complete</div>
+                    <div class="title" ng-show="vm.job.isFinished && !vm.job.isCanceled && vm.job.hasErrors">{{ vm.job.isValidation ? 'Validation' : 'Import' }} Complete: Errors Found</div>
+                    <div class="title" ng-show="vm.job.isCanceled">{{ vm.job.isValidation ? 'Validation' : 'Import' }} Canceled at row {{vm.job.jobRecordsImported}} of {{vm.job.jobRecordsCount}}</div>
+                </div>
+                <div class="grid-block import-details" ng-show="!vm.job.isFinished && !vm.job.isCanceled">
+                    <div class="grid-content form-content">
+                        <p ng-show="vm.job.jobErrors > 0">{{vm.job.jobErrors}} rows have errors.</p>
+                        <p ng-show="vm.job.jobErrors == 0">No errors found.</p>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div ng-show="vm.job.isFinished && !vm.job.isFailed">
+                <div class="grid-block vertical border import-msg errors" ng-show="vm.job.jobErrors > 0">
+                    <div class="title-bar">
+                        <div class="left title"><i class="icon icon-warning" title="icon-warning"></i>{{vm.job.jobErrors}} rows have errors.</div>
+                    </div>
+                    <div class="grid-block row">
+                        <div class="grid-content form-content">
+                            <p>Please download the file below to review and fix errors.</p>
+                            <a class="button" ng-click="vm.setActiveToFalse()" ng-href="@(Url.Action("GetFile", "Import"))?file={{(vm.job.isValidation ? vm.job.fileLocation : vm.job.fileLocation.replace('.', '_Errors.')) + '&' + vm.getAccessTokenQueryString()}}" target="_blank">Download File With Errors</a>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="grid-block vertical border import-msg complete" ng-show="vm.job.isFinished">
+                    <div class="title-bar">
+                        <div class="left title"><i class="icon icon-check" title="icon-check"></i><span>{{vm.job.jobRecordsImported - vm.job.jobErrors}}</span> {{vm.pluralizedEntityLabel}} imported.</div>
+                    </div>
+                    <div class="grid-block row">
+                        <div class="grid-content form-content">
+                            <dl class="inline">
+                                <dt>New:</dt>
+                                <dd>{{vm.job.jobRecordsAdded}}</dd>
+                                <dt>Updated:</dt>
+                                <dd>{{vm.job.jobRecordsModified}}</dd>
+                            </dl>
+                            <a class="button tertiary" ng-href="@(Url.Action("GetFile", "Import"))?file={{vm.job.fileLocation + '&' + vm.getAccessTokenQueryString()}}" target="_blank">Download Original File</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="vm.job.isFinished && vm.job.isFailed">
+                <div class="grid-block vertical border import-msg errors">
+                    <div class="title-bar">
+                        <div class="left title"><i class="icon icon-warning" title="icon-warning"></i>The import failed.</div>
+                    </div>
+                    <div class="grid-block row">
+                        <div class="grid-content form-content">
+                            <p>Please review the integration job log to determine cause of failure.</p>
+                            <a class="button" ng-href="{{'/admin/data/integrationjobs/' + vm.jobId}}">View Job Details</a>
+                            <a class="button tertiary" ng-href="@(Url.Action("GetFile", "Import"))?file={{vm.job.fileLocation + '&' + vm.getAccessTokenQueryString()}}" target="_blank">Download Original File</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+    </div>
+</script>

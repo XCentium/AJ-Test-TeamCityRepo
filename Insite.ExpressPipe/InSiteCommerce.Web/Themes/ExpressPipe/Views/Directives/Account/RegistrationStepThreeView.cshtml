@@ -1,0 +1,134 @@
+﻿@using Insite.Core.Providers
+<div>
+    
+    <div class="register-step-3">
+
+        <form id="createAccountForm">
+
+            <div class="alert-box alert" ng-if="vm.createError">
+                <span id="createError" class="field-validation-error" ng-if="vm.createError" ng-bind="vm.createError"></span>
+            </div>
+
+            <div class="row ca-form-name">
+                <div class="medium-5 columns">
+                    <label for="CreateNewAccountInfo_Name">@T("Name") <span class="alert">*</span></label>
+                </div>
+                <div class="medium-7 columns">
+                    <div class="row">
+                        <div class="medium-6 columns">
+                            <input type="text" id="CreateNewAccountInfo_FirstName" name="CreateNewAccountInfo.FirstName"
+                                   data-rule-required="true"
+                                   data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("First Name"))"
+                                   data-rule-firstname="true"
+                                   data-msg-firstname="@string.Format(MessageProvider.Current.Field_Invalid, T("First Name"))"
+                                   ng-model="vm.accountInfo.accountModel.firstName"
+                                   placeholder="@T("First Name")">
+                            <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.FirstName" data-valmsg-replace="true"></span>
+                        </div>
+                        <div class="medium-6 columns">
+                            <input type="text" id="CreateNewAccountInfo_LastName" name="CreateNewAccountInfo.LarstName"
+                                   data-rule-required="true"
+                                   data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("Last Name"))"
+                                   data-rule-lastname="true"
+                                   data-msg-lastname="@string.Format(MessageProvider.Current.Field_Invalid, T("Last Name"))"
+                                   ng-model="vm.accountInfo.accountModel.lastName"
+                                   placeholder="@T("Last Name")">
+                            <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.LastName" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row ca-form-phonenumber">
+                <div class="medium-5 large-5 columns">
+                    <label for="CreateNewAccountInfo_UserName">@T("Phone Number") <span class="alert">*</span></label>
+                </div>
+                <div class="medium-7 large-7 columns">
+                    <input type="tel" id="CreateNewAccountInfo_PhoneNumber" name="CreateNewAccountInfo.PhoneNumber"
+                           data-rule-required="true"
+                           data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("Phone Number"))"
+                           ng-model="vm.accountInfo.phoneNumber"
+                           class="masked-phone"
+                           placeholder="123-456-7890">
+                    <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.PhoneNumber" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+
+            <div class="row ca-form-username">
+                <div class="medium-5 large-5 columns">
+                    <label for="CreateNewAccountInfo_UserName">@T("Email Address (User ID)") <span class="alert">*</span></label>
+                </div>
+                <div class="medium-7 large-7 columns">
+                    <input type="email" id="CreateNewAccountInfo_UserName" name="CreateNewAccountInfo.UserName"
+                           data-rule-required="true"
+                           data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("Username"))"
+                           ng-model="vm.accountInfo.accountModel.userName"
+                           class="masked-email">
+                    <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.UserName" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+
+            <div class="row ca-form-email">
+                <div class="medium-5 large-5 columns">
+                    <label for="CreateNewAccountInfo_EmailAddress">@T("Confirm Email Address") <span class="alert">*</span></label>
+                </div>
+                <div class="medium-7 large-7 columns">
+                    <input type="email" id="CreateNewAccountInfo_EmailAddress" name="CreateNewAccountInfo.EmailAddress"
+                           data-rule-required="true"
+                           data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("Email Address"))"
+                           data-rule-equalto="#CreateNewAccountInfo_UserName"
+                           data-msg-email="@string.Format(MessageProvider.Current.Field_Invalid, T("Email Address"))"
+                           ng-model="vm.accountInfo.accountModel.email"
+                           class="masked-email">
+                    <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.EmailAddress" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+
+            <div class="row ca-form-password">
+                <div class="medium-5 large-5 columns">
+                    <label for="CreateNewAccountInfo_Password">@T("Password") <span class="alert">*</span></label>
+                </div>
+                <div class="medium-7 large-7 columns">
+                    <input type="password" id="CreateNewAccountInfo_Password" name="CreateNewAccountInfo.Password"
+                           data-rule-required="true"
+                           data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("Password"))"
+                           data-rule-minlength="{{settings.passwordMinimumLength}}"
+                           data-msg-minlength="{{'@MessageProvider.Current.ChangePasswordInfo_Password_Too_Short'.replace('{0}', vm.settings.passwordMinimumLength)}}"
+                           ng-model="vm.accountInfo.accountModel.password">
+                    <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.Password" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+            <div class="row ca-form-retype">
+                <div class="medium-5 large-5 columns">
+                    <label for="CreateNewAccountInfo_ConfirmPassword">@T("Confirm Password") <span class="alert">*</span></label>
+                </div>
+                <div class="medium-7 large-7 columns">
+                    <input type="password" id="CreateNewAccountInfo_ConfirmPassword" name="CreateNewAccountInfo.ConfirmPassword"
+                           data-rule-required="true"
+                           data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("Confirm Password"))"
+                           data-rule-equalto="#CreateNewAccountInfo_Password"
+                           data-msg-equalto="@MessageProvider.Current.CreateNewAccountInfo_PasswordCombination_DoesNotMatch"
+                           ng-model="vm.confirmPassword">
+                    <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.ConfirmPassword" data-valmsg-replace="true"></span>
+                    <div class="pw-note small">@MessageProvider.Current.ChangePasswordInfo_Password_Not_Meet_Requirements</div>
+                </div>
+            </div>
+            <div class="terms">
+                <label class="input-lbl">
+                    <input type="checkbox" ng-model="vm.accountinfo.termsAccepted">
+                    <span class="small" id="registration-terms-content"></span>
+                </label>
+                
+            </div>
+            <div class="buttons">
+                <button id="createAccount" ng-disabled="!vm.accountinfo.termsAccepted" type="submit" class="Button primary" ng-click="vm.createAccount()">@T("Submit Registration")</button>
+            </div>
+        </form>
+
+        <hr />
+
+        <p><span class="alert">*</span>Required</p>
+
+    </div>
+
+</div>

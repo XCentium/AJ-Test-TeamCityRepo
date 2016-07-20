@@ -1,0 +1,27 @@
+﻿<ul id="locationCarousel" data-orbit>
+    <li class="slides" ng-repeat="dealer in vm.dealers">
+        <div class="dealer-slide location">
+            <a id="dealerLocatorViewDealerNameLink_{{dealer.Id}}" href="@(Url.ContentPage<Insite.Dealers.Content.DealerPage>())?dealerId={{dealer.Id}}" ng-cloak>
+                <div class="dealer-image" ng-if="dealer['images']">
+                    <img ng-src="{{dealer['images'][0]}}" />
+                </div>
+                <div class="dealer-name">
+                    {{dealer.name}}
+                </div>
+            </a>
+            <div class="dealer-addy" ng-cloak>
+                {{dealer.address1}}<br/>
+                <span ng-if="dealer.address2">{{dealer.address2}}<br /></span>
+                {{dealer.city}}, {{dealer.state}} {{dealer.postalCode}}<br/>
+            </div>
+            <div ng-if="dealer.phone" class="dealer-phone">
+                @T("Tel:") <a href="tel:{{dealer.phone}}"><span ng-bind="dealer.phone"></span></a><br/>
+                <span ng-if="dealer.properties['dealer.Fax']">@T("Fax:")  {{dealer.properties['dealer.Fax']}}</span><br/>
+                <span ng-if="dealer.properties['emergencyNum']" style="font-weight: bold;">@T("Emergency:")  <a href="tel:{{dealer.properties['emergencyNum']}}"><span ng-bind="dealer.properties['emergencyNum']"></span></a></span>
+            </div>
+            <div class="dealer-btn">
+                <a id="dealerHoursDirectionsButton_{{vm.dealer.Id}}" class="button" href="@(Url.ContentPage<Insite.Dealers.Content.DealerPage>())?dealerId={{dealer.Id}}" ng-cloak>@T("HOURS + DIRECTIONS")</a>
+            </div>
+        </div>
+    </li>
+</ul>

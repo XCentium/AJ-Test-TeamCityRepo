@@ -1,0 +1,15 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+@model Insite.Account.Content.UserAdministration.UserListView
+
+<isc-user-list-view></isc-user-list-view>
+
+<script type="text/ng-template" id="userListView_topContent">
+    @Html.Zone(Model, "TopContent")
+</script>
+<script type="text/ng-template" id="userListView_noUsersFound">
+    @Html.Raw(Model.NoUsersFoundMessage)
+</script>
+
+<script type="text/ng-template" id="/Directives/UserAdministration/UserListView">
+    @(Html.ThemedPartial("/Views/Directives/UserAdministration/UserListView.cshtml"))
+</script>

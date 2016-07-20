@@ -1,0 +1,80 @@
+﻿<section class="sign-in" ng-controller="SignInController as signInCtrl">
+
+    <div class="sign-in__wrapper">
+
+        <h1 class="sign-in__logo">
+            <img src="/Images/insite_logo_larger.png" alt="logo" title="Insite Software">
+        </h1>
+
+        <div class="sign-in__content" ng-cloak>
+            <form name="signInForm" novalidate ng-submit="signInCtrl.initiateSignIn(signInForm)">
+                <div class="error-messages" ng-show="signInCtrl.signInError">
+                    <span class="sign-in__error sign-in__error--general"><i class="icon icon-info"></i>{{signInCtrl.signInError}}</span>
+                </div>
+
+                <input type="text" placeholder="Username" name="username" ng-model="signInCtrl.userName" required autofocus>
+                <div class="error-messages" ng-show="signInForm.$submitted || signInForm.username.$touched">
+                    <span class="sign-in__error sign-in__error--username" ng-show="signInForm.username.$error.required"><i class="icon icon-info"></i> Please enter a username</span>
+                </div>
+
+                <input type="password" placeholder="Password" name="password" ng-model="signInCtrl.password" required>
+                <div class="error-messages" ng-show="signInForm.$submitted || signInForm.password.$touched">
+                    <span class="sign-in__error sign-in__error--password"  ng-show="signInForm.password.$error.required"><i class="icon icon-info"></i> Please enter a password</span>
+                </div>
+
+                <input id="rememberMe" type="checkbox" ng-model="signInCtrl.rememberMe"><label for="rememberMe">Remember Me</label>
+
+                <button type="submit" class="sign-in__sign-in-button button expand" ng-disabled="signInCtrl.disableSignIn">
+                    <i class="icon icon-sign-out"></i> <span>Sign In</span>
+                </button>
+
+                @*<a href="javascript:void(0)" zf-open="forgotPasswordModal">Forgot password?</a>*@
+            </form>
+        </div>
+
+        <div class="forgot-password-modal modal--medium" zf-modal="" id="forgotPasswordModal">
+            <div class="forgot-password-modal__content modal-content">
+                <p class="forgot-password-modal__help-text">Enter your username or email address and we'll send you an email with instructions to reset your password.</p>
+
+                <form>
+                    <label for="usernameOrEmail">Username or email address</label>
+                    <input type="text" class="no-margin" id="usernameOrEmail">
+                </form>
+            </div>
+            <div class="forgot-password-modal__buttons-wrapper modal-footer no-border">
+                <a href="javascript:void(0)" class="button tertiary" zf-close>Return to Sign In</a>
+                <a href="javascript:void(0)" class="button">Send Email</a>
+            </div>
+        </div>
+
+        <div class="license-modal modal--medium" zf-modal overlay-close="false" id="licenseModal">
+            <div class="modal-header">
+                <h4 class="modal-title">License Warning</h4>
+                <a zf-close="" class="close-button" ng-click="signInCtrl.closeLicenseWarning()"><i class="icon icon-close"></i></a>
+            </div>
+            <div class="modal-content">
+                <p class="" ng-if="signInCtrl.licenseResult.status == 'Temporary'">
+                    This is a reminder that your {{signInCtrl.supportName}} Admin Console is currently under temporary license. Please contact {{signInCtrl.supportName}} support at {{signInCtrl.supportEmail}} or {{signInCtrl.supportWebsite}} for further information.
+                </p>
+                <p class="" ng-if="signInCtrl.licenseResult.status == 'Presumed'">
+                    This is a reminder that your {{signInCtrl.supportName}} Admin Console is currently under provisional license as the permanent license could not be verified. Please contact {{signInCtrl.supportName}} support at {{signInCtrl.supportEmail}} or {{signInCtrl.supportWebsite}} for further information.
+                </p>
+                <p class="" ng-if="signInCtrl.licenseResult.status == 'Pending'">
+                    This is a reminder that your {{signInCtrl.supportName}} Admin Console is currently under a pending license. If you are receiving this message and your license will expire in less than 10 days, please contact {{signInCtrl.supportName}} support at {{signInCtrl.supportEmail}} or {{signInCtrl.supportWebsite}} for further information.
+                </p>
+                <p>
+                    Your License will expire on {{signInCtrl.licenseResult.expirationDate | date:'shortDate'}}
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button zf-close ng-click="signInCtrl.closeLicenseWarning()" class="button">OK</button>
+            </div>
+        </div>
+
+        <footer class="trademark">
+            <small class="trademark__copyright">@(Insite.Common.Helpers.IscVersion.GetVersion())&nbsp;&nbsp;&nbsp;&nbsp;Copyright &copy; @DateTime.Now.Year Insite Software. All rights reserved.</small>
+        </footer>
+
+    </div>
+</section>
+

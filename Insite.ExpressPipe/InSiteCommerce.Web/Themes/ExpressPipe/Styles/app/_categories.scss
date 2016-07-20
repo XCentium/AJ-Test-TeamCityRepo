@@ -1,0 +1,94 @@
+﻿.home-page-categories {
+
+    @media #{$large-up} {
+        margin-bottom: $margin-double;
+        padding: $padding-single $padding-double;
+        background-color: $lightest-gray;
+    }
+
+    /*-webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.25);
+    -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.25);
+    box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.25);*/
+
+    > h2 {
+        line-height: 2em;
+        margin: 0;
+        border-bottom: 1px solid darken($lightest-gray,5);
+
+        @media #{$large-up} {
+            display: none;
+        }
+    }
+
+    > ul {
+        margin: 0;
+        list-style: none;
+
+        li {
+            border-top: 1px solid $lightest-gray;
+
+            a {
+                display: block;
+                padding: $padding-single/2 0;
+
+                
+                @media #{$large-up} {
+                    padding: $padding-single 0;
+                }
+            }
+
+            @media #{$large-up} {
+                border-top: 1px solid darken($lightest-gray,5);
+            }
+
+            &:first-child {
+                border-top: none;
+            }
+        }
+    }
+
+    &.with-images {
+        > ul {
+            li {
+                a {
+                    display: block;
+                    padding: $padding-double 0;
+
+                    @media #{$large-up} {
+                        padding: $padding-single 0;
+                    }
+                    
+                    .img {
+                        float: left;
+                        width: 20%;
+                        max-height: 30px;
+                        margin-right: $margin-single;
+                        text-align: center;
+
+                        img{
+                            max-width: 30px;
+                            max-height: 30px;
+                        }
+
+                        @media #{$large-up} {
+                            display: none;
+                        }
+                    }
+
+                    .txt {
+                        display: block;
+                        overflow: hidden;
+                        zoom: 1;
+                        font-size: 1.1em;
+                        font-weight: 400;
+                        line-height: 1.2em;
+
+                        @media #{$large-up} {
+                            font-size: 1em;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

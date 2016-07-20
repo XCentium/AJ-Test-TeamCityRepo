@@ -1,0 +1,151 @@
+﻿@using Insite.Core.Providers
+<div>
+
+    <div class="register-step-2">
+        <form id="createAccountForm">
+
+            <p class="alert">
+                Express Pipe currently services customers in the Southern California Region
+            </p>
+
+            <div class="alert-box alert" ng-if="vm.createError">
+                <span id="createError" class="field-validation-error" ng-if="vm.createError" ng-bind="vm.createError"></span>
+            </div>
+
+            <div class="form-section">
+                <div class="row">
+                    <div class="medium-5 large-5 columns">
+                        <label for="">@T("Express Pipe Account Number")</label>
+                    </div>
+                    <div class="medium-7 large-7 columns">
+                        <input type="text" id="" ng-model="vm.accountInfo.accountNumber" name="" ng-disabled="vm.accountInfo.existingAccount">
+                        <span class="field-validation-valid"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="row">
+                    <div class="medium-5 large-5 columns">
+                        <label for="">@T("Company or Organization Name")<span class="alert">*</span></label>
+                    </div>
+                    <div class="medium-7 large-7 columns">
+                        <input type="text" ng-model="vm.accountInfo.companyName" name="CreateNewAccountInfo.CompanyName"
+                               id="CreateNewAccountInfo_CompanyName"
+                               data-rule-required="true"
+                               ng-disabled="vm.accountInfo.existingAccount"
+                               data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("Company Name"))">
+                        <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.CompanyName" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="medium-5 large-5 columns">
+                        <label for="">@T("Address 1")<span class="alert">*</span></label>
+                    </div>
+                    <div class="medium-7 large-7 columns">
+                        <input type="text" ng-model="vm.accountInfo.address1" name="CreateNewAccountInfo.Address1"
+                               id="CreateNewAccountInfo_Address1"
+                               data-rule-required="true"
+                               ng-disabled="vm.accountInfo.existingAccount"
+                               data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("Address 1"))">
+                        <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.Address1" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="medium-5 large-5 columns">
+                        <label for="">@T("Address 2")</label>
+                    </div>
+                    <div class="medium-7 large-7 columns">
+                        <input type="text" id="" ng-disabled="vm.accountInfo.existingAccount" ng-model="vm.accountInfo.address2" name="">
+                        <span class="field-validation-valid"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="medium-5 large-5 columns">
+                        <label for="">@T("City")<span class="alert">*</span></label>
+                    </div>
+                    <div class="medium-7 large-7 columns">
+                        <input type="text" ng-model="vm.accountInfo.city" name="CreateNewAccountInfo.City"
+                               id="CreateNewAccountInfo_City"
+                               ng-disabled="vm.accountInfo.existingAccount"
+                               data-rule-required="true"
+                               data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("City"))">
+                        <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.City" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="medium-5 columns">
+                        <label for="">@T("State")<span class="alert">*</span></label>
+                    </div>
+                    <div class="medium-4 end columns">
+                        <select ng-model="vm.accountInfo.state"
+                                ng-options="state.abbreviation as state.name for state in vm.country.states"
+                                name="CreateNewAccountInfo.State"
+                                id="CreateNewAccountInfo_State"
+                                ng-disabled="vm.accountInfo.existingAccount"
+                                data-rule-required="true"
+                                data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("State"))"></select>
+                        <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.State" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="medium-5 columns">
+                        <label for="">@T("Zip Code")<span class="alert">*</span></label>
+                    </div>
+                    <div class="medium-4 end columns">
+                        <input type="text" ng-model="vm.accountInfo.zip" name="CreateNewAccountInfo.Zip"
+                               id="CreateNewAccountInfo_Zip"
+                               ng-disabled="vm.accountInfo.existingAccount"
+                               data-rule-required="true"
+                               data-msg-required="@string.Format(MessageProvider.Current.Field_Required, T("Zip Code"))"
+                               class="masked-zipcode">
+                        <span class="field-validation-valid" data-valmsg-for="CreateNewAccountInfo.Zip" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h6><em>If you are an existing customer, please provide the following:</em></h6>
+                <div class="row">
+                    <div class="medium-5 large-5 columns">
+                        <label for="">@T("Branch")</label>
+                    </div>
+                    <div class="medium-7 large-7 columns">
+                        <select ng-model="vm.accountInfo.branch"
+                                ng-options="warehouse.description as warehouse.description for warehouse in vm.warehouses.warehouses | orderBy:'name'"
+                                >
+                            <option value=""></option>
+                        </select>
+                        <span class="field-validation-valid"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="medium-5 large-5 columns">
+                        <label for="">@T("Salesman")</label>
+                    </div>
+                    <div class="medium-7 large-7 columns">
+                        <input type="text" id="" ng-model="vm.accountInfo.salesman" name="">
+                        <span class="field-validation-valid"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <a ng-if="vm.isValid" class="button" href="" ng-click="vm.nextStep('/registrationstep3')">@T("Continue")</a>
+            </div>
+
+        </form>
+
+        <hr />
+
+        <p><span class="alert">*</span>Required</p>
+
+    </div>
+
+</div>

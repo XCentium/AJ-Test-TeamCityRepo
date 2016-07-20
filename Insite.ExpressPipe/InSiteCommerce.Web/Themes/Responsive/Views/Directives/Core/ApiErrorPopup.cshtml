@@ -1,0 +1,12 @@
+﻿@using Insite.WebFramework.Mvc.Extensions
+<div id="apiErrorPopup" class="reveal-modal api-error-popup" data-reveal data-reveal-init>
+    <div class="modal-wrap">
+        <p class="messaging">
+            <span>@Html.Message("Core_ApiError", "Error with api call, error was:")<br /></span>
+        </p>
+        <p>
+            <span ng-bind-html="vm.errorMessage"></span>
+        </p>
+        <a id="errorPopupCloseButton" class="close-reveal-modal">&#215;</a>
+    </div>
+</div>

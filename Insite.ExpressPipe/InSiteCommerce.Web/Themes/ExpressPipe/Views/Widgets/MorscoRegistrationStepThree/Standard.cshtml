@@ -1,0 +1,33 @@
+﻿@model Morsco.Customizations.Lib.Widgets.MorscoRegistrationStepThree
+
+<div>
+
+    <div class="row">
+        <ul class="checkout-crumbs">
+            <li ng-class="step1"><span class="number">1</span> @T("Registration")</li>
+
+            <li ng-class="step2"><span class="number">2</span> @T("Company Information")</li>
+
+            <li class="step3 current"><span class="number">3</span> @T("User Information")</li>
+        </ul>
+    </div>
+
+    <div class="row">
+
+        <div class="medium-7 columns">
+
+            <isc-registration-step-three-view terms="@Model.Body"></isc-registration-step-three-view>
+
+        </div>
+
+        <div class="medium-4 columns">
+            @Html.Raw(Model.Body)
+        </div>
+
+    </div>
+
+</div>
+
+<script type="text/ng-template" id="register_termsContent">
+    @Html.Raw(Model.Terms)
+</script>

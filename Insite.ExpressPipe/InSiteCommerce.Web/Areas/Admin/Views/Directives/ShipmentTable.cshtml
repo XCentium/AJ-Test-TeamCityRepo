@@ -1,0 +1,54 @@
+﻿@using Insite.Admin
+@using Insite.Admin.Providers
+@using Insite.Common.Dependencies
+@using Insite.Core.ApplicationDictionary
+
+<div class="grid-block table-block">
+    @{
+        var controlTypeViewModelProvider = DependencyLocator.Current.GetInstance<IControlTypeViewModelProvider>();
+        var shipmentDefinition = DependencyLocator.Current.GetInstance<EntityDefinitionProvider>().GetByName("Shipment", AdminContext.Current.UserProfile.UserName);
+        var shipmentPackageDefinition = DependencyLocator.Current.GetInstance<EntityDefinitionProvider>().GetByName("ShipmentPackage", AdminContext.Current.UserProfile.UserName);
+    }
+
+    <div class="grid-block vertical">
+        <table class="table">
+            <thead>
+                <tr>
+                    @ColumnHeader(shipmentPackageDefinition.Properties.SingleOrDefault(o => o.Name == "packageNumber"))
+                    @ColumnHeader(shipmentPackageDefinition.Properties.SingleOrDefault(o => o.Name == "carrier"))
+                    @ColumnHeader(shipmentPackageDefinition.Properties.SingleOrDefault(o => o.Name == "shipVia"))
+                    @ColumnHeader(shipmentDefinition.Properties.SingleOrDefault(o => o.Name == "shipmentDate"))
+                    @ColumnHeader(shipmentPackageDefinition.Properties.SingleOrDefault(o => o.Name == "trackingNumber"))
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="entity in vm.shipmentPackages" emit-repeat-finished>
+                    @ColumnValue(shipmentPackageDefinition.Properties.SingleOrDefault(o => o.Name == "packageNumber"), controlTypeViewModelProvider)
+                    @ColumnValue(shipmentPackageDefinition.Properties.SingleOrDefault(o => o.Name == "carrier"), controlTypeViewModelProvider)
+                    @ColumnValue(shipmentPackageDefinition.Properties.SingleOrDefault(o => o.Name == "shipVia"), controlTypeViewModelProvider)
+                    @ColumnValue(shipmentDefinition.Properties.SingleOrDefault(o => o.Name == "shipmentDate"), controlTypeViewModelProvider)
+                    @ColumnValue(shipmentPackageDefinition.Properties.SingleOrDefault(o => o.Name == "trackingNumber"), controlTypeViewModelProvider)
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@helper ColumnHeader(PropertyDefinitionDto propertyDefinitionDto)
+{
+    <th class="text-left is-actionable">
+        <div class="column-header">@propertyDefinitionDto.Label</div>
+    </th>
+}
+
+@helper ColumnValue(PropertyDefinitionDto propertyDefinitionDto, IControlTypeViewModelProvider controlTypeViewModelProvider)
+{
+    <td class="text-left">
+        <div class="column-content">
+            @if (propertyDefinitionDto.ControlType != null)
+            {
+                @Html.Partial("/Areas/admin/Views/Data/ControlTypes/" + propertyDefinitionDto.ControlType.ViewName + "_Display.cshtml", controlTypeViewModelProvider.GetControlTypeViewModel(propertyDefinitionDto))
+            }
+        </div>
+    </td>
+}

@@ -1,0 +1,78 @@
+﻿@using Insite.Account.Content
+@using Insite.Core.Providers
+@using Insite.WebFramework.Mvc.Extensions
+
+@*
+Add this element in any place inside the controller:
+<isc-add-wishlist-popup> </isc-add-wishlist-popup>
+
+Use coreServise function to open popup:
+coreService.openWishListPopup(product);
+*@
+
+<div>
+    <div id="popup-add-wishlist" class="reveal-modal popup-add-wishlist tiny" data-reveal data-reveal-init>
+        <div class="modal-wrap" ng-if="isAuthenticated">
+            <h1>@T("Add to List")</h1>
+
+            <div class="pop-content">
+
+                <div id="error" class="error" ng-show="vm.errorMessage || vm.wishlistNameErrorMessage">
+                    <span ng-show="vm.errorMessage" class="field-validation-error">{{vm.errorMessage}}</span>
+                    <span ng-show="vm.wishlistNameErrorMessage" class="field-validation-error">@string.Format(MessageProvider.Current.Wishlist_Enter_New_Wishlist_Name, @T("Name"))</span>
+                </div>
+
+                <form ng-show="isAuthenticated && vm.wishListSettings.allowMultipleWishLists && !vm.successMessage" id="addToWishListForm">
+                    <div class="row">
+                        <div class="row select-list">
+                            <div class="large-5 columns">
+                                <span>@T("Select List")</span>
+                            </div>
+                            <div class="large-7 columns">
+                                <select id="addWishListPopupWishListSelector" ng-model="vm.selectedWishList" ng-options="wishList.name for wishList in vm.wishListCollection track by wishList.id">
+                                    <option value="">@T("Create New List")</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="small-12 columns text-center">&nbsp;
+                                <div class="thor hide">
+                                    <strong>@T("Or")</strong>
+                                    <hr />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row create-list">
+                            <div class="large-5 columns">
+                                <span>@T("Create a New Wishlist")</span>
+                            </div>
+                            <div class="large-7 columns">
+                                <input id="addWishListPopupWishListNameInput" type="text" ng-model="vm.newWishListName" ng-disabled="vm.selectedWishList" autofocus="autofocus">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="small-12 columns buttons text-right">
+                                <button id="addWishListPopupAddToWishListButton" ng-click="vm.addToWishList()" class="button primary" type="button">@T("Add to Wishlist")</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div ng-show="vm.successMessage || !vm.wishListSettings.allowMultipleWishLists" class="row message">@Html.Message("WishLists_ProductAdded", "Product successfully added to your wishlist")</div>
+
+                <a id="addWishListPopupAuthenticatedCloseButton" class="close-reveal-modal">&#215;</a>
+
+            </div>
+        </div>
+
+        <div ng-if="!isAuthenticated" class="modal-wrap ">
+            <h1>@T("Please Sign In")</h1>
+            <p>@Html.Raw(string.Format(MessageProvider.Current.Wishlist_Must_Sign_In, Url.ContentPage<SignInPage>() + "?returnUrl=" + Request.Url.AbsolutePath, T("Wishlist")))</p>
+            <a id="addWishListPopupNotAuthenticatedCloseButton" class="close-reveal-modal">&#215;</a>
+        </div>
+
+    </div>
+</div>

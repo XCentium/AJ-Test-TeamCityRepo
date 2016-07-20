@@ -1,0 +1,21 @@
+﻿@using Insite.Common.Extensions
+@using Newtonsoft.Json
+
+<script>
+    jQuery(function () {
+        insite.adminBridge.setup();
+        var shellModel = { CurrentContentItem: null };
+        @if (Model is AbstractPage)
+        {
+            <text>
+            shellModel = @Html.Raw(JsonConvert.SerializeObject(Html.ConvertToShellModel(Model as AbstractPage)));
+            </text>
+        }
+        insite.incontext.setup({
+            contentMode: "@ContentMode",
+            cmsShellLoadUrl: "@Html.Raw(Url.Action("Index", "Shell", new { area = "ContentAdmin", resetPersona = true }))/#frameUrl=@Request.ActualUrl().PathAndQuery",
+            cmsShellLoadUrlWithoutPersona: "@Url.Action("Index", "Shell", new { area = "ContentAdmin" })/#frameUrl=@Request.ActualUrl().PathAndQuery",
+            shellModel: shellModel
+        });
+    });
+</script>
