@@ -115,7 +115,7 @@ namespace Morsco.Customizations.Lib.Repositories
 
                 result = _getProductCollectionMapper.MapResult(productCollectionResult, httpRequest);
 
-                result.Products = result.Products.OrderByDescending(x => x.Properties["Purchased"]).ToList();
+                result.Products = result.Products.OrderByDescending(x => Convert.ToInt32(x.Properties["Purchased"])).ToList();
                 result.Properties.Add("totalPages", totalPages.ToString());
                 result.Properties.Add("totalRecords", totalRecords.ToString());
                 result.Uri = httpRequest.RequestUri.ToString();

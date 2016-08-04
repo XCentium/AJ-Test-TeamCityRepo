@@ -41,4 +41,7 @@ CKEDITOR.editorConfig = function (config) {
         ["TextColor", "BGColor"],
         ["ShowBlocks", "About"]
     ];
+
+    // prevents enclosing of content in P tags
+    config.enterMode = 2;
 };

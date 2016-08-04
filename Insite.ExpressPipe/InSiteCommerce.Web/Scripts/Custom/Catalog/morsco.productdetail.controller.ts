@@ -32,13 +32,15 @@
             this.$scope.$on("settingsLoaded",(event, data) => {
                 this.settings = data.productSettings;
             });
-
             
             this.resolvePage();
-
-
         }
-        
+
+		showProductAvailabilityPopup(product: ProductDto, warehouses: {}) {
+            this.customProductService.setAvailability(warehouses, product.properties['availability'], product);
+            this.coreService.displayModal("#popup-availability");
+        }
+
         getProductData(productId: string) {
             var expandParameter = ["documents", "specifications", "styledproducts", "htmlcontent", "attributes", "crosssells", "pricing"];
             var self = this;

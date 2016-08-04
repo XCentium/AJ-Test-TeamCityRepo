@@ -104,11 +104,12 @@
 												<label for="ship-pref-date">Requested Delivery Date:</label>
 												<div class="ship-date">
 													<input id="ship-date" type="text" class="datepicker"
-														   min-date="vm.tomorrow"
+														   min-date="+1"
+														   today=""
 														   ng-model="vm.cart.properties.shipmentRequestedDate"
 														   isc-pick-a-date="vm.tomorrow"
 													       placeholder="Select Date"/>
-												    <i class="fa fa-calendar" min-date="vm.tomorrow" isc-pick-a-date="vm.tomorrow"></i>
+												    <i class="fa fa-calendar" today="" min-date="+1" isc-pick-a-date="vm.tomorrow"></i>
 													<label for="ship-date" class="error">Requested Delivery Date is required</label>
 												</div>
 											</li>
@@ -180,11 +181,12 @@
                                         <label for="willcall-pref">Pickup items on requested date</label>
                                         <span class="ship-date">
                                             <input type="text" class="datepicker" 
-													min-date="vm.tomorrow"
+													min-date="+1"
 													ng-model="vm.cart.properties.shipmentRequestedDate"
+													today=""
 													isc-pick-a-date="vm.tomorrow"
 												   placeholder="Select Date" />
-                                            <i class="fa fa-calendar" min-date="vm.tomorrow" isc-pick-a-date="vm.tomorrow"></i>
+                                            <i class="fa fa-calendar" today="" min-date="+1" isc-pick-a-date="vm.tomorrow"></i>
 											<label for="ship-date" class="error">Requested Pickup Date is required</label>
                                         </span>
                                     </div>

@@ -61,6 +61,10 @@
     <Reference Include="CKFinder">
       <HintPath>..\Lib\CKFinder.dll</HintPath>
     </Reference>
+    <Reference Include="DbUp, Version=3.3.4.0, Culture=neutral, PublicKeyToken=4b419c53bdfd4cbf, processorArchitecture=MSIL">
+      <HintPath>..\packages\dbup.3.3.4\lib\net35\DbUp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Elasticsearch.Net, Version=1.0.0.0, Culture=neutral, PublicKeyToken=96c599bbe3e70f5d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\Elasticsearch.Net.dll</HintPath>

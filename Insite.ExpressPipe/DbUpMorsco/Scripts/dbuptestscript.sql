@@ -1,0 +1,1 @@
+﻿update userprofile set company = 'T' where id = 'C8444F47-1671-425A-B3DE-A4F0009358F5'

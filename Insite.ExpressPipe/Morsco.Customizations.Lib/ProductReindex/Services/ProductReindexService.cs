@@ -30,7 +30,7 @@ namespace Morsco.Customizations.Lib.ProductReindex.Services
         {
             try
             {
-                LogHelper.For(this).Info("Product Search ReIndex Initiated. This process might take several minites to complete.");
+                LogHelper.For(this).Info("Product Search ReIndex Initiated. This process might take several minutes to complete.");
                 _productSearchIndexer.BuildProductSearchIndex();
                 LogHelper.For(this).Info("Product Search ReIndex completed successfully.");
             }

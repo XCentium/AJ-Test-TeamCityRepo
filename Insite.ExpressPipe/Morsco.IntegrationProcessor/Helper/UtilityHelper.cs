@@ -143,19 +143,17 @@ namespace Morsco.IntegrationProcessor.Helper
                 : GetDictionaryString(orderProperties, Constants.SelectedPickupTime, string.Empty);
 			var requireDate = Convert.ToDateTime(requestedShipDate).ToString("MM/dd/yyyy");
 			eclipseOrderHeader.RequireDate = requestedShipDate;
-			var shippingInst = isDelivery? $"Requested Delivery: {requireDate}, {selectedTime}"
-				: orderProperties.ContainsKey(Constants.SelectedPickupTime) ? $"Requested Pickup: {requireDate}, {selectedTime}"
+			var shippingInst = isDelivery? $"Requested Delivery: {requireDate}, {selectedTime}. "
+				: orderProperties.ContainsKey(Constants.SelectedPickupTime) ? $"Requested Pickup: {requireDate}, {selectedTime}. "
 				: string.Empty;
-            if (shippingInst.Length > 0 && !shippingInst.Trim().EndsWith("."))
-            {
-                shippingInst = shippingInst + ". ";
-            }
+            var existingInstr = GetDictionaryString(orderProperties, Constants.SpecialHandlingInstructions, eclipseOrderHeader.ShippingInstr)
+                                ?? string.Empty;
 
-            eclipseOrderHeader.ShippingInstr = shippingInst
-                                               + (
-                                                   GetDictionaryString(orderProperties, Constants.SpecialHandlingInstructions, eclipseOrderHeader.ShippingInstr)
-                                                   ?? string.Empty
-                                                   );
+            //If we're checking out with forced quote that has been proposed/accepted, there will already be the Pickup/Delivery Instructions.  
+            //Remove them.
+            existingInstr = Regex.Replace(existingInstr, @"Requested (Delivery|Pickup):[^,]*,[^\.]*\.* *", String.Empty);
+
+            eclipseOrderHeader.ShippingInstr = shippingInst + existingInstr;
 
             #endregion
 

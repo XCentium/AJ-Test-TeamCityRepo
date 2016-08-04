@@ -23,14 +23,10 @@
         }
 
         init() {
-
-
-
             this.tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
 
             this.cartId = this.coreService.getQueryStringParameter("cartId");
             this.shipPref = 'available';
-
             this.cartService.expand = "shiptos,validation,cartlines";
 
             this.cartService.getCart(this.cartId).then(cart => {
@@ -78,13 +74,29 @@
 
 				if (this.cart.properties['deliveryMethod'] == 'Delivery') {
 					this.checkoutRequestedDeliveryTimes = JSON.parse(this.cart.properties["checkoutRequestedDeliveryTimes"]);
+
 					this.checkoutRequestedDeliveryTimes.forEach(deliveryTime => {
-						if (deliveryTime.Default) this.selectedDeliveryTime = deliveryTime.Time;
+						if (this.cart.properties["selectedDeliveryTime"]) {
+							if (this.cart.properties["selectedDeliveryTime"] == deliveryTime.Time) {
+								deliveryTime.Default = true;
+							} else {
+								deliveryTime.Default = false;
+							}
+							this.selectedDeliveryTime = this.cart.properties["selectedDeliveryTime"];
+						} else if (deliveryTime.Default) this.selectedDeliveryTime = deliveryTime.Time;
 					});
 				} else {
 					this.checkoutRequestedPickupTimes = JSON.parse(this.cart.properties["checkoutRequestedPickupTimes"]);
+
 					this.checkoutRequestedPickupTimes.forEach(pickupTime => {
-						if (pickupTime.Default) this.selectedPickupTime = pickupTime.Time;
+						if (this.cart.properties["selectedPickupTime"]) {
+							if (this.cart.properties["selectedPickupTime"] == pickupTime.Time) {
+								pickupTime.Default = true;
+							} else {
+								pickupTime.Default = false;
+							}
+							this.selectedPickupTime = this.cart.properties["selectedPickupTime"];
+						} else if (pickupTime.Default) this.selectedPickupTime = pickupTime.Time;
 					});
 				}
 
@@ -179,7 +191,7 @@
 						if (savedDate < this.tomorrow) {
 							this.cart.properties['shipmentRequestedDate'] = this.formatDate(this.tomorrow);
 						} else {
-							this.cart.properties['shipmentRequestedDate'] = savedDate.getMonth() + '/' + savedDate.getDate() + '/' + savedDate.getFullYear();
+							this.cart.properties['shipmentRequestedDate'] = (savedDate.getMonth() +1) + '/' + savedDate.getDate() + '/' + savedDate.getFullYear();
 						}
 					}
 

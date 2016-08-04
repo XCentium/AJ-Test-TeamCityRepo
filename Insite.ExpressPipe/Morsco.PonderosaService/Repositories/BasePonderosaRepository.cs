@@ -66,7 +66,7 @@ namespace Morsco.PonderosaService.Repositories
                     if (attempts >= _maxAttempts)
                     {
                         LogInfo(methodName, "Thread {0} Throwing exception", Thread.CurrentThread.Name);
-                        throw;
+                        throw ex;
                     }
 
                     // Reset the connection pool if it makes sense to

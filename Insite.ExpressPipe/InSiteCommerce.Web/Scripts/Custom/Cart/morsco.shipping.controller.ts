@@ -37,10 +37,11 @@
 
         init() {
             var self = this;
-            this.$scope.$on("cartLoaded", (event: ng.IAngularEvent, cart: CartModel, expand: string) => {
-                self.cart = cart;
-            });
-
+			if (self.cart.type != "Quote") {
+				this.$scope.$on("cartLoaded", (event: ng.IAngularEvent, cart: CartModel, expand: string) => {
+					self.cart = cart;
+				});
+			}
             var warehouseList = self.cart.properties['defaultWarehouse'].split(',');
 
             self.cart.carriers.forEach(carrier => {

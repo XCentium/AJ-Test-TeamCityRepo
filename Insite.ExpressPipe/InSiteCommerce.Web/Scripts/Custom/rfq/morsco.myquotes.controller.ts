@@ -89,11 +89,32 @@
                     if (!window.location.href.split('#')[1]) {
                         window.location.href += '#';
                     }
-                    window.location.href += '&page=' + this.pagination.currentPage;
+
+					var hash = '';
+					var baseUrl = window.location.href.split('#')[0];
+					var query = window.location.href.split('#')[1];
+					if (query.indexOf('&page') > -1) {
+						var queryVars = query.split('&');
+						queryVars.forEach(qv => {
+							if (qv.indexOf('page') < 0) {
+								hash += '&' + qv;
+							}
+							if (qv == '/') hash = qv;
+						});
+
+						//window.location.replace(baseUrl + '#' + hash + '&page=' + this.pagination.currentPage);
+						window.location.href = baseUrl + '#' + hash + '&page=' + this.pagination.currentPage;
+					} else {
+						window.location.href += '&page=' + this.pagination.currentPage;
+					}                    
                 }
 
                 if (queryStringHash['page']) {
-                    this.pagination.currentPage = parseInt(queryStringHash['page']);
+					if (queryStringHash['page'] > this.pagination.currentPage) {
+						queryStringHash['page'] = this.pagination.currentPage;
+					} else {
+						this.pagination.currentPage = parseInt(queryStringHash['page']);
+					}
                 }
             } else {
 				this.pagination = {};

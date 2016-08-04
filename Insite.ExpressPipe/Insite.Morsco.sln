@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morsco.PonderosaService", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morsco.PonderosaUnitTests", "Morsco.PonderosaUnitTests\Morsco.PonderosaUnitTests.csproj", "{B19B4B7B-32F4-4A4D-8071-342387931497}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbUpMorsco", "DbUpMorsco\DbUpMorsco.csproj", "{F1A63346-CF9A-4B04-9EF9-476E40EA704A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		CCNet|Any CPU = CCNet|Any CPU
@@ -77,6 +79,14 @@ Global
 		{B19B4B7B-32F4-4A4D-8071-342387931497}.dev|Any CPU.Build.0 = dev|Any CPU
 		{B19B4B7B-32F4-4A4D-8071-342387931497}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B19B4B7B-32F4-4A4D-8071-342387931497}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1A63346-CF9A-4B04-9EF9-476E40EA704A}.CCNet|Any CPU.ActiveCfg = Release|Any CPU
+		{F1A63346-CF9A-4B04-9EF9-476E40EA704A}.CCNet|Any CPU.Build.0 = Release|Any CPU
+		{F1A63346-CF9A-4B04-9EF9-476E40EA704A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1A63346-CF9A-4B04-9EF9-476E40EA704A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1A63346-CF9A-4B04-9EF9-476E40EA704A}.dev|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1A63346-CF9A-4B04-9EF9-476E40EA704A}.dev|Any CPU.Build.0 = Debug|Any CPU
+		{F1A63346-CF9A-4B04-9EF9-476E40EA704A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1A63346-CF9A-4B04-9EF9-476E40EA704A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
