@@ -111,9 +111,6 @@
       <Name>Morsco.PonderosaService</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>REM  Automated WIS Deployment -- FIX IF STATEMENT if not testing WIS

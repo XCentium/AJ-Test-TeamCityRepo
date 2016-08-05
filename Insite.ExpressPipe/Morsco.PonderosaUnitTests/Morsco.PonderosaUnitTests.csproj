@@ -76,7 +76,6 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Morsco.Customizations.Lib\Morsco.Customizations.Lib.csproj">
