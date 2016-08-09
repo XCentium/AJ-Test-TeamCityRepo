@@ -226,7 +226,7 @@
                 var dueDate = new Date(currentInvoice.dueDate.toString());
                 var today = new Date();
 
-                if (dueDate > today) {
+                if (dueDate > this.dateObjects['CurrentEnd']) {
                     return "Future";
                 }
                 if (this.inDateRange(this.dateObjects['CurrentStart'], this.dateObjects['CurrentEnd'], dueDate)) {

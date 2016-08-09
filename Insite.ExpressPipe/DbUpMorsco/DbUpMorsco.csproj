@@ -58,7 +58,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\dbuptestscript.sql" />
+    <EmbeddedResource Include="Scripts\DBUP.2016-08-04-3.dbuptestscript.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\DBUP.2016-08-04-1.CustomerProduct.sql" />
+    <Content Include="Scripts\DBUP.2016-08-04-2.Categories_and_Product_Assignment_Per_Website.sql" />
+    <Content Include="Scripts\DBUP.2016-08-04-4.RealTimeOrderUpdate.sql" />
+    <Content Include="Scripts\DBUP.2016-08-04-6.SprintUpdate_852016.sql" />
+    <Content Include="Scripts\DBUP.2016-08-04-5.sp_PopulateETLWarehouse.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="'$(SQLDBExtensionsRefPath)' != ''" />

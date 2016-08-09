@@ -17,6 +17,7 @@ using Insite.Data.Entities;
 using Morsco.PonderosaService.Entities;
 using Morsco.PonderosaService.Services;
 using Newtonsoft.Json;
+using Insite.Data.Repositories.Interfaces;
 
 namespace Morsco.Customizations.Lib.Products
 {
@@ -38,7 +39,10 @@ namespace Morsco.Customizations.Lib.Products
 
         public override GetProductCollectionResult Execute(IUnitOfWork unitOfWork, GetProductCollectionParameter parameter, GetProductCollectionResult result)
         {
-            var warehouses = unitOfWork.GetRepository<Warehouse>().GetTable().Where(x => x.DeactivateOn > DateTime.Now || x.DeactivateOn == null).ToList();
+            var mscBranch = unitOfWork.GetTypedRepository<IWebsiteConfigurationRepository>()
+                    .GetOrCreateByName<string>("MSC_OpcoTerritory", SiteContext.Current.Website.Id);
+            var warehouses = unitOfWork.GetRepository<Warehouse>().GetTable().Where(x => (x.DeactivateOn > DateTime.Now || x.DeactivateOn == null) && 
+                                x.CustomProperties.Any(cp => cp.Name.Equals("OpcoTerritory",StringComparison.CurrentCultureIgnoreCase) && cp.Value.Equals(mscBranch, StringComparison.CurrentCultureIgnoreCase))).ToList();
             
             if (Boolean.Parse(WebConfigurationManager.AppSettings["Morsco.Ponderosa.Disabled"]) || parameter.GetPrices == false)
             {
@@ -76,9 +80,30 @@ namespace Morsco.Customizations.Lib.Products
 			{
 				using (var svc = new OrderServices())
 				{
+                    var itemsToRemove = new List<Dictionary<string, object>>();
 					priceAvailList = svc.GetPriceAvailability(productIDs.ToList(), SiteContext.Current.BillTo, SiteContext.Current.ShipTo, unitOfWork);
-				}
-			}
+                    foreach (var pa in priceAvailList)
+                    {
+                        foreach(var list in pa.StockList)
+                        {
+                            foreach(var branch in list)
+                            {
+                                if (branch.Key == "Branch")
+                                {
+                                    if (warehouses.Where(x => x.ShipSite == branch.Value.ToString()).Count() == 0)
+                                    {
+                                        itemsToRemove.Add(list);
+                                    }
+                                }
+                            }
+                        }
+                        foreach(var item in itemsToRemove)
+                        {
+                            pa.StockList.Remove(item);
+                        }
+                    }
+                }
+            }
 			catch (Exception ex)
 			{
                 LogHelper.For(this).Error(ex.ToString());

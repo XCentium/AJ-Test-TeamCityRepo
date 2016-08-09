@@ -1,0 +1,36 @@
+U2Mv .Net Connector API
+Copyright 2008, 2016 Ponderosa Innovative Solutions, LLC
+All rights reserved.
+
+The purchaser (the "Licensee") of this software is granted a perpetual,
+non-exclusive and non-transferable license to use the U2Mv .Net Connector API
+(the "Software") to connect to the licensee's Eclipse ERP system.
+
+"Software" includes the executable computer programs and any related printed,
+electronic and online documentation and any other files that may accompany
+the product.
+
+Title, copyright, intellectual property rights and distribution rights of
+the Software remain exclusively with the Vendor. This Agreement constitutes
+a license for use only and is not in any way a transfer of ownership rights
+to the Software.
+
+Use of the Software is limited to the purchasing entity only. The Licensee
+may not transfer or assign any of the rights or obligations
+granted under this Agreement to any other person or legal entity. The
+Licensee may not make available the Software for use by one or more third
+parties.
+
+The Software may not be modified, reverse-engineered, or de-compiled in any
+manner through current or future available technologies.
+
+Failure to comply with any of the terms under the License section will be
+considered a material breach of this Agreement.
+
+THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
+EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
+MERCHANTABILITY,    FITNESS    FOR    A   PARTICULAR    PURPOSE    AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE,  ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

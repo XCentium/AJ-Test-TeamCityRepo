@@ -338,8 +338,13 @@
             if (this.searchWithinTerms) {
                 this.includeSuggestions = "false";
             }
+            var categoryId = {};
+            if (this.catIds.length == 0) {
+                categoryId = this.category ? this.category.id : (this.filterCategory ? this.filterCategory.categoryId : null);
+            }
             var params = {
-                //categoryId: this.category ? this.category.id : (this.filterCategory ? this.filterCategory.categoryId : null),
+
+                categoryId: categoryId,
                 query: this.query, 
                 searchWithin: this.searchWithinTerms.join(" "),
                 page: this.products.pagination.currentPage,

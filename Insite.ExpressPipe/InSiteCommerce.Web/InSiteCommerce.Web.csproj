@@ -70,6 +70,19 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'test|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NOETAG</DefineConstants>
+    <NoWarn>1591</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'prod|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
@@ -1280,6 +1293,12 @@
     <Content Include="UserFiles\Images\express-pipe-logo.gif" />
     <Content Include="UserFiles\Images\Locations\express-pipe-logo.png" />
     <Content Include="Views\Shared\Error.cshtml" />
+    <None Include="Web.prod.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.test.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <TypeScriptCompile Include="Scripts\Admin\ActionDirectives\credit-card-action.ts" />
     <TypeScriptCompile Include="Scripts\Admin\ActionDirectives\change-password-action.ts" />
     <TypeScriptCompile Include="Scripts\Admin\ActionDirectives\change-question-answer-action.ts" />
@@ -1998,8 +2017,37 @@
     <Content Include="Areas\Admin\Views\Data\ControlTypes\WebsiteCategoriesTreeControl.cshtml" />
     <Content Include="Areas\Admin\Views\Data\MultiAssignments.cshtml" />
     <Content Include="Areas\ContentAdmin\Views\Shell\UserLogoutWarning.cshtml" />
+    <None Include="config\appSettings.dev.config">
+      <DependentUpon>appSettings.config</DependentUpon>
+      <IsTransformFile>True</IsTransformFile>
+    </None>
+    <None Include="config\appSettings.prod.config">
+      <DependentUpon>appSettings.config</DependentUpon>
+      <IsTransformFile>True</IsTransformFile>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="config\appSettings.test.config">
+      <DependentUpon>appSettings.config</DependentUpon>
+      <IsTransformFile>True</IsTransformFile>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="config\connectionStrings.dev.config">
+      <DependentUpon>connectionStrings.config</DependentUpon>
+      <IsTransformFile>True</IsTransformFile>
+    </None>
+    <None Include="config\connectionStrings.prod.config">
+      <DependentUpon>connectionStrings.config</DependentUpon>
+      <IsTransformFile>True</IsTransformFile>
+    </None>
+    <None Include="config\connectionStrings.test.config">
+      <DependentUpon>connectionStrings.config</DependentUpon>
+      <IsTransformFile>True</IsTransformFile>
+    </None>
     <None Include="Properties\PublishProfiles\Build_EP_Release.pubxml" />
     <None Include="Properties\PublishProfiles\dev_release.pubxml" />
+    <Content Include="Properties\SlowCheetah\SlowCheetah.Transforms.targets" />
+    <None Include="Properties\PublishProfiles\prod.pubxml" />
+    <None Include="Properties\PublishProfiles\test.pubxml" />
     <None Include="Scripts\Libraries\kendo-ui\v3.1111\vsdoc\kendo.all-vsdoc.js" />
     <None Include="Scripts\Libraries\kendo-ui\v3.1111\vsdoc\kendo.all.min.intellisense.js" />
     <None Include="Scripts\Libraries\kendo-ui\v3.1111\vsdoc\kendo.dataviz-vsdoc.js" />
@@ -2144,9 +2192,6 @@
     <TypeScriptCompile Include="Scripts\Admin\Shell\spinner.ts" />
     <TypeScriptCompile Include="Scripts\Admin\Shared\website-service.ts" />
     <TypeScriptCompile Include="Scripts\App\account\insite.externalproviders.controller.ts" />
-    <Content Include="config\appSettings.Release.config">
-      <SubType>Designer</SubType>
-    </Content>
     <None Include="Properties\PublishProfiles\Dev.pubxml" />
     <None Include="Properties\PublishProfiles\ExpressPipe Dev %28Release%29.pubxml" />
     <Content Include="Themes\ExpressPipe\Views\Widgets\LinkList\Tabs.cshtml" />
@@ -2251,15 +2296,8 @@
     <Content Include="Themes\ExpressPipe\Styles\template\ma-saved-orders.scss" />
     <Content Include="Themes\ExpressPipe\Styles\template\ma-saved-order-details.scss" />
     <Content Include="Themes\ExpressPipe\Views\Directives\Catalog\MorscoMinimumQtyMessage.cshtml" />
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
     <None Include="Web.dev.config">
       <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
     </None>
     <TypeScriptCompile Include="Scripts\App\cart\insite.addresserrorpopup.controller.ts" />
     <TypeScriptCompile Include="Scripts\App\catalog\insite.categoryleftnav.controller.ts" />
@@ -2581,6 +2619,7 @@
     <None Include="Properties\PublishProfiles\ExpressPipe Dev %28Debug%29.pubxml" />
     <Content Include="config\appSettings.config">
       <SubType>Designer</SubType>
+      <TransformOnBuild>true</TransformOnBuild>
     </Content>
     <Content Include="Scripts\Libraries\foundation\5.4.6\.isc-foundation__read-before-updating" />
     <Content Include="App_Data\insiteidentity.pfx" />
@@ -3471,6 +3510,7 @@
   <ItemGroup>
     <Content Include="config\connectionStrings.config">
       <SubType>Designer</SubType>
+      <TransformOnBuild>true</TransformOnBuild>
     </Content>
     <Content Include="DataSet\Web.config" />
     <Content Include="Areas\ContentAdmin\Views\Shared\_BaseLayout.cshtml" />
@@ -4000,6 +4040,12 @@ cd $(ProjectDir)\Scripts\Admin
 del *.js /s
 del *.js.map /s</PreBuildEvent>
   </PropertyGroup>
+  <PropertyGroup Label="SlowCheetah">
+    <SlowCheetahToolsPath>$([System.IO.Path]::GetFullPath( $(MSBuildProjectDirectory)\..\packages\SlowCheetah.2.5.15\tools\))</SlowCheetahToolsPath>
+    <SlowCheetah_EnableImportFromNuGet Condition=" '$(SlowCheetah_EnableImportFromNuGet)'=='' ">true</SlowCheetah_EnableImportFromNuGet>
+    <SlowCheetah_NuGetImportPath Condition=" '$(SlowCheetah_NuGetImportPath)'=='' ">$([System.IO.Path]::GetFullPath( $(MSBuildProjectDirectory)\Properties\SlowCheetah\SlowCheetah.Transforms.targets ))</SlowCheetah_NuGetImportPath>
+    <SlowCheetahTargets Condition=" '$(SlowCheetah_EnableImportFromNuGet)'=='true' and Exists('$(SlowCheetah_NuGetImportPath)') ">$(SlowCheetah_NuGetImportPath)</SlowCheetahTargets>
+  </PropertyGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
@@ -4007,9 +4053,5 @@ del *.js.map /s</PreBuildEvent>
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
-  <Import Project="..\packages\OctoPack.3.0.71\tools\OctoPack.targets" Condition="Exists('..\packages\OctoPack.3.0.71\tools\OctoPack.targets')" />
-  <Target Name="EnsureOctoPackImported" BeforeTargets="BeforeBuild" Condition="'$(OctoPackImported)' == ''">
-    <Error Condition="!Exists('..\packages\OctoPack.3.0.71\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="You are trying to build with OctoPack, but the NuGet targets file that OctoPack depends on is not available on this computer. This is probably because the OctoPack package has not been committed to source control, or NuGet Package Restore is not enabled. Please enable NuGet Package Restore to download them. For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
-    <Error Condition="Exists('..\packages\OctoPack.3.0.71\tools\OctoPack.targets') And ('$(RunOctoPack)' != '' And $(RunOctoPack))" Text="OctoPack cannot be run because NuGet packages were restored prior to the build running, and the targets file was unavailable when the build started. Please build the project again to include these packages in the build. You may also need to make sure that your build server does not delete packages prior to each build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
-  </Target>
+  <Import Project="$(SlowCheetahTargets)" Condition="Exists('$(SlowCheetahTargets)')" Label="SlowCheetah" />
 </Project>

@@ -59,6 +59,13 @@ namespace Morsco.Customizations.Lib.Cart
                 .Where(x => x.Enable)
                 .OrderBy(x => x.Description);
 
+            var validShipVias = new List<ShipVia>();
+
+            var mscBranch = unitOfWork.GetTypedRepository<IWebsiteConfigurationRepository>()
+                    .GetOrCreateByName<string>("MSC_OpcoTerritory", SiteContext.Current.Website.Id);
+            var warehouses = unitOfWork.GetRepository<Warehouse>().GetTable().Where(x => (x.DeactivateOn > DateTime.Now || x.DeactivateOn == null) &&
+                                x.CustomProperties.Any(cp => cp.Name.Equals("OpcoTerritory", StringComparison.CurrentCultureIgnoreCase) && cp.Value.Equals(mscBranch, StringComparison.CurrentCultureIgnoreCase))).ToList();
+
             foreach (var cartLine in result.CartLineResults)
             {
                 var documents = unitOfWork.GetRepository<Insite.Data.Entities.Product>().GetTable()
@@ -87,10 +94,16 @@ namespace Morsco.Customizations.Lib.Cart
                     if (stockList.Count > 0)
                     {
                         var branchList = new Dictionary<string, object>();
-                        foreach (var branch in stockList)
+
+                        foreach (var shipVia in shipVias)
                         {
-                            foreach (var shipVia in shipVias)
+                            if (warehouses.Where(x => x.ShipSite == shipVia.ErpShipCode).Count() > 0)
                             {
+                                validShipVias.Add(shipVia);
+                            }
+                            foreach (var branch in stockList)
+                            {
+
                                 if ((string)branch["Branch"] == shipVia.ErpShipCode)
                                 {
                                     branchList.Add(shipVia.Id.ToString(), (string)branch["Stock_Qty"]);
@@ -217,14 +230,7 @@ namespace Morsco.Customizations.Lib.Cart
                 var termsCode = (result.Cart.ShipTo == null) ? "" : result.Cart.ShipTo.TermsCode;
                 result.PaymentMethod = new PaymentMethodDto() { Name = termsCode, IsCreditCard = false, Description = "xxxdescription" };
 			}
-
-
-			var warehouses =
-                unitOfWork.GetRepository<Warehouse>()
-                    .GetTable()
-                    .Where(x => x.DeactivateOn > DateTime.Now || x.DeactivateOn == null)
-                    .ToList();
-
+            
             if (Boolean.Parse(WebConfigurationManager.AppSettings["Morsco.Ponderosa.Disabled"]))
             {
                 return NextHandler.Execute(unitOfWork, parameter, result);
@@ -266,12 +272,16 @@ namespace Morsco.Customizations.Lib.Cart
 					result.Properties["CanChangeAddress"] = "True";
 				}
 			}
-
+            var shipViasToInclude = new List<ShipViaDto>();
             foreach (var carrierCart in result.Carriers)
             {
                 carrierCart.ShipVias = carrierCart.ShipVias.OrderBy(x => x.Description).ToList();
                 foreach (var sv in carrierCart.ShipVias)
                 {
+                    if (validShipVias.Where(x => x.Id == sv.Id).Count() > 0)
+                    {
+                        shipViasToInclude.Add(sv);
+                    }
                     var tempShipVia = shipVias.FirstOrDefault(x => x.Id == sv.Id);
                     var tempWarehouse = warehouses.FirstOrDefault(x => x.ShipSite == tempShipVia?.ErpShipCode);
                     if (tempWarehouse != null)
@@ -281,8 +291,9 @@ namespace Morsco.Customizations.Lib.Cart
                 }
             }
 
+            result.Properties["IncludedBranches"] = JsonConvert.SerializeObject(shipViasToInclude);
 
-			IWebsiteConfigurationRepository typedRepository = unitOfWork.GetTypedRepository<IWebsiteConfigurationRepository>();
+            IWebsiteConfigurationRepository typedRepository = unitOfWork.GetTypedRepository<IWebsiteConfigurationRepository>();
 			var shipMethod = result.Properties.FirstOrDefault(x => x.Key.EqualsIgnoreCase("shipmethod"));
 			if ( !shipMethod.Equals(default(KeyValuePair<string,string>))
 				&& shipMethod.Value.EqualsIgnoreCase(willCallCarrierId.ToString())

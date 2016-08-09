@@ -26,8 +26,9 @@ namespace Morsco.Customizations.Lib.ProductReindex.WebApi
         [ResponseType(typeof(ProductReindexResult)), Route("")]
         public async Task<IHttpActionResult> Get([FromUri] ProductReindexRequest rqst)
         {
-            LogHelper.For(this).Info($"Reindex request from: {System.Web.HttpContext.Current.Request.UserHostAddress} / {System.Web.HttpContext.Current.Request.UserHostName} / {System.Web.HttpContext.Current?.Session?.SessionID ?? String.Empty}");
+            LogHelper.For(this).Info($"Reindex request beginning.  From: {System.Web.HttpContext.Current.Request.UserHostAddress} / {System.Web.HttpContext.Current.Request.UserHostName}");
             var m = await _productReindexService.Reindex(rqst);
+            LogHelper.For(this).Info($"Reindex request completed");
             return Ok(m);
         }
     }

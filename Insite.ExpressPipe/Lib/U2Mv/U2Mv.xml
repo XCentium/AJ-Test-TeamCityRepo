@@ -1,0 +1,2782 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>U2Mv</name>
+    </assembly>
+    <members>
+        <member name="M:Ponderosa.CSharp.SocketConnection.Dispose">
+            <summary>Dispose of the socket connection.</summary>
+            <remarks>Dispose of the socket connection.</remarks>
+        </member>
+        <member name="M:Ponderosa.CSharp.SocketConnection.ReadSocket(System.Byte[],System.Int32,System.Int32)">
+            <summary>Read incoming data.</summary>
+        </member>
+        <member name="M:Ponderosa.CSharp.SocketConnection.WriteSocket(System.Byte[])">
+            <summary>Write byte array to the stream.</summary>
+        </member>
+        <member name="M:Ponderosa.CSharp.SocketConnection.WriteSocket(System.Byte[],System.Int32)">
+            <summary>
+            Write the specified number of bytes from a byte array
+            to the stream.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.CSharp.SocketConnection.FlushOutput">
+            <summary>Flush output stream.</summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.ConnectionFault">
+            <summary>Faults that occur within the Connector API.</summary>
+            <remarks>
+            Faults that occur within the Connector API.
+            Instances of ConnectionFault are unchecked exceptions. They're
+            intended to be caught be a fault barrier designed to handle
+            unrecoverable errors.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionFault.#ctor">
+            <summary>Create an exception without a message.</summary>
+            <remarks>Create an exception without a message. The cause remains uninitialized.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionFault.#ctor(System.String)">
+            <summary>Create an exception with a message.</summary>
+            <remarks>Create an exception with a message. The cause remains uninitialized.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionFault.#ctor(System.String,System.Exception)">
+            <summary>Create an exception with a message and a cause.</summary>
+            <remarks>Create an exception with a message and a cause.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionFault.#ctor(System.Exception)">
+            <summary>Create an exception with the specified cause.</summary>
+            <remarks>Create an exception with the specified cause.</remarks>
+        </member>
+        <member name="T:Ponderosa.U2mv.Packet">
+            <summary>Class that contains raw packet contents.</summary>
+            <remarks>Class that contains raw packet contents.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Packet.Type">
+            <summary>Get packet type.</summary>
+            <remarks>Get packet type.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Packet.Length">
+            <summary>Get total packet length.</summary>
+            <remarks>Get total packet length.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Packet.Contents">
+            <summary>Return packet contents as an array.</summary>
+            <remarks>Return packet contents as an array.</remarks>
+        </member>
+        <member name="T:Ponderosa.U2mv.MapFieldCollector">
+            <summary>Class for collecting fields and sub-field definitions from a map.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.MapFieldCollector.#ctor">
+            <summary>Create a new map field collector.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.MapFieldCollector.CollectMapFields(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>Collect fields and sub-fields from a map.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.MapFieldCollector.ExtractSubField(System.Object,Ponderosa.U2mv.FieldSet,System.Int32)">
+            <summary>Extract sub-field definition if the field contains a set of sub-fields.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.MapFieldCollector.ExtractSubMap(System.Collections.Generic.IDictionary{System.String,System.Object},Ponderosa.U2mv.SubFieldSetDef)">
+            <summary>
+            Extract field names from a nested map and
+            add them to the passed sub-map definition.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.MapFieldCollector.ExtractSubList(System.Collections.IList,Ponderosa.U2mv.SubTableDef)">
+            <summary>
+            Add the field set from any nested maps
+            to the passed sub-table definition.
+            </summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.MapFieldCollector.ExtractionError">
+            <summary>
+            Inner class of exceptions thrown when
+            an logical inconsistency occurs durring
+            the extraction process.
+            </summary>
+        </member>
+        <member name="T:Ponderosa.Util.DynamicList`1">
+            <summary>
+            Class of lists which dynamically expand themselves
+            to bring elements into being as they are accessed.
+            Any unassigned elements contain the value null.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Util.DynamicList`1.#ctor">
+            <summary
+            >Create an empty dynamic list sized to the default capacity.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Util.DynamicList`1.#ctor(System.Int32)">
+            <summary>
+            Create an empty dynamic list sized to the specified capacity.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Util.DynamicList`1.#ctor(System.Collections.Generic.ICollection{`0})">
+            <summary>
+            Create a dynamic list that contains the elements of the specified collection.
+            </summary>
+            <remarks>
+            Elements are stored in the order returned by the collection iterator.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.Util.DynamicList`1.Set(System.Int32,`0)">
+            <summary>
+            Add an element at the specified position
+            of the list.
+            </summary>
+            <remarks>
+            Null elements are inserted into the list
+            if the given position is past the end of list.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.Util.DynamicList`1.Get(System.Int32)">
+            <summary>
+            Get the element at the specified position
+            of the list.
+            </summary>
+            <remarks>
+            If position is past the end of the list
+            return null.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.Util.DynamicList`1.Add(`0)">
+            <summary>
+            Add an element to the end of the list.
+            </summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.Results.NestedCollection">
+            <summary>Class containing a list of nested list results.</summary>
+            <remarks>Class containing a list of nested list results.</remarks>
+        </member>
+        <member name="T:Ponderosa.U2mv.Results.RowResult">
+            <summary>
+            Class of results containing a simple set of data fields
+            which is equivalent to a row of a table.
+            </summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.Results.DataResult">
+            <summary>
+            Abstract class of results that contain a set of data comprised
+            of one or more named fields.
+            </summary>
+            <remarks>
+            Deta results also contain a transfer class.
+            </remarks>
+        </member>
+        <member name="T:Ponderosa.U2mv.Results.Result">
+            <summary>Abstract base class for results returned from the server.</summary>
+            <remarks>Abstract base class for results returned from the server.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.Result.ToString">
+            <summary>Represent the result as a string.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.Result.PrintResult">
+            <summary>Print the result contents to System.out.</summary>
+            <remarks>Primarily for debugging.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.Result.PrintResult(System.IO.TextWriter)">
+            <summary>Print the result contents to the designated PrintStream.</summary>
+            <remarks>Primarily for debugging.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.Result.FormatResult(System.Collections.Generic.List{System.String},System.String)">
+            <summary>Represent the result as a series of printable lines.</summary>
+            <remarks>
+            Represent the result as a series of printable lines.
+            Primarily used for debugging.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.Result.FormatResult">
+            <summary>Represent the result as a series of printable lines.</summary>
+            <remarks>Primarily for debugging.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.#ctor(System.String)">
+            <summary>Create an instance of a result having the specified transfer class.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.TransferClass">
+            <summary>Return the transfer class.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetValue(System.String)">
+            <summary>Return the raw object value for the specified key.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.IsValueEmpty(System.String)">
+            <summary>
+            Return whether the value for the specified key
+            is either null or a string, map or list and is empty.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.IsObjectEmpty(System.Object)">
+            <summary>Determine whethe an object is empty.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.IsEmpty">
+            <summary>Return whether the result set is empty.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetResultMap">
+            <summary>
+            DEPRECATED Replaced by ResultData().
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.ResultData">
+            <summary>
+             Return the underlying data for this result
+             as a map of string/object values.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.FieldNames">
+            <summary>Return the list of field names for this result.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.ResultFields">
+            <summary>Return the field set for this result.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetString(System.String)">
+            <summary>Return the value at the specified key as a String.</summary>
+            <remarks>
+            If no value exists for that key return an empty string.
+            If the value at that key is a list, return the first element
+            of the list.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetString(System.String,System.Int32)">
+            <summary>Return the value at the specified key and index as a String.</summary>
+            <remarks>
+            An empty string is returned if no value exists at that index.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetBool(System.String)">
+            <summary>Return the value at the specified key as a boolean primitive</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetBool(System.String,System.Int32)">
+            <summary>Return the value at the specified key and index as a boolean primitive</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetInt(System.String)">
+            <summary>Return the value at the specified key as an int primative.</summary>
+            <remarks>
+            Zero is returned if the value doesn't exist.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetInt(System.String,System.Int32)">
+            <summary>Return the value at the specified key and index as an int primative.</summary>
+            <remarks>
+            Zero is returned if the value doesn't exist.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetDecimal(System.String)">
+            <summary>Return the value at the specified key as a Decimal.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetDecimal(System.String,System.Int32)">
+            <summary>Return the value at the specified key and index as a Decimal.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetDate(System.String)">
+            <summary>Return the value at the specified key as a Date.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetDate(System.String,System.Int32)">
+            <summary>Return the value at the specified key and index as a Date.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.ToInt(System.String,System.String)">
+            <summary>
+            Convert a value to an int primative throwing an exception with the
+            specified messsage if a number format exception occurs.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.ToDecimal(System.String,System.String)">
+            <summary>
+            Convert a value to a Decimal throwing an exception containing the
+            specified messsage if a number format exception occurs.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.ToDate(System.String,System.String)">
+            <summary>
+            Convert a value to a Date throwing an exception containing the
+            specified messsage if a number format exception occurs.
+            </summary>
+            <remarks>
+            Convert a value to a Date throwing an exception containing the
+            specified messsage if a number format exception occurs.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetArray(System.String)">
+            <summary>
+            Return a String array containing the list of values for the specified key.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetElementCount(System.String)">
+            <summary>
+            Return the number of elements in the specified field
+            if it contains a list.  Otherwise, returns either 1 or 0
+            depending on whether the value is empty.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.IsList(System.String)">
+            <summary>
+            Determines whether the specified field contains a nested list.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.IsMap(System.String)">
+            <summary>
+            Determines whether the specified field contains a nested map.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.IsTable(System.String)">
+            <summary>
+            Determines whether the specified field contains a nested table.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.IsIndexed(System.String)">
+            <summary>
+            Determines whether the specified field is part of an indexed sub-set.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetFieldType(System.String)">
+            <summary>Get a field's type object.</summary>
+            <remarks>
+            Permits a fields type to be checked before it's value is retrieved.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetFieldType(System.String,System.Int32)">
+            <summary>Get the type object for a sub-element of a field.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetSubFieldType(System.String,System.String)">
+            <summary>Get the type of sub-field of field contains.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetScalarFieldType(System.String)">
+            <summary>Get the type a field containing a simple value.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetSubTable(System.String)">
+            <summary>Return a nested table from the specified field.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetSubMap(System.String)">
+            <summary>Return a nested map from the specified field.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetSlice(System.String,System.Int32)">
+            <summary>
+            Return a slice the set of fields which are part of
+            the specified linked subset.
+            </summary>
+            <remarks>
+            Results may contain a set of fields which have multiple
+            sub-values linked by index.  This can be visualized by
+            thinking of a result row as a table having the field names
+            on the left and a set of columns representing the indexed sub-values
+            to the right.  This function takes a vertical slice of one of the
+            columns on the left and returns it as a separate result.
+            Fields that don't have a value at the specified index are null
+            in the returned result.  Any result fields which are not part
+            of the linked subset are included in the returned result as-is.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.SliceResult(Ponderosa.U2mv.Results.DataResult,System.String,System.Int32)">
+            <summary>Return a slice from a result using the specified indexed subset.</summary>
+            <remarks>
+            Provides the functionality behind getSlice() and getHeaderSlice().
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.ToScalarArray(System.Collections.IList,System.String)">
+            <summary>Return a String array from a list.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetResultValue(System.String)">
+            <summary>
+            Return the value at the specified key as a string
+            If the value is a list extract the first element.
+            </summary>
+            <remarks>
+            If the value is a list extract the first element.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetResultValue(System.String,System.Int32)">
+            <summary>Return the value at a certain index of the specified key as a string.</summary>
+            <remarks>
+            If the value is a list extract the first element.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.Scalar(System.Object,System.Int32)">
+            <summary>Return a string from an element of a list value.</summary>
+            <remarks>
+            If the first element is requested and the value is
+            a scalar then the value is returned.
+            </remarks>
+            <exception cref="T:Ponderosa.U2mv.Results.DataResult.InvalidScalar"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.Scalar(System.Object)">
+            <summary>Retrieves a scalar value.</summary>
+            <remarks>Retrieves a scalar value.  If value is not a scalar an exception is thrown.
+            	</remarks>
+            <exception cref="T:Ponderosa.U2mv.Results.DataResult.InvalidScalar"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetList(System.String)">
+            <summary>Return a List for the specified key.</summary>
+            <remarks>
+            If value is a scalar then returns a list that has a single element.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetList(System.String,System.Int32)">
+            <summary>Return a nested List for the specified key and index.</summary>
+            <remarks>
+            If sub-value is a scalar returns a list that has a single element.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetMap(System.String)">
+            <summary>Return a Map for the specified key.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.GetMap(System.String,System.Int32)">
+            <summary>Return a nested Map for the specified key and index.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.MapToLines(System.Collections.Generic.IList{System.String},System.Collections.Generic.IDictionary{System.String,System.Object},Ponderosa.U2mv.ResultFieldSet,System.String)">
+            <summary>Converts the result set values to a series of lines.</summary>
+            <remarks>
+            Primarily used for debugging.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.DataResult.FormatResult(System.Collections.Generic.List{System.String},System.String)">
+            <summary>Represent the result as a series of printable lines.</summary>
+            <remarks>
+            Primarily used for debugging.
+            </remarks>
+        </member>
+        <member name="T:Ponderosa.U2mv.Results.DataResult.InvalidScalar">
+            <summary>
+            Inner class of exceptions thrown when
+            getting a string value from an list.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.RowResult.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},Ponderosa.U2mv.ResultFieldSet)">
+            <summary>
+            Create an instance of a row result with the
+            specified transfer class and hashmap.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.RowResult.GetValue(System.String)">
+            <summary>Return the raw object value for the specified key.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.RowResult.IsEmpty">
+            <summary>Return whether the result set is empty.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.RowResult.ResultData">
+            <summary>Return a map containing the fields of the result row.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.RowResult.FieldNames">
+            <summary>Return the list of field names for this result.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.RowResult.ResultFields">
+            <summary>Return the field set for this result.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.RowResult.FormatResult(System.Collections.Generic.List{System.String},System.String)">
+            <summary>Represent the result as an array of strings.</summary>
+            <remarks> Primarily used for debugging purposes. </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.CollectionResult`1.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},Ponderosa.U2mv.ResultFieldSet,System.Int32)">
+            <summary>Construct a result list having the specified size.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.CollectionResult`1.AddResult(`0)">
+            <summary>Add a result to the list.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.CollectionResult`1.GetEnumerator">
+            <summary>Get the result list iterator. (Generic version)</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.CollectionResult`1.System#Collections#IEnumerable#GetEnumerator">
+            <summary>Get the result list iterator. (Non-generic version)</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.CollectionResult`1.GetResult(System.Int32)">
+            <summary>Get a specific result from the list.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.CollectionResult`1.ResultCount">
+            <summary>Get the number of results the list contains.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.CollectionResult`1.CollectionSize">
+            <summary>Get the number of results in the collection.</summary>
+            <remarks>
+            This will return the same value as ResultCount()
+            except when the collection is processed
+            by a ResultHandler.  In that case the CollectionResult
+            is provided before the collection members
+            are received so this returns the true collection
+            size but ResultCount() returns 0.
+            </remarks>
+        </member>
+        <member name="T:Ponderosa.Util.WriteHandler">
+            <summary>Interface for classes that are called to store data as it's received from another source.
+            	</summary>
+        </member>
+        <member name="M:Ponderosa.Util.WriteHandler.OpenResource">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:Ponderosa.Util.WriteHandler.CloseResource">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:Ponderosa.Util.WriteHandler.Write(System.Byte[])">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:Ponderosa.Util.WriteHandler.Write(System.Byte[],System.Int32,System.Int32)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="T:Ponderosa.U2mv.SubFieldDef">
+            <summary>
+            Classes implementing this interface define the
+            sub-field structure for a parent field.
+            </summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.Results.ResultHandler">
+            <summary>Abstract class for handling results as they're downloaded from the server.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.ResultHandler.StartTransfer(Ponderosa.U2mv.Results.Result)">
+            <summary>Initiate transfer. Does nothing unless overridden.</summary>
+            <remarks>
+            Useful for collection transfers since the
+            parentResult contains the collectionSize.
+            </remarks>
+            <param name="parentResult">parent result for data being transferred</param>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.ResultHandler.StoreResult(Ponderosa.U2mv.Results.Result)">
+            <summary>
+            Store the next portion of a result set which
+            is wrapped in a Result object.</summary>
+            <param name="parentResult">parent result for downloaded data</param>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.ResultHandler.EndTransfer">
+            <summary>Finish transfer. Does nothing unless overridden.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.ResultHandler.GetNestedHandler">
+            <summary>
+            Provides a handler to process nested results
+            when used to receive a collection.
+            </summary>
+            <remarks>
+            Unless overridden returns null.
+            </remarks>
+        </member>
+        <member name="T:Ponderosa.Util.ReadHandler">
+            <summary>Interface for classes that are called to retrieve data from a resource as it's being sent.
+            	</summary>
+            <remarks>Interface for classes that are called to retrieve data from a resource as it's being sent.
+            	</remarks>
+            <author>Royo</author>
+        </member>
+        <member name="M:Ponderosa.Util.ReadHandler.OpenResource">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:Ponderosa.Util.ReadHandler.CloseResource">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:Ponderosa.Util.ReadHandler.Read(System.Byte[])">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:Ponderosa.Util.ReadHandler.Read(System.Byte[],System.Int32,System.Int32)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="T:Ponderosa.U2mv.Results.OKResult">
+            <summary>OK result from the server.</summary>
+            <remarks>OK result from the server. Indicates an upload was successful.</remarks>
+        </member>
+        <member name="T:Ponderosa.U2mv.Results.BasicResult">
+            <summary>
+            Abstract class of basic results containing
+            a message and a standard identification code.
+            </summary>
+            <remarks>
+            Abstract class of basic results containing
+            a message and a standard identification code.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.BasicResult.#ctor(System.String,System.String)">
+            <summary>
+            Create a result containing the specified identification code and message.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.BasicResult.GetCode">
+            <summary>
+            Get the identification code.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.BasicResult.GetMessage">
+            <summary>
+            Get the result message.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.BasicResult.FormatResult(System.Collections.Generic.List{System.String},System.String)">
+            <summary>Represent the result as a series of printable lines.</summary>
+            <remarks>
+            Represent the result as a series of printable lines.
+            Primarily used for debugging.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.OKResult.#ctor(System.String,System.String)">
+            <summary>
+            Create an instance of an OK result with the
+            specified identification code and message.
+            </summary>
+            <remarks>
+            Create an instance of an OK result with the
+            specified identification code and message.
+            </remarks>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Ponderosa.Log.MessageFormatter" -->
+        <!-- Badly formed XML comment ignored for member "M:Ponderosa.Log.MessageFormatter.Format(System.String,System.Object)" -->
+        <!-- Badly formed XML comment ignored for member "M:Ponderosa.Log.MessageFormatter.Format(System.String,System.Object,System.Object)" -->
+        <member name="M:Ponderosa.Log.MessageFormatter.ArrayFormat(System.String,System.Object[])">
+            <summary>
+            Same principle as the
+            <see cref="M:Ponderosa.Log.MessageFormatter.Format(System.String,System.Object)">Format(string, object)</see>
+            and
+            <see cref="M:Ponderosa.Log.MessageFormatter.Format(System.String,System.Object,System.Object)">Format(string, object, object)</see>
+            methods except that any number of
+            arguments can be passed in an array.
+            </summary>
+            <param name="messagePattern">The message pattern which will be parsed and formatted
+            	</param>
+            <param name="argArray">
+            An array of arguments to be substituted in place of
+            formatting anchors
+            </param>
+            <returns>The formatted message</returns>
+        </member>
+        <member name="T:Ponderosa.U2mv.Results.HeaderDetailCollection">
+            <summary>Class of compound result objects consisting of a list of header-detail result objects.
+            	</summary>
+            <remarks>Class of compound result objects consisting of a list of header-detail result objects.
+            	</remarks>
+            <author>Roy Olsen</author>
+        </member>
+        <member name="T:Ponderosa.U2mv.Connection">
+            <summary>Connection to a U2Mv server.</summary>
+            <remarks>
+            Connection to a server running on the Rocket UniVerse platform.
+            The protocol used provides secure authentication,
+            efficient data transfers and supports a rich set
+            of structures containing multi-dimensional data.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.Main(System.String[])">
+            <summary>Print connector version.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.UseConfiguration(Ponderosa.Config.ConfigurationWrapper)">
+            <summary>Use the specified configuration for the internal logger.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.#ctor(System.String,System.String,System.String,System.Int32)">
+            <summary>
+            Creates a connecton to the server with
+            the default timeout period.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.#ctor(System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Creates a connecton to the server that has
+            the specified timeout period.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.#ctor(System.String,System.String,System.String,System.Int32,System.Int32,System.String)">
+            <summary>
+            Creates a secure connecton to the server that has
+            the specified timeout period and authenticates using
+            the designated certificate.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.#ctor(Ponderosa.Config.ConfigurationWrapper,System.Int32)">
+            <summary>
+            Creates a connecton to the server
+            on the specified port using
+            the configuration settings provided.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.Close">
+            <summary>Close the connection.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.Disconnect">
+            <summary>
+            Send QUIT and close connection.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.Dispose">
+            <summary>Dispose of the connection.</summary>
+            <remarks>This should not be called to close
+            the connection.  Use Close() instead.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.SendRequest(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>General purpose method to send a request and get back a generic result.</summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.SendRequest(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},Ponderosa.U2mv.Results.ResultHandler)">
+            <summary>Send a request and process downloaded data using the passed handler.</summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.SendRequestPacket(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>Send request packet to server</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.GetReply">
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.GetReply(Ponderosa.U2mv.Results.ResultHandler)">
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.GetOK(Ponderosa.U2mv.IncomingPacket)">
+            <summary>Get OK packet.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.GetEOF(Ponderosa.U2mv.IncomingPacket)">
+            <summary>Get EOF packet.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.GetContingency(Ponderosa.U2mv.IncomingPacket)">
+            <summary>Get contingency packet.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.GetError(Ponderosa.U2mv.IncomingPacket)">
+            <summary>Get error packet.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.GetBinaryHeader(Ponderosa.U2mv.IncomingPacket)">
+            <summary>Parse binary header.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.GetBinarySetHeader(Ponderosa.U2mv.IncomingPacket)">
+            <summary>Parse binary set header.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.GetTable(Ponderosa.U2mv.IncomingPacket,Ponderosa.U2mv.Results.ResultHandler)">
+            <summary>
+            Receive table structure sent from server
+            and return a Result object.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.GetHeaderDetail(Ponderosa.U2mv.IncomingPacket,Ponderosa.U2mv.Results.ResultHandler)">
+            <summary>
+            Receive header/detail structure sent from server
+            and return a Result object.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.GetCollection(Ponderosa.U2mv.IncomingPacket,Ponderosa.U2mv.Results.ResultHandler)">
+            <summary>Receive a series of downloads.</summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.GetTableCollection(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},Ponderosa.U2mv.ResultFieldSet,System.Int32,Ponderosa.U2mv.Results.ResultHandler,Ponderosa.U2mv.FlowControl)">
+            <summary>Receive a series of table downloads.</summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.GetHeaderDetailCollection(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},Ponderosa.U2mv.ResultFieldSet,System.Int32,Ponderosa.U2mv.Results.ResultHandler,Ponderosa.U2mv.FlowControl)">
+            <summary>Receive a series of header-detail downloads.</summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.GetNestedilCollection(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},Ponderosa.U2mv.ResultFieldSet,System.Int32,Ponderosa.U2mv.Results.ResultHandler,Ponderosa.U2mv.FlowControl)">
+            <summary>Receive a series of sub-collection downloads.</summary>
+            <remarks>Receive a series of sub-collection downloads.</remarks>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.GetBinary(Ponderosa.Util.WriteHandler)">
+            <summary>Receive a binary transfer using the specified handler.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.GetBinarySet(Ponderosa.Util.WriteSetHandler)">
+            <summary>Receive a set of binary transfers using the specified handler.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.GetBinaryBundle(System.Collections.Generic.IDictionary{System.String,System.Object},Ponderosa.Util.WriteSetHandler)">
+            <summary>Receive a bundle of binary items.</summary>
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.GetBinaryItem(Ponderosa.Util.WriteSetHandler)">
+            <summary>Receive a single binary item.</summary>
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.SendTable(System.String,System.Collections.Generic.IList{System.Collections.Generic.IDictionary{System.String,System.Object}})">
+            <summary>
+            General purpose method to upload a table structure
+            to the server and get back a generic result.
+            </summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.SendHeaderDetail(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Collections.Generic.IList{System.Collections.Generic.IDictionary{System.String,System.Object}})">
+            <summary>
+            General purpose method to upload a header-detail structure
+            to the server and get back a generic result.
+            </summary>
+            <remarks>
+            The header portion contains a single set of values.
+            The detail portion consists of one or more rows,
+            each containing multiple values.
+            </remarks>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.SendTablePackets(System.String,System.Collections.Generic.IList{System.Collections.Generic.IDictionary{System.String,System.Object}})">
+            <summary>Transfer table structure.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.SendHeaderDetailPackets(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Collections.Generic.IList{System.Collections.Generic.IDictionary{System.String,System.Object}})">
+            <summary>Transfer header-detail structure.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.SendOK(System.String)">
+            <summary>Send OK to server without a message.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.SendEOF(System.String)">
+            <summary>Send EOF to server without a message.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.RegulateFlow(Ponderosa.U2mv.FlowControl)">
+            <summary>Handle flow control with server.</summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.PerformAuth(System.String,System.String)">
+            <summary>Perform authentication handshake.</summary>
+            <remarks>Perform authentication handshake.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.GetHandshake">
+            <summary>Receive handshake packet from server.</summary>
+            <remarks>Receive handshake packet from server.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.RequestAuth(System.String,System.String,System.String)">
+            <summary>Request authentication from server.</summary>
+            <remarks>Request authentication from server.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.SendPacket(Ponderosa.U2mv.OutgoingPacket)">
+            <summary>Send a packet.</summary>
+            <remarks>Send a packet.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.ReceiveDataPacket">
+            <summary>Receive the packet containing the next data record and return it.</summary>
+            <remarks>
+            Receive the packet containing the next data record and return it.
+            If EOF is received indicating that there's no more data
+            then return null.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.ReceiveDataPacket(System.Char)">
+            <summary>
+            Receive the next data packet having the specified packet type
+            and return it.
+            </summary>
+            <remarks>
+            Receive the next data packet having the specified packet type
+            and return it.  If an EOF is received indicating that there's
+            no more data, then return null.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.ReceivePacket">
+            <summary>Receive a packet.</summary>
+            <remarks>Receive a packet.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.DumpPacket(System.String,Ponderosa.U2mv.Packet,System.Int32)">
+            <summary>Dump packet as hex for debugging.</summary>
+            <remarks>Dump packet as hex for debugging.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.Validate">
+            <summary>Ping server to determine whether connection is still usable.</summary>
+            <remarks>Ping server to determine whether connection is still usable.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.RequestResponse(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>Send a request and get back a ResponseResult.</summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.RequestTable(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>Send a request and get back a TableResult.</summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.RequestTableCollection(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>Send a request and get back a result containing a list of TableResults.</summary>
+            <remarks>Send a request and get back a result containing a list of TableResults.</remarks>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.RequestHeaderDetail(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>Send a request and get back a HeaderDetailResult.</summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.RequestHeaderDetailCollection(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>Send a request and get back a result containing a list of HeaderDetailResults.
+            	</summary>
+            <remarks>Send a request and get back a result containing a list of HeaderDetailResults.
+            	</remarks>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.RequestBinary(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>Send a request and get back a BinaryResult.</summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.RequestBinarySet(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>Send a request and get back a BinarySetResult.</summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.UploadRow(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Upload a set of values and get back a ResponseResult.
+            </summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.UploadTable(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Upload a single row of a table structure and get back
+            a ResponseResult.
+            </summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.UploadTable(System.String,System.Collections.Generic.IList{System.Collections.Generic.IDictionary{System.String,System.Object}})">
+            <summary>Upload a table structure and get back a ResponseResult.</summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.UploadHeaderDetail(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Collections.Generic.IList{System.Collections.Generic.IDictionary{System.String,System.Object}})">
+            <summary>Upload a header-detail structure and get back a ResponseResult.</summary>
+            <remarks>Upload a header-detail structure and get back a ResponseResult.</remarks>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.TransferTable(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Upload a single row of a table structure and get back
+            an OKResult.
+            </summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.TransferTable(System.String,System.Collections.Generic.IList{System.Collections.Generic.IDictionary{System.String,System.Object}})">
+            <summary>Upload a table structure and get back an OKResult.</summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.TransferHeaderDetail(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Collections.Generic.IList{System.Collections.Generic.IDictionary{System.String,System.Object}})">
+            <summary>Upload a header-detail structure and get back an OKResult.</summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.SubmitTable(System.String,System.Collections.Generic.IList{System.Collections.Generic.IDictionary{System.String,System.Object}})">
+            <summary>Upload a table structure and get back a TableResult.</summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <member name="M:Ponderosa.U2mv.Connection.SubmitHeaderDetail(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Collections.Generic.IList{System.Collections.Generic.IDictionary{System.String,System.Object}})">
+            <summary>Upload a header-detail structure and get back a HeaderDetailResult.</summary>
+            <exception cref="T:Ponderosa.U2mv.Contingency"></exception>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Ponderosa.Config.ConfigurationWrapper" -->
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.Clone">
+            <summary>Return a copy of this wrapper retaining it's settings, fallback and context.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.CloneSection">
+            <summary>Return a shallow copy of the configuration section contained by this wrapper.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.CloneSection(Ponderosa.CSharp.FlexibleSection)">
+            <summary>Return a shallow copy of a configuration section.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.PushConfiguration(Ponderosa.Config.ConfigurationWrapper)">
+            <summary>
+            Make the settings contained by the specified wrapper the main set
+            and push the current main set onto the top of the fallback list.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.SetElement(System.Type,System.String[])">
+            <summary>
+            Set current element for a class, using both the
+            full and simple class names, as well as any additional
+            elements specified.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.GetValue(System.String)">
+            <summary>Return a configuration value.</summary>
+            <remarks>
+            Check each element defined by setElement().
+            Returns null no value is found.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.GetConfigurationValue(System.String,System.String)">
+            <summary>Gets configuration value for the specified key.</summary>
+            <remarks>
+            Gets configuration value for the specified key.
+            If value is not present in the main set of properties
+            look in the fallBack, if there is one.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.GetString(System.String)">
+            <summary>Return configuration value as a String.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.GetString(System.String,System.String)">
+            <summary>Return configuration value as a String.</summary>
+            <remarks>
+            Return default value if configuration value is not defined.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.GetStr(System.String)">
+            <summary>Return configuration value as a String.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.GetStr(System.String,System.String)">
+            <summary>Return configuration value as a String.</summary>
+            <remarks>
+            Return default value if configuration value is not defined.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.GetBool(System.String)">
+            <summary>Return configuration value as a boolean.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.GetBool(System.String,System.Boolean)">
+            <summary>Return configuration value as a boolean.</summary>
+            <remarks>
+            Return default value if configuration value is not defined.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.GetInt(System.String)">
+            <summary>Return configuration value as an integer.</summary>
+            <remarks>Return configuration value as an integer.</remarks>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.GetInt(System.String,System.Int32)">
+            <summary>Return configuration value as an integer.</summary>
+            <remarks>
+            Return default value if configuration value is not defined.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.GetDate(System.String)">
+            <summary>Return configuration value as a Date.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.GetDate(System.String,System.Nullable{System.DateTime})">
+            <summary>Return configuration value as a Date.</summary>
+            <remarks>
+            Return default value if configuration value is not defined.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.GetArray(System.String)">
+            <summary>Return configuration value as an array of Strings.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.GetArray(System.String,System.String[])">
+            <summary>Return configuration value as an array of Strings.</summary>
+            <remarks>
+            Return default value if configuration value is not defined.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.GetEnum``1(System.String,``0)">
+            <summary>Return configuration value as an Enum using the specified
+            default if value is not foun.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.Print">
+            <summary>Print the internal data contained by this wrapper.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.ConfigurationWrapper.ToLines">
+            <summary>Assemble the internal data contained by this wrapper
+            into a list of lines.</summary>
+        </member>
+        <member name="T:Ponderosa.Log.Config.ConfigurableLogger">
+            <summary>Abstract super class of configurable loggers.</summary>
+        </member>
+        <member name="T:Ponderosa.Log.Logger">
+            <summary>Abstract class representing a logger which supports multiple log levels.
+            	</summary>
+            <remarks>Abstract class representing a logger which supports multiple log levels.
+            	</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Trace(System.String)">
+            <summary>Log message at level TRACE.</summary>
+            <remarks>Log message at level TRACE.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Trace(System.String,System.Object)">
+            <summary>Log message at level TRACE using the specified argument.</summary>
+            <remarks>Log message at level TRACE using the specified argument.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Trace(System.String,System.Object,System.Object)">
+            <summary>Log message at level TRACE using the specified pair of arguments.</summary>
+            <remarks>Log message at level TRACE using the specified pair of arguments.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Trace(System.String,System.Object[])">
+            <summary>Log message at level TRACE using the specified array of arguments.</summary>
+            <remarks>Log message at level TRACE using the specified array of arguments.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Trace(System.String,System.Exception)">
+            <summary>Log an exception at level TRACE with the specified message.</summary>
+            <remarks>Log an exception at level TRACE with the specified message.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Debug(System.String)">
+            <summary>Log message at level DEBUG.</summary>
+            <remarks>Log message at level DEBUG.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Debug(System.String,System.Object)">
+            <summary>Log message at level DEBUG using the specified argument.</summary>
+            <remarks>Log message at level DEBUG using the specified argument.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Debug(System.String,System.Object,System.Object)">
+            <summary>Log message at level DEBUG using the specified pair of arguments.</summary>
+            <remarks>Log message at level DEBUG using the specified pair of arguments.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Debug(System.String,System.Object[])">
+            <summary>Log message at level DEBUG using the specified array of arguments.</summary>
+            <remarks>Log message at level DEBUG using the specified array of arguments.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Debug(System.String,System.Exception)">
+            <summary>Log an exception at level DEBUG with the specified message.</summary>
+            <remarks>Log an exception at level DEBUG with the specified message.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Info(System.String)">
+            <summary>Log message at level INFO.</summary>
+            <remarks>Log message at level INFO.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Info(System.String,System.Object)">
+            <summary>Log message at level INFO using the specified argument.</summary>
+            <remarks>Log message at level INFO using the specified argument.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Info(System.String,System.Object,System.Object)">
+            <summary>Log message at level INFO using the specified pair of arguments.</summary>
+            <remarks>Log message at level INFO using the specified pair of arguments.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Info(System.String,System.Object[])">
+            <summary>Log message at level INFO using the specified array of arguments.</summary>
+            <remarks>Log message at level INFO using the specified array of arguments.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Info(System.String,System.Exception)">
+            <summary>Log an exception at level INFO with the specified message.</summary>
+            <remarks>Log an exception at level INFO with the specified message.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Warn(System.String)">
+            <summary>Log message at level WARN.</summary>
+            <remarks>Log message at level WARN.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Warn(System.String,System.Object)">
+            <summary>Log message at level WARN using the specified argument.</summary>
+            <remarks>Log message at level WARN using the specified argument.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Warn(System.String,System.Object,System.Object)">
+            <summary>Log message at level WARN using the specified pair of arguments.</summary>
+            <remarks>Log message at level WARN using the specified pair of arguments.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Warn(System.String,System.Object[])">
+            <summary>Log message at level WARN using the specified array of arguments.</summary>
+            <remarks>Log message at level WARN using the specified array of arguments.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Warn(System.String,System.Exception)">
+            <summary>Log an exception at level WARN with the specified message.</summary>
+            <remarks>Log an exception at level WARN with the specified message.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Error(System.String)">
+            <summary>Log message at level ERROR.</summary>
+            <remarks>Log message at level ERROR.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Error(System.String,System.Object)">
+            <summary>Log message at level ERROR using the specified argument.</summary>
+            <remarks>Log message at level ERROR using the specified argument.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Error(System.String,System.Object,System.Object)">
+            <summary>Log message at level ERROR using the specified pair of arguments.</summary>
+            <remarks>Log message at level ERROR using the specified pair of arguments.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Error(System.String,System.Object[])">
+            <summary>Log message at level ERROR using the specified array of arguments.</summary>
+            <remarks>Log message at level ERROR using the specified array of arguments.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.Error(System.String,System.Exception)">
+            <summary>Log an exception at level ERROR with the specified message.</summary>
+            <remarks>Log an exception at level ERROR with the specified message.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.IsTraceEnabled">
+            <summary>Return whether TRACE level is enabled.</summary>
+            <remarks>Return whether TRACE level is enabled.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.IsDebugEnabled">
+            <summary>Return whether DEBUG level is enabled.</summary>
+            <remarks>Return whether DEBUG level is enabled.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.IsInfoEnabled">
+            <summary>Return whether INFO level is enabled.</summary>
+            <remarks>Return whether INFO level is enabled.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.IsWarnEnabled">
+            <summary>Return whether WARN level is enabled.</summary>
+            <remarks>Return whether WARN level is enabled.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Logger.IsErrorEnabled">
+            <summary>Return whether ERROR level is enabled.</summary>
+            <remarks>Return whether ERROR level is enabled.</remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Config.ConfigurableLogger.#ctor(System.String,Ponderosa.Config.ConfigurationWrapper)">
+            <summary>
+            Construct new logger having the defined logger name
+            and the specified configuration settings.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Log.Config.ConfigurableLogger.UseConfiguration(Ponderosa.Config.ConfigurationWrapper)">
+            <summary>
+            Use any applicable settings in the specified configuration
+            in preference to the existing logger configuration.
+            </summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.ResultFieldSet">
+            <summary>Intended for internal use within the API.</summary>
+            <remarks>
+            Wrapper around the internal field set classes of the u2mv package
+            in order to allow result classes access to field and sub-field definitions.
+            Provides access to the list of field names in a result.  Also,
+            gives the ability to retrieve the type of a sub-field definition
+            and to split off sub-fields into separate ResultFieldSets.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.ResultFieldSet.#ctor(Ponderosa.U2mv.FieldSet)">
+            <summary>Construct a new field set.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.ResultFieldSet.FieldSet">
+            <summary>Get the internal field set.</summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.PooledConnection">
+            <summary>Provides the ability for a Connection to be pooled and reused.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PooledConnection.#ctor(System.String,System.String,System.String,System.Int32,System.Int32,System.Int64,System.Int32)">
+            <summary>
+            Creates a connecton to the server that has
+            the specified timeout period.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PooledConnection.#ctor(Ponderosa.Config.ConfigurationWrapper,System.Int32,System.Int32,System.Int64,System.Int32)">
+            <summary>
+            Creates a connecton to the server on the specified port using
+            the configuration settings provided.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PooledConnection.LinkToSlot(Ponderosa.U2mv.ConnectionPoolSlot)">
+            <summary>
+            Link connection to the specified connection pool slot object
+            and set it's expire time.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PooledConnection.Close">
+            <summary>Override close() method so connection is returned to the pool.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PooledConnection.Drop">
+              Terminate the connection.
+            
+        </member>
+        <member name="M:Ponderosa.U2mv.PooledConnection.SendPacket(Ponderosa.U2mv.OutgoingPacket)">
+              Update activity time when packets are sent.
+            
+        </member>
+        <member name="M:Ponderosa.U2mv.PooledConnection.ReceivePacket">
+              Update activity time when packets are received.
+            
+        </member>
+        <member name="M:Ponderosa.U2mv.PooledConnection.IsStale">
+              Check whether connection has been inactive for too long.
+            
+        </member>
+        <member name="M:Ponderosa.U2mv.PooledConnection.HasExpired">
+                  *  Check whether the connection life time has expired.
+                   *
+        </member>
+        <member name="T:Ponderosa.Util.PeriodicThread">
+            <summary>Class of threads that perform their function periodically.</summary>
+            <remarks>
+            Unless startImmediately is true, this class waits for one period after being started
+            before calling perform() the first time.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.Util.PeriodicThread.UseConfiguration(Ponderosa.Config.ConfigurationWrapper)">
+            <summary>Use the specified configuration for instance loggers.</summary>
+        </member>
+        <member name="M:Ponderosa.Util.PeriodicThread.#ctor(System.String,System.Int32)">
+            <summary>Create new perodic thread using the specified thread name and periodic interval.
+                </summary>
+        </member>
+        <member name="M:Ponderosa.Util.PeriodicThread.#ctor(System.String,System.Int32,System.Boolean)">
+            <summary>
+            Create new perodic thread using the specified thread name and periodic interval,
+            along with whether to perform the first operation immediately.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Util.PeriodicThread.CreateLogger">
+            <summary>
+            Create the logger for this class using the concrete sub-class
+            for the logger name and context as well as the message class
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Util.PeriodicThread.Run">
+            <summary>Invoke subclass's perform() method at periodic intervals.</summary>
+        </member>
+        <member name="M:Ponderosa.Util.PeriodicThread.Perform">
+            <summary>
+            Implemented by subclasses to perform the function
+            that is to be run at intervals.
+            </summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.Results.BinaryResult">
+            <summary>Result transmitted in response to a binary transfer request.</summary>
+            <remarks>Result transmitted in response to a binary transfer request.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.BinaryResult.#ctor(System.String,System.String,System.Int32)">
+            <summary>Create an instance of a binary result.</summary>
+            <remarks>Create an instance of a binary result.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.BinaryResult.TransferClass">
+            <summary>Return the transfer class.</summary>
+            <remarks>Return the transfer class.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.BinaryResult.ResourceName">
+            <summary>Return the resource name.</summary>
+            <remarks>Return the resource name.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.BinaryResult.Size">
+            <summary>Return the size in bytes.</summary>
+            <remarks>Return the size in bytes.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.BinaryResult.FormatResult(System.Collections.Generic.List{System.String},System.String)">
+            <summary>Represent the result as a series of printable lines.</summary>
+            <remarks>
+            Represent the result as a series of printable lines.
+            Primarily used for debugging.
+            </remarks>
+        </member>
+        <member name="T:Ponderosa.Util.BinaryFileSetWriter">
+            <summary>Class of objects that handle writing the contents of a set of binary files as they're being received.
+            	</summary>
+        </member>
+        <member name="T:Ponderosa.Util.WriteSetHandler">
+            <summary>Interface for classes called to store a set of items as they're received from another source.
+            	</summary>
+        </member>
+        <member name="M:Ponderosa.Util.WriteSetHandler.Initialize">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:Ponderosa.Util.WriteSetHandler.OpenResource(System.String,System.Int64)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:Ponderosa.Util.WriteSetHandler.CloseResource">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:Ponderosa.Util.WriteSetHandler.Write(System.Byte[])">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:Ponderosa.Util.WriteSetHandler.Write(System.Byte[],System.Int32,System.Int32)">
+            <exception cref="T:System.IO.IOException"></exception>
+        </member>
+        <member name="M:Ponderosa.Util.BinaryFileSetWriter.#ctor(System.String,System.String)">
+            <summary>Create new file handler.</summary>
+            <param name="setName">- name of binary set</param>
+        </member>
+        <member name="M:Ponderosa.Util.BinaryFileSetWriter.Initialize">
+            <summary>Begin set.  Create directory for files if needed.</summary>
+            <exception cref="T:System.IO.IOException">System.IO.IOException</exception>
+        </member>
+        <member name="M:Ponderosa.Util.BinaryFileSetWriter.Finish">
+            <summary>End of set.</summary>
+        </member>
+        <member name="M:Ponderosa.Util.BinaryFileSetWriter.OpenResource(System.String,System.Int64)">
+            <summary>Open the file to write.</summary>
+            <param name="fileName">- name of local file</param>
+            <param name="fileSize">- size of file to write</param>
+            <exception cref="T:System.IO.IOException">System.IO.IOException</exception>
+        </member>
+        <member name="M:Ponderosa.Util.BinaryFileSetWriter.CloseResource">
+            <summary>Close the file.</summary>
+            <remarks>Close the file.</remarks>
+            <exception cref="T:System.IO.IOException">System.IO.IOException</exception>
+        </member>
+        <member name="M:Ponderosa.Util.BinaryFileSetWriter.Write(System.Byte[])">
+            <summary>Write the contents of a byte array to the file.</summary>
+            <param name="data"></param>
+            <exception cref="T:System.IO.IOException">System.IO.IOException</exception>
+        </member>
+        <member name="M:Ponderosa.Util.BinaryFileSetWriter.Write(System.Byte[],System.Int32,System.Int32)">
+            <summary>Write a subset of a byte array to the file.</summary>
+            <param name="data"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <exception cref="T:System.IO.IOException">System.IO.IOException</exception>
+        </member>
+        <member name="T:Ponderosa.Config.Configurable">
+            <summary>
+            Interface for classes which are able to be configured
+            using a ConfigurationWrapper.
+            </summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.Results.TableCollection">
+            <summary>Class of compound result objects consisting of a list of table result objects.
+            	</summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.PacketParser">
+            <summary>
+             Class for parsing received data into fields.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PacketParser.#ctor(System.String[])">
+            <summary>
+             Create a packet parser with the specified list of field names.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PacketParser.#ctor(System.String[],System.Int32)">
+            <summary>
+             Create a packet parser with the specified list of field names
+             and delimiter level.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PacketParser.#ctor(System.String[],Ponderosa.U2mv.SubFieldDef[])">
+            <summary>
+             Create a packet parser with the specified field names
+             and sub-field definitions.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PacketParser.#ctor(System.Byte[],System.Byte[])">
+            <summary>
+             Create a packet parser from the raw bytes for
+             field and sub-field names.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PacketParser.#ctor(System.Byte[],System.Byte[],System.Int32)">
+            <summary>
+             Create a packet parser from the raw bytes for
+             field and sub-field names and having the specified delimiter level.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PacketParser.ToHash(Ponderosa.U2mv.IncomingPacket)">
+            <summary>
+             Convert packet contents to a map. As each value is extracted
+             it's matched to the corresponding field name.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PacketParser.ToHash(System.Byte[])">
+            <summary>
+             Convert packet contents to a map. As each value is extracted
+             it's matched to the corresponding field name.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PacketParser.ParseFieldValue(Ponderosa.U2mv.Tokenizer,Ponderosa.U2mv.SubFieldDef)">
+            <summary>
+             Converts a field value into an object (string, map, etc).
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PacketParser.ParseSubToList(Ponderosa.U2mv.Tokenizer)">
+            <summary>
+             Convert a set of sub-values to a list.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PacketParser.ParseSubToMap(Ponderosa.U2mv.Tokenizer,Ponderosa.U2mv.SubFieldSetDef)">
+            <summary>
+             Convert a set of sub-values to a map.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PacketParser.ParseSubToTable(Ponderosa.U2mv.Tokenizer,Ponderosa.U2mv.SubTableDef)">
+            <summary>
+             Convert a set of sub-values to a list of maps.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PacketParser.ParseIndexed(Ponderosa.U2mv.Tokenizer,Ponderosa.U2mv.SubIndexedDef)">
+            <summary>
+             Convert a field which is part of an indexed subset.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PacketParser.ParseFieldSet(System.Byte[],System.Byte[])">
+            <summary>
+             Parse the set of field names and sub-field
+             definitions from raw bytes and build
+             the field set for the transmitted
+             data structure.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PacketParser.ParseFields(Ponderosa.U2mv.FieldSet,System.Byte[])">
+            <summary>
+             Extract field names from raw bytes
+             and add them to the field set.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PacketParser.ParseSubFieldSet(Ponderosa.U2mv.FieldSet,System.Byte[])">
+            <summary>
+             Parse the set of sub-field definitions
+             and add them to the field set.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PacketParser.ParseSubDef(Ponderosa.U2mv.FieldSet,System.Int32,Ponderosa.U2mv.Tokenizer)">
+            <summary>
+             Parse a sub-field definition and add it to the
+             passed field set.  Return whether a normal
+             sub-field definition is found.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PacketParser.ParseIndexedSubSet(Ponderosa.U2mv.FieldSet,Ponderosa.U2mv.Tokenizer)">
+            <summary>
+             Parse an indexed subset and add it to the field set.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.PacketParser.FieldSet">
+            <summary>
+            Return a ResultFieldSet containing the fields
+            and subfields for the transmitted data structure.
+            
+            </summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.IncomingPacket">
+            <summary>Class containing packets received from the server.</summary>
+            <remarks>Class containing packets received from the server.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.IncomingPacket.#ctor(System.Char,System.Byte[],System.Int32)">
+            <summary>Create instance having the specified packet type and contents.</summary>
+            <remarks>Create instance having the specified packet type and contents.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.IncomingPacket.Contents">
+            <summary>Return packet contents as an array.</summary>
+            <remarks>Return packet contents as an array.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.IncomingPacket.GetFieldsAsStrings(System.Int32)">
+            <summary>Return an array with the individual fields of the packet.</summary>
+            <remarks>Return an array with the individual fields of the packet.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.IncomingPacket.GetFieldsAsStrings(System.String[])">
+            <summary>Load array with the fields of this packet.</summary>
+            <remarks>
+            Load array with the fields of this packet.
+            Each field is a string.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.IncomingPacket.GetFields(System.Int32)">
+            <summary>Return an array with the individual fields of this packet.</summary>
+            <remarks>Return an array with the individual fields of this packet.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.IncomingPacket.GetFields(System.Object[])">
+            <summary>Load array with the fields of this packet.</summary>
+            <remarks>
+            Load array with the fields of this packet.
+            Each field is an array of bytes.
+            </remarks>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Ponderosa.CSharp.BlockingQueue`1" -->
+        <!-- Badly formed XML comment ignored for member "M:Ponderosa.CSharp.BlockingQueue`1.#ctor(System.Int32)" -->
+        <member name="M:Ponderosa.CSharp.BlockingQueue`1.Enqueue(`0)">
+            <summary>
+            Adds an object to the end of the queue.
+            If queue is full, this method will
+            block until another thread calls one
+            of the Dequeue methods.  This method will wait
+            "Timeout.Infinite" until queue has a free slot.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Ponderosa.CSharp.BlockingQueue`1.Enqueue(`0,System.Int32)">
+            <summary>
+            Adds an object to the end of the queue.
+            If queue is full, this method will
+            block until another thread calls one
+            of the Dequeue methods or millisecondsTimeout
+            expires.  If timeout, method will throw QueueTimeoutException.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:Ponderosa.CSharp.BlockingQueue`1.TryEnqueue(`0)">
+            <summary>
+            Non-blocking version of Enqueue().
+            If Enqueue is successfull, this will
+            return true; otherwise false if queue is full.
+            </summary>
+            <param name="value"></param>
+            <returns>true if successfull,
+            otherwise false.</returns>
+        </member>
+        <member name="M:Ponderosa.CSharp.BlockingQueue`1.Dequeue">
+            <returns></returns>
+        </member>
+        <member name="M:Ponderosa.CSharp.BlockingQueue`1.Dequeue(System.Int32)">
+            <summary>
+            Removes and returns the object
+            at the beginning of the Queue.
+            If queue is empty, method will block until
+            another thread calls one of
+            the Enqueue methods or millisecondsTimeout expires.
+            If timeout, method will throw QueueTimeoutException.
+            </summary>
+            <returns>The object that is removed from
+            the beginning of the Queue.</returns>
+        </member>
+        <member name="M:Ponderosa.CSharp.BlockingQueue`1.TryDequeue(`0@)">
+            <summary>
+            Non-blocking version of Dequeue.
+            Will return false if queue is empty and set
+            value to null, otherwise will return true
+            and set value to the dequeued object.
+            </summary>
+            <param name="value">The object that is removed from
+                the beginning of the Queue or null if empty.</param>
+            <returns>true if successfull, otherwise false.</returns>
+        </member>
+        <member name="M:Ponderosa.CSharp.BlockingQueue`1.Peek">
+            <exception cref="!:InvalidOpertionException">
+                           The queue is empty.</exception>
+        </member>
+        <member name="M:Ponderosa.CSharp.BlockingQueue`1.TryPeek(`0@)">
+            <param name="value">The object at the beginning
+                     of the Queue or null if empty.</param>
+            <returns>The object at the beginning of the Queue.</returns>
+        </member>
+        <member name="M:Ponderosa.CSharp.BlockingQueue`1.Clear">
+            <remarks>
+            Count is set to zero. Size does not change.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.CSharp.BlockingQueue`1.Remove(`0)">
+            <summary>
+            Removes an object from the Queue.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.CSharp.BlockingQueue`1.CopyTo(System.Array,System.Int32)">
+            <param name="array">
+            The one-dimensional Array that is the destination
+            of the elements copied from Queue.
+            The Array must have zero-based indexing.</param>
+            <param name="index">The zero-based index
+                in array at which copying begins.</param>
+        </member>
+        <member name="M:Ponderosa.CSharp.BlockingQueue`1.GetEnumerator">
+            <summary>
+            GetEnumerator not implemented. You can't enumerate
+            the active queue as you would an array as it is dynamic
+            with active gets and puts. You could
+            if you locked it first and unlocked after
+            enumeration, but that does not work well for GetEnumerator.
+            The recommended method is to Get Values
+            and enumerate the returned array copy.
+            That way the queue is locked for
+            only a short time and a copy returned
+            so that can be safely enumerated using
+            the array's enumerator. You could also
+            create a custom enumerator that would
+            dequeue the objects until empty queue,
+            but that is a custom need. 
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:Ponderosa.CSharp.BlockingQueue`1.Values" -->
+        <member name="P:Ponderosa.CSharp.BlockingQueue`1.IsSynchronized">
+            <summary>
+            Gets a value indicating whether access
+            to the Queue is synchronized (thread-safe).
+            </summary>
+        </member>
+        <member name="P:Ponderosa.CSharp.BlockingQueue`1.Size">
+            <summary>
+            Returns the max elements allowed
+            in the queue before blocking Enqueue
+            operations.  This is the size set in the constructor.
+            </summary>
+        </member>
+        <member name="P:Ponderosa.CSharp.BlockingQueue`1.Count">
+            <summary>
+            Gets the number of elements contained in the Queue.
+            </summary>
+        </member>
+        <member name="P:Ponderosa.CSharp.BlockingQueue`1.SyncRoot">
+            <summary>
+            Gets an object that can be used to synchronize
+            access to the Queue.
+            </summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.Results.BinarySetResult">
+            <summary>
+            Class representing the initial reply to a binary transfer request
+            which returns a set of binary items.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.BinarySetResult.#ctor(System.String,System.String,System.Int32)">
+            <summary>Create an instance of a binary set result.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.BinarySetResult.TransferClass">
+            <summary>Return the transfer class.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.BinarySetResult.SetName">
+            <summary>Return the resource name.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.BinarySetResult.ItemCount">
+            <summary>Return the number of items in the set.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.BinarySetResult.FormatResult(System.Collections.Generic.List{System.String},System.String)">
+            <summary>Represent the result as a series of printable lines.</summary>
+            <remarks>
+            Primarily used for debugging.
+            </remarks>
+        </member>
+        <member name="T:Ponderosa.Log.BasicLogFactory">
+            <summary>Factory class for BasicLog</summary>
+        </member>
+        <member name="T:Ponderosa.Log.Config.ConfigurableLogFactory">
+            <summary>Abstract class of factories providing configurable loggers.</summary>
+            <remarks>
+            Factory injects the set of configuration settings into loggers as they're created.
+            Also supports updating logger to a new configuration.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.Log.ILoggerFactory.GetLogger(System.String)">
+            <summary>Return an instance of a logger.</summary>
+        </member>
+        <member name="M:Ponderosa.Log.Config.ConfigurableLogFactory.GetLogger(System.Type,System.String[])">
+            <summary>
+            Return a logger instance by class using any additional configuration elements.
+            The default logger configuration is used.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Log.Config.ConfigurableLogFactory.GetLogger(System.Type,Ponderosa.Config.ConfigurationWrapper,System.String[])">
+            <summary>
+            Return a logger instance by class using the specified configuration and any additional elements.
+            The default logger configuration is used as the fallback settings.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Log.Config.ConfigurableLogFactory.GetLogger(System.String)">
+            <summary>Return a logger instance by name.</summary>
+        </member>
+        <member name="M:Ponderosa.Log.Config.ConfigurableLogFactory.MakeLogger(System.Type,Ponderosa.Config.ConfigurationWrapper,System.String[])">
+            <summary>
+            Create the logger for a class using the designated set of configuration settings
+            and any additional elements.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Log.Config.ConfigurableLogFactory.MakeLogger(System.String,Ponderosa.Config.ConfigurationWrapper,System.String[])">
+            <summary>
+            Create the specified logger using the designated set of configuration settings and element list.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Log.Config.ConfigurableLogFactory.CreateLogger(System.String,Ponderosa.Config.ConfigurationWrapper)">
+            <summary>
+            Abstract method to create a new logger instance with the specified
+            name and configuration.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Log.Config.ConfigurableLogFactory.ReadDefaultConfiguration">
+            <summary>
+            Abstract method to get the default configuration for a factory.
+            This configuration is passed to createLogger() and injected into new loggers.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Log.Config.ConfigurableLogFactory.GetDefaultConfiguration">
+            <summary>
+            Return a copy of the default logger configuration.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Log.Config.ConfigurableLogFactory.GetClassLogger(System.Type,System.String[])">
+            <summary>
+            Gets the logger for a class using the specified elements when creating the logger.
+            The default logger configuration is used.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Log.Config.ConfigurableLogFactory.GetClassLogger(System.Type,Ponderosa.Config.ConfigurationWrapper,System.String[])">
+            <summary>
+            Gets the logger for a class using the specified configuration settings to create the logger if need be.
+            </summary>
+            <remarks>
+            Gets the logger for a class using the specified configuration settings to create the logger if need be.
+            The default logger configuration is used as the fallback settings.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.Log.Config.ConfigurableLogFactory.GetConfigurableFactory">
+            <summary>
+            Returns the current log factory if its a ConfigurableLogFactory.
+            If not an exception is thrown.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Log.BasicLogFactory.#ctor">
+            <summary>Create a new factory.</summary>
+        </member>
+        <member name="M:Ponderosa.Log.BasicLogFactory.CreateLogger(System.String,Ponderosa.Config.ConfigurationWrapper)">
+            <summary>Return new logger instance with the specified name and configuration.</summary>
+        </member>
+        <member name="M:Ponderosa.Log.BasicLogFactory.ReadDefaultConfiguration">
+            <summary>Reads the standard logger configuration.</summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.Tokenizer">
+            <summary>
+            Extracts the individual tokens from a set of bytes.
+            Tokens are separated by a hierarchical set of delimiters.
+            
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Tokenizer.#ctor(System.Byte[],System.Int32)">
+            <summary>
+            Create tokenizer for a set of bytes having the specified base delimiter level.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Tokenizer.HasNextToken">
+            <summary>
+            Activate the next token and return whether one was found.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Tokenizer.ActivateNext">
+            <summary>
+            Activate the next token.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Tokenizer.SkipSubValues">
+            <summary>
+            Advance pointer just past the next delimiter that's at or above the current level.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Tokenizer.HasNextPeer">
+            <summary>
+            Determine whether another token is available at the current delimiter level.
+            Skip any sub-values in the current value.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Tokenizer.HasNextValue">
+            <summary>
+            Determine whether another token is available at the current delimiter level.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Tokenizer.HasValue">
+            <summary>
+            Determine whether the current value is not empty
+            or there are any sub-values defined.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Tokenizer.HasSubValue">
+            <summary>
+            Determine whether the current value contains sub-values.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Tokenizer.IsEmpty">
+            <summary>
+            Determine whether current token is empty.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Tokenizer.GetValue">
+            <summary>
+            Get current token value as a string.  Filter out
+            any delimiters.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Tokenizer.LowerLevel">
+            <summary>
+            Lower the current delimiter level to the sub-level.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Tokenizer.RaiseLevel">
+            <summary>
+            Raise the current delimiter level to the parent level.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Tokenizer.ToString">
+            <summary>
+            Get the current token for this Tokenizer.
+            
+            </summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.Results.TableResult">
+            <summary>Result transmitted as a table structure.</summary>
+            <remarks>Result transmitted as a table structure.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.MultiRowResult.HasNext">
+            <summary>Advance to the next row of the result set.</summary>
+            <remarks>
+            Advance to the next row of the result set.
+            Return True if it has more rows, otherwise return False.
+            hasNext() must be called before the data for a row is retreived.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.MultiRowResult.Reset">
+            <summary>Reset row pointer for hasNext() back to the starting point.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.MultiRowResult.RowCount">
+            <summary>Get the number of rows received.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.MultiRowResult.TotalRows">
+            <summary>Get the number of rows in the result set.</summary>
+            <remarks>Can be used before rows are transmitted when using
+            a handler to store rows as they're received.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.MultiRowResult.GetValue(System.String)">
+            <summary>Return an object value for the specified key from the current result row.
+                </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.MultiRowResult.IsEmpty">
+            <summary>Return whether there are no result rows.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.MultiRowResult.ResultData">
+            <summary>Return a map containing the fields of the current result row.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.MultiRowResult.FieldNames">
+            <summary>Return the list of field names for this result.</summary>
+            <remarks>Return the list of field names for this result.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.MultiRowResult.ResultFields">
+            <summary>Return the field set for this result.</summary>
+            <remarks>Return the field set for this result.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.MultiRowResult.GetRowResult">
+            <summary>Return the active result row as a RowResult.</summary>
+            <remarks>Return the active result row as a RowResult.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.MultiRowResult.GetRowResult(System.Int32)">
+            <summary>Return the specified result row as a RowResult.</summary>
+            <remarks>Return the specified result row as a RowResult.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.MultiRowResult.GetRow(System.Int32)">
+            <summary>Return the specified result set row as a Map.</summary>
+            <remarks>Return the specified result set row as a Map.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.MultiRowResult.FormatResult(System.Collections.Generic.List{System.String},System.String)">
+            <summary>Represent the result as an array of strings.</summary>
+            <remarks>
+            Represent the result as an array of strings.
+            Primarily used for debugging purposes.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.MultiRowResult.FormatResult(System.Collections.Generic.List{System.String},System.String,System.Collections.Generic.List{System.String})">
+            <summary>Represent the result as an array of strings.</summary>
+            <remarks>
+            Represent the result as an array of strings.
+            Primarily used for debugging purposes.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.TableResult.#ctor(System.String,System.Collections.Generic.IList{System.Collections.Generic.IDictionary{System.String,System.Object}},Ponderosa.U2mv.ResultFieldSet,System.Int32)">
+            <summary>Create an instance of a table result.</summary>
+            <remarks>Create an instance of a table result.</remarks>
+        </member>
+        <member name="T:Ponderosa.U2mv.ServerError">
+            <summary>Transmission errors detected by the server.</summary>
+            <remarks>
+            Transmission errors detected by the server.
+            Instances of this class are unchecked exceptions.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.ServerError.#ctor(System.String,System.String)">
+            <summary>Create an exception with a message and an error code.</summary>
+        </member>
+        <member name="P:Ponderosa.U2mv.ServerError.Code">
+            <summary>The error code.</summary>
+        </member>
+        <member name="P:Ponderosa.U2mv.ServerError.FullMessage">
+            <summary>The error code and message combined.</summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Ponderosa.U2mv.ConnectionPool" -->
+        <member name="M:Ponderosa.U2mv.ConnectionPool.Init">
+            <summary>Establish the connection pool getting the configuration from App.config.</summary>
+            <remarks>Gets the configuration from the "u2mv" section of App.config.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionPool.Init(System.String)">
+            <summary>
+            Establish the connection pool getting the configuration
+            from the secified section of App.config.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionPool.Init(Ponderosa.Config.ConfigurationWrapper)">
+            <summary>
+            Establish the connection pool using the specified configuration.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionPool.#ctor(Ponderosa.Config.ConfigurationWrapper)">
+            <summary>Private connection pool constructor.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionPool.InitializePool">
+            <summary>Get pool size from server and setup connection pool.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionPool.Close">
+            <summary>
+             Close connections and shut down pool.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionPool.Shutdown">
+              Shut down maintenance threads and close each connection.
+            
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionPool.Dispose">
+            <summary>Dispose of the connection pool.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionPool.GetConnection">
+            <summary>Check-out a connection from the pool.</summary>
+            <remarks>
+            If no connection becomes available
+            within the connection pool timeout period an exception is thrown.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionPool.OpenPooledConnection(System.Int32)">
+            <summary>Open a connection for the specified slot.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionPool.OpenConnection">
+            <summary>Open a non-pooled connection.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionPool.QueueConnection(Ponderosa.U2mv.PooledConnection)">
+            <summary>Check a connection back into the pool.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionPool.RemoveFromAvailable(Ponderosa.U2mv.PooledConnection)">
+            <summary>Remove an obsolete connection from the available queue.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionPool.CheckPool(System.Boolean)">
+             <summary>
+             Validate connections.
+             </summary>
+            
+             <remarks>
+             Check each connection slot and and initialize it
+             if it's empty.  Otherwise, check that the connection
+             is still valid and renew it if it isn't.
+             </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionPool.RunConnectionCheck(Ponderosa.U2mv.ConnectionPoolSlot)">
+            Run check on a slot's connection.
+            
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionPool.VerifyConnections">
+            Confirms whether connections have been established and authenticated.
+            
+        </member>
+        <member name="P:Ponderosa.U2mv.ConnectionPool.MaxConnections">
+            <summary>The maximum number of connections.</summary>
+        </member>
+        <member name="M:Ponderosa.Log.BasicLog.#ctor(System.String,Ponderosa.Config.ConfigurationWrapper)">
+            <summary>
+            Create new logger having the defined logger name
+            and the specified configuration settings.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Log.BasicLog.UseConfiguration(Ponderosa.Config.ConfigurationWrapper)">
+            <summary>
+            Use any applicable settings in the specified configuration
+            in prefrence to the existing logger configuration.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Log.BasicLog.SetCurrentLevel">
+            <summary>Set the current log level from the configuration.</summary>
+        </member>
+        <member name="M:Ponderosa.Log.BasicLog.Log(Ponderosa.Log.Logger.LogLevel,System.String,System.Exception)">
+            <summary>Log message at the indicated level using the optional throwable.</summary>
+        </member>
+        <member name="T:Ponderosa.CSharp.Utility">
+            <summary>Class of static utility methods.</summary>
+            <remarks>Class of static utility methods.  Provides
+            C# versions of functionality used by the Java version. 
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.CSharp.Utility.CheckDirectory(System.IO.DirectoryInfo)">
+            <summary>Checks if whether a path exists and is a directory.
+            Otherwise, creates the directory.</summary>
+            <param name="path"></param>
+            <exception cref="T:System.IO.IOException">System.IO.IOException</exception>
+        </member>
+        <member name="T:Ponderosa.U2mv.UnexpectedResult">
+            <summary>
+            Faults that occur when a result returned from the server
+            is a different type than expected.
+            </summary>
+            <remarks>
+            Faults that occur when a result returned from the server
+            is a different type than expected.
+            Instances of this class are unchecked exceptions.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.UnexpectedResult.#ctor(System.String,Ponderosa.U2mv.Results.Result)">
+            <summary>Create exception with a message and a result.</summary>
+            <remarks>Create exception with a message and a result.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.UnexpectedResult.GetResult">
+            <summary>Return the result contained by this exception.</summary>
+            <remarks>Return the result contained by this exception.</remarks>
+        </member>
+        <member name="T:Ponderosa.U2mv.SubMapDef">
+            <summary>
+            Class which defines that data structure for a map
+            nested within a field.
+            </summary>
+            <remarks>
+            Class which defines that data structure for a map
+            nested within a field.
+            </remarks>
+        </member>
+        <member name="T:Ponderosa.U2mv.SubFieldSetDef">
+            <summary>Abstact class of a sub-field data structure that contains an embedded field set.
+            	</summary>
+            <remarks>Abstact class of a sub-field data structure that contains an embedded field set.
+            	</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.SubFieldSetDef.AddFields(System.Collections.Generic.ICollection{System.String})">
+            <summary>
+            Assign a list of field namess to this
+            sub-field definition's field set.
+            </summary>
+            <remarks>
+            Assign a list of field namess to this
+            sub-field definition's field set.
+            </remarks>
+        </member>
+        <member name="T:Ponderosa.U2mv.SubListDef">
+            <summary>
+            Class which represents the definition for a list
+            nested within a field.
+            </summary>
+            <remarks>
+            Class which represents the definition for a list
+            nested within a field.  It acts as a placeholder
+            and doesn't actually contain any data.
+            </remarks>
+        </member>
+        <member name="T:Ponderosa.U2mv.Results.ResponseResult">
+            <summary>Result transmitted as a set of values.</summary>
+            <remarks>Result transmitted as a set of values.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.ResponseResult.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},Ponderosa.U2mv.ResultFieldSet)">
+            <summary>Create an instance of a response result.</summary>
+            <remarks>Create an instance of a response result.</remarks>
+        </member>
+        <member name="T:Ponderosa.CSharp.Security">
+            <summary>Class providing static method for encoding passwords.</summary>
+            <author>Roy Olsen</author>
+        </member>
+        <member name="M:Ponderosa.CSharp.Security.Encrypt(System.String,System.String)">
+            <summary>Encode password and salt into a byte array.</summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.Results.HeaderDetailResult">
+            <summary>Result transmitted as a header-detail structure.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.Object},System.Collections.Generic.IList{System.Collections.Generic.IDictionary{System.String,System.Object}},Ponderosa.U2mv.ResultFieldSet,Ponderosa.U2mv.ResultFieldSet,System.Int32)">
+            <summary>Create an instance of a header-detail result.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.IsEmpty">
+            <summary>Return whether there are no detail rows and no header fields.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderValue(System.String)">
+            <summary>Return the object at the specified key from the header.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.HeaderFieldNames">
+            <summary>Return the list of header field names for this result.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.ResultHeaderFields">
+            <summary>Return the header field set for this result.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderString(System.String)">
+            <summary>Return the value at the specified key of the header as a String.</summary>
+            <remarks>
+            If no value exists for that key return an empty string.
+            If the value at that key is a list, return the first element
+            of the list.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderString(System.String,System.Int32)">
+            <summary>Return the value at the specified key and index of the header as a String.</summary>
+            <remarks>An empty string is returned if no value exists at that index.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderBool(System.String)">
+            <summary>Return the value at the specified key of the header as a boolean primitive.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderBool(System.String,System.Int32)">
+            <summary>Return the value at the specified key and index of the header as a boolean primative.</summary>
+            <remarks>An empty string is returned if no value exists at that index.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderInt(System.String)">
+            <summary>Return the value at the specified key and index of the header as an int primative.</summary>
+            <remarks>Zero is returned if the value doesn't exist.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderInt(System.String,System.Int32)">
+            <summary>Return the value at the specified key and index of the header as an int primative.</summary>
+            <remarks>Zero is returned if the value doesn't exist.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderDecimal(System.String)">
+            <summary>Return the value at the specified key of the header as a Decimal.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderDecimal(System.String,System.Int32)">
+            <summary>Return the value at the specified key and index of the header as a Decimal.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderDate(System.String)">
+            <summary>Return the value at the specified key of the header as a Date.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderDate(System.String,System.Int32)">
+            <summary>Return the value at the specified key and index of the header as a Date.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderArray(System.String)">
+            <summary>Return a String array containing the list of values for the specified key and index of the header.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderArray(System.String,System.Int32)">
+            <summary>Return a String array containing the list of values for the specified key and index of the header.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderResult">
+            <summary>Return the header as a RowResult.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderSubTable(System.String)">
+            <summary>Return a nested table from the specified header field.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderSubMap(System.String)">
+            <summary>Return a nested map from the specified header field.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderSlice(System.String,System.Int32)">
+            <summary>
+            Return a slice the set of header fields which are part of
+            the specified linked subset.
+            </summary>
+            <remarks>
+            Return a slice the set of header fields which are part of
+            the specified linked subset.
+            Results may contain a set of fields which have multiple
+            sub-values linked by index.  This can be visualized by
+            thinking of a result row as a table having the field names
+            on the left and a set of columns representing the indexed sub-values
+            to the right.  This function takes a vertical slice of one of the
+            columns on the left and returns it as a separate result.
+            Fields that don't have a value at the specified index are null
+            in the returned result.  Any header fields which are not part
+            of the linked subset are included in the returned result as-is.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderDetailSlice(System.String,System.Int32)">
+            <summary>
+            Return a slice from the fields which are linked to the specified header field
+            combined with a corresponding slice from the detail fields..
+            </summary>
+            <remarks>
+            Return a slice from the fields which are linked to the specified header field
+            combined with a corresponding slice from the detail fields..
+            Header fields returned are null if they don't have a value at that position.
+            Any fields of the original result that are not part of the set of linked fields
+            are included in the result as-is.
+            Detail rows are only returned if they have data in the specified slice.  Otherwise,
+            the rules are the same as for header fields.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderElementCount(System.String)">
+            <summary>
+            Return the number of elements in the specified header field
+            if it contains a list.
+            </summary>
+            <remarks>
+            Return the number of elements in the specified header field
+            if it contains a list.  Otherwise, returns either 1 or 0
+            depending on whether the value is empty.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderFieldType(System.String)">
+            <summary>Get a header field's type object.</summary>
+            <remarks>
+            Get a header field's type object.  Permits its type
+            to be checked before a field's value is retrieved.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderFieldType(System.String,System.Int32)">
+            <summary>Get the type object for a sub-element of a field.</summary>
+            <remarks>Get the type object for a sub-element of a field.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderResultValue(System.String)">
+            <summary>Return the value at the specified key as a string</summary>
+            <remarks>If the value is a list extract the first element.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderResultValue(System.String,System.Int32)">
+            <summary>Return the value at a certain index of the specified key as a string.</summary>
+            <remarks>If the value is a list extract the first element.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderList(System.String)">
+            <summary>Return a List for the specified key from the header.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderList(System.String,System.Int32)">
+            <summary>Return a List for the specified key and index from the header.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderMap(System.String)">
+            <summary>Return a Map for the specified key of the header.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.GetHeaderMap(System.String,System.Int32)">
+            <summary>Return a nested Map for the specified key and index.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.FormatResult(System.Collections.Generic.List{System.String},System.String)">
+            <summary>Represent the result as an array of strings.</summary>
+            <remarks>Primarily used for debugging.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Results.HeaderDetailResult.HeaderMapToLines(System.Collections.Generic.IDictionary{System.String,System.Object},Ponderosa.U2mv.ResultFieldSet,System.Collections.Generic.IList{System.String},System.String)">
+            <summary>Converts the result set header values to a series of lines.</summary>
+            <remarks>Primarily used for debugging.</remarks>
+        </member>
+        <member name="T:Ponderosa.U2mv.FlowControl">
+            <summary>Wrapper class for flow control data.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.FlowControl.Acknowledge">
+            <summary>Deterimine whether acknowledgment should be sent by recipient.</summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.OutgoingPacket">
+            <summary>Class containing outgoing packets.</summary>
+            <remarks>
+            Class containing outgoing packets.  Instances can contain
+            multiple fields which are transmitted sequentially and delimited.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.OutgoingPacket.#ctor(System.Char,System.String)">
+            <summary>Create a new outgoing packet containing the specified message.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.OutgoingPacket.#ctor(System.Char,Ponderosa.U2mv.ByteBuffer)">
+            <summary>Create a new outgoing packet containing the contents of a byte buffer.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.OutgoingPacket.#ctor(System.Char,System.Byte[])">
+            <summary>Create a new outgoing packet containing the contents of a byte array.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.OutgoingPacket.#ctor(System.Char,System.Object[])">
+            <summary>Create a new outgoing packet containing multiple fields.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.OutgoingPacket.Contents">
+            <summary>Collect packet contents into an array.</summary>
+            <remarks>Collect packet contents into an array.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.OutgoingPacket.Send(System.Byte,Ponderosa.CSharp.SocketConnection)">
+            <summary>
+            Send packet contents using the specified delimiter
+            to the given connection.
+            </summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.Logging">
+             <summary>Class of static functions for logging.</summary>
+            
+             <remarks>Exceptions from within the API are handled
+             in a standard way by logException().  Also,
+             provides convinence methods for sending messages
+             using the imbedded logger.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.Logging.UseConfiguration(Ponderosa.Config.ConfigurationWrapper)">
+            <summary>Use the specified configuration for the internal logger.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Logging.Error(System.String)">
+            <summary>Log an error level message.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Logging.Warn(System.String)">
+            <summary>Log a warn level message.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Logging.Info(System.String)">
+            <summary>Log an info level message.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Logging.Debug(System.String)">
+            <summary>Log a debug level message.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Logging.Trace(System.String)">
+            <summary>Log a trace level message.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Logging.IsTraceEnabled">
+            <summary>Return whether TRACE level is enabled for the internal logger.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Logging.IsDebugEnabled">
+            <summary>Return whether DEBUG level is enabled for the internal logger.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Logging.LogException(System.Exception)">
+            <summary>Log an exception.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Logging.LogException(System.Exception,Ponderosa.Log.Logger)">
+            <summary>Log an exception using the specified logger.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Logging.LogException(System.String,System.Exception)">
+            <summary>Log an exception adding the specified prefix to the message.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Logging.LogException(System.String,System.Exception,Ponderosa.Log.Logger)">
+            <summary>
+            Log an exception adding a prefix to the message and using the specified logger.
+            </summary>
+        </member>
+        <member name="T:Ponderosa.CSharp.FlexibleConfiguration">
+              Parses a configuration section which does not have a pre-defined set of values.
+            
+        </member>
+        <member name="T:Ponderosa.CSharp.FlexibleSection">
+              Configuration section without a pre-defined set of elements.
+            
+        </member>
+        <member name="M:Ponderosa.U2mv.FieldSet.AddField(System.String)">
+            <summary>Add a field to this set.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.FieldSet.AddFields(System.Collections.Generic.ICollection{System.String})">
+            <summary>Add a list of fields to this set.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.FieldSet.GetField(System.Int32)">
+            <summary>Return the name of the field at the specified index.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.FieldSet.GetFields">
+            <summary>Return the list of fields in this set.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.FieldSet.AddSubField(Ponderosa.U2mv.SubFieldDef)">
+            <summary>Adds a sub-field defintion to the list.</summary>
+            <remarks>Adds a sub-field defintion to the list.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.FieldSet.SetSubField(System.Int32,Ponderosa.U2mv.SubFieldDef)">
+            <summary>
+            Puts a sub-field definition into the specified position
+            of the list.
+            </summary>
+            <remarks>
+            Puts a sub-field definition into the specified position
+            of the list.  Empty elements are inserted into the list
+            if the given position is past the end of list.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.FieldSet.GetSubField(System.String)">
+            <summary>Return the sub-field definition for a field.</summary>
+            <remarks>Return the sub-field definition for a field.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.FieldSet.GetSubField(System.Int32)">
+            <summary>Return the sub-field definition at the specified index.</summary>
+            <remarks>Return the sub-field definition at the specified index.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.FieldSet.SubFieldTypeName(System.String)">
+            <summary>
+            If a field has a sub-field definition
+            return the name of it's type, otherwise return null.
+            </summary>
+            <remarks>
+            If a field has a sub-field definition
+            return the name of it's type, otherwise return null.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.FieldSet.AddSubSet(System.String,Ponderosa.U2mv.IndexedSubSet)">
+            <summary>Add indexed subset with the specified name.</summary>
+            <remarks>Add indexed subset with the specified name.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.FieldSet.GetSubSet(System.String)">
+            <summary>Get the indexed subset with the specified name.</summary>
+            <remarks>Get the indexed subset with the specified name.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.FieldSet.CoreFieldSet">
+            <summary>
+            Return a copy of the field set without
+            any indexed field sets.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.FieldSet.Fields">
+            <summary>Get the list of parent fields.</summary>
+            <remarks>Get the list of parent fields.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.FieldSet.SubFields">
+            <summary>Get the list of sub-field definitions.</summary>
+            <remarks>Get the list of sub-field definitions.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.FieldSet.FieldCount">
+            <summary>Return the number of fields in this set.</summary>
+            <remarks>Return the number of fields in this set.</remarks>
+        </member>
+        <member name="T:Ponderosa.Log.StaticLoggerBinder">
+            <summary>Bind an instance of ILoggerFactory.</summary>
+            <remarks>Bind an instance of ILoggerFactory.</remarks>
+        </member>
+        <member name="T:Ponderosa.U2mv.ConnectionPoolSlot">
+            <summary>
+            Class representing a slot in the connection pool, which has
+            a fixed number of connections that are each associated
+            with a unique port on the server.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionPoolSlot.UseConfiguration(Ponderosa.Config.ConfigurationWrapper)">
+            <summary>Use the specified configuration for the internal logger.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionPoolSlot.#ctor(Ponderosa.U2mv.ConnectionPool,System.Int32)">
+            <summary>
+             Create new connection pool slot instance for the given pool with the specified index.
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionPoolSlot.#ctor(Ponderosa.U2mv.ConnectionPool,System.Int32,Ponderosa.U2mv.PooledConnection)">
+            <summary>
+             Create new connection pool slot instance for the given pool
+             with the specified index and connection
+            
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.ConnectionPoolSlot.TestConnection">
+            <summary>
+            Test the connection and renew it if its expired.
+            
+            </summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.UnexpectedContingency">
+            <summary>Faults that occur when an unexepcted Contingency is thrown.</summary>
+            <remarks>
+            Faults that occur when an unexepcted Contingency is thrown.
+            Instances of this class are unchecked exceptions.
+            </remarks>
+        </member>
+        <member name="T:Ponderosa.U2mv.Contingency">
+            <summary>
+            Potentially recoverable conditions reported
+            by the server process.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.Contingency.#ctor(System.String,System.String)">
+            <summary>Create a new contingency with a message and an indentification code.</summary>
+        </member>
+        <member name="P:Ponderosa.U2mv.Contingency.Code">
+            <summary>The indentification code.</summary>
+        </member>
+        <member name="P:Ponderosa.U2mv.Contingency.FullMessage">
+            <summary>The indentification code and message combined.</summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.SubTableDef">
+            <summary>
+            Class which defines that data structure for a table
+            (list of maps) nested within a field.
+            </summary>
+            <remarks>
+            Class which defines that data structure for a table
+            (list of maps) nested within a field.
+            </remarks>
+        </member>
+        <member name="T:Ponderosa.U2mv.MapExtractor">
+            <summary>
+            Class for extracting field names and values from maps
+            and converting the data into delimited "dynamic arrays".
+            </summary>
+        </member>
+        <member name="T:Ponderosa.Config.JavaPropertiesWrapper">
+             <summary>Class providing type-safe retrieval of Java Properties values.</summary>
+            
+             <remarks>
+             Optionally loads properties from a file or other resource.
+             If a value doesn't exist then a default value of "", false, 0 or null
+             is returned depending on the return value of the accessor method.
+             Also, provides mechanisum for a context specific value to
+             override a general value.  So if the key is "name" and the
+             context is "class" then the value for the key "class.name"
+             is used if it exists.  If it doesn't, then the value for
+             "name" is returned.
+             </remarks>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.#ctor">
+            <summary>Create a new properties wrapper with an empty set of properties.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.#ctor(Ponderosa.Config.JavaProperties)">
+            <summary>Create a new properties wrapper using the specified properties object.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.#ctor(System.String,System.String)">
+            <summary>Create a new properties wrapper and input properties from the designated resource.</summary>
+            <remarks>
+            Gives preference to properties that are prefixed with the specified context name.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.#ctor(System.String)">
+            <summary>Create a new properties wrapper and input properties from the designated resource.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.SetContext(System.String)">
+             <summary>Set context name.</summary>
+            
+             <remarks>
+             When retrieving property values the one having this name
+             as a prefix is search for first.  If not found the
+             onc with the un-prefixed name is returned.
+             </remarks>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.LoadProperties(System.String)">
+             <summary>Load properties from the designated resource into a properties object.</summary>
+            
+             <remarks>
+             Looks for resource in one of the default directories "conf", "../conf" or ".".
+             </remarks>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.OpenProperties(System.String[],System.String)">
+            <summary>Attempt to open properties file on the designated path.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.GetValue(System.String)">
+             <summary>Return a property value.</summary>
+            
+             <remarks>
+             Check for a context specific value first. If one doesn't exist
+             then check for a common value.  Returns null if value is not found.
+             </remarks>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.GetString(System.String)">
+            <summary>Return property value as a String.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.GetString(System.String,System.String)">
+             <summary>Return property value as a String.</summary>
+            
+             <remarks>
+             Use default value if property is not defined.
+             </remarks>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.GetBool(System.String)">
+            <summary>Return property value as a boolean.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.GetBool(System.String,System.Boolean)">
+             <summary>Return property value as a boolean.</summary>
+            
+             <remarks>
+             Use default value if property is not defined.
+             </remarks>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.GetInt(System.String)">
+            <summary>Return property value as an integer.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.GetInt(System.String,System.Int32)">
+             <summary>Return property value as an integer.</summary>
+            
+             <remarks>
+             Use default value if property is not defined.
+             </remarks>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.GetEnum``1(System.String,``0)">
+             <summary>Return property value as an enum.</summary>
+            
+             <remarks>
+             Use default value if property is not defined.
+             </remarks>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.GetDate(System.String)">
+            <summary>Return property value as a Date.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.GetDate(System.String,System.Nullable{System.DateTime})">
+             <summary>Return property value as a Date.</summary>
+            
+             <remarks>
+             Use default value if property is not defined.
+             </remarks>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.GetArray(System.String)">
+            <summary>Return property value as an array of Strings.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.GetArray(System.String,System.String[])">
+             <summary>Return property value as an array of Strings.</summary>
+            
+             <remarks>
+             Use default value if property is not defined.
+             </remarks>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.GetIntArray(System.String)">
+            <summary>Return property value as an array of integers.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.GetIntArray(System.String,System.Int32[])">
+            <summary>
+            Return property value as an array of integers or
+            the default value if property is not defined.
+            </summary>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.Print">
+            <summary>Print the internal values this wrapper contains.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.ToLines">
+            <summary>Assemble the internal values contained by this wrapper
+            into a list of lines.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.Clone">
+            <summary>Return a copy of this properties wrapper.</summary>
+        </member>
+        <member name="M:Ponderosa.Config.JavaPropertiesWrapper.CloneProperties">
+            <summary>Return a shallow copy of the Properies contained by this wrapper.</summary>
+        </member>
+        <member name="T:Ponderosa.U2mv.Results.EOFResult">
+            <summary>EOF response from the server.</summary>
+            <remarks>EOF response from the server.</remarks>
+        </member>
+        <member name="T:Ponderosa.U2mv.ByteBuffer">
+            <summary>Class containing a series of raw bytes to be transmitted.</summary>
+            <remarks>
+            Class containing a series of raw bytes to be transmitted.
+            The backing array is automatically expanded to accomodate
+            data as it's added.
+            Provides support for converting a single or multi dimensional
+            collection into a series of delimited bytes.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.ByteBuffer.Empty">
+            <summary>Empty the contents of the buffer.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.ByteBuffer.Put(System.String)">
+            <summary>Add the a string to the byte buffer.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.ByteBuffer.Put(System.Int32)">
+            <summary>Add an integer to the byte buffer.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.ByteBuffer.Put(Ponderosa.U2mv.ByteBuffer)">
+            <summary>Add the contents of another byte buffer.</summary>
+        </member>
+        <member name="M:Ponderosa.U2mv.ByteBuffer.Put(System.Byte[])">
+            <summary>Add the contents of an array.</summary>
+            <remarks>Add the contents of an array.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.ByteBuffer.Put(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Add bytes from an array starting from the specified offset
+            and totalling the specified length.
+            </summary>
+            <remarks>
+            Add bytes from an array starting from the specified offset
+            and totalling the specified length.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.ByteBuffer.Put(System.Byte)">
+            <summary>Add a single byte.</summary>
+            <remarks>Add a single byte.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.ByteBuffer.Get(System.Int32)">
+            <summary>Return a specific element.</summary>
+            <remarks>Return a specific element.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.ByteBuffer.Size">
+            <summary>Return the number of bytes in this buffer.</summary>
+            <remarks>Return the number of bytes in this buffer.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.ByteBuffer.Array">
+            <summary>Get the backing array.</summary>
+            <remarks>Get the backing array.</remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.ByteBuffer.ToArray">
+            <summary>
+            Return the contents of this buffer as an array
+            which is the same length as the contents.
+            </summary>
+            <remarks>
+            Return the contents of this buffer as an array
+            which is the same length as the contents.
+            </remarks>
+        </member>
+        <member name="M:Ponderosa.U2mv.ByteBuffer.EnsureCapacity(System.Int32)">
+            <summary>Resize the backing array if needed.</summary>
+            <remarks>Resize the backing array if needed.</remarks>
+        </member>
+        <member name="T:Ponderosa.Util.BinaryFileWriter">
+            <summary>Class of objects that handle writing the contents of a binary file as it's being received.
+            	</summary>
+        </member>
+        <member name="M:Ponderosa.Util.BinaryFileWriter.#ctor(System.String,System.Int64)">
+            <summary>Create new file handler.</summary>
+            <param name="fileName">- name of local file</param>
+            <param name="fileSize">- size of file to write</param>
+        </member>
+        <member name="M:Ponderosa.Util.BinaryFileWriter.OpenResource">
+            <summary>Open the file to write.</summary>
+            <exception cref="T:System.IO.IOException">System.IO.IOException</exception>
+        </member>
+        <member name="M:Ponderosa.Util.BinaryFileWriter.CloseResource">
+            <summary>Close the file.</summary>
+            <remarks>Close the file.</remarks>
+            <exception cref="T:System.IO.IOException">System.IO.IOException</exception>
+        </member>
+        <member name="M:Ponderosa.Util.BinaryFileWriter.Write(System.Byte[])">
+            <summary>Write the contents of a byte array to the file.</summary>
+            <param name="data"></param>
+            <exception cref="T:System.IO.IOException">System.IO.IOException</exception>
+        </member>
+        <member name="M:Ponderosa.Util.BinaryFileWriter.Write(System.Byte[],System.Int32,System.Int32)">
+            <summary>Write a subset of a byte array to the file.</summary>
+            <param name="data"></param>
+            <param name="offset"></param>
+            <param name="length"></param>
+            <exception cref="T:System.IO.IOException">System.IO.IOException</exception>
+        </member>
+        <member name="T:Ponderosa.Util.BinaryFileReader">
+            <summary>Class of objects that handle reading the contents of a binary file as it's being sent.
+            	</summary>
+            <remarks>Class of objects that handle reading the contents of a binary file as it's being sent.
+            	</remarks>
+            <author>Roy Olsen</author>
+        </member>
+        <member name="M:Ponderosa.Util.BinaryFileReader.#ctor(System.String)">
+            <summary>Create new file handler.</summary>
+            <remarks>Create new file handler.</remarks>
+            <param name="fileName"></param>
+        </member>
+        <member name="M:Ponderosa.Util.BinaryFileReader.OpenResource">
+            <summary>Open file to read from.</summary>
+            <remarks>Open file to read from.</remarks>
+            <exception cref="T:System.IO.IOException">System.IO.IOException</exception>
+        </member>
+        <member name="M:Ponderosa.Util.BinaryFileReader.CloseResource">
+            <summary>Close the file.</summary>
+            <remarks>Close the file.</remarks>
+            <exception cref="T:System.IO.IOException">System.IO.IOException</exception>
+        </member>
+        <member name="M:Ponderosa.Util.BinaryFileReader.Read(System.Byte[])">
+            <summary>Fill an array of bytes with the next contents fo the file to be read.</summary>
+            <remarks>Fill an array of bytes with the next contents fo the file to be read.</remarks>
+            <param name="data">- array to fill</param>
+            <returns>number of bytes read</returns>
+            <exception cref="T:System.IO.IOException">System.IO.IOException</exception>
+        </member>
+        <member name="M:Ponderosa.Util.BinaryFileReader.Read(System.Byte[],System.Int32,System.Int32)">
+            <summary>Read the next contents of a file into a subset of an array of bytes.</summary>
+            <remarks>Read the next contents of a file into a subset of an array of bytes.</remarks>
+            <param name="data">- array to populate</param>
+            <param name="offset">- starting offset</param>
+            <param name="length">- number of bytes to read</param>
+            <returns>number of bytes read</returns>
+            <exception cref="T:System.IO.IOException">System.IO.IOException</exception>
+        </member>
+        <member name="M:Ponderosa.Util.BinaryFileReader.Eof">
+            <summary>Get whether entire contents of file have been read.</summary>
+            <remarks>Get whether entire contents of file have been read.</remarks>
+            <returns>whether end-of-file reached</returns>
+        </member>
+    </members>
+</doc>

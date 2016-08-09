@@ -185,7 +185,12 @@
                         }
                     });
                 } else {
-                    returnArray = shipVias;
+                    var includedBranches = JSON.parse(cart.properties['includedBranches']);
+                    shipVias.forEach(function (shipVia) {
+                        if (includedBranches.filter(function (branch) { return branch.Id === shipVia.id }).length > 0) {
+                            returnArray.push(shipVia);
+                        }
+                    });
                 }
                 return returnArray;
             };

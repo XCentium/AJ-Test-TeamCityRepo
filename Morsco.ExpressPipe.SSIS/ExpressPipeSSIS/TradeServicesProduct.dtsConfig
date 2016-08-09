@@ -1,0 +1,6 @@
+<?xml version="1.0"?><DTSConfiguration><DTSConfigurationHeading>
+<DTSConfigurationFileInfo GeneratedBy="XcentiumLaptop\matthew.glover" GeneratedFromPackageName="LoadTradeServicesFiles" GeneratedFromPackageID="{B02527F3-361A-482D-9ED4-44CAE17BC700}" GeneratedDate="3/21/2016 2:16:56 AM"/>
+</DTSConfigurationHeading>
+<Configuration ConfiguredType="Property" Path="\Package.Variables[User::ParamArchiveFolder].Properties[Value]" ValueType="String"><ConfiguredValue>\F:\SSISPackages\TradeServicesProduct\Archive\</ConfiguredValue></Configuration>
+<Configuration ConfiguredType="Property" Path="\Package.Variables[User::ParamInputFolder].Properties[Value]" ValueType="String"><ConfiguredValue>\F:\SSISPackages\TradeServicesProduct\</ConfiguredValue>
+</Configuration></DTSConfiguration>

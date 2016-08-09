@@ -1,0 +1,17 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "MorscoSSIS", "MorscoSSIS\MorscoSSIS.dtproj", "{7029206A-70CF-4A28-8D28-AEA92538151A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7029206A-70CF-4A28-8D28-AEA92538151A}.Development|Default.ActiveCfg = Development
+		{7029206A-70CF-4A28-8D28-AEA92538151A}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
