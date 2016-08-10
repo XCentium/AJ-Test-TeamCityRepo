@@ -1293,12 +1293,12 @@
     <Content Include="UserFiles\Images\express-pipe-logo.gif" />
     <Content Include="UserFiles\Images\Locations\express-pipe-logo.png" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <None Include="Web.prod.config">
+    <Content Include="Web.prod.config">
       <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.test.config">
+    </Content>
+    <Content Include="Web.test.config">
       <DependentUpon>Web.config</DependentUpon>
-    </None>
+    </Content>
     <TypeScriptCompile Include="Scripts\Admin\ActionDirectives\credit-card-action.ts" />
     <TypeScriptCompile Include="Scripts\Admin\ActionDirectives\change-password-action.ts" />
     <TypeScriptCompile Include="Scripts\Admin\ActionDirectives\change-question-answer-action.ts" />
@@ -2296,9 +2296,9 @@
     <Content Include="Themes\ExpressPipe\Styles\template\ma-saved-orders.scss" />
     <Content Include="Themes\ExpressPipe\Styles\template\ma-saved-order-details.scss" />
     <Content Include="Themes\ExpressPipe\Views\Directives\Catalog\MorscoMinimumQtyMessage.cshtml" />
-    <None Include="Web.dev.config">
+    <Content Include="Web.dev.config">
       <DependentUpon>Web.config</DependentUpon>
-    </None>
+    </Content>
     <TypeScriptCompile Include="Scripts\App\cart\insite.addresserrorpopup.controller.ts" />
     <TypeScriptCompile Include="Scripts\App\catalog\insite.categoryleftnav.controller.ts" />
     <TypeScriptCompile Include="Scripts\App\catalog\insite.compareproductscarousel.controller.ts" />
