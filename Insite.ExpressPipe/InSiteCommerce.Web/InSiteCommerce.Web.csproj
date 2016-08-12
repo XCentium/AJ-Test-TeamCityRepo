@@ -2017,32 +2017,32 @@
     <Content Include="Areas\Admin\Views\Data\ControlTypes\WebsiteCategoriesTreeControl.cshtml" />
     <Content Include="Areas\Admin\Views\Data\MultiAssignments.cshtml" />
     <Content Include="Areas\ContentAdmin\Views\Shell\UserLogoutWarning.cshtml" />
-    <None Include="config\appSettings.dev.config">
+    <Content Include="config\appSettings.dev.config">
       <DependentUpon>appSettings.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
-    </None>
-    <None Include="config\appSettings.prod.config">
-      <DependentUpon>appSettings.config</DependentUpon>
-      <IsTransformFile>True</IsTransformFile>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="config\appSettings.test.config">
+    </Content>
+    <Content Include="config\appSettings.prod.config">
       <DependentUpon>appSettings.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
       <SubType>Designer</SubType>
-    </None>
-    <None Include="config\connectionStrings.dev.config">
+    </Content>
+    <Content Include="config\appSettings.test.config">
+      <DependentUpon>appSettings.config</DependentUpon>
+      <IsTransformFile>True</IsTransformFile>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="config\connectionStrings.dev.config">
       <DependentUpon>connectionStrings.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
-    </None>
-    <None Include="config\connectionStrings.prod.config">
+    </Content>
+    <Content Include="config\connectionStrings.prod.config">
       <DependentUpon>connectionStrings.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
-    </None>
-    <None Include="config\connectionStrings.test.config">
+    </Content>
+    <Content Include="config\connectionStrings.test.config">
       <DependentUpon>connectionStrings.config</DependentUpon>
       <IsTransformFile>True</IsTransformFile>
-    </None>
+    </Content>
     <None Include="Properties\PublishProfiles\Build_EP_Release.pubxml" />
     <None Include="Properties\PublishProfiles\dev_release.pubxml" />
     <Content Include="Properties\SlowCheetah\SlowCheetah.Transforms.targets" />
