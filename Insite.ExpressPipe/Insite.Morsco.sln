@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InSiteCommerce.Web", "InSiteCommerce.Web\InSiteCommerce.Web.csproj", "{CE0FFFD9-65A7-4D40-9A5B-A8C9800E6FE3}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -37,18 +37,21 @@ Global
 		{CE0FFFD9-65A7-4D40-9A5B-A8C9800E6FE3}.CCNet|Any CPU.Build.0 = Release|Any CPU
 		{CE0FFFD9-65A7-4D40-9A5B-A8C9800E6FE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CE0FFFD9-65A7-4D40-9A5B-A8C9800E6FE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE0FFFD9-65A7-4D40-9A5B-A8C9800E6FE3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{CE0FFFD9-65A7-4D40-9A5B-A8C9800E6FE3}.dev|Any CPU.ActiveCfg = Release|Any CPU
 		{CE0FFFD9-65A7-4D40-9A5B-A8C9800E6FE3}.dev|Any CPU.Build.0 = Release|Any CPU
 		{CE0FFFD9-65A7-4D40-9A5B-A8C9800E6FE3}.prod|Any CPU.ActiveCfg = Release|Any CPU
 		{CE0FFFD9-65A7-4D40-9A5B-A8C9800E6FE3}.prod|Any CPU.Build.0 = Release|Any CPU
 		{CE0FFFD9-65A7-4D40-9A5B-A8C9800E6FE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE0FFFD9-65A7-4D40-9A5B-A8C9800E6FE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE0FFFD9-65A7-4D40-9A5B-A8C9800E6FE3}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{CE0FFFD9-65A7-4D40-9A5B-A8C9800E6FE3}.test|Any CPU.ActiveCfg = Release|Any CPU
 		{CE0FFFD9-65A7-4D40-9A5B-A8C9800E6FE3}.test|Any CPU.Build.0 = Release|Any CPU
 		{2B9BEAF8-3621-4B97-BE80-8D8D001D95A6}.CCNet|Any CPU.ActiveCfg = Release|Any CPU
 		{2B9BEAF8-3621-4B97-BE80-8D8D001D95A6}.CCNet|Any CPU.Build.0 = Release|Any CPU
 		{2B9BEAF8-3621-4B97-BE80-8D8D001D95A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2B9BEAF8-3621-4B97-BE80-8D8D001D95A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B9BEAF8-3621-4B97-BE80-8D8D001D95A6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{2B9BEAF8-3621-4B97-BE80-8D8D001D95A6}.dev|Any CPU.ActiveCfg = Release|Any CPU
 		{2B9BEAF8-3621-4B97-BE80-8D8D001D95A6}.dev|Any CPU.Build.0 = Release|Any CPU
 		{2B9BEAF8-3621-4B97-BE80-8D8D001D95A6}.prod|Any CPU.ActiveCfg = Release|Any CPU
