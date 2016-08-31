@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 using DbUp;
 
 namespace DbUpMorsco
@@ -14,7 +15,7 @@ namespace DbUpMorsco
         {
             var connectionString =
                 args.FirstOrDefault()
-                ?? "Server=.;Integrated Security=true;Initial Catalog=insite.morsco;";
+                ?? ConfigurationManager.ConnectionStrings["Insite"].ConnectionString;
 
             var upgrader =
                 DeployChanges.To
