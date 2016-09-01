@@ -82,6 +82,9 @@
     <Content Include="Scripts\DBUP.2016-08-04-4.RealTimeOrderUpdate.sql" />
     <Content Include="Scripts\DBUP.2016-08-04-6.SprintUpdate_852016.sql" />
     <Content Include="Scripts\DBUP.2016-08-04-5.sp_PopulateETLWarehouse.sql" />
+    <None Include="Deploy.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">

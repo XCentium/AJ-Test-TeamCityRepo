@@ -1,0 +1,1 @@
+﻿& .\DbUpMorsco.exe | Write-Host
